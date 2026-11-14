@@ -1,0 +1,25 @@
+# The /ask API. The dashboard is a static site on GitHub Pages, not this service.
+# Render Dashboard: New > Blueprint, repository NASA-flame-in-freefall, this branch.
+services:
+  - type: web
+    name: flame-in-freefall-ask
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn pipeline.api:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.3
+      - key: LLM_PROVIDER
+        value: gemini
+      - key: LLM_MODEL
+        value: gemini-3.5-flash,gemini-3.5-flash-lite,gemini-3.1-flash-lite,gemini-3.7-flash
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: ASK_ALLOWED_ORIGINS
+        value: https://khazar451.github.io
+      - key: LLM_DAILY_LIMIT
+        value: "60"
+      - key: ASK_RATE_PER_MINUTE
+        value: "10"
