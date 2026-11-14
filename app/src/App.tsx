@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 import { useDataset } from './data';
 import AtmosphereMap from './views/AtmosphereMap';
 import Ranking from './views/Ranking';
+import Results from './views/Results';
 import Ask from './views/Ask';
 
 const TABS = [
   { id: 'map', label: 'Atmosphere map' },
   { id: 'ranking', label: 'Ranking' },
+  { id: 'results', label: 'Test results' },
   { id: 'ask', label: 'Ask' },
 ] as const;
 type TabId = (typeof TABS)[number]['id'];
@@ -60,6 +62,7 @@ export default function App() {
         {!data && !error && <p className="quiet">Loading data…</p>}
         {data && tab === 'map' && <AtmosphereMap data={data} />}
         {data && tab === 'ranking' && <Ranking data={data} />}
+        {data && tab === 'results' && <Results data={data} />}
         {tab === 'ask' && <Ask />}
       </main>
     </div>
