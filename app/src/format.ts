@@ -7,6 +7,30 @@ const FORMULA = /\b(?:(?:He|Ar|C|H|N|O|S|F)\d*)+\b/g;
 export const formula = (text: string) =>
   text.replace(FORMULA, (word) => word.replace(/\d/g, (d) => SUBSCRIPT[Number(d)]));
 
+// When the pipeline fills in a value the source table does not give, it adds a
+// sentence to the test's note: "Oxygen not in the source table; … assumed."
+// These say which values that covers.
+type Note = string | null | undefined;
+export const oxygenAssumed = (note: Note) => /\boxygen not in the source table[^.]*assumed/i.test(note ?? '');
+export const pressureAssumed = (note: Note) => /\bpressure not in the source table[^.]*assumed/i.test(note ?? '');
+
+// "Oxygen and pressure assumed, not measured, for 12 of them", or null when
+// every value in the group was measured.
+export function assumedLine(notes: Note[]): string | null {
+  const oxygen = notes.filter(oxygenAssumed).length;
+  const pressure = notes.filter(pressureAssumed).length;
+  if (oxygen + pressure === 0) return null;
+  const what = oxygen > 0 && pressure > 0 ? 'Oxygen and pressure' : oxygen > 0 ? 'Oxygen' : 'Pressure';
+  const affected = Math.max(oxygen, pressure);
+  return `${what} assumed, not measured${affected < notes.length ? `, for ${affected} of them` : ''}`;
+}
+
+// Smoke experiments heat a material to make smoke for particle instruments.
+// There is no flame, so "how the flame ended" does not apply to their tests.
+export const isSmokeStudy = (inv: { hardware_family?: string | null } | undefined) =>
+  inv?.hardware_family === 'smoke_aerosol';
+export const SMOKE_NOTE = 'Smoke test: the material was heated to make smoke, so there is no flame outcome';
+
 export interface Numbered {
   intro: string; // text before point 1, may be empty
   items: string[];

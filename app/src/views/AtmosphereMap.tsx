@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import InvestigationDetail from '../components/InvestigationDetail';
 import Plot from '../components/Plot';
 import { name } from '../data';
-import { formula } from '../format';
+import { SMOKE_NOTE, assumedLine, formula, isSmokeStudy } from '../format';
 import { HABITATS, toPsi } from '../habitats';
 import { hasAtmosphere, insideHabitat } from '../scoring';
 import type { Dataset, FuelPhase, Role, TestRow } from '../types';
@@ -69,7 +69,7 @@ function groupTests(rows: Placed[]): Group[] {
 // Mark diameter in pixels: area grows with the number of tests.
 const diameter = (n: number) => Math.min(34, 8 + 3 * Math.sqrt(n));
 
-function describe(g: Group, title: string): string {
+function describe(g: Group, title: string, smoke: boolean): string {
   const n = g.tests.length;
   const kpa = g.tests.map((t) => t.pressure_kpa);
   const lines = [
@@ -90,9 +90,9 @@ function describe(g: Group, title: string): string {
     out > 0 && `${out} went out or did not light`,
     unknown > 0 && (unknown === n ? 'Outcome not recorded in the source table' : `${unknown} not recorded`),
   ].filter(Boolean);
-  lines.push(ends.join(', '));
-  const assumed = g.tests.filter((t) => t.note?.toLowerCase().includes('assumed')).length;
-  if (assumed > 0) lines.push(`<i>Pressure assumed, not measured${assumed < n ? `, for ${assumed} of them` : ''}</i>`);
+  lines.push(smoke ? SMOKE_NOTE : ends.join(', '));
+  const assumed = assumedLine(g.tests.map((t) => t.note));
+  if (assumed) lines.push(`<i>${assumed}</i>`);
   const sample = g.tests.filter((t) => t.sample).length;
   if (sample > 0) lines.push(`<i>${count(sample, 'placeholder row')}, not NASA results</i>`);
   return lines.join('<br>');
@@ -179,7 +179,7 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
         },
         hovertext: groups.map((g) => {
           const inv = byId.get(g.inv);
-          return describe(g, inv ? name(inv) : g.inv);
+          return describe(g, inv ? name(inv) : g.inv, isSmokeStudy(inv));
         }),
         hovertemplate: '%{hovertext}<extra></extra>',
       };
@@ -270,7 +270,7 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
             {shown.length === 0
               ? `None of the ${count(offChart, 'test')} in this group can be drawn,`
               : `${count(offChart, 'more test')} ${offChart === 1 ? 'is' : 'are'} on file but not drawn,`}{' '}
-            because the source table does not give both oxygen and pressure. Where a pressure is assumed, not measured, the hover note
+            because the source table does not give both oxygen and pressure. Where oxygen or pressure is assumed, not measured, the hover note
             says so.
           </p>
         )}

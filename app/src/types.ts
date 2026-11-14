@@ -16,7 +16,8 @@ export interface Investigation {
   related: string[];
   doi: string | null;
   url: string;
-  // Optional extras from the pipeline. No view depends on them.
+  // Optional extras from the pipeline. Views show them when present.
+  // hardware_family "smoke_aerosol" marks smoke experiments (see isSmokeStudy).
   hardware_family?: string | null;
   sub_area?: string | null;
   objectives?: string | null;

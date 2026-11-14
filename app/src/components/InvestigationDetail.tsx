@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { name } from '../data';
-import { formula, numberedList } from '../format';
+import { SMOKE_NOTE, formula, isSmokeStudy, numberedList, oxygenAssumed, pressureAssumed } from '../format';
 import { HABITATS, toPsi } from '../habitats';
 import { hasAtmosphere, insideHabitat } from '../scoring';
 import type { FuelPhase, Investigation, Role, TestRow } from '../types';
@@ -78,7 +78,12 @@ export default function InvestigationDetail({ inv, tests, byId }: Props) {
   const fuels = tally(tests.map((t) => t.fuel_material));
   // The source writes one mixture two ways (N2+CO2, CO2+N2); sort the parts so they count as one.
   const gases = tally(tests.map((t) => t.diluent && t.diluent.split('+').map((g) => g.trim()).sort().join(' + ')));
-  const assumed = placed.filter((t) => t.note && /assum/i.test(t.note)).length;
+  // "(assumed for all tests)" after a range, when the pipeline filled the value in.
+  const assumedFor = (is: (note: string | null) => boolean) => {
+    const n = placed.filter((t) => is(t.note)).length;
+    return n > 0 ? ` (assumed for ${n === placed.length ? 'all' : n} tests)` : '';
+  };
+  const smoke = isSmokeStudy(inv);
   const inLunar = placed.filter((t) => insideHabitat(t, LUNAR)).length;
 
   const outcomes = [
@@ -147,7 +152,10 @@ export default function InvestigationDetail({ inv, tests, byId }: Props) {
             {o2.length > 0 && (
               <>
                 <dt>Oxygen</dt>
-                <dd>{range(o2, '%')}</dd>
+                <dd>
+                  {range(o2, '%')}
+                  {assumedFor(oxygenAssumed)}
+                </dd>
               </>
             )}
             {psi.length > 0 && (
@@ -155,7 +163,7 @@ export default function InvestigationDetail({ inv, tests, byId }: Props) {
                 <dt>Pressure</dt>
                 <dd>
                   {range(psi, ' psi')}
-                  {assumed > 0 && ` (assumed for ${assumed === placed.length ? 'all' : assumed} tests)`}
+                  {assumedFor(pressureAssumed)}
                 </dd>
               </>
             )}
@@ -188,6 +196,9 @@ export default function InvestigationDetail({ inv, tests, byId }: Props) {
             )}
           </dl>
 
+          {smoke && <p className="detail-text">{SMOKE_NOTE}.</p>}
+          {!smoke && (
+            <>
           <p className="detail-label">How the flames ended</p>
           <div className="outcomes" aria-hidden="true">
             {outcomes.filter((o) => o.n > 0).map((o) => (
@@ -203,6 +214,8 @@ export default function InvestigationDetail({ inv, tests, byId }: Props) {
               </li>
             ))}
           </ul>
+            </>
+          )}
         </>
       )}
 

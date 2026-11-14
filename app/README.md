@@ -30,6 +30,7 @@ Open the address Vite prints (normally http://localhost:5173).
 |---|---|---|
 | Atmosphere map | `src/views/AtmosphereMap.tsx` | Tests by oxygen level and pressure, grouped into marks sized by test count, with the cabin, lunar base and spacesuit atmospheres marked. A toggle zooms from the full oxygen scale to the tested range |
 | Ranking | `src/views/Ranking.tsx` | Investigations ranked for a chosen habitat, with the score broken into its four parts. Hovering a name shows a short summary; selecting it opens the full record |
+| Test results | `src/views/Results.tsx` | Measured results that the map cannot show: droplet size at ignition against size at extinction (FLEX), and burn time by fuel inside each experiment |
 | Ask | `src/views/Ask.tsx` | Question box wired to the Q&A backend |
 
 Other files:
@@ -72,10 +73,11 @@ The backend must allow cross-origin requests from the dashboard's address.
 
 ## What the real data does not have
 
-Checked against the pipeline output of 14 Nov, as of pipeline PR #15 (24 investigations, 1,828 tests). The dashboard counts these from the data files, so the screens stay right when the data changes; only this list has to be updated by hand.
+Checked against the pipeline output of 14 Nov, as of pipeline PR #18 (24 investigations, 1,828 tests). The dashboard counts these from the data files, so the screens stay right when the data changes; only this list has to be updated by hand.
 
-- 881 tests give both oxygen and pressure. Only those are drawn on the atmosphere map and matched to a habitat in the ranking. The other 947 still count toward "Amount of data".
-- 140 of the drawn tests (BASS-II, Saffire) use an assumed cabin pressure, because their source table gives oxygen only. The hover note on each says so.
-- 487 of the drawn tests have no recorded outcome. The hover text on their mark says so; they are never counted as "kept burning".
+- 994 tests have both oxygen and pressure. Only those are drawn on the atmosphere map and matched to a habitat in the ranking. The other 834 still count toward "Amount of data".
+- 253 of the drawn tests use an assumed cabin pressure, because their source table does not give one: BASS-II, Saffire-I and II, SAME and SAME-R. For 113 of them (SAME and SAME-R) oxygen is assumed too, at 21 %; the domain lead approved this. The hover text and the investigation panel say which values are assumed.
+- SAME and SAME-R are smoke tests: a material is heated to make smoke and there is no flame. The dashboard says so in place of a flame outcome. It recognises them by `hardware_family: "smoke_aerosol"` on the investigation.
+- 600 of the drawn tests have no recorded outcome, the 113 smoke tests among them. The hover text on their mark says so; they are never counted as "kept burning".
 - Eleven investigations have no per-test data at all and score on fuel type and role only.
 - 651 tests have an air-flow speed. For BASS-II the source lists several speeds for one burn (for example "5 3 2 1"); the pipeline keeps the first and says so in the note.
