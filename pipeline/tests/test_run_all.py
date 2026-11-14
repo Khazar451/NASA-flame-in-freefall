@@ -26,7 +26,7 @@ def test_all_runs_implemented_steps_in_order(monkeypatch, capsys):
         {"fetch": lambda a: order.append("fetch") or 0, "validate": lambda a: order.append("validate") or 0},
     )
     assert run_all.main(["all"]) == 0
-    assert order == ["validate", "fetch"]
+    assert order == ["fetch", "validate"]
 
 
 def test_all_stops_at_first_failure(monkeypatch):
@@ -34,7 +34,7 @@ def test_all_stops_at_first_failure(monkeypatch):
     monkeypatch.setattr(
         run_all,
         "IMPLEMENTED",
-        {"validate": lambda a: order.append("validate") or 2, "fetch": lambda a: order.append("fetch") or 0},
+        {"fetch": lambda a: order.append("fetch") or 2, "validate": lambda a: order.append("validate") or 0},
     )
     assert run_all.main(["all"]) == 2
-    assert order == ["validate"]
+    assert order == ["fetch"]

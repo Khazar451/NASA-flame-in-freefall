@@ -22,8 +22,8 @@
 ### Git
 - Work only on `pipeline`. Each verified phase becomes **one small PR into `main`**, reviewed by CompE #2.
 - Rebase `pipeline` on `main` before opening each PR.
-- Files this branch may touch: `pipeline/**`, `data/out/**`, `data/sample.json`, `data/schema.json`.
-- `data/sample.json` and `data/schema.json` are the shared contract with the team. Changing either after Phase 2 needs a heads-up to both teammates first.
+- Files this branch may touch: `pipeline/**`, `data/out/**`, `data/schema.json`.
+- The shared contract is `docs/data-contract.md` plus `app/src/types.ts`, owned by CompE #2. `pipeline/models.py` follows it; a contract change is agreed with both teammates first.
 - Raw downloads never go into git: `data/raw/` and `data/interim/` each contain their own `.gitignore` (`*` and `!.gitignore`), so the shared root `.gitignore` stays untouched.
 
 ### Data
@@ -41,7 +41,7 @@ pipeline/
   implementation_plan.md   ← this file
   config.py                paths, env vars
   llm.py                   provider interface + disk cache + structured output
-  models.py                Pydantic schema (the source of truth)
+  models.py                Pydantic mirror of docs/data-contract.md
   validate.py              schema + sanity-range checks
   psi.py                   PSI API client
   inventory.py             PSI API → inventory.csv
@@ -50,14 +50,14 @@ pipeline/
   extract_investigations.py
   mappings/*.yaml          column mappings per table (AI proposes, I review)
   transform_tests.py
-  score.py  coverage.py  varied.py
+  coverage.py  varied.py
   build_index.py  api.py
   run_all.py
   tests/
 data/
-  schema.json  sample.json  overrides.json
+  schema.json  overrides.json
   raw/  interim/           (gitignored)
-  out/                     investigations.json, tests.json, rankings.json, coverage.json, varied.json
+  out/                     investigations.json, tests.json, coverage.json, varied.json
 ```
 
 ### What CompE #2 consumes
@@ -101,34 +101,32 @@ data/
 
 ---
 
-## Phase 2: Schema contract (Sat 14:15–15:00, with the ME teammate)
+## Phase 2: Data contract (Sat 14:15–15:00)
 
-**Build `models.py`:**
-- `SourcedValue{value, unit, source_id, locator, snippet, status: source|extracted|verified|corrected}` (`source` = copied unchanged from the PSI record)
-- `Range{min, max, unit}`
-- `Investigation`:
-  - id, name, psi_id, hardware_family
-  - fuel_phase, fuel_material, sample_geometry
-  - o2_range plus `o2_context: ambient | oxidizer_jet`
-  - pressure_range, flow_range plus `flow_kind: forced | quiescent | stefan`
-  - diluent, gravity
-  - sensors, objectives
-  - pillar: prevention | detection | suppression
-  - links
-- `Test{test_id, investigation_id, family, conditions…}`
-- `Measurement{test_id, metric, value, unit, source_row}` (one row per measured result)
-- `Habitat{name, o2_pct, pressure_psi, flow_regime, …}`
+The dashboard already defines the contract: `docs/data-contract.md` and `app/src/types.ts` on the `app` branch (two files, `investigations.json` and `tests.json`). The pipeline follows it; it does not define a second schema.
 
-**Also build:**
-- `data/schema.json`, exported from the models
-- `data/sample.json`: about 10 hand-filled rows
-- `validate.py`
+**Build:**
+- `models.py`: Pydantic models that mirror the contract field for field (`Investigation`, `TestRow`, and the two file wrappers). Unknown fields are rejected, so a typo cannot slip through.
+- Optional pipeline extras the dashboard may ignore:
+  - `Investigation`: `hardware_family`, `sub_area`, `objectives`, `earth_benefits`, `n_publications`
+  - `TestRow`: `extra`, a small dictionary for values only some families report (for example `burning_rate_mm2_s`, `oxidizer_o2_pct`, `flow_direction`)
+- `data/schema.json`, exported with `python -m pipeline.models`. A test fails if it goes stale.
+- `validate.py` (`python -m pipeline.run_all validate [folder]`). Errors:
+  - a row that breaks the contract, a duplicate id, a test pointing at an unknown investigation
+  - O₂ outside 0–100 %, pressure outside 0–1000 kPa, flow outside 0–1000 cm/s
+  - a real row (`sample: false`) with no source file and row
+- No `data/sample.json`: the dashboard has its own sample data (`app/scripts/make-sample-data.mjs`), and it passes `validate`.
 
 **Gate:**
-- [ ] The ME teammate signs off on fields and units
-- [ ] CompE #2 signs off on the JSON shape
-- [ ] `python -m pipeline.validate data/sample.json` passes
-- [ ] **PR #1 merged to `main`** (schema + sample), so CompE #2 can build against it immediately
+- [ ] `pytest pipeline -q` passes
+- [ ] `validate` passes on the dashboard's sample data from the `app` branch
+- [ ] CompE #2 agrees to the optional extras (they change nothing the dashboard reads today)
+
+**Decided at this gate (Sat 14 Nov):**
+1. **Test-level order:** FLEX and CFI first (oxygen and pressure are in the table), then BASS-II and Saffire (oxygen only; pressure is assumed to be cabin pressure and every such row says so in `note`), then the ACME tables. The flow-duct tables other than BASS-II are too thin to lead with: BASS lists only materials, SPICE has fuel and air rate, SLICE has two columns. Whether an assumed pressure may appear on the atmosphere map is the ME teammate's call.
+2. **Ranking lives in the dashboard only** (`app/src/scoring.ts`, adjustable weights, no model). The pipeline does not build `score.py` or `rankings.json`.
+3. **Output stays in `data/out/`.** The pipeline never writes into `app/`. CompE #2 copies the two files into `app/public/data/`, ideally with one line in the app's build script so it cannot be forgotten.
+4. **Inverse flames (ACME):** the oxygen comes out of the burner, so `o2_pct` (ambient oxygen) stays empty and the value goes in `extra.oxidizer_o2_pct`. Those rows stay off the atmosphere map.
 
 ---
 
@@ -169,16 +167,17 @@ data/
 
 ---
 
-## Phase 5: Test level for the flow-duct family (Sat 20:00–00:30)
+## Phase 5: Test level, FLEX and CFI first (Sat 20:00–00:30)
 
 **Build:**
 - `propose_mapping`: the AI reads each table's header and first 5 rows and writes `mappings/<table>.yaml` (column → field, unit conversion, how to read the results). **I review and edit every YAML file.**
-- `transform_tests.py`: plain code applies the mappings and writes `tests.json` (conditions + measurements, one measured result per row). Every row keeps `source_file` and `source_row`.
+- `transform_tests.py`: plain code applies the mappings and writes `tests.json`, one row per test in the contract shape, with family-specific results in `extra`. Every row keeps its `source` file and row.
+- Order: FLEX, CFI, BASS-II, Saffire I–II, then the ACME tables.
 - Sanity ranges in `validate.py`:
   - O₂ between 0 and 100%
-  - pressure between 0 and 20 psi
+  - pressure between 0 and 1000 kPa
   - flow at least 0
-  - every metric is in the allowed list for its family
+  - every key in `extra` is in the allowed list for its family
 
 **Gate:**
 - [ ] Row count per table equals the source table's row count (minus documented skips)
@@ -193,14 +192,11 @@ data/
 ## Phase 6: Derived data (Sun 07:00–10:00)
 
 **Build:**
-- `score.py`: reads `docs/scoring.yaml` (written by the ME teammate) and writes `rankings.json` with each score broken into its parts: atmosphere overlap, fuel match, flow match, pillar.
-- Each ranking's explanation is generated **ahead of time**, from the breakdown and the record only. Explanations are cached; nothing calls the AI live.
+- No ranking here: the dashboard scores investigations itself (decided at the Phase 2 gate).
 - `coverage.py` writes `coverage.json`: a grid of fuel phase × O₂ / pressure band × gravity, counting tests per cell. Empty cells are the gaps.
 - `varied.py` writes `varied.json`: for each test-level investigation, which conditions changed and which stayed constant.
 
 **Gate:**
-- [ ] The ME teammate agrees with the top 5 for each habitat; any surprises are explained by the score breakdown
-- [ ] Every explanation mentions only factors that appear in its breakdown
 - [ ] The empty cells in `coverage.json` match the gaps the ME teammate expects
 - [ ] PR #4 merged
 
@@ -253,5 +249,4 @@ data/
 | Sat 14:15 | ME, CompE #2 | Schema and JSON shape sign-off |
 | Sat ~20:00 onward | ME | Review of the investigation-level CSV |
 | Sat 20:00 | ME | Which metrics each family records (flow-duct first) |
-| Sun 07:00 | ME | `docs/scoring.yaml` |
 | Sat ~00:30 | CompE #2 | End-to-end check on the deployed URL |
