@@ -110,3 +110,26 @@ button.primary:disabled { opacity: 0.45; cursor: not-allowed; }
 }
 
 .toolbar { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 24px; }
+
+/* Investigation detail (side panel of the atmosphere map) */
+.panel h4 { font-size: 0.875rem; font-weight: 600; margin: 16px 0 4px; padding-top: 12px; border-top: 1px solid var(--rule); }
+.panel h4 + dl { margin-top: 4px; }
+.detail-text, .detail-label { font-size: 0.875rem; }
+.detail-label { color: var(--ink-2); }
+.clamp { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; line-clamp: 4; overflow: hidden; }
+.more { font: inherit; font-size: 0.875rem; color: var(--accent); background: none; border: 0; padding: 0; margin-top: 4px; cursor: pointer; text-decoration: underline; }
+.outcomes { display: flex; gap: 2px; height: 8px; margin: 6px 0 8px; }
+.outcomes span { border-radius: 2px; min-width: 3px; }
+.outcome-key { list-style: none; padding: 0; font-size: 0.875rem; }
+.outcome-key li { display: flex; align-items: center; gap: 8px; }
+.outcome-key b { margin-left: auto; font-weight: 500; font-variant-numeric: tabular-nums; }
+.swatch { width: 10px; height: 10px; border-radius: 2px; flex: none; }
+.burned { background: var(--ink); }
+.out { background: #8a94a1; }
+.unknown { background: var(--rule); }
+.links { display: flex; flex-direction: column; gap: 4px; margin-top: 16px; font-size: 0.875rem; }
+.why { display: block; color: var(--ink-2); margin-top: 2px; }
+.detail-text ol { margin: 4px 0 0; padding-left: 1.4em; }
+.detail-text li + li { margin-top: 4px; }
+/* A list cannot use line-clamp, so it is cut by height and fades out. */
+.cut { max-height: 8.5em; overflow: hidden; -webkit-mask-image: linear-gradient(#000 70%, transparent); mask-image: linear-gradient(#000 70%, transparent); }

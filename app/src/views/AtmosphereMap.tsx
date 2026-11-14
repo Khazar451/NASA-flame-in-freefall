@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react';
+import InvestigationDetail from '../components/InvestigationDetail';
 import Plot from '../components/Plot';
 import { name } from '../data';
+import { formula } from '../format';
 import { HABITATS, toPsi } from '../habitats';
 import { hasAtmosphere, insideHabitat } from '../scoring';
 import type { Dataset, FuelPhase, Role, TestRow } from '../types';
@@ -76,7 +78,7 @@ function describe(g: Group, title: string): string {
   ];
   const fuels = [...new Set(g.tests.map((t) => t.fuel_material).filter((f): f is string => !!f))];
   if (fuels.length > 0) {
-    lines.push(`Fuel: ${fuels.slice(0, 3).join('; ')}${fuels.length > 3 ? `; ${fuels.length - 3} more` : ''}`);
+    lines.push(`Fuel: ${fuels.slice(0, 3).map(formula).join('; ')}${fuels.length > 3 ? `; ${fuels.length - 3} more` : ''}`);
   }
   const flows = g.tests.map((t) => t.flow_cm_s).filter((f): f is number => f != null);
   if (flows.length > 0) lines.push(`Air flow ${span(flows)} cm/s`);
@@ -267,29 +269,7 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
         <div className="panel">
           <h3>Investigation</h3>
           {!sel && <p className="quiet">Select a mark on the chart.</p>}
-          {sel && (
-            <>
-              <p className="name">{name(sel)}</p>
-              <p>{sel.title}</p>
-              <dl>
-                <dt>Role</dt>
-                <dd>{ROLES.find((r) => r.key === sel.role)?.label}</dd>
-                <dt>Hardware</dt>
-                <dd>{sel.hardware ?? 'Ground study'}</dd>
-                <dt>Tests on file</dt>
-                <dd>{selTests.length}</dd>
-                {sel.related.length > 0 && (
-                  <>
-                    <dt>Related</dt>
-                    <dd>{sel.related.map((id) => { const r = byId.get(id); return r ? name(r) : id; }).join(', ')}</dd>
-                  </>
-                )}
-              </dl>
-              <a href={sel.doi ? `https://doi.org/${sel.doi}` : sel.url} target="_blank" rel="noreferrer">
-                {sel.doi ? `DOI ${sel.doi}` : `Open ${sel.id} in the PSI repository`}
-              </a>
-            </>
-          )}
+          {sel && <InvestigationDetail key={sel.id} inv={sel} tests={selTests} byId={byId} />}
         </div>
       </aside>
     </section>
