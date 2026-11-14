@@ -13,13 +13,13 @@ from __future__ import annotations
 import argparse
 from typing import Callable
 
-from pipeline import inventory, validate
+from pipeline import extract_text, fetch, inventory, validate
 
 # (name, phase that implements it, help text), in pipeline order. validate runs last,
 # on the finished output files.
 STEPS: list[tuple[str, int, str]] = [
     ("inventory", 1, "list PSI combustion investigations into inventory.csv"),
-    ("fetch", 3, "download PSI files listed in inventory.csv into data/raw/"),
+    ("fetch", 3, "download experimental tables and PDF documents into data/raw/"),
     ("extract-text", 3, "PDFs to page-numbered text in data/interim/text/"),
     ("extract-investigations", 4, "AI extraction of investigation-level records"),
     ("review-export", 4, "write the review sheet for the ME teammate"),
@@ -35,11 +35,17 @@ STEPS: list[tuple[str, int, str]] = [
 StepFn = Callable[[argparse.Namespace], int]
 
 # Filled in phase by phase: {"fetch": fetch.run, ...}
-IMPLEMENTED: dict[str, StepFn] = {"inventory": inventory.run, "validate": validate.run}
+IMPLEMENTED: dict[str, StepFn] = {
+    "inventory": inventory.run,
+    "fetch": fetch.run,
+    "extract-text": extract_text.run,
+    "validate": validate.run,
+}
 
 # Extra command-line options a step accepts.
 ARGUMENTS: dict[str, Callable[[argparse.ArgumentParser], None]] = {
     "inventory": inventory.add_arguments,
+    "fetch": fetch.add_arguments,
     "validate": validate.add_arguments,
 }
 

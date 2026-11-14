@@ -134,9 +134,18 @@ The dashboard already defines the contract: `docs/data-contract.md` and `app/src
 
 **Build:**
 - `fetch.py`: reads each `record.json`, asks the download endpoint for a signed URL per file, downloads into `data/raw/<psi_id>/` and writes `data/raw/manifest.json` (file name, version, sha256, bytes, fetched_at). Safe to re-run.
-- Downloads only these categories: experimental tables, science documents, engineering documents, reports. **Never `Raw Data`** (ACME Flame Design and CFI-G are about 2 TB each). Per-file size cap as a second guard.
+- Downloads experimental-table CSVs into `data/raw/<psi_id>/tables/` and PDF, Word and PowerPoint files from Reports, Science Documents, Engineering Documents and Presentations into `data/raw/<psi_id>/docs/`: 331 files, 897 MB. **Never `Raw Data`** (ACME Flame Design and CFI-G are about 2 TB each). 60 MB per-file cap as a second guard.
+- Not downloaded: 13 Excel files, zips and videos. `fetch --dry-run` lists the counts.
+- A file PSI lists but cannot serve (HTTP 404) is recorded under `unavailable` in the manifest and does not fail the run; a network error does.
 - Signed URLs expire and are never stored; the manifest keeps the file name and version instead.
-- `extract_text.py`: PyMuPDF turns each PDF into `data/interim/text/<source_id>.jsonl`, one line per page `{source_id, page, text}`. Also collects publication lists and abstracts.
+- `extract_text.py`: turns each PDF into `data/interim/text/<file name>.jsonl`, one line per page `{source_id, psi_id, category, page, text}`, where `source_id` is the PSI file name. Runs the same on Windows, macOS and Linux:
+  - `.pdf`: PyMuPDF (falls back to the `pdftotext` command if PyMuPDF is missing)
+  - `.pptx`: read directly in Python; the page number is the slide number
+  - `.docx`: read directly in Python; Word files have no fixed pages, so the text is cut into parts and cited as "part 3"
+  - `.doc`, `.ppt` (15 files): the old formats need LibreOffice; without it they are skipped and listed as unreadable
+- Files are saved under names every system accepts (no `:` or `/`, at most 150 characters); the manifest keeps the original PSI name as `file_name`.
+- Each PSI record also becomes `<psi_id>_record.jsonl`, one line per section (objectives, approach, hypothesis, Earth benefits, publication list). Publication abstracts are not collected.
+- `index.json` lists every source with page and character counts; PDFs with almost no text layer are reported as scanned (no OCR).
 
 **Gate:**
 - [ ] Every inventory row that has files shows up in the manifest; nothing over the size limit was downloaded

@@ -14,8 +14,8 @@ def test_help_lists_every_step(capsys):
 
 
 def test_unimplemented_step_reports_its_phase(capsys):
-    assert run_all.main(["fetch"]) == 1
-    assert "Phase 3" in capsys.readouterr().out
+    assert run_all.main(["build-index"]) == 1
+    assert "Phase 7" in capsys.readouterr().out
 
 
 def test_all_runs_implemented_steps_in_order(monkeypatch, capsys):

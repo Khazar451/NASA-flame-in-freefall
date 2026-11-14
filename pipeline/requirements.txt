@@ -8,4 +8,8 @@ pytest>=8.0
 google-genai>=1.0        # LLM_PROVIDER=gemini (the provider we use)
 # openai            # LLM_PROVIDER=openai (also local servers via OPENAI_BASE_URL)
 
-# Added in later phases: pymupdf (3), chromadb (7), fastapi + uvicorn (7)
+# PDF text (Phase 3). Works on Windows, macOS and Linux. If it cannot be installed,
+# extract-text falls back to the pdftotext command (poppler-utils) when that exists.
+pymupdf>=1.24
+
+# Added in later phases: chromadb (7), fastapi + uvicorn (7)

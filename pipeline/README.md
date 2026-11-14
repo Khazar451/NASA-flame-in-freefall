@@ -10,6 +10,19 @@ pip install -r pipeline/requirements.txt
 cp pipeline/.env.example pipeline/.env   # then add GEMINI_API_KEY and LLM_MODEL
 ```
 
+On Windows (PowerShell):
+
+```powershell
+py -m venv pipeline\.venv; pipeline\.venv\Scripts\Activate.ps1
+pip install -r pipeline\requirements.txt
+copy pipeline\.env.example pipeline\.env
+```
+
+Everything is plain Python and runs the same on Windows, macOS and Linux. One optional
+extra: 15 source documents are in the old `.doc` / `.ppt` formats, which only LibreOffice
+can read. Without LibreOffice installed those 15 are skipped and listed as unreadable;
+nothing else changes.
+
 ## Commands (run from the repo root)
 
 ```bash
