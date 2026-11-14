@@ -102,10 +102,19 @@ def build_chunks(index: dict[str, dict[str, Any]]) -> tuple[list[dict[str, Any]]
 
 
 def default_embedder() -> Embedder:
-    """Chroma's built-in model. The first call downloads it (about 80 MB) to ~/.cache/chroma."""
-    from chromadb.utils.embedding_functions import DefaultEmbeddingFunction
+    """Chroma's built-in model (all-MiniLM-L6-v2) as one object, so it loads once, not per call.
 
-    return DefaultEmbeddingFunction()
+    The first call downloads it (about 80 MB) into EMBEDDING_MODEL_DIR, or ~/.cache/chroma when
+    that is unset. A relative EMBEDDING_MODEL_DIR is taken from the repository root.
+    """
+    from chromadb.utils.embedding_functions.onnx_mini_lm_l6_v2 import ONNXMiniLM_L6_V2
+
+    model = ONNXMiniLM_L6_V2()
+    folder = config.env("EMBEDDING_MODEL_DIR")
+    if folder:
+        path = Path(folder) if Path(folder).is_absolute() else config.REPO_ROOT / folder
+        model.DOWNLOAD_PATH = path / ONNXMiniLM_L6_V2.MODEL_NAME
+    return model
 
 
 def embed(texts: Sequence[str], embedder: Embedder, report: Callable[[int], None] | None = None):
@@ -170,7 +179,7 @@ def run(args: argparse.Namespace, embedder: Embedder | None = None) -> int:
             print(f"  embedded {done}/{len(chunks)} ({time.monotonic() - started:.0f} s)", flush=True)
 
     vectors = embed([c["text"] for c in chunks], embedder, report)
-    save(SEARCH_DIR, chunks, vectors, MODEL_NAME if embedder.__class__.__name__ == "DefaultEmbeddingFunction"
+    save(SEARCH_DIR, chunks, vectors, MODEL_NAME if embedder.__class__.__name__ == "ONNXMiniLM_L6_V2"
          else embedder.__class__.__name__, skipped)
     sizes = ", ".join(f"{p.name} {p.stat().st_size / 1e6:.1f} MB" for p in sorted(SEARCH_DIR.iterdir()))
     print(f"Wrote {SEARCH_DIR.relative_to(config.REPO_ROOT)}: {sizes}")

@@ -42,14 +42,11 @@ pytest pipeline                     # tests (no network, no API key needed)
 
 ```bash
 pip install -r pipeline/requirements-api.txt
+python -m pipeline.search --download-model   # optional: fetch the 80 MB model now
 uvicorn pipeline.api:app --host 0.0.0.0 --port $PORT
 ```
 
-Run it from the repository root. It reads the committed files in `data/out/` (including `data/out/search/`) and `pipeline/review/demo_answers.json`; it does not need `data/raw/`.
-
-- The first start downloads Chroma's embedding model (about 80 MB) to `~/.cache/chroma`. Memory use is roughly 400–600 MB.
-- `GET /health` reports what loaded and how many AI calls are left today.
-- Settings, as environment variables:
+Run it from the repository root. It reads the committed files in `data/out/` (including `data/out/search/`) and `pipeline/review/demo_answers.json`; it does not need `data/raw/`. Memory use peaks at about 380 MB. `GET /health` reports what loaded and how many AI calls are left today.
 
 | Variable | Default | Meaning |
 |---|---|---|
@@ -57,5 +54,22 @@ Run it from the repository root. It reads the committed files in `data/out/` (in
 | `LLM_PROVIDER`, `LLM_MODEL`, `GEMINI_API_KEY` | unset | As in `.env.example`. Unset means answers without AI |
 | `LLM_DAILY_LIMIT` | `60` | AI calls per day; after that, answers without AI |
 | `ASK_RATE_PER_MINUTE` | `10` | Questions per minute from one address |
+| `EMBEDDING_MODEL_DIR` | `~/.cache/chroma` | Where the embedding model is kept; relative paths start at the repository root |
 
-The dashboard then needs `VITE_API_URL` set to the server's address (see `app/README.md`).
+**The Gemini key is a server secret.** Put it only in the host's environment settings, never in `app/.env`, a `VITE_` variable or the repository: the dashboard is public, and anything built into it can be read by anyone.
+
+### Deploy on Render
+
+`render.yaml` at the repository root holds every setting. It installs the root `requirements.txt` (keep it identical to `pipeline/requirements.txt`), then downloads the embedding model during the build.
+
+1. Render: **New > Blueprint**, pick this repository, branch `main`. Render reads `render.yaml`.
+2. When asked for `GEMINI_API_KEY`, paste the key. Leave it empty to run without AI.
+3. Wait for the deploy to show **Live**, then open `https://<service>.onrender.com/health`.
+4. GitHub: **Settings > Secrets and variables > Actions > Variables**, set `VITE_API_URL` to `https://<service>.onrender.com` (no trailing slash).
+5. GitHub: **Actions > Deploy dashboard > Run workflow**, so the site is rebuilt with that address.
+
+A service created by hand instead of from the Blueprint needs the same settings: root directory empty, the build and start commands and the environment variables from `render.yaml`.
+
+`render.yaml` asks for the paid `starter` plan, which does not sleep. With `plan: free` the service costs nothing but sleeps after about 15 minutes without requests; the next question wakes it, which takes about a minute. Both plans have 512 MB of memory; the server peaks at about 440 MB with 8 questions at once.
+
+The dashboard's build uses `https://nasa-flame-in-freefall.onrender.com` unless the repository variable `VITE_API_URL` names another address (`.github/workflows/deploy.yml`).
