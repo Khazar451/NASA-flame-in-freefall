@@ -29,7 +29,7 @@ Open the address Vite prints (normally http://localhost:5173).
 | View | File | What it shows |
 |---|---|---|
 | Atmosphere map | `src/views/AtmosphereMap.tsx` | Tests by oxygen level and pressure, grouped into marks sized by test count, with the cabin, lunar base and spacesuit atmospheres marked. A toggle zooms from the full oxygen scale to the tested range |
-| Ranking | `src/views/Ranking.tsx` | Investigations ranked for a chosen habitat, with the score broken into its four parts |
+| Ranking | `src/views/Ranking.tsx` | Investigations ranked for a chosen habitat, with the score broken into its four parts. Hovering a name shows a short summary; selecting it opens the full record |
 | Ask | `src/views/Ask.tsx` | Question box wired to the Q&A backend |
 
 Other files:

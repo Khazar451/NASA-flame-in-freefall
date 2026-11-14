@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import InvestigationDetail, { FUEL_LABEL, ROLE_LABEL } from '../components/InvestigationDetail';
 import { name } from '../data';
 import { DEFAULT_WEIGHTS, HABITATS, PARTS, toPsi, type PartKey } from '../habitats';
 import { rank, type Scored } from '../scoring';
@@ -29,9 +30,25 @@ function why(s: Scored): string {
     : lead;
 }
 
+// One line of facts for the summary shown when a name is hovered.
+function facts(s: Scored): string {
+  const tests =
+    s.total === 0
+      ? 'no per-test data'
+      : `${s.total.toLocaleString('en-US')} ${s.total === 1 ? 'test' : 'tests'} on file`;
+  return [
+    s.inv.project_type === 'flight' ? 'Flight experiment' : 'Ground study',
+    ROLE_LABEL[s.inv.role],
+    `${FUEL_LABEL[s.inv.fuel_phase]} fuel`,
+    tests,
+  ].join(' · ');
+}
+
 export default function Ranking({ data }: { data: Dataset }) {
   const [habitatId, setHabitatId] = useState('lunar');
   const [weights, setWeights] = useState(DEFAULT_WEIGHTS);
+  const [open, setOpen] = useState<string | null>(null); // investigation whose full record is shown
+  const byId = useMemo(() => new Map(data.investigations.map((i) => [i.id, i])), [data]);
   const habitat = HABITATS.find((h) => h.id === habitatId)!;
   const ranked = useMemo(() => rank(data.investigations, data.tests, habitat, weights), [data, habitat, weights]);
   const total = PARTS.reduce((s, p) => s + weights[p.key], 0);
@@ -72,14 +89,28 @@ export default function Ranking({ data }: { data: Dataset }) {
             </tr>
           </thead>
           <tbody>
-            {ranked.map((s, i) => (
-              <tr key={s.inv.id}>
+            {ranked.map((s, i) => [
+              <tr key={s.inv.id} className={open === s.inv.id ? 'opened' : undefined}>
                 <td className="num">{i + 1}</td>
-                <td>
-                  <a href={s.inv.doi ? `https://doi.org/${s.inv.doi}` : s.inv.url} target="_blank" rel="noreferrer">
+                <td className="who">
+                  <button
+                    type="button"
+                    className="who-name"
+                    aria-expanded={open === s.inv.id}
+                    aria-describedby={open === s.inv.id ? undefined : `summary-${s.inv.id}`}
+                    onClick={() => setOpen(open === s.inv.id ? null : s.inv.id)}
+                  >
                     {name(s.inv)}
-                  </a>
+                  </button>
                   <span className="sub">{s.inv.title}</span>
+                  {open !== s.inv.id && (
+                    <div className="card" role="tooltip" id={`summary-${s.inv.id}`}>
+                      <p className="card-title">{s.inv.title}</p>
+                      <p className="card-facts">{facts(s)}</p>
+                      {s.inv.objectives && <p className="clamp">{s.inv.objectives}</p>}
+                      <p className="card-hint">Select the name for the full record.</p>
+                    </div>
+                  )}
                 </td>
                 <td className="num strong">{Math.round(s.score)}</td>
                 <td>
@@ -97,8 +128,20 @@ export default function Ranking({ data }: { data: Dataset }) {
                   </div>
                   <span className="sub">{why(s)}</span>
                 </td>
-              </tr>
-            ))}
+              </tr>,
+              open === s.inv.id && (
+                <tr key={`${s.inv.id}-detail`} className="detail-row">
+                  <td />
+                  <td colSpan={3}>
+                    <InvestigationDetail
+                      inv={s.inv}
+                      tests={data.tests.filter((t) => t.investigation_id === s.inv.id)}
+                      byId={byId}
+                    />
+                  </td>
+                </tr>
+              ),
+            ])}
           </tbody>
         </table>
       </div>

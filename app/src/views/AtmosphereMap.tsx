@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import InvestigationDetail from '../components/InvestigationDetail';
 import Plot from '../components/Plot';
 import { name } from '../data';
@@ -98,10 +98,37 @@ function describe(g: Group, title: string): string {
   return lines.join('<br>');
 }
 
+const PIN_GAP = 16; // px kept between the pinned panel and the window edge
+
+// Keeps a panel in view while a taller neighbour scrolls (see .pinned in
+// styles.css). A panel shorter than the window sticks to the top. A taller one
+// scrolls until its foot reaches the bottom of the window and holds there, so
+// the chart stays on screen without its lower part being cut off.
+function usePinned<T extends HTMLElement>() {
+  const ref = useRef<T>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const place = () => {
+      el.style.top = `${Math.min(PIN_GAP, window.innerHeight - el.offsetHeight - PIN_GAP)}px`;
+    };
+    place();
+    const watch = new ResizeObserver(place);
+    watch.observe(el);
+    window.addEventListener('resize', place);
+    return () => {
+      watch.disconnect();
+      window.removeEventListener('resize', place);
+    };
+  }, []);
+  return ref;
+}
+
 export default function AtmosphereMap({ data }: { data: Dataset }) {
   const [role, setRole] = useState<Role | 'all'>('all');
   const [selected, setSelected] = useState<string | null>(null);
   const [zoom, setZoom] = useState<'full' | 'tested'>('full');
+  const pinned = usePinned<HTMLDivElement>();
   const byId = useMemo(() => new Map(data.investigations.map((i) => [i.id, i])), [data]);
 
   const shown = useMemo(
@@ -201,7 +228,7 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
 
   return (
     <section className="split">
-      <div className="panel">
+      <div className="panel pinned" ref={pinned}>
         <h2>Where the experiments were run, and where crews will live</h2>
         <p className="lede">
           Each mark is a group of tests that one investigation ran at the same oxygen level and pressure: the bigger
