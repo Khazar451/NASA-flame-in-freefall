@@ -16,6 +16,7 @@ pytest==9.2.0
 
 # AI provider
 google-genai==3.3.0        # LLM_PROVIDER=gemini (the provider we use)
+openai==3.51.0             # LLM_FALLBACK=openai: NVIDIA NIM when Gemini's quota runs out
 # openai            # LLM_PROVIDER=openai (also local servers via OPENAI_BASE_URL)
 
 # PDF text (rebuilding data/out/). The /ask server does not import this.

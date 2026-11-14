@@ -31,9 +31,22 @@ services:
         value: gemini-3.5-flash,gemini-3.5-flash-lite,gemini-3.1-flash-lite,gemini-3.7-flash
       - key: GEMINI_API_KEY
         sync: false
+      # When Gemini's free quota runs out, NVIDIA NIM answers (free, about 40 requests a minute).
+      - key: LLM_FALLBACK
+        value: openai
+      - key: OPENAI_BASE_URL
+        value: https://integrate.api.nvidia.com/v1
+      - key: OPENAI_MODEL
+        value: nvidia/nemotron-3.5-lightning-30b-a3b
+      - key: OPENAI_EXTRA_BODY  # turn off the model's slow "thinking" mode
+        value: '{"chat_template_kwargs": {"enable_thinking": false}}'
+      - key: OPENAI_API_KEY  # the nvapi-... key from build.nvidia.com
+        sync: false
       - key: ASK_ALLOWED_ORIGINS  # the dashboard on GitHub Pages
         value: https://khazar451.github.io
       - key: LLM_DAILY_LIMIT
         value: "60"
+      - key: LLM_TIMEOUT_S  # a slow Gemini reply falls back to the data-only answer after this
+        value: "10"
       - key: ASK_RATE_PER_MINUTE
         value: "10"

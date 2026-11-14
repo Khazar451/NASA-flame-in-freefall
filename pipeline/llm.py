@@ -8,9 +8,16 @@ Every call goes through complete_json(), which
 
 Providers are chosen with LLM_PROVIDER in pipeline/.env:
   gemini  -> Google Gen AI SDK            (pip install google-genai)
-  openai  -> any OpenAI-compatible API     (pip install openai); set OPENAI_BASE_URL
-             for local servers such as Ollama or LM Studio
+  openai  -> any OpenAI-compatible API     (pip install openai): NVIDIA NIM, Groq, or a
+             local server such as Ollama, via OPENAI_BASE_URL
   fake    -> offline stub for tests
+
+LLM_FALLBACK=openai adds an OpenAI-compatible provider after the main one: when the main
+provider's quota is used up, calls go to the fallback (model from OPENAI_MODEL). Other
+errors, such as a timeout, are not retried elsewhere, so a slow call stays bounded by
+LLM_TIMEOUT_S. OPENAI_EXTRA_BODY is optional JSON sent with every OpenAI-compatible
+request, e.g. {"chat_template_kwargs": {"enable_thinking": false}} to turn off a model's
+slow "thinking" mode.
 
 Check that a key and model work with:  python -m pipeline.llm --check
 """
@@ -21,6 +28,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import sys
 import tempfile
 from datetime import datetime, timezone
@@ -133,31 +141,71 @@ class GeminiProvider:
 class OpenAICompatProvider:
     name = "openai"
 
-    def __init__(self, model: str, api_key: str | None, base_url: str | None) -> None:
+    def __init__(
+        self, model: str, api_key: str | None, base_url: str | None,
+        extra_body: dict[str, Any] | None = None,
+    ) -> None:
         try:
             from openai import OpenAI
         except ImportError as exc:
             raise LLMError("LLM_PROVIDER=openai needs: pip install openai") from exc
         self.model = model
-        # Local servers ignore the key but the SDK requires a non-empty value.
-        self._client = OpenAI(api_key=api_key or "not-needed", base_url=base_url)
+        self.last_model = model
+        self._extra_body = extra_body or None
+        # Local servers ignore the key but the SDK requires a non-empty value. No automatic
+        # retries: they would multiply LLM_TIMEOUT_S.
+        self._client = OpenAI(
+            api_key=api_key or "not-needed", base_url=base_url,
+            timeout=float(config.env("LLM_TIMEOUT_S") or 90), max_retries=0,
+        )
 
     def complete_json(self, prompt: str, schema: dict[str, Any], system: str | None) -> str:
         messages = [{"role": "system", "content": system}] if system else []
         messages.append({"role": "user", "content": prompt})
-        resp = self._client.chat.completions.create(
-            model=self.model,
-            messages=messages,
-            temperature=0,
-            response_format={
-                "type": "json_schema",
-                "json_schema": {"name": "output", "schema": schema},
-            },
-        )
+        try:
+            resp = self._client.chat.completions.create(
+                model=self.model,
+                messages=messages,
+                temperature=0,
+                response_format={
+                    "type": "json_schema",
+                    "json_schema": {"name": "output", "schema": schema},
+                },
+                extra_body=self._extra_body,
+            )
+        except Exception as exc:
+            if getattr(exc, "status_code", None) == 429:
+                raise QuotaError(f"rate limit or quota reached on {self.model}: {exc}") from exc
+            raise
         content = resp.choices[0].message.content
         if not content:
             raise LLMError(f"OpenAI-compatible API returned no content (model={self.model})")
-        return content
+        # Reasoning models may put their thinking before the answer.
+        return re.sub(r"<think>.*?</think>", "", content, flags=re.DOTALL).strip()
+
+
+class ChainProvider:
+    """Several providers in order: when one has used up its quota, the next one answers."""
+
+    def __init__(self, providers: list[Any]) -> None:
+        self.providers = providers
+        self.name = "+".join(p.name for p in providers)
+        self.model = "+".join(p.model for p in providers)
+        self.last_model = providers[0].model
+        self._exhausted: set[int] = set()
+
+    def complete_json(self, prompt: str, schema: dict[str, Any], system: str | None) -> str:
+        for index, provider in enumerate(self.providers):
+            if index in self._exhausted:
+                continue
+            try:
+                out = provider.complete_json(prompt, schema, system)
+            except QuotaError:
+                self._exhausted.add(index)
+                continue
+            self.last_model = f"{provider.name}:{getattr(provider, 'last_model', provider.model)}"
+            return out
+        raise QuotaError(f"quota used up on every provider ({self.name})")
 
 
 def get_provider() -> Provider:
@@ -173,16 +221,31 @@ def get_provider() -> Provider:
     model = config.env("LLM_MODEL")
     if not model:
         raise LLMError("Set LLM_MODEL in pipeline/.env to the exact model id from your provider.")
+    key = None
     if name == "gemini":
         key = config.env("GEMINI_API_KEY")
         if not key:
             raise LLMError("Set GEMINI_API_KEY in pipeline/.env.")
-        return GeminiProvider(model, key)
+    primary = GeminiProvider(model, key) if name == "gemini" else _openai_provider(model)
+    if (config.env("LLM_FALLBACK") or "").lower() == "openai" and name != "openai":
+        fallback_model = config.env("OPENAI_MODEL")
+        if not fallback_model:
+            raise LLMError("LLM_FALLBACK=openai needs OPENAI_MODEL, e.g. a model id from build.nvidia.com.")
+        return ChainProvider([primary, _openai_provider(fallback_model)])
+    return primary
+
+
+def _openai_provider(model: str) -> OpenAICompatProvider:
     base_url = config.env("OPENAI_BASE_URL")
     key = config.env("OPENAI_API_KEY")
     if not key and not base_url:
         raise LLMError("Set OPENAI_API_KEY (or OPENAI_BASE_URL for a local server) in pipeline/.env.")
-    return OpenAICompatProvider(model, key, base_url)
+    extra = config.env("OPENAI_EXTRA_BODY")
+    try:
+        extra_body = json.loads(extra) if extra else None
+    except json.JSONDecodeError as exc:
+        raise LLMError(f"OPENAI_EXTRA_BODY is not valid JSON: {exc}") from exc
+    return OpenAICompatProvider(model, key, base_url, extra_body)
 
 
 # --------------------------------------------------------------------------- core call

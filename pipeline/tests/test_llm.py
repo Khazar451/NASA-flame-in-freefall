@@ -164,3 +164,126 @@ def test_gemini_other_errors_are_not_treated_as_quota(monkeypatch):
     with pytest.raises(LLMError, match="bad key") as caught:
         complete_json("capital?", Reply, provider=provider, use_cache=False)
     assert not isinstance(caught.value, llm.QuotaError) and asked == ["flash"]
+
+
+SETTINGS = ("LLM_PROVIDER", "LLM_MODEL", "GEMINI_API_KEY", "OPENAI_API_KEY", "OPENAI_BASE_URL",
+            "OPENAI_MODEL", "OPENAI_EXTRA_BODY", "LLM_FALLBACK", "LLM_TIMEOUT_S")
+
+
+def _env(monkeypatch, **values):
+    for name in SETTINGS:
+        monkeypatch.delenv(name, raising=False)
+    for name, value in values.items():
+        monkeypatch.setenv(name, value)
+
+
+class _Step:
+    """A provider stand-in that replies, raises QuotaError, or raises another error."""
+
+    def __init__(self, name, behaviour):
+        self.name, self.model, self.behaviour, self.calls = name, f"{name}-model", behaviour, 0
+
+    def complete_json(self, prompt, schema, system):
+        self.calls += 1
+        if isinstance(self.behaviour, Exception):
+            raise self.behaviour
+        return self.behaviour
+
+
+def test_chain_moves_on_when_a_quota_runs_out():
+    first, second = _Step("gemini", llm.QuotaError("used up")), _Step("openai", '{"city": "Paris"}')
+    chain = llm.ChainProvider([first, second])
+    assert complete_json("capital?", Reply, provider=chain, use_cache=False)["city"] == "Paris"
+    assert chain.last_model == "openai:openai-model" and chain.name == "gemini+openai"
+    complete_json("again?", Reply, provider=chain, use_cache=False)
+    assert (first.calls, second.calls) == (1, 2)  # the exhausted provider is not asked again
+
+
+def test_chain_does_not_hide_other_errors():
+    first, second = _Step("gemini", TimeoutError("slow")), _Step("openai", '{"city": "Paris"}')
+    with pytest.raises(LLMError, match="slow"):
+        complete_json("capital?", Reply, provider=llm.ChainProvider([first, second]), use_cache=False)
+    assert second.calls == 0  # a timeout goes to the data-only answer, not to a second slow call
+
+
+def test_chain_reports_quota_when_every_provider_is_used_up():
+    chain = llm.ChainProvider([_Step("gemini", llm.QuotaError("a")), _Step("openai", llm.QuotaError("b"))])
+    with pytest.raises(llm.QuotaError, match="every provider"):
+        complete_json("capital?", Reply, provider=chain, use_cache=False)
+
+
+class _Completions:
+    def __init__(self, behaviour):
+        self.behaviour, self.kwargs = behaviour, None
+
+    def create(self, **kwargs):
+        self.kwargs = kwargs
+        if isinstance(self.behaviour, Exception):
+            raise self.behaviour
+        message = type("Message", (), {"content": self.behaviour})()
+        return type("Resp", (), {"choices": [type("Choice", (), {"message": message})()]})()
+
+
+def _openai(monkeypatch, behaviour, **env):
+    pytest.importorskip("openai")
+    _env(monkeypatch, **env)
+    provider = llm.OpenAICompatProvider("nvidia/model", "key", "https://example.test/v1",
+                                        extra_body={"chat_template_kwargs": {"enable_thinking": False}})
+    completions = _Completions(behaviour)
+    provider._client = type("Client", (), {"chat": type("Chat", (), {"completions": completions})()})()
+    return provider, completions
+
+
+def test_openai_provider_strips_thinking_and_sends_options(monkeypatch):
+    provider, completions = _openai(monkeypatch, '<think>let me see</think>\n{"city": "Paris"}')
+    assert complete_json("capital?", Reply, provider=provider, use_cache=False)["city"] == "Paris"
+    assert completions.kwargs["extra_body"] == {"chat_template_kwargs": {"enable_thinking": False}}
+    assert completions.kwargs["response_format"]["type"] == "json_schema"
+
+
+def test_openai_rate_limit_is_a_quota_error(monkeypatch):
+    error = Exception("Too Many Requests")
+    error.status_code = 429
+    provider, _ = _openai(monkeypatch, error)
+    with pytest.raises(llm.QuotaError):
+        complete_json("capital?", Reply, provider=provider, use_cache=False)
+
+
+def test_openai_client_has_no_retries_and_the_timeout(monkeypatch):
+    pytest.importorskip("openai")
+    _env(monkeypatch, LLM_TIMEOUT_S="10")
+    provider = llm.OpenAICompatProvider("m", "key", "https://example.test/v1")
+    assert provider._client.max_retries == 0 and provider._client.timeout == 10.0
+
+
+def test_get_provider_builds_gemini_then_nvidia(monkeypatch):
+    pytest.importorskip("openai")
+    pytest.importorskip("google.genai")
+    _env(monkeypatch, LLM_PROVIDER="gemini", LLM_MODEL="gemini-x", GEMINI_API_KEY="g", LLM_FALLBACK="openai",
+         OPENAI_MODEL="nvidia/nemotron", OPENAI_API_KEY="n", OPENAI_BASE_URL="https://integrate.api.nvidia.com/v1",
+         OPENAI_EXTRA_BODY='{"chat_template_kwargs": {"enable_thinking": false}}')
+    chain = llm.get_provider()
+    assert isinstance(chain, llm.ChainProvider)
+    assert [p.name for p in chain.providers] == ["gemini", "openai"]
+    assert chain.providers[1].model == "nvidia/nemotron"
+    assert chain.providers[1]._extra_body == {"chat_template_kwargs": {"enable_thinking": False}}
+
+
+@pytest.mark.parametrize("env, message", [
+    ({"OPENAI_EXTRA_BODY": "{not json"}, "OPENAI_EXTRA_BODY is not valid JSON"),
+    ({"OPENAI_MODEL": ""}, "needs OPENAI_MODEL"),
+])
+def test_fallback_settings_are_checked(monkeypatch, env, message):
+    pytest.importorskip("openai")
+    pytest.importorskip("google.genai")
+    base = {"LLM_PROVIDER": "gemini", "LLM_MODEL": "gemini-x", "GEMINI_API_KEY": "g", "LLM_FALLBACK": "openai",
+            "OPENAI_MODEL": "m", "OPENAI_API_KEY": "n"}
+    _env(monkeypatch, **{k: v for k, v in {**base, **env}.items() if v})
+    with pytest.raises(LLMError, match=message):
+        llm.get_provider()
+
+
+def test_without_fallback_gemini_is_used_alone(monkeypatch):
+    pytest.importorskip("google.genai")
+    _env(monkeypatch, LLM_PROVIDER="gemini", LLM_MODEL="gemini-x", GEMINI_API_KEY="g")
+    assert isinstance(llm.get_provider(), llm.GeminiProvider)

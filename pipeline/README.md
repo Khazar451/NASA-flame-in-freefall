@@ -53,6 +53,8 @@ Run it from the repository root. It reads the committed files in `data/out/` (in
 | `ASK_ALLOWED_ORIGINS` | `*` | Comma-separated addresses allowed to call the API (the dashboard's URL) |
 | `LLM_PROVIDER`, `LLM_MODEL`, `GEMINI_API_KEY` | unset | As in `.env.example`. Unset means answers without AI |
 | `LLM_DAILY_LIMIT` | `60` | AI calls per day; after that, answers without AI |
+| `LLM_FALLBACK`, `OPENAI_BASE_URL`, `OPENAI_MODEL`, `OPENAI_API_KEY`, `OPENAI_EXTRA_BODY` | unset | A second provider used when Gemini's quota runs out. `render.yaml` sets NVIDIA NIM (`nvidia/nemotron-3.5-lightning-30b-a3b`); its key is a secret like the Gemini key |
+| `LLM_TIMEOUT_S` | `90` | Seconds to wait for Gemini before answering without AI. `render.yaml` sets `10` |
 | `ASK_RATE_PER_MINUTE` | `10` | Questions per minute from one address |
 | `EMBEDDING_MODEL_DIR` | `~/.cache/chroma` | Where the embedding model is kept; relative paths start at the repository root |
 
@@ -69,6 +71,8 @@ Run it from the repository root. It reads the committed files in `data/out/` (in
 5. GitHub: **Actions > Deploy dashboard > Run workflow**, so the site is rebuilt with that address.
 
 A service created by hand instead of from the Blueprint needs the same settings: root directory empty, the build and start commands and the environment variables from `render.yaml`.
+
+**Response time** (measured on Render, 14 Nov): a warm server answers a new question in about 5–6 s, with Gemini. A sleeping free-plan server needs 50 s or more to wake, and the first Gemini call after waking took 43 s. With `LLM_TIMEOUT_S=10` the worst case is about 10–11 s, after which the answer comes from the data alone (still correct and sourced, but quoted rather than written). Before a demo, open the dashboard and ask one question a few minutes ahead, so the server is awake and Gemini warmed up.
 
 `render.yaml` asks for the paid `starter` plan, which does not sleep. With `plan: free` the service costs nothing but sleeps after about 15 minutes without requests; the next question wakes it, which takes about a minute. Both plans have 512 MB of memory; the server peaks at about 440 MB with 8 questions at once.
 

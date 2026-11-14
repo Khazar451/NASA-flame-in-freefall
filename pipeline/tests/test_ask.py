@@ -258,3 +258,13 @@ def test_partial_gravity_answer_adds_the_saffire_comparison(kb):
     assert reply["answer"].endswith("In Saffire-II, 4 of 9 samples barely burned in microgravity.")
     assert reply["citations"][2]["label"] == "SAFFIRE-II (PSI-99): test table, microgravity and normal-gravity burn results"
     kb.investigations.pop()
+
+
+@pytest.mark.parametrize("raw, clean", [
+    ("SAME studied smoke detection [2].", "SAME studied smoke detection."),
+    ("Both FLEX [1, 3] and CFI [4 and 6] used helium.", "Both FLEX and CFI used helium."),
+    ("Sources [1]-[2] agree.", "Sources agree."),
+    ("Oxygen was 21 % [5].", "Oxygen was 21 %."),
+])
+def test_tidy_removes_source_numbers(raw, clean):
+    assert ask.tidy(raw) == clean
