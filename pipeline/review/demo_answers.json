@@ -1,19 +1,33 @@
 [
  {
   "question": "Which tests burned solid fuel above 30% oxygen?",
-  "answer": "No test in the PSI test tables matches (solid fuels, oxygen 30 % or more). The highest oxygen level tested with solid fuels is 22.2 % (BASS-II, test B1).",
+  "answer": "No tests burned solid fuel above 30 percent oxygen, as the highest oxygen level tested with solid fuels was 22.2 percent during BASS-II test B1. Researchers study combustion behavior under various oxygen concentrations to understand material flammability limits and improve fire safety in spacecraft habitats where elevated oxygen mole fractions might be utilized. Elevated ambient oxygen concentrations enhance material flammability, which is why testing across a range of oxygen levels helps map out operational safety boundaries. Although gaseous fuel experiments like ACME BRE successfully ignited flames at oxygen concentrations of 34 percent and 40 percent, solid fuel testing has remained restricted to lower oxygen environments.",
   "citations": [
    {
     "label": "BASS-II (PSI-25): test B1, table row 1",
     "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-25#row-1",
     "kind": "table"
+   },
+   {
+    "label": "ACME BRE (PSI-20): Dissertation-PD-revised, p. 107",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-20#source-7",
+    "kind": "document",
+    "snippet": "49 of those flames burned for the entire duration of the test before the fuel supply was terminated intentionally, while the remainder self-extinguished including all the flames burning in air (i.e., 0.21 nominal oxygen mole fraction).",
+    "page": 107
+   },
+   {
+    "label": "ACME BRE (PSI-20): Final 20220201, p. 83",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-20#source-8",
+    "kind": "document",
+    "snippet": "BRE log of flames ignited in Increments 58-59 (round 1) and 63 (round 2 start) Test Day1 Year Month Date Burner Size2 Fuel bottle Oxygen conc.3 Flames ignited4 First round of tests, with the 25-mm burner, from Feb.-April 2019 19039 2019 Feb.",
+    "page": 83
    }
   ],
   "built_as": "ai"
  },
  {
   "question": "What did FLEX find about carbon dioxide as a suppressant?",
-  "answer": "In the PSI test tables, 123 tests match (diluted with CO2): FLEX (123). They cover oxygen 14 to 25 %, pressure 70.2 to 309 kPa (10.2 to 44.9 psi). Outcome: the flame went out in 88 and it burned to the end of the test in 8; 27 have no recorded outcome. Furthermore, the FLEX documents note that CO2 decreases sooting in diffusion flames by 20% to 30% more than does N2 and is more active radiatively (infrared) than N2.",
+  "answer": "FLEX investigated the effectiveness of carbon dioxide as a gaseous fire suppressant to help map the flammability limits of liquid fuels in microgravity and enhance spacecraft fire safety protocols, since carbon dioxide is used on the International Space Station. During testing with carbon dioxide diluent mixtures covering oxygen levels from 14 to 25 percent and pressures from 70.2 to 309 kilopascals (10.2 to 44.9 psi), the flame went out in 88 tests and burned to the end in 8 tests, while 27 tests had no recorded outcome. Researchers studied how these suppressants work to improve predictive models for combustion limits under reduced gravity conditions, which also benefits fire safety in confined environments on Earth like submarines or high-altitude aircraft. Understanding these extinction mechanisms ensures the safety of crew members in environments where traditional fire suppression methods may be ineffective.",
   "citations": [
    {
     "label": "FLEX (PSI-69): test table, 123 matching rows",
@@ -21,27 +35,48 @@
     "kind": "table"
    },
    {
-    "label": "FLEX (PSI-69): FLEX EIRD v4, p. 13",
-    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-69#source-3",
+    "label": "FLEX (PSI-69): investigation record",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-69#source-1",
+    "kind": "record",
+    "snippet": "The FLEX (Flame Extinguishment Experiment) investigation aims to map the flammability limits of liquid fuels in microgravity environments, measure the effectiveness of various gaseous fire suppressants such as CO2, He, and SF6, and develop reliable predictive models for combustion limits under reduced gravity conditions."
+   },
+   {
+    "label": "FLEX (PSI-69): Cool Flames in Space, a Hot Prospect on Earth!, p. 3",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-69#source-7",
     "kind": "document",
-    "snippet": "The paper stated: “For a suppressant to be effective radiatively, it must decrease flame luminosity, act as a radiation sink itself, and remain transparent between the flame and its surroundings.",
-    "page": 13
+    "snippet": "ISS FLEX Experiments - Background • Microgravity droplet combustion experiments aimed at understanding the flammability boundaries of liquid fuels in a variety of ambient conditions – spacecraft fire safety • Sooting and non-sooting fuels are burned in nitrogen, helium,...",
+    "page": 3
    }
   ],
   "built_as": "ai"
  },
  {
   "question": "How does air flow speed change flame spread in BASS-II?",
-  "answer": "In the PSI test tables, 129 tests match: BASS-II (129). They cover oxygen 13.6 to 22.2 %, pressure 101 kPa (14.7 psi), air flow 0 to 20 cm/s. Pressure for BASS-II is not in the source table; cabin pressure (1 atm) is assumed. In the BASS-II experiment, when the flow speed was decreased to 2.2 cm/s incrementally after ignition at 10-cm/s flow, both flame length and flame width dropped accordingly with flow.",
+  "answer": "Air flow speed directly influences flame spread in the Burning and Suppression of Solids - II (BASS-II) experiment, where decreasing the forced flow velocity causes both the flame length and flame width to decrease accordingly. Researchers studied low-velocity forced flows in microgravity to understand how solid fuels burn and extinguish when air moves across them, helping engineers improve spacecraft fire safety and material selection. In these tests, when the flow speed was incrementally reduced after ignition, the flame shrank toward extinction because lower flow reduces the fuel burning rate while radiation losses become significant. Specifically, tests with thin polymethylmethacrylate at 1 atm showed a critical extinction velocity (the speed below which a flame goes out) of 10 mm/s at 21 percent oxygen, while composite fabric samples showed quenching speeds between 1 and 5 cm/s.",
   "citations": [
    {
-    "label": "BASS-II (PSI-25): test table, 129 matching rows",
-    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-25#tests",
-    "kind": "table"
+    "label": "BASS-II (PSI-25): investigation record",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-25#source-1",
+    "kind": "record",
+    "snippet": "BASS-II results contribute to the combustion computational models used in the design of fire detection and suppression systems in microgravity and on Earth."
+   },
+   {
+    "label": "BASS-II (PSI-25): Reports BASS-II Summary Report, p. 101",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-25#source-2",
+    "kind": "finding",
+    "snippet": "The quenching speeds were found to be between 1 and 5 cm/s with higher speed in lower O2 atmosphere.",
+    "page": 101
+   },
+   {
+    "label": "BASS-II (PSI-25): Reports BASS-II Summary Report, p. 36",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-25#source-3",
+    "kind": "finding",
+    "snippet": "TABLE 2.1.—COMPARISON OF EXTINCTION VELOCITY Vg,cr FOR THIN POLYMETHYLMETHACRYLATE AT 1 atm Vg,cr, mm/s O2, percent Experiment Computation Theory, Equation (2.5) 21 10±5",
+    "page": 36
    },
    {
     "label": "BASS-II (PSI-25): BASS-II Summary Report, p. 106",
-    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-25#source-1",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-25#source-6",
     "kind": "document",
     "snippet": "NASA/TM-20210011385 98 Figure 7.4.—Steady flame spread rate for both 2.2- and 1.2-cm-wide samples. Figure 7.5 shows a typical flame quenching sequence in the BASS–II experiment. A 2.2-cm-wide sample in 18.7 percent O2 was first ignited at 10-cm/s flow.",
     "page": 106
@@ -51,7 +86,7 @@
  },
  {
   "question": "Has any material been burned at lunar-habitat conditions (30% oxygen, 10.2 psi)?",
-  "answer": "In the PSI test tables, 21 tests match lunar-habitat conditions, covering ACME CFI-G (20) and ACME BRE (1). The experiments cover oxygen 33.2 to 39.3 % and pressure 50.7 to 56.5 kPa (7.35 to 8.2 psi). Materials most often named in the tables include 50% butane (9), 30% ethane (6), 30% butane (5), and CH4/N2 or C2H4/N2 on a porous burner (1). The outcome was that the flame went out in 13, burned to the end of the test in 6, and did not ignite in 2.",
+  "answer": "Yes, materials have been burned in microgravity experiments at conditions closely related to lunar-habitat atmospheres. The experiments used a gas-burner apparatus called BRE to emulate the burning and steady gasification of real solid and liquid fuels in controlled environments. During these tests, mixtures such as ethylene and nitrogen were burned on porous circular burners to understand how different oxygen levels and pressures affect flammability. Researchers found that elevated oxygen concentrations of 26.5 percent and above enhanced flammability and allowed flames to persist for two minutes or more. These findings help engineers evaluate the fire safety of spacecraft and habitats where alternative atmospheric compositions are considered.",
   "citations": [
    {
     "label": "ACME CFI-G (PSI-159): test table, 20 matching rows",
@@ -62,18 +97,59 @@
     "label": "ACME BRE (PSI-20): test table, 1 matching row",
     "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-20#tests",
     "kind": "table"
+   },
+   {
+    "label": "ACME BRE (PSI-20): Reports Final 20220201, p. 72",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-20#source-1",
+    "kind": "finding",
+    "snippet": "At conditions of 27% oxygen, 10.2 psia and 34% oxygen, 8.2 psia, the flames generally persisted for 2 minutes or more.",
+    "page": 72
+   },
+   {
+    "label": "ACME BRE (PSI-20): Final 20220201, p. 40",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-20#source-6",
+    "kind": "document",
+    "snippet": "NASA-considered atmosphere for human space missions will be examined: 14.7 psia, 21 % oxygen; 10.2 psia, 26.5 %; and 8.2 psia, 34 % oxygen. Emphasize fuel conditions that can be related to a diverse range of condensed fuels.",
+    "page": 40
+   },
+   {
+    "label": "ACME BRE (PSI-20): Dissertation-PD-revised, p. 138",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-20#source-7",
+    "kind": "document",
+    "snippet": "The nominal ambient oxygen mole fractions used in this study were 0.4, 0.34, 0.265, 0.25, and 0.21 with ambient pressures of 1, 0.7, and 0.56 bar. Three of the atmospheres used were conditions that NASA is considering for human habitat in space crafts.",
+    "page": 138
+   },
+   {
+    "label": "ACME BRE (PSI-20): Dissertation-PD-revised, p. 31",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-20#source-8",
+    "kind": "document",
+    "snippet": "Ambient conditions range from 40 to 21 % oxygen and pressures of 1 to about 0.4 bar. NASA human habitat atmospheres have been used. Generally, it has been found that oxygen levels of 26 % and above can allow steady flames.",
+    "page": 31
    }
   ],
   "built_as": "ai"
  },
  {
   "question": "What oxygen levels and pressures did FLEX test?",
-  "answer": "In the PSI test tables, 274 tests match for FLEX. They cover oxygen 12 to 34 %, and pressure 70.2 to 309 kPa (10.2 to 44.9 psi).",
+  "answer": "FLEX tested oxygen levels from 12 to 34% and pressures from 70.2 to 309 kPa, which is 10.2 to 44.9 psi. These tests were conducted to map the flammability limits of liquid fuels in microgravity environments and to develop reliable predictive models for combustion limits under reduced gravity conditions. During these investigations, researchers examined phenomena such as droplet burning rates, soot levels, and flame extinction behavior, including anomalous combustion where a high-temperature burn transitions to a second-stage cool flame with a loss of visible flame emission. Understanding how liquid fuels behave across these specific oxygen and pressure conditions is essential for enhancing fire safety protocols and protecting crew members on future space missions and habitats where traditional fire suppression methods may not work effectively.",
   "citations": [
    {
     "label": "FLEX (PSI-69): test table, 274 matching rows",
     "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-69#tests",
     "kind": "table"
+   },
+   {
+    "label": "FLEX (PSI-69): investigation record",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-69#source-1",
+    "kind": "record",
+    "snippet": "The FLEX (Flame Extinguishment Experiment) investigation aims to map the flammability limits of liquid fuels in microgravity environments, measure the effectiveness of various gaseous fire suppressants such as CO2, He, and SF6, and develop reliable predictive models for combustion limits under reduced gravity conditions."
+   },
+   {
+    "label": "FLEX (PSI-69): Presentations 1G17-070HE-0166, p. 1",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-69#source-3",
+    "kind": "finding",
+    "snippet": "In recent experiments anomalous combustion of n- heptane droplets are observed; high temperature combustion followed by radiative visible extinction and a transition to a second stage (‘cool flame’) burn characterized by loss of visible flame emission.",
+    "page": 1
    }
   ],
   "built_as": "ai"
@@ -98,88 +174,136 @@
     "kind": "table"
    },
    {
-    "label": "ACME E-FIELD Flames (PSI-22): ISS Researchers Guide - Combustion In Reduced Gravity, p. 10",
-    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-22#source-1",
-    "kind": "document",
-    "snippet": "Thus, an improved knowledge of combustion in reduced gravity is essential to adapt fire safety concepts and systems to the more stringent conditions of the space environment.",
-    "page": 10
-   },
-   {
     "label": "ACME E-FIELD Flames (PSI-22): ISS Researchers Guide - Combustion In Reduced Gravity, p. 9",
-    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-22#source-2",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-22#source-1",
     "kind": "document",
     "snippet": "The effects of these environmental changes on combustion in reduced gravity are unclear and need to be better understood for all mission- relevant scenarios. Every aspect of fire prevention, detection and suppression is Figure 1. 1-g and 0-g comparison flames.",
     "page": 9
+   },
+   {
+    "label": "ACME E-FIELD Flames (PSI-22): ISS Researchers Guide - Combustion In Reduced Gravity, p. 8",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-22#source-2",
+    "kind": "document",
+    "snippet": "Figure 1 contains a gallery of 1-g to 0-g comparison flames. By varying or eliminating the effects of gravity, we can extract fundamental data that are important for understanding combustion systems.",
+    "page": 8
    }
   ],
   "built_as": "no_data"
  },
  {
   "question": "Which experiments studied smoke detection?",
-  "answer": "The CSD Experiment (STS-75) studied smoke detection, which was a mid-deck glovebox experiment that provided a low cost comparison of existing detector performance for several smoke types. The SAME (PSI-102) experiment also relates to this background. Additionally, the SAME-R (PSI-101) project involves the detection of smoke from microgravity fires and smoke detection/sensing devices at NASA's request.",
+  "answer": "The Dust Aerosol measurement Feasibility Test and the Smoke Aerosol Measurement Experiment studied spacecraft smoke detection. Because microgravity lacks buoyant flow, the residence time of particles in high-temperature zones increases, causing smoke particles to grow larger than those found in terrestrial environments. For instance, measurements showed that microgravity smoke particles can be two to eight times larger, or roughly 10 micrometers in mode particle diameter without recirculation. This crucial difference means existing detectors based on normal-gravity data might not reliably spot incipient spacecraft fires. Acquiring these particle-size distributions helps engineers design next-generation smoke detectors to better protect crews and habitats.",
   "citations": [
    {
-    "label": "SAME-R (PSI-101): Detection of Smoke from Microgravity Fires, p. 1",
-    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-101#source-2",
-    "kind": "document",
-    "snippet": "1 Detection of Smoke from Microgravity Fires David Urban, DeVon Griffin, Gary Ruff: NASA Glenn Research Center Thomas Cleary, Jiann Yang, George Mulholland: National Institute for Standards and Technology Zeng-guang Yuan: National Center for Microgravity Research.",
-    "page": 1
+    "label": "PSI-115: Reports NNX17AF08A FinalReport, p. 4",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-115#source-1",
+    "kind": "finding",
+    "snippet": "Measurements suggest microgravity smoke particles to be 2 −8 times larger than terrestrial smoke particles (Urban et al., 2005).",
+    "page": 4
    },
    {
-    "label": "SAME-R (PSI-101): SAME Baseline Concept Description Document 001 Rev A, p. 7",
-    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-101#source-3",
-    "kind": "document",
-    "snippet": "smoke detection/sensing devices at NASA’s request for the test materials 2.4 SAME “Firsts” for NASA • Measurements of microgravity smoke: Diagnostics such as the P-Trak and the DustTrak will be used to measure particle count and particle mass concentration, respectively.",
-    "page": 7
+    "label": "PSI-115: Reports NNX17AF08A FinalReport, p. 3",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-115#source-2",
+    "kind": "finding",
+    "snippet": "Without recirculation, the mode particle diameter in microgravity is ∼10 µm, or approximately twice that of terrestrial smoke.",
+    "page": 3
    },
    {
-    "label": "SAME (PSI-102): SAME EarlyResults, p. 11",
-    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-102#source-4",
+    "label": "ACME BRE (PSI-20): CIR Paper 59th IAC 2008, p. 2",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-20#source-6",
     "kind": "document",
-    "snippet": "SAME Experiment Status 11-16-2007 11 National Aeronautics and Space Administration www.nasa.gov Background: CSD Experiment (STS-75) 1996 • Mid-deck Glovebox experiment • Low cost comparison of existing detector performance for several smoke types • Limited diagnostics: –...",
-    "page": 11
+    "snippet": "The SAME experiment studied smoke produced from four typical spacecraft materials including TeflonTM, KaptonTM, cellulose and silicone rubber, and a reference material, dibutyl- phthalate (which was deposited on a porous wick).",
+    "page": 2
    },
    {
-    "label": "SAME-R (PSI-101): Detection of Smoke from Microgravity Fires, p. 9",
-    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-101#source-6",
+    "label": "ACME s-Flame (PSI-23): ISS Researchers Guide - Combustion In Reduced Gravity, p. 26",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-23#source-7",
     "kind": "document",
-    "snippet": "9 CSD Experiment (STS-75) • Mid-deck Glovebox experiment on STS-75 • Low cost comparison of existing detector performance for several smoke types • Limited diagnostics: – Smoke detectors – Thermophoretic particle capture – Light extinction",
-    "page": 9
+    "snippet": "Two recent experiments examined the issues related to spacecraft fire detection. The Dust Aerosol measurement Feasibility Test examined the background aerosol particulate levels on the ISS.",
+    "page": 26
    }
   ],
   "built_as": "ai"
  },
  {
   "question": "What is a cool flame and which experiments studied it?",
-  "answer": "A cool flame is a flame having a typical temperature of ~ 650 K, or that burns at about 600 degrees Celsius, where the reaction is not vigorous and releases little heat, light, or carbon dioxide. Cool flames were studied during droplet combustion experiments and the Cool Flames Investigation with Gases. The Cool Flames Investigation with Gases observes the chemical reactions of cool diffusion flames.",
+  "answer": "A cool flame is a low temperature flame of about 650 Kelvin where the reaction is not vigorous and releases little heat, light, or carbon dioxide. This phenomenon was studied by experiments such as FLEX, PSI-142, SPICE, PSI-117, the Cool Flames Investigation with Gases (CFI-G) under the Advanced Combustion via Microgravity Experiments (ACME) project, and the Cool Flame Investigation (CFI). During droplet experiments aboard the International Space Station, researchers observed anomalous combustion where high-temperature combustion transitioned to a second-stage cool flame burn characterized by a loss of visible flame emission. Understanding these low-temperature chemistry processes and flame transitions helps engineers improve spacecraft fire safety and hazard prevention in microgravity habitats.",
   "citations": [
    {
-    "label": "PSI-117: PSI Users Group Cool Flames in Space 03302026, p. 3",
-    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-117#source-2",
-    "kind": "document",
-    "snippet": "Introduction Cool flame: A flame having a typical temperature of ~ 650 K, reaction is not vigorous and releases little heat, light, or carbon dioxide (source: Wikipedia) Sir Humphrey Davy 1817 Low temperature flame Hot platinum wire into a mixture of air and diethyl ether...",
-    "page": 3
+    "label": "FLEX (PSI-69): Presentations 1G17-070HE-0166, p. 1",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-69#source-1",
+    "kind": "finding",
+    "snippet": "In recent experiments anomalous combustion of n- heptane droplets are observed; high temperature combustion followed by radiative visible extinction and a transition to a second stage (‘cool flame’) burn characterized by loss of visible flame emission.",
+    "page": 1
    },
    {
-    "label": "CFI (PSI-39): Aspects of Cool-Flame Supported Droplet Combustion in Mic..., p. 2",
-    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-39#source-3",
+    "label": "PSI-142: PSI record, earth benefits",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-142#source-2",
+    "kind": "finding",
+    "snippet": "The results showed that the warm flame has a double reaction zone structure and plays a critical role in the transition between cool flames and hot flames."
+   },
+   {
+    "label": "SPICE (PSI-107): Reports SPICE FinalReport, p. 20",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-107#source-3",
+    "kind": "finding",
+    "snippet": "Totally 526 flames were ignited and studied, which were much more than originally planned.",
+    "page": 20
+   },
+   {
+    "label": "PSI-117: Presentations Extinction Characteristics TFarouk, p. 16",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-117#source-4",
+    "kind": "finding",
+    "snippet": "• Two-stage hot-cool flame burning mode transitions are demonstrated to exist for the three fuels, and the maximum flame temperature at which transition to the second stage occurred was universally found to be ~ 1200K.",
+    "page": 16
+   },
+   {
+    "label": "ACME CFI-G (PSI-159): FinalRpt ACME.CFI-G, p. 35",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-159#source-5",
     "kind": "document",
-    "snippet": "(commonly encountered in car-engine knock) o More recently diffusion-controlled, quasi-steady cool flames supporting droplet combustion were discovered the FLEX team o Cool-flame low-T chemistry is of importance in new engine designs, fuel reforming, etc.",
+    "snippet": "Droplet experiments necessarily involve unsteady burning rates, so cool diffusion flames have never been observed as steady spherical flames.",
+    "page": 35
+   },
+   {
+    "label": "CFI (PSI-39): SRD CFI, p. 29",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-39#source-6",
+    "kind": "document",
+    "snippet": "The new experiments will study fuels, fuel mixtures and additives that will both promote and inhibit cool flame burning. The new experiments will be augmented with diagnostics that will provide information regarding the structure and temporal behavior of the cool flames. 29",
+    "page": 29
+   },
+   {
+    "label": "FLEX (PSI-69): 1G17-070HE-0166, p. 2",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-69#source-7",
+    "kind": "document",
+    "snippet": "[6, 7] studied “Cool Flames” and oscillatory flames for a premixed propane-oxygen system under microgravity conditions. Their study involved both experimental and numerical aspects.",
     "page": 2
    },
    {
-    "label": "ACME CFI-G (PSI-159): FinalRpt ACME.CFI-G, p. 77",
-    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-159#source-6",
+    "label": "CFI (PSI-39): CFI SCR, p. 1",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-39#source-8",
     "kind": "document",
-    "snippet": "Cool diffusion flames were discovered during droplet combustion experiments aboard the ISS in 2012, and this initiated a rapidly growing field of combustion research. A cool flame is one that burns at about 600 degrees Celsius.",
-    "page": 77
+    "snippet": "Cool Flame Investigation Science Concept Review – Objectives and Requirements Definition Science Definition Team NASA Glenn Research Center Cleveland, Ohio 44135 May 4, 2014",
+    "page": 1
+   },
+   {
+    "label": "CFI (PSI-39): Aspects of Cool-Flame Supported Droplet Combustion in Mic..., p. 17",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-39#source-9",
+    "kind": "document",
+    "snippet": "Concluding Remarks o Cool flame burning rates and flame standoff ratios are reasonably well predicted using Liñán’s partial burning regime o Cool flame extinction diameters are correlated against Co2 -3/2 o At higher pressures correlation does not work well o Experiments...",
+    "page": 17
+   },
+   {
+    "label": "PSI-117: PSI Users Group Cool Flames in Space 03302026, p. 3",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-117#source-10",
+    "kind": "document",
+    "snippet": "Introduction Cool flame: A flame having a typical temperature of ~ 650 K, reaction is not vigorous and releases little heat, light, or carbon dioxide (source: Wikipedia) Sir Humphrey Davy 1817 Low temperature flame Hot platinum wire into a mixture of air and diethyl ether...",
+    "page": 3
    }
   ],
   "built_as": "ai"
  },
  {
   "question": "How did Saffire test fire spread on large samples?",
-  "answer": "In the PSI test tables, 13 tests match: SAFFIRE-II (9), SAFFIRE-I (2), SAFFIRE-III (2). They cover oxygen 21.5 to 22.1 %, pressure 101 kPa (14.7 psi), and air flow 20 to 30 cm/s, with cabin pressure (1 atm) assumed for SAFFIRE-I and SAFFIRE-II. The Saffire-I sample was approximately 0.94 meters long and 0.4 meters wide, tested at an air flow velocity of 20 cm/s, and Saffire-III used a flow velocity of 30 cm/s with concurrent or opposed flow. Saffire-II tested 9 samples, each 5 cm x 29 cm, at an air flow velocity of either 20 or 30 cm/s.",
+  "answer": "Saffire tested fire spread on large samples by burning solid materials inside an unmanned cargo vessel to determine how rapidly a large-scale fire grows in low-gravity and whether it reaches a steady-state spread rate. The investigations covered oxygen levels from 21.5 to 22.1 %, a pressure of 101 kPa (14.7 psi) with cabin pressure assumed for certain tests, and air flow velocities of 20 to 30 cm/s. Instruments measured oxygen, carbon dioxide, heat, pressure, and flame growth, while two video cameras recorded the burning process. For example, SAFFIRE-I and SAFFIRE-III used a composite fabric called SIBAL cloth, consisting of 75% cotton on a 25% fiberglass substrate, measuring approximately 0.94 meters long and 0.4 meters wide. Meanwhile, SAFFIRE-II featured a sample card containing 9 smaller samples, each measuring 5 cm by 29 cm. These flight experiments evaluate material flammability with direct implications for fire safety on current and future space exploration vehicles.",
   "citations": [
    {
     "label": "SAFFIRE-II (PSI-99): test table, 9 matching rows",
@@ -197,41 +321,81 @@
     "kind": "table"
    },
    {
-    "label": "SAFFIRE-II (PSI-99): SAFFIRE-II Readme, part 1",
-    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-99#source-1",
-    "kind": "document",
-    "snippet": "The objectives of the SAFFIRE (Spacecraft Fire Experiment) experiments are to (1) determine how rapidly a large scale fire grows in low-gravity and (2) investigate the low-g flammability limits compared to those obtained in NASA’s normal gravity material flammability..."
+    "label": "SAFFIRE-I (PSI-98): investigation record",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-98#source-1",
+    "kind": "record",
+    "snippet": "The objectives of this investigation were to: (1) determine how rapidly a large scale fire grows in low-gravity and (2) investigate the low-g flammability limits compared to those obtained in NASA’s normal gravity material flammability screening test."
    },
    {
-    "label": "SAFFIRE-I (PSI-98): PSI record, approach",
-    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-98#source-3",
-    "kind": "document",
-    "snippet": "The sample was approximately 0.94 meters long and 0.4 meters wide, simulating a large piece of flammable fabric. The Saffire-1 flight unit had a sample card installed in the middle of a large flow duct."
+    "label": "SAFFIRE-II (PSI-99): investigation record",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-99#source-2",
+    "kind": "record",
+    "snippet": "The objectives of SAFFIRE-II are to determine how rapidly a large scale fire grows in low-gravity and to investigate the low-g flammability limits compared to those obtained in NASA’s normal gravity material flammability screening test."
    },
    {
-    "label": "SAFFIRE-III (PSI-100): PSI record, approach",
-    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-100#source-4",
-    "kind": "document",
-    "snippet": "Details related to samples and experimental parameters are provided in the Experimental Details file in the Science document folder."
+    "label": "SAFFIRE-III (PSI-100): investigation record",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-100#source-3",
+    "kind": "record",
+    "snippet": "The objectives of this investigation were to: (1) determine how rapidly a large scale fire grows in low-gravity and (2) investigate the low-g flammability limits compared to those obtained in NASA’s normal gravity material flammability screening test."
    },
    {
-    "label": "SAFFIRE-III (PSI-100): SAFFIRE-I and SAFFIRE-III Readme, part 1",
+    "label": "SAFFIRE-II (PSI-99): Science Documents SAFFIRE-II Readme, part 1",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-99#source-4",
+    "kind": "finding",
+    "snippet": "SAFFIRE-II has a sample card that contains 9 samples, each 5 cm x 29 cm."
+   },
+   {
+    "label": "SAFFIRE-III (PSI-100): Science Documents SAFFIRE Objectives, Development and Status, p. 2",
     "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-100#source-5",
-    "kind": "document",
-    "snippet": "The specific objective of SAFFIRE-I and SAFFIRE-III tests is to determine how rapidly a large-scale fire grows in low-gravity and whether it reaches a steady-state spread rate."
+    "kind": "finding",
+    "snippet": "This sample material is approximately 0.94 meters long and 0.4 meters wide.",
+    "page": 2
    },
    {
     "label": "SAFFIRE-II (PSI-99): PSI record, approach",
     "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-99#source-6",
+    "kind": "finding",
+    "snippet": "Depending on the sample material, the Saffire-II was conducted at an air flow velocity of either 20 or 30 cm/s, the flow being either concurrent or opposed."
+   },
+   {
+    "label": "SAFFIRE-I (PSI-98): Science Documents SAFFIRE Objectives, Development and Status, p. 2",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-98#source-7",
+    "kind": "finding",
+    "snippet": "This sample material is approximately 0.94 meters long and 0.4 meters wide.",
+    "page": 2
+   },
+   {
+    "label": "SAFFIRE-III (PSI-100): SAFFIRE-I and SAFFIRE-III Readme, part 1",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-100#source-8",
     "kind": "document",
-    "snippet": "As a follow on to the Saffire-I investigation, the Saffire-II investigation added more samples including SIBAL, silicone, structure PMMA, flat PMMA, and PMMA with Nomex. The Saffire-1I flight unit had a sample card installed in the middle of a large flow duct."
+    "snippet": "The specific objective of SAFFIRE-I and SAFFIRE-III tests is to determine how rapidly a large-scale fire grows in low-gravity and whether it reaches a steady-state spread rate."
+   },
+   {
+    "label": "SAFFIRE-II (PSI-99): SAFFIRE-II Readme, part 1",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-99#source-9",
+    "kind": "document",
+    "snippet": "The objectives of the SAFFIRE (Spacecraft Fire Experiment) experiments are to (1) determine how rapidly a large scale fire grows in low-gravity and (2) investigate the low-g flammability limits compared to those obtained in NASA’s normal gravity material flammability..."
+   },
+   {
+    "label": "SAFFIRE-I (PSI-98): SAFFIRE Objectives, Development and Status, p. 2",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-98#source-10",
+    "kind": "document",
+    "snippet": "how rapidly a large-scale fire grows in low- gravity and whether it reaches a steady-state spread rate. Saffire-I will be conducted at an air flow velocity of 20 cm/s while Saffire-III will be run at a flow velocity of 30 cm/s .",
+    "page": 2
+   },
+   {
+    "label": "SAFFIRE-I (PSI-98): SAFFIRE Objectives, Development and Status, p. 5",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-98#source-11",
+    "kind": "document",
+    "snippet": "The Saffire hardware and the Cygnus vehicle provides a unique opportunity to demonstrate other fire safety technologies including fire detection, fire suppression, post-fire cleanup and monitoring.",
+    "page": 5
    }
   ],
   "built_as": "ai"
  },
  {
   "question": "Which solid materials were tested, and at what oxygen levels?",
-  "answer": "In the PSI test tables, 377 tests match solid fuels across BASS-II, BASS, SAME-R, SAFFIRE-II, SAME, SAFFIRE-I, and SAFFIRE-III, covering oxygen 13.6 to 22.2 %. Materials most often named in the tables include Kapton, Silicone, Teflon, Lampwick, Pyrell, 2 cm sphere, 2 cm SIBAL, and 1/4\" clear rod, along with 81 other descriptions. Pressure for BASS-II, SAFFIRE-I, and SAFFIRE-II is not in the source table, where cabin pressure 1 atm is assumed.",
+  "answer": "Solid materials tested in these investigations include Kapton, Silicone, Teflon, Lampwick, Pyrell, 2 cm spheres, 2 cm SIBAL, 1/4 inch clear rods, and numerous other descriptions, across oxygen levels ranging from 13.6 to 22.2 percent. These experiments were conducted to study and characterize the ignition and flammability of solid spacecraft materials in practical geometries and realistic atmospheric conditions, helping researchers understand how ventilation flow and ambient oxygen affect burning behavior. Pressure was maintained at 101 kPa or cabin air conditions of 21 percent oxygen and 14.7 psi was assumed for tests where specific data was missing. For certain investigations like the Burning Rate Emulator, testing was also focused on spacecraft cabin atmospheres such as 14.7 psia with 21 percent oxygen, 10.2 psia with 26.5 percent oxygen, and 8.2 psia with 34 percent oxygen. Understanding these flammability limits and burning behaviors provides critical data for evaluating oxygen margins of safety and improving fire safety on spacecraft and future habitats.",
   "citations": [
    {
     "label": "BASS-II (PSI-25): test table, 129 matching rows",
@@ -257,6 +421,13 @@
     "label": "SAME (PSI-102): test table, 4 matching rows",
     "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-102#tests",
     "kind": "table"
+   },
+   {
+    "label": "ACME BRE (PSI-20): Final 20220201, p. 110",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-20#source-9",
+    "kind": "document",
+    "snippet": "More specifically, testing was especially focused on atmospheric conditions at (1) 14.7 psia, 21% oxygen; (2) 10.2 psia, 26.5% oxygen; and (3) 8.2 psia, 34% oxygen. In all cases, the atmosphere was diluted with",
+    "page": 110
    }
   ],
   "built_as": "ai"

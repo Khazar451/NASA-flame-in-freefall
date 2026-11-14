@@ -13,9 +13,9 @@ Providers are chosen with LLM_PROVIDER in pipeline/.env:
   fake    -> offline stub for tests
 
 LLM_FALLBACK=openai adds an OpenAI-compatible provider after the main one: when the main
-provider's quota is used up, or it answers "overloaded" (HTTP 503), calls go to the fallback
-(model from OPENAI_MODEL). Other errors, such as a timeout, are not retried elsewhere, so a
-slow call stays bounded by LLM_TIMEOUT_S. OPENAI_EXTRA_BODY is optional JSON sent with every OpenAI-compatible
+provider's quota is used up, it answers "overloaded" (HTTP 503), or it times out, calls go to
+the fallback (model from OPENAI_MODEL); a question then waits at most LLM_TIMEOUT_S for each
+provider. Other errors are not retried elsewhere. OPENAI_EXTRA_BODY is optional JSON sent with every OpenAI-compatible
 request, e.g. {"chat_template_kwargs": {"enable_thinking": false}} to turn off a model's
 slow "thinking" mode.
 
@@ -185,9 +185,12 @@ class OpenAICompatProvider:
 
 
 def _overloaded(exc: BaseException) -> bool:
-    """HTTP 503 / UNAVAILABLE: the provider is busy right now, which another provider may not be."""
+    """HTTP 503 / UNAVAILABLE or a timeout: the provider is busy or slow right now, which
+    another provider may not be."""
     code = getattr(exc, "code", None) or getattr(exc, "status_code", None)
-    return code == 503 or "UNAVAILABLE" in str(exc)
+    text = str(exc).lower()
+    return (code in (503, 504) or "UNAVAILABLE" in str(exc) or "DEADLINE_EXCEEDED" in str(exc)
+            or "timeout" in type(exc).__name__.lower() or "timed out" in text or "timeout" in text)
 
 
 class ChainProvider:

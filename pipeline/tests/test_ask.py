@@ -327,6 +327,8 @@ def test_findings_are_labelled_for_the_ai(kb):
 
 @pytest.mark.parametrize("answer_text, ok", [
     ("CFI-G and Flame Design ran gas flames above 2 atm.", True),
+    ("Not every experiment did, but CFI-G did.", True),
+    ("Gas flames were burned at high pressure.", True),  # denies nothing
     ("The Cool Flames Investigation with Gases ran them.", True),
     ("No, the experiments did not run gas flames above 2 atm.", False),
 ])
@@ -338,4 +340,47 @@ def test_an_answer_must_name_the_tests_the_table_lists(kb, answer_text, ok):
     table = "In the PSI test tables, 30 tests match (gas flames, pressure 203 kPa (29.4 psi) or more): ACME CFI-G (20), ACME Flame Design (10). They cover oxygen 20 to 40 %."
     assert (ask.contradicts_table(answer_text, table, kb) is None) is ok
     assert ask.contradicts_table("No tests.", "No test in the PSI test tables matches (solid fuels).", kb) is None
+    kb.investigations.pop()
+
+
+def test_a_named_experiment_gets_its_overview_first(kb):
+    kb.by_id["PSI-26"]["objectives"] = "Study how solids burn and go out in microgravity. Second sentence."
+    reply = ask.answer("so what is BASS", kb)
+    assert reply["answer"].startswith("BASS (BASS): Study how solids burn and go out in microgravity.")
+    assert any(c["label"] == "BASS (PSI-26): investigation record" and c["kind"] == "record" for c in reply["citations"])
+    seen = {}
+
+    def responder(prompt, schema):
+        seen["prompt"] = prompt
+        return {"answer": "In the PSI test tables, 0 tests match. BASS studied how solids burn (PSI-26).",
+                "sources_used": [1]}
+
+    reply = ask.answer("so what is BASS", kb, llm.FakeProvider(responder), ask.Budget(5))
+    assert "[1] Experiment overview of BASS (PSI-26): BASS (BASS) is a flight experiment, with solid fuels." in seen["prompt"]
+    assert reply["answer"] == "BASS studied how solids burn."  # count opener and id removed
+    del kb.by_id["PSI-26"]["objectives"]
+
+
+@pytest.mark.parametrize("raw, question, clean", [
+    ("The test-table summary lists 4 tests. FLEX used droplets.", "What is FLEX?", "FLEX used droplets."),
+    ("In the PSI test tables, 4 tests match: FLEX (4). They used CO2.", "How many tests used CO2?",
+     "In the PSI test tables, 4 tests match: FLEX (4). They used CO2."),
+    ("As the test-table summary shows, FLEX used CO2.", "", "As PSI's test data shows, FLEX used CO2."),
+])
+def test_tidy_drops_an_unasked_count_and_source_talk(raw, question, clean):
+    assert ask.tidy(raw, question) == clean
+
+
+def test_spelled_numbers_count_as_supported():
+    assert ask.numbers_supported("SPICE found 52 smoke points.", "Fifty-two smoke points were found.")[0]
+    assert not ask.numbers_supported("SPICE found 60 smoke points.", "Fifty-two smoke points were found.")[0]
+
+
+def test_listed_tests_are_found_after_conditions_with_colons(kb):
+    kb.investigations.append({**INVESTIGATIONS[0], "id": "PSI-98", "acronym": "SAFFIRE-I", "title": "Saffire I"})
+    kb.__post_init__()
+    table = ("In the PSI test tables, 21 tests match (lunar-habitat conditions: 30 % oxygen or more at 4.3 to "
+             "10.2 psi): ACME CFI-G (20), SAFFIRE-I (1). They cover oxygen 33 to 39 %.")
+    assert ask.contradicts_table("Saffire burned there.", table, kb) is None
+    assert ask.contradicts_table("Nothing burned there.", table, kb) is not None
     kb.investigations.pop()
