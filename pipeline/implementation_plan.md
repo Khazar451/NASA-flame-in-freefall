@@ -183,7 +183,7 @@ The dashboard already defines the contract: `docs/data-contract.md` and `app/src
 - A source value that cannot be real (a pressure of 0, a negative flow) is left empty and the row's note quotes it.
 - `pipeline/mappings/_skipped.yaml` lists the 8 tables that are not test-level, with the reason for each.
 
-**Result:** 1,867 rows from 14 tables covering 12 investigations; 887 rows have both oxygen and pressure.
+**Result:** 1,867 rows from 14 tables covering 12 investigations; 886 rows have both oxygen and pressure.
 
 **For the ME teammate to check (each is marked TO CHECK in its mapping file):**
 - FLEX: "Completion" is read as sustained, "Disruption" as unknown.
