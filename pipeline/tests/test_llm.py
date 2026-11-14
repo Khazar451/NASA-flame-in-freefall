@@ -287,3 +287,20 @@ def test_without_fallback_gemini_is_used_alone(monkeypatch):
     pytest.importorskip("google.genai")
     _env(monkeypatch, LLM_PROVIDER="gemini", LLM_MODEL="gemini-x", GEMINI_API_KEY="g")
     assert isinstance(llm.get_provider(), llm.GeminiProvider)
+
+
+def test_chain_moves_on_when_a_provider_is_overloaded():
+    busy = Exception("503 UNAVAILABLE. The model is overloaded.")
+    busy.code = 503
+    first, second = _Step("gemini", busy), _Step("openai", '{"city": "Paris"}')
+    chain = llm.ChainProvider([first, second])
+    assert complete_json("capital?", Reply, provider=chain, use_cache=False)["city"] == "Paris"
+    complete_json("again?", Reply, provider=chain, use_cache=False)
+    assert first.calls == 2  # overloaded is not used up: it is tried again next time
+
+
+def test_overloaded_last_provider_is_an_error():
+    busy = Exception("503 UNAVAILABLE")
+    chain = llm.ChainProvider([_Step("gemini", llm.QuotaError("used")), _Step("openai", busy)])
+    with pytest.raises(LLMError, match="UNAVAILABLE"):
+        complete_json("capital?", Reply, provider=chain, use_cache=False)

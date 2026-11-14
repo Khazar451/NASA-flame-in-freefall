@@ -3,6 +3,7 @@
   "source": "data/out/tests.json, PSI records, the search index and the challenge brief",
   "investigations_with_test_rows": [
    "PSI-10",
+   "PSI-20",
    "PSI-25",
    "PSI-26",
    "PSI-39",
@@ -23,7 +24,7 @@
    "label": "Microgravity (ISS and Cygnus)",
    "g": 0.0,
    "status": "tested",
-   "n_tests": 1867,
+   "n_tests": 1828,
    "investigations": [
     "PSI-10",
     "PSI-20",

@@ -30,6 +30,18 @@ counted and reported, so a wrong mapping shows up instead of silently producing 
 The source tables contain a few values that cannot be real (a pressure of 0, a negative
 flow speed). Those are left empty, the row's note quotes the source value, and the
 build summary counts them.
+
+Some tables repeat a row exactly, down to its timestamps (CFI 8 times, SPICE 34). An exact
+copy of an earlier row is dropped, so a test is not counted twice; the build summary
+counts these too.
+
+A mapping with `kind: document` instead lists rows taken from a report, each with the page
+and a quote that must contain its numbers (see mappings/bre_atmospheres.yaml). The quote is
+checked against the extracted text of that page, so no value can be typed in unchecked.
+
+A numeric field may set `note_if_varied: <name>`. A cell that holds several readings
+(BASS-II's "Air display" reads "5 4 3 2 1" when the flow was lowered during a test) then
+keeps its first value and the row's note quotes the whole cell.
 """
 
 from __future__ import annotations
@@ -197,9 +209,15 @@ def apply_mapping(mapping: dict[str, Any], path: Path) -> tuple[list[dict[str, A
     table = Table(mapping, path)
     psi_id = mapping["investigation"]
     rows: list[dict[str, Any]] = []
+    seen: set[tuple[str, ...]] = set()
+    duplicates = 0
     for number, row in enumerate(table.rows, start=1):  # 1 = first row under the header
         if not _keep(table, row):
             continue
+        if tuple(row) in seen:
+            duplicates += 1
+            continue
+        seen.add(tuple(row))
         notes = [mapping["note"]] if mapping.get("note") else []
         values: dict[str, float | None] = {}
         for field in NUMERIC_FIELDS:
@@ -207,6 +225,10 @@ def apply_mapping(mapping: dict[str, Any], path: Path) -> tuple[list[dict[str, A
             values[field] = table.number(row, spec, field) if spec else None
             if spec and spec.get("assumed") and values[field] is not None:
                 notes.append(spec["assumed"])
+            if spec and spec.get("note_if_varied") and values[field] is not None:
+                cell = table.cell(row, spec["column"])
+                if len(NUMBER.findall(cell)) > 1 or re.search(r"[A-Za-z<>?]", cell):
+                    notes.append(f"{spec['note_if_varied']} recorded as \u201c{cell}\u201d; the first value is used.")
             limits, open_low, name = LIMITS[field]
             value = values[field]
             if value is not None and (value < limits[0] or value > limits[1] or (open_low and value == limits[0])):
@@ -239,7 +261,8 @@ def apply_mapping(mapping: dict[str, Any], path: Path) -> tuple[list[dict[str, A
         "file": path.name,
         "source_rows": len(table.rows),
         "rows": len(rows),
-        "skipped_rows": len(table.rows) - len(rows),
+        "skipped_rows": len(table.rows) - len(rows) - duplicates,
+        "duplicate_rows_dropped": duplicates,
         "unreadable": {field: dict(cells) for field, cells in sorted(table.unreadable.items())},
         "impossible_values_left_empty": dict(sorted(table.out_of_range.items())),
     }
@@ -269,6 +292,67 @@ def assumed_in(row: dict[str, Any], table: list[tuple[str, str, set[str]]]) -> s
     ))
 
 
+class DocumentError(MappingError):
+    """A document row's quote is not on its page, or does not contain its numbers."""
+
+
+def _page_text(source: str, page: int) -> str:
+    from pipeline import extract_text, fetch
+
+    path = extract_text.TEXT_DIR / f"{fetch.local_name(source)}.jsonl"
+    if not path.exists():
+        raise DocumentError(f"{source}: no extracted text; run extract-text first")
+    for line in path.read_text(encoding="utf-8").split("\n"):
+        if line and json.loads(line)["page"] == page:
+            return " ".join(json.loads(line)["text"].split())
+    raise DocumentError(f"{source}: no page {page} in the extracted text")
+
+
+def _check_quote(source: str, page: int, quote: str, numbers: list[float]) -> None:
+    text = _page_text(source, page)
+    if " ".join(quote.split()) not in text:
+        raise DocumentError(f"{source} p. {page}: quote not found: {quote!r}")
+    in_quote = {float(n) for n in NUMBER.findall(quote)}
+    for n in numbers:
+        if float(n) not in in_quote:
+            raise DocumentError(f"{source} p. {page}: {n} is not in the quote {quote!r}")
+
+
+def apply_document(mapping: dict[str, Any]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Rows a report states (kind: document), each checked against its quoted page."""
+    psi_id, source = mapping["investigation"], mapping["source"]
+    rows = []
+    for item in mapping["rows"]:
+        _check_quote(source, item["page"], item["quote"], [item["o2_pct"], item["pressure_psia"]])
+        notes = [mapping["note"], f"Conditions: p. {item['page']}, \u201c{item['quote']}\u201d."]
+        outcome = item.get("outcome", "unknown")
+        if outcome != "unknown":
+            _check_quote(source, item["outcome_page"], item["outcome_quote"], [])
+            notes.append(f"Outcome: p. {item['outcome_page']}, \u201c{item['outcome_quote']}\u201d.")
+        if item.get("extra_note"):
+            notes.append(item["extra_note"])
+        rows.append({
+            "id": f"{psi_id}:{item['label']}",
+            "investigation_id": psi_id,
+            "test_label": item["label"],
+            "fuel_material": mapping.get("fuel_material"),
+            "fuel_phase": mapping["fuel_phase"],
+            "o2_pct": float(item["o2_pct"]),
+            "pressure_kpa": round(float(item["pressure_psia"]) * 6.894757, 3),
+            "flow_cm_s": None,
+            "diluent": mapping.get("diluent"),
+            "outcome": outcome,
+            "note": " ".join(notes),
+            "source": {"file": source, "row": item["page"]},  # a report: the row is the page
+            "sample": False,
+            "extra": {"row_kind": "atmosphere", "pressure_psia": float(item["pressure_psia"])},
+        })
+    report = {"investigation": psi_id, "file": source, "source_rows": len(rows), "rows": len(rows),
+              "skipped_rows": 0, "duplicate_rows_dropped": 0, "unreadable": {},
+              "impossible_values_left_empty": {}}
+    return rows, report
+
+
 def make_ids_unique(rows: list[dict[str, Any]]) -> int:
     """Some tables repeat a test label. Later repeats get ~2, ~3, ... Return how many changed."""
     seen: Counter[str] = Counter()
@@ -291,7 +375,7 @@ def load_mappings() -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
             skipped = data or []
         else:
             mappings.append({**data, "_file": path.name})
-    mappings.sort(key=lambda m: (inventory.psi_number(m["investigation"]), m["table"]))
+    mappings.sort(key=lambda m: (inventory.psi_number(m["investigation"]), m.get("table") or m.get("source", "")))
     return mappings, skipped
 
 
@@ -300,8 +384,10 @@ def build() -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, 
     rows: list[dict[str, Any]] = []
     reports = []
     for mapping in mappings:
-        path = find_table(mapping["investigation"], mapping["table"])
-        table_rows, report = apply_mapping(mapping, path)
+        if mapping.get("kind") == "document":
+            table_rows, report = apply_document(mapping)
+        else:
+            table_rows, report = apply_mapping(mapping, find_table(mapping["investigation"], mapping["table"]))
         report["mapping"] = mapping["_file"]
         rows += table_rows
         reports.append(report)
@@ -333,9 +419,10 @@ def run(args: argparse.Namespace) -> int:
 
     problems = 0
     for report in reports:
+        dropped = f", {report['duplicate_rows_dropped']} exact duplicates dropped" if report["duplicate_rows_dropped"] else ""
         print(
             f"  {report['investigation']:8} {report['rows']:>5} rows from {report['source_rows']:>5} "
-            f"({report['skipped_rows']} skipped)  {report['file']}"
+            f"({report['skipped_rows']} skipped{dropped})  {report['file']}"
         )
         for field, cells in report["unreadable"].items():
             problems += sum(cells.values())

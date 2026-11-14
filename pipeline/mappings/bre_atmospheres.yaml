@@ -1,0 +1,47 @@
+# ACME BRE (Burning Rate Emulator): a gas burner that imitates a burning solid.
+# Its experimental table lists tests by day, with the oxygen levels used that day but no
+# pressures ("The chamber pressures were also varied but are not identified in this summary
+# table"), so it has no test-level rows. Its final report states the atmospheres it was built
+# to test and how the flames behaved in them. Those become one row per atmosphere: not one
+# row per test, and the note says so.
+#
+# Every number here is checked by transform_tests against the quoted text on that page of
+# the extracted report (data/interim/text/), so a typo stops the build.
+# TO CHECK (ME): the outcome wording ("predominately" extinguished at 21 %, "generally
+# persisted" at the exploration atmospheres) is a summary across BRE's tests, not a per-test result.
+kind: document
+investigation: PSI-20
+source: PSI-20_Reports_Final_20220201.pdf
+fuel_phase: gas
+fuel_material: "CH4/N2 or C2H4/N2 on a porous burner (emulates a burning solid)"
+diluent: N2
+note: >-
+  One row per atmosphere ACME BRE tested, from its final report, not one row per test: the
+  BRE table lists tests by day without pressures. The table also lists 25 % and 40 % oxygen
+  on some days, at pressures it does not give.
+rows:
+  - label: "atmosphere 21 % O2, 14.7 psia"
+    o2_pct: 21
+    pressure_psia: 14.7
+    page: 5
+    quote: "14.7 psia, 21 % oxygen"
+    outcome: extinguished
+    outcome_page: 18
+    outcome_quote: "this extinction was predominately seen for nominal ambient conditions of 21% oxygen and 14.7 psia"
+  - label: "atmosphere 26.5 % O2, 10.2 psia"
+    o2_pct: 26.5
+    pressure_psia: 10.2
+    page: 5
+    quote: "10.2 psia, 26.5 %"
+    outcome: sustained
+    outcome_page: 18
+    outcome_quote: "At conditions of 27% oxygen, 10.2 psia and 34% oxygen, 8.2 psia, the flames generally persisted for 3 minutes or more"
+    extra_note: "The report writes this atmosphere as 26.5 % on p. 5 and 27 % on p. 18."
+  - label: "atmosphere 34 % O2, 8.2 psia"
+    o2_pct: 34
+    pressure_psia: 8.2
+    page: 5
+    quote: "8.2 psia, 34 % oxygen"
+    outcome: sustained
+    outcome_page: 18
+    outcome_quote: "At conditions of 27% oxygen, 10.2 psia and 34% oxygen, 8.2 psia, the flames generally persisted for 3 minutes or more"

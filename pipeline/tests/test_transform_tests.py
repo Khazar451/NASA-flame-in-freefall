@@ -179,7 +179,73 @@ def test_real_mapping_files_are_well_formed():
     assert len(mappings) >= 14 and len(skipped) == 8
     for mapping in mappings:
         assert mapping["fuel_phase"] in ("solid", "liquid", "gas", "other"), mapping["_file"]
+        if mapping.get("kind") == "document":
+            assert mapping["source"] and all("quote" in row and "page" in row for row in mapping["rows"])
+            continue
         assert "label" in mapping and "table" in mapping, mapping["_file"]
         for target in (mapping.get("outcome") or {}).get("map", {}).values():
             assert target in tt.OUTCOMES, mapping["_file"]
     assert all(entry["reason"] for entry in skipped)
+
+
+def test_exact_duplicate_rows_are_dropped_once(workspace):
+    _, add = workspace
+    text = FLEX_CSV.replace("2,Heptane,380,0.18,0.52,0.30,~9,Completion\r\n",
+                            "2,Heptane,380,0.18,0.52,0.30,~9,Completion\r\n" * 3)
+    rows, report = rows_of(FLEX_MAPPING, add(FLEX_MAPPING, text))
+    assert [r["test_label"] for r in rows] == ["1", "2", "2"]  # the third row differs (pressure 0)
+    assert report["duplicate_rows_dropped"] == 2 and report["skipped_rows"] == 1
+    assert rows[1]["source"]["row"] == 2  # the first copy keeps its own row number
+
+
+def test_cell_with_several_readings_keeps_the_first_and_says_so(workspace):
+    _, add = workspace
+    mapping = {**SAFFIRE_MAPPING, "flow_cm_s": {"column": "Air Flow (cm/s)", "parse": "first_number",
+                                                 "note_if_varied": "Air flow (cm/s)"}}
+    text = SAFFIRE_CSV.replace("S1,SIBAL Fabric,20 cm/s", "S1,SIBAL Fabric,5 4 3 2 1").replace(
+        "S2,SIBAL Fabric,20 cm/s", "S2,SIBAL Fabric,10")
+    rows, _ = rows_of(mapping, add(mapping, text))
+    assert rows[0]["flow_cm_s"] == 5.0 and "Air flow (cm/s) recorded as “5 4 3 2 1”" in rows[0]["note"]
+    assert rows[1]["flow_cm_s"] == 10.0 and "recorded as" not in rows[1]["note"]
+
+
+DOCUMENT = {
+    "kind": "document", "investigation": "PSI-20", "source": "PSI-20_Reports_Final.pdf", "fuel_phase": "gas",
+    "fuel_material": "CH4 burner", "diluent": "N2", "note": "One row per atmosphere.",
+    "rows": [{"label": "atmosphere 34 % O2, 8.2 psia", "o2_pct": 34, "pressure_psia": 8.2, "page": 5,
+              "quote": "8.2 psia, 34 % oxygen", "outcome": "sustained", "outcome_page": 6,
+              "outcome_quote": "the flames generally persisted"}],
+}
+
+
+@pytest.fixture
+def report_text(tmp_path, monkeypatch):
+    from pipeline import extract_text
+    folder = tmp_path / "text"
+    folder.mkdir()
+    pages = {5: "Atmospheres: 14.7 psia, 21 % oxygen; and 8.2  psia, 34 % oxygen.",
+             6: "At 34% oxygen, 8.2 psia, the flames generally persisted for 3 minutes."}
+    (folder / "PSI-20_Reports_Final.pdf.jsonl").write_text("\n".join(
+        json.dumps({"source_id": "PSI-20_Reports_Final.pdf", "page": n, "text": t}) for n, t in pages.items()))
+    monkeypatch.setattr(extract_text, "TEXT_DIR", folder)
+
+
+def test_document_rows_are_checked_against_the_quoted_page(report_text):
+    rows, report = tt.apply_document(DOCUMENT)
+    row = rows[0]
+    assert (row["o2_pct"], row["pressure_kpa"], row["outcome"]) == (34.0, 56.537, "sustained")
+    assert row["source"] == {"file": "PSI-20_Reports_Final.pdf", "row": 5}
+    assert "p. 5, “8.2 psia, 34 % oxygen”" in row["note"] and row["extra"]["row_kind"] == "atmosphere"
+    assert report["rows"] == 1
+
+
+@pytest.mark.parametrize("change, message", [
+    ({"quote": "8.2 psia, 35 % oxygen"}, "quote not found"),
+    ({"o2_pct": 35}, "35 is not in the quote"),
+    ({"page": 6}, "quote not found"),
+    ({"outcome_quote": "flames always went out"}, "quote not found"),
+])
+def test_a_document_row_that_does_not_match_its_page_stops_the_build(report_text, change, message):
+    bad = {**DOCUMENT, "rows": [{**DOCUMENT["rows"][0], **change}]}
+    with pytest.raises(tt.DocumentError, match=message):
+        tt.apply_document(bad)
