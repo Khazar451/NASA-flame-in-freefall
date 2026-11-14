@@ -4,6 +4,7 @@
 
 POST /ask   {"question": "..."}  ->  {"answer", "citations": [{"label", "url", ...}], "mode"}
 GET  /health                     ->  what is loaded and how much AI budget is left
+GET  /                           ->  a short note saying the service runs and where to ask
 
 Settings (environment variables or pipeline/.env):
   ASK_ALLOWED_ORIGINS   comma-separated origins allowed to call the API (default "*")
@@ -97,6 +98,18 @@ def create_app(kb: ask.KnowledgeBase | None = None, provider: llm.Provider | Non
     origins = [o.strip() for o in (config.env("ASK_ALLOWED_ORIGINS") or "*").split(",") if o.strip()]
     app.add_middleware(CORSMiddleware, allow_origins=origins, allow_methods=["GET", "POST"],
                        allow_headers=["Content-Type"])
+
+    @app.get("/")
+    def index() -> dict[str, Any]:
+        # Opening the bare address in a browser used to show {"detail": "Not Found"},
+        # which looked like a broken deploy.
+        return {
+            "service": "Flame in Freefall Q&A",
+            "status": "running",
+            "ask": "POST /ask with JSON {\"question\": \"...\"}",
+            "health": "/health",
+            "dashboard": "https://khazar451.github.io/NASA-flame-in-freefall/#ask",
+        }
 
     @app.get("/health")
     def health() -> dict[str, Any]:

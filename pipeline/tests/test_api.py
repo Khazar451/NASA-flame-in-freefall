@@ -57,3 +57,10 @@ def test_without_a_provider_answers_are_retrieval_only(monkeypatch):
         body = test_client.post("/ask", json={"question": "What did FLEX find about carbon dioxide?"}).json()
         assert body["mode"] == "retrieval"
         assert test_client.get("/health").json()["ai"] is False
+
+
+def test_bare_address_says_the_service_is_running(client):
+    res = client.get("/")
+    assert res.status_code == 200
+    assert res.json()["status"] == "running" and res.json()["health"] == "/health"
+    assert client.head("/").status_code in (200, 405)  # Render's own checks send HEAD /
