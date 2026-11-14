@@ -248,17 +248,28 @@ Decided with Khazar: **retrieval first**, **ChromaDB embeddings** for document s
 
 ---
 
-## Phase 8: Extras if time allows (Sun 14:00–18:00), then freeze
+## Phase 8: Rebuild check, extras, then freeze (Sat 18:00 onward; freeze Sun 18:00)
 
-**Extras, in priority order:**
-1. Data for the partial-gravity panel
-2. Test level for droplets (FLEX, CFI), only if 1 is done
-3. Data for the hardware graph
+**Rebuild check (done Sat 14 Nov):**
+- Exact versions pinned in `requirements.txt` and `requirements-api.txt`.
+- `run_all all` leaves out the hand-run steps (`review-export`, `apply-overrides`, `demo-answers`): they involve a person or spend AI quota.
+- The search manifest no longer records a build date, so the same inputs give the same bytes.
+- Fresh clone of `pipeline` + the downloaded files in `data/raw/` → new venv → `pip install -r pipeline/requirements.txt` → `python -m pipeline.run_all all` (about 6 minutes) → every file in `data/out/` and `inventory.csv` identical to the committed ones; 183 tests pass. No AI call was needed.
+- Not covered: downloading `data/raw/` again from PSI (about 900 MB; `fetch` was checked in Phase 3).
 
-**Build:** a clean rebuild check, with versions pinned in `requirements.txt`.
+**Extras, only if wanted (each needs a dashboard view from CompE #2):**
+1. **Done:** `gravity.py` (`gravity` step) writes `data/out/gravity.json` for a partial-gravity panel, all by plain code:
+   - `levels`: microgravity (all 1,867 test rows), Moon and Mars (no tests), Earth (comparison only);
+   - `stand_in`: ACME E-FIELD, with two quotes from its PSI record and the reference it cites (Karnani et al., *Simulating Gravity in Microgravity Combustion Using Electric Fields*, 2012);
+   - `paired_results`: Saffire-II's microgravity and normal-gravity burn lengths and spread rates for the same 9 samples, with the table's footnotes and a counted summary (4 silicone samples barely burned in microgravity; 3 of them burned at 1 g);
+   - `statements`: 27 sentences from PSI records that compare gravity levels, word for word;
+   - `upcoming`: LUCI and FM2, cited to the challenge brief only (no PSI document mentions them).
+   `/ask`'s partial-gravity answer now adds the Saffire-II comparison. `validate` checks the file against `tests.json`.
+2. Flame-out prediction from the FLEX rows (oxygen, pressure, diluent → extinguished or not), only if the ME teammate judges it sound.
+3. Hardware and data-reuse graph from `related` and `hardware_family` in `investigations.json`.
 
-**Gate (18:00 data freeze):**
-- [ ] Fresh clone → `pip install -r pipeline/requirements.txt` → `python -m pipeline.run_all` → the same file checksums in `data/out/`
+**Gate (Sun 18:00 data freeze):**
+- [x] Fresh rebuild gives the same files
 - [ ] Final PR merged. After this, bug fixes only.
 
 **After the freeze:** help with deployment, record the demo at 20:00, **submit by 22:00**.

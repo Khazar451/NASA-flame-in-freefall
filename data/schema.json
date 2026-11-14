@@ -794,5 +794,354 @@
     ],
     "title": "VariedFile",
     "type": "object"
+  },
+  "gravity.json": {
+    "$defs": {
+      "GravityLevel": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "enum": [
+              "microgravity",
+              "moon",
+              "mars",
+              "earth"
+            ],
+            "title": "Id",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "g": {
+            "description": "Approximate gravity as a fraction of Earth's",
+            "minimum": 0,
+            "title": "G",
+            "type": "number"
+          },
+          "status": {
+            "enum": [
+              "tested",
+              "no_data",
+              "comparison_only"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "n_tests": {
+            "description": "Test rows in tests.json at this gravity level",
+            "minimum": 0,
+            "title": "N Tests",
+            "type": "integer"
+          },
+          "investigations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Investigations",
+            "type": "array"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "g",
+          "status",
+          "n_tests",
+          "investigations",
+          "note"
+        ],
+        "title": "GravityLevel",
+        "type": "object"
+      },
+      "PairedResult": {
+        "additionalProperties": false,
+        "properties": {
+          "investigation_id": {
+            "pattern": "^PSI-\\d+$",
+            "title": "Investigation Id",
+            "type": "string"
+          },
+          "sample": {
+            "title": "Sample",
+            "type": "string"
+          },
+          "material": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Material"
+          },
+          "flow_direction": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Flow Direction"
+          },
+          "microgravity_burn_length": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Microgravity Burn Length"
+          },
+          "microgravity_spread_rate": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Microgravity Spread Rate"
+          },
+          "normal_gravity_burn_length": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Normal Gravity Burn Length"
+          },
+          "normal_gravity_spread_rate": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Normal Gravity Spread Rate"
+          },
+          "source": {
+            "$ref": "#/$defs/Source"
+          }
+        },
+        "required": [
+          "investigation_id",
+          "sample",
+          "material",
+          "flow_direction",
+          "microgravity_burn_length",
+          "microgravity_spread_rate",
+          "normal_gravity_burn_length",
+          "normal_gravity_spread_rate",
+          "source"
+        ],
+        "title": "PairedResult",
+        "type": "object"
+      },
+      "Quote": {
+        "additionalProperties": false,
+        "properties": {
+          "investigation_id": {
+            "pattern": "^PSI-\\d+$",
+            "title": "Investigation Id",
+            "type": "string"
+          },
+          "text": {
+            "description": "Copied word for word from the source",
+            "minLength": 1,
+            "title": "Text",
+            "type": "string"
+          },
+          "source_label": {
+            "title": "Source Label",
+            "type": "string"
+          },
+          "url": {
+            "title": "Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "investigation_id",
+          "text",
+          "source_label",
+          "url"
+        ],
+        "title": "Quote",
+        "type": "object"
+      },
+      "Source": {
+        "additionalProperties": false,
+        "properties": {
+          "file": {
+            "minLength": 1,
+            "title": "File",
+            "type": "string"
+          },
+          "row": {
+            "description": "1 = first data row under the header",
+            "minimum": 1,
+            "title": "Row",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "file",
+          "row"
+        ],
+        "title": "Source",
+        "type": "object"
+      },
+      "StandIn": {
+        "additionalProperties": false,
+        "properties": {
+          "investigation_id": {
+            "pattern": "^PSI-\\d+$",
+            "title": "Investigation Id",
+            "type": "string"
+          },
+          "summary": {
+            "title": "Summary",
+            "type": "string"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/$defs/Quote"
+            },
+            "title": "Evidence",
+            "type": "array"
+          }
+        },
+        "required": [
+          "investigation_id",
+          "summary",
+          "evidence"
+        ],
+        "title": "StandIn",
+        "type": "object"
+      },
+      "Upcoming": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "note": {
+            "title": "Note",
+            "type": "string"
+          },
+          "source_label": {
+            "title": "Source Label",
+            "type": "string"
+          },
+          "url": {
+            "title": "Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "note",
+          "source_label",
+          "url"
+        ],
+        "title": "Upcoming",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "meta": {
+        "additionalProperties": true,
+        "title": "Meta",
+        "type": "object"
+      },
+      "summary": {
+        "title": "Summary",
+        "type": "string"
+      },
+      "levels": {
+        "items": {
+          "$ref": "#/$defs/GravityLevel"
+        },
+        "title": "Levels",
+        "type": "array"
+      },
+      "stand_in": {
+        "$ref": "#/$defs/StandIn"
+      },
+      "paired_results": {
+        "items": {
+          "$ref": "#/$defs/PairedResult"
+        },
+        "title": "Paired Results",
+        "type": "array"
+      },
+      "paired_summary": {
+        "description": "Counted from paired_results by plain code",
+        "title": "Paired Summary",
+        "type": "string"
+      },
+      "paired_notes": {
+        "description": "Footnotes of the source table, word for word",
+        "items": {
+          "type": "string"
+        },
+        "title": "Paired Notes",
+        "type": "array"
+      },
+      "statements": {
+        "description": "What each PSI record says about gravity, word for word",
+        "items": {
+          "$ref": "#/$defs/Quote"
+        },
+        "title": "Statements",
+        "type": "array"
+      },
+      "upcoming": {
+        "items": {
+          "$ref": "#/$defs/Upcoming"
+        },
+        "title": "Upcoming",
+        "type": "array"
+      }
+    },
+    "required": [
+      "summary",
+      "levels",
+      "stand_in",
+      "paired_results",
+      "paired_summary",
+      "paired_notes",
+      "statements",
+      "upcoming"
+    ],
+    "title": "GravityFile",
+    "type": "object"
   }
 }

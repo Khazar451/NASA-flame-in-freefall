@@ -154,12 +154,67 @@ class VariedFile(_Strict):
     investigations: list[InvestigationVariation]
 
 
+class Quote(_Strict):
+    investigation_id: str = Field(pattern=PSI_ID)
+    text: str = Field(min_length=1, description="Copied word for word from the source")
+    source_label: str
+    url: str
+
+
+class GravityLevel(_Strict):
+    id: Literal["microgravity", "moon", "mars", "earth"]
+    label: str
+    g: float = Field(ge=0, description="Approximate gravity as a fraction of Earth's")
+    status: Literal["tested", "no_data", "comparison_only"]
+    n_tests: int = Field(ge=0, description="Test rows in tests.json at this gravity level")
+    investigations: list[str]
+    note: str | None
+
+
+class PairedResult(_Strict):
+    investigation_id: str = Field(pattern=PSI_ID)
+    sample: str
+    material: str | None
+    flow_direction: str | None
+    microgravity_burn_length: str | None
+    microgravity_spread_rate: str | None
+    normal_gravity_burn_length: str | None
+    normal_gravity_spread_rate: str | None
+    source: Source
+
+
+class StandIn(_Strict):
+    investigation_id: str = Field(pattern=PSI_ID)
+    summary: str
+    evidence: list[Quote]
+
+
+class Upcoming(_Strict):
+    name: str
+    note: str
+    source_label: str
+    url: str
+
+
+class GravityFile(_Strict):
+    meta: dict[str, Any] = Field(default_factory=dict)
+    summary: str
+    levels: list[GravityLevel]
+    stand_in: StandIn
+    paired_results: list[PairedResult]
+    paired_summary: str = Field(description="Counted from paired_results by plain code")
+    paired_notes: list[str] = Field(description="Footnotes of the source table, word for word")
+    statements: list[Quote] = Field(description="What each PSI record says about gravity, word for word")
+    upcoming: list[Upcoming]
+
+
 def json_schema() -> dict[str, Any]:
     return {
         "investigations.json": InvestigationsFile.model_json_schema(),
         "tests.json": TestsFile.model_json_schema(),
         "coverage.json": CoverageFile.model_json_schema(),
         "varied.json": VariedFile.model_json_schema(),
+        "gravity.json": GravityFile.model_json_schema(),
     }
 
 
