@@ -17,7 +17,7 @@ from typing import Any
 from pydantic import BaseModel, ValidationError
 
 from pipeline import config
-from pipeline.models import InvestigationsFile, TestsFile
+from pipeline.models import CoverageFile, InvestigationsFile, TestsFile, VariedFile
 
 # Hard limits: anything outside is a unit or mapping mistake, not a real test.
 O2_PCT = (0.0, 100.0)
@@ -105,6 +105,27 @@ def check(folder: Path) -> tuple[list[str], list[str]]:
     n_sample = sum(t.sample for t in tests)
     if n_sample:
         warnings.append(f"{n_sample} of {len(tests)} test rows are placeholders (sample=true)")
+
+    # The Phase 6 files are optional; when present they must agree with tests.json.
+    coverage_path, varied_path = folder / "coverage.json", folder / "varied.json"
+    if coverage_path.exists():
+        coverage = _load(coverage_path, CoverageFile, errors)
+        if coverage is not None:
+            counted = sum(c.n_tests for c in coverage.cells) + sum(o.n_tests for o in coverage.not_on_grid)
+            if counted != len(tests):
+                errors.append(f"coverage.json counts {counted} tests but tests.json has {len(tests)}; rebuild it")
+    if varied_path.exists():
+        varied_file = _load(varied_path, VariedFile, errors)
+        if varied_file is not None:
+            per_inv = {}
+            for t in tests:
+                per_inv[t.investigation_id] = per_inv.get(t.investigation_id, 0) + 1
+            for entry in varied_file.investigations:
+                if entry.investigation_id not in known:
+                    errors.append(f"varied.json: {entry.investigation_id} is not in investigations.json")
+                elif entry.n_tests != per_inv.get(entry.investigation_id, 0):
+                    errors.append(f"varied.json: {entry.investigation_id} counts {entry.n_tests} tests, "
+                                  f"tests.json has {per_inv.get(entry.investigation_id, 0)}; rebuild it")
     return errors, warnings
 
 

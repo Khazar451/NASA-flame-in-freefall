@@ -201,16 +201,24 @@ The dashboard already defines the contract: `docs/data-contract.md` and `app/src
 
 ---
 
-## Phase 6: Derived data (Sun 07:00–10:00)
+## Phase 6: Gap map and "what varied" (Sat 16:45–17:00)
+
+No ranking here: the dashboard scores investigations itself (decided at the Phase 2 gate). No AI is used.
 
 **Build:**
-- No ranking here: the dashboard scores investigations itself (decided at the Phase 2 gate).
-- `coverage.py` writes `coverage.json`: a grid of fuel phase × O₂ / pressure band × gravity, counting tests per cell. Empty cells are the gaps.
-- `varied.py` writes `varied.json`: for each test-level investigation, which conditions changed and which stayed constant.
+- `coverage.py` writes `data/out/coverage.json`: every test with oxygen and pressure goes into one cell of fuel phase (solid, liquid, gas) × 5 oxygen bands × 5 pressure bands. All 75 cells are written; an empty cell is a gap.
+  - Band edges follow `app/src/habitats.ts`, so the lunar range (30 % oxygen or more, 4.3–10.2 psi) is exactly two cells per fuel, and each cell lists the habitats inside it.
+  - Tests that cannot go on the grid are counted under `not_on_grid` with the reason (inverse flame, no oxygen, no pressure).
+  - Gravity is not a dimension: every PSI test ran in microgravity. `meta.gravity` says so.
+- `varied.py` writes `data/out/varied.json`: for each investigation, each test condition marked varied, constant or not recorded, with its range and levels, plus a one-paragraph summary. Numbers are compared after rounding (oxygen to 1 %, pressure to 5 kPa), so measurement noise is not called variation. Assumed values (cabin pressure) are labelled assumed, never constant.
+- Both files have Pydantic models in `models.py` and appear in `data/schema.json`. `validate` checks that they match `tests.json`.
+
+**Result:** 886 tests on the grid, 52 of 75 cells empty. Inside the lunar range: 20 gas-flame tests, no liquids, no solids. Nothing at spacesuit conditions.
 
 **Gate:**
-- [ ] The empty cells in `coverage.json` match the gaps the ME teammate expects
-- [ ] PR #4 merged
+- [ ] The empty cells match the gaps the ME teammate expects
+- [ ] The "what varied" summaries read correctly for 3 investigations
+- [ ] `validate` passes on `data/out/`
 
 ---
 

@@ -1,0 +1,1562 @@
+{
+ "meta": {
+  "source": "data/out/tests.json",
+  "rounding": "Numbers are compared after rounding to each condition's precision, so measurement noise does not count as variation."
+ },
+ "investigations": [
+  {
+   "investigation_id": "PSI-10",
+   "n_tests": 327,
+   "summary": "Varied: fuel (2 different entries); oxygen 19.8–40 % (9 levels); pressure 43–305 kPa (9 levels); flame type (2 different entries); oxygen fed through the burner 21.2–85 % (21 levels); fuel fraction in the burner gas 0.0498–1 (21 levels); fuel fraction in the atmosphere 0.0803–0.658 (15 levels). Not recorded: flow speed, diluent gas. Recorded for some tests only: oxygen (207 of 327).",
+   "conditions": [
+    {
+     "field": "fuel_material",
+     "label": "Fuel",
+     "unit": null,
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 327,
+     "min": null,
+     "max": null,
+     "levels": [
+      "C2H4",
+      "C3H8"
+     ],
+     "n_levels": 2,
+     "precision": null
+    },
+    {
+     "field": "o2_pct",
+     "label": "Oxygen",
+     "unit": "%",
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 207,
+     "min": 19.804819,
+     "max": 40.0,
+     "levels": [
+      20.0,
+      21.0,
+      29.0,
+      30.0,
+      36.0,
+      37.0,
+      38.0,
+      39.0,
+      40.0
+     ],
+     "n_levels": 9,
+     "precision": 1.0
+    },
+    {
+     "field": "pressure_kpa",
+     "label": "Pressure",
+     "unit": "kPa",
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 327,
+     "min": 43.023308,
+     "max": 304.748434,
+     "levels": [
+      45.0,
+      50.0,
+      95.0,
+      100.0,
+      105.0,
+      125.0,
+      130.0,
+      200.0,
+      305.0
+     ],
+     "n_levels": 9,
+     "precision": 5.0
+    },
+    {
+     "field": "flow_cm_s",
+     "label": "Flow speed",
+     "unit": "cm/s",
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
+     "precision": 1.0
+    },
+    {
+     "field": "diluent",
+     "label": "Diluent gas",
+     "unit": null,
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
+     "precision": null
+    },
+    {
+     "field": "extra.flame_type",
+     "label": "Flame type",
+     "unit": null,
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 327,
+     "min": null,
+     "max": null,
+     "levels": [
+      "inverse",
+      "normal"
+     ],
+     "n_levels": 2,
+     "precision": null
+    },
+    {
+     "field": "extra.oxidizer_o2_pct",
+     "label": "Oxygen fed through the burner",
+     "unit": "%",
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 109,
+     "min": 21.201718,
+     "max": 84.997793,
+     "levels": [
+      21.0,
+      25.0,
+      26.0,
+      27.0,
+      29.0,
+      32.0,
+      33.0,
+      35.0,
+      36.0,
+      37.0,
+      40.0,
+      41.0
+     ],
+     "n_levels": 21,
+     "precision": 1.0
+    },
+    {
+     "field": "extra.fuel_mole_fraction",
+     "label": "Fuel fraction in the burner gas",
+     "unit": null,
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 147,
+     "min": 0.049841,
+     "max": 1.0,
+     "levels": [
+      0.05,
+      0.06,
+      0.08,
+      0.1,
+      0.11,
+      0.12,
+      0.13,
+      0.15,
+      0.17,
+      0.21,
+      0.22,
+      0.25
+     ],
+     "n_levels": 21,
+     "precision": 0.01
+    },
+    {
+     "field": "extra.ambient_fuel_mole_fraction",
+     "label": "Fuel fraction in the atmosphere",
+     "unit": null,
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 120,
+     "min": 0.080313,
+     "max": 0.658126,
+     "levels": [
+      0.08,
+      0.09,
+      0.1,
+      0.12,
+      0.16,
+      0.17,
+      0.18,
+      0.19,
+      0.2,
+      0.25,
+      0.26,
+      0.27
+     ],
+     "n_levels": 15,
+     "precision": 0.01
+    }
+   ],
+   "outcomes": {
+    "unknown": 327
+   }
+  },
+  {
+   "investigation_id": "PSI-20",
+   "n_tests": 0,
+   "summary": "No test-level data. One row per test day with the oxygen levels used that day; pressures are not listed and tests are not separated.",
+   "conditions": [],
+   "outcomes": {}
+  },
+  {
+   "investigation_id": "PSI-21",
+   "n_tests": 0,
+   "summary": "No test-level data. One row per test day with a count of flames ignited, not one row per test.",
+   "conditions": [],
+   "outcomes": {}
+  },
+  {
+   "investigation_id": "PSI-22",
+   "n_tests": 0,
+   "summary": "No test-level data. One row per test day with a count of flames ignited, not one row per test.",
+   "conditions": [],
+   "outcomes": {}
+  },
+  {
+   "investigation_id": "PSI-23",
+   "n_tests": 0,
+   "summary": "No test-level data. One row per test day with a count of flames ignited, not one row per test.",
+   "conditions": [],
+   "outcomes": {}
+  },
+  {
+   "investigation_id": "PSI-25",
+   "n_tests": 129,
+   "summary": "Varied: fuel (49 different entries); oxygen 13.6–22.2 % (9 levels). Constant: diluent gas N2. Assumed, not in the table: pressure 101 kPa. Not recorded: flow speed.",
+   "conditions": [
+    {
+     "field": "fuel_material",
+     "label": "Fuel",
+     "unit": null,
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 129,
+     "min": null,
+     "max": null,
+     "levels": [
+      "0.5\" black rod",
+      "1 cm 0.2 mm PMMA film",
+      "1 cm SIBAL",
+      "1 cm SIBAL top side ign",
+      "1 cm wide 200 micron thick PMMA",
+      "1 cm wide PMMA 1 mm thick",
+      "1 cm wide PMMA 2 mm thick",
+      "1 cm wide PMMA 3 mm thick",
+      "1 cm wide PMMA 5 mm thick",
+      "1 mm thick PMMA 1 sided 2 cm",
+      "1 mm thick PMMA 2 cm wide",
+      "1/2\" clear PMMA rod"
+     ],
+     "n_levels": 49,
+     "precision": null
+    },
+    {
+     "field": "o2_pct",
+     "label": "Oxygen",
+     "unit": "%",
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 129,
+     "min": 13.6,
+     "max": 22.2,
+     "levels": [
+      14.0,
+      15.0,
+      16.0,
+      17.0,
+      18.0,
+      19.0,
+      20.0,
+      21.0,
+      22.0
+     ],
+     "n_levels": 9,
+     "precision": 1.0
+    },
+    {
+     "field": "pressure_kpa",
+     "label": "Pressure",
+     "unit": "kPa",
+     "status": "constant",
+     "assumed": true,
+     "n_with_value": 129,
+     "min": 101.325,
+     "max": 101.325,
+     "levels": [
+      100.0
+     ],
+     "n_levels": 1,
+     "precision": 5.0
+    },
+    {
+     "field": "flow_cm_s",
+     "label": "Flow speed",
+     "unit": "cm/s",
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
+     "precision": 1.0
+    },
+    {
+     "field": "diluent",
+     "label": "Diluent gas",
+     "unit": null,
+     "status": "constant",
+     "assumed": false,
+     "n_with_value": 129,
+     "min": null,
+     "max": null,
+     "levels": [
+      "N2"
+     ],
+     "n_levels": 1,
+     "precision": null
+    }
+   ],
+   "outcomes": {
+    "unknown": 129
+   }
+  },
+  {
+   "investigation_id": "PSI-26",
+   "n_tests": 122,
+   "summary": "Varied: fuel (31 different entries). Not recorded: oxygen, pressure, flow speed, diluent gas.",
+   "conditions": [
+    {
+     "field": "fuel_material",
+     "label": "Fuel",
+     "unit": null,
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 122,
+     "min": null,
+     "max": null,
+     "levels": [
+      "1 cm sphere",
+      "1 cm sphere wake",
+      "1 cm wake sphere",
+      "2 cm pmma sphere",
+      "2 cm sphere",
+      "2 cm sphere wake ign",
+      "candle",
+      "candle Japan wax",
+      "candle paraffin wake",
+      "flat wax slab",
+      "Japan Wax Candle wake",
+      "Nomex blend 2 cm"
+     ],
+     "n_levels": 31,
+     "precision": null
+    },
+    {
+     "field": "o2_pct",
+     "label": "Oxygen",
+     "unit": "%",
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
+     "precision": 1.0
+    },
+    {
+     "field": "pressure_kpa",
+     "label": "Pressure",
+     "unit": "kPa",
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
+     "precision": 5.0
+    },
+    {
+     "field": "flow_cm_s",
+     "label": "Flow speed",
+     "unit": "cm/s",
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
+     "precision": 1.0
+    },
+    {
+     "field": "diluent",
+     "label": "Diluent gas",
+     "unit": null,
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
+     "precision": null
+    }
+   ],
+   "outcomes": {
+    "unknown": 122
+   }
+  },
+  {
+   "investigation_id": "PSI-39",
+   "n_tests": 87,
+   "summary": "Varied: fuel (3 different entries); oxygen 17–21 % (2 levels); pressure 50.7–507 kPa (7 levels); diluent gas (3 different entries); droplet on a support fibre (2 different entries). Not recorded: flow speed.",
+   "conditions": [
+    {
+     "field": "fuel_material",
+     "label": "Fuel",
+     "unit": null,
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 87,
+     "min": null,
+     "max": null,
+     "levels": [
+      "[.60]/[.40] C12H26/iso-dodecane",
+      "[.75]/[.25] C12H26/iso-dodecane",
+      "C12H26"
+     ],
+     "n_levels": 3,
+     "precision": null
+    },
+    {
+     "field": "o2_pct",
+     "label": "Oxygen",
+     "unit": "%",
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 87,
+     "min": 17.0,
+     "max": 21.0,
+     "levels": [
+      17.0,
+      21.0
+     ],
+     "n_levels": 2,
+     "precision": 1.0
+    },
+    {
+     "field": "pressure_kpa",
+     "label": "Pressure",
+     "unit": "kPa",
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 87,
+     "min": 50.6625,
+     "max": 506.625,
+     "levels": [
+      50.0,
+      75.0,
+      100.0,
+      125.0,
+      205.0,
+      305.0,
+      505.0
+     ],
+     "n_levels": 7,
+     "precision": 5.0
+    },
+    {
+     "field": "flow_cm_s",
+     "label": "Flow speed",
+     "unit": "cm/s",
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
+     "precision": 1.0
+    },
+    {
+     "field": "diluent",
+     "label": "Diluent gas",
+     "unit": null,
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 87,
+     "min": null,
+     "max": null,
+     "levels": [
+      "He+N2",
+      "N2",
+      "N2+He"
+     ],
+     "n_levels": 3,
+     "precision": null
+    },
+    {
+     "field": "extra.fiber_supported",
+     "label": "Droplet on a support fibre",
+     "unit": null,
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 78,
+     "min": null,
+     "max": null,
+     "levels": [
+      "No",
+      "Yes"
+     ],
+     "n_levels": 2,
+     "precision": null
+    }
+   ],
+   "outcomes": {
+    "unknown": 87
+   }
+  },
+  {
+   "investigation_id": "PSI-47",
+   "n_tests": 0,
+   "summary": "No test-level data. Two dust-sampling sessions; no combustion test conditions.",
+   "conditions": [],
+   "outcomes": {}
+  },
+  {
+   "investigation_id": "PSI-60",
+   "n_tests": 0,
+   "summary": "No test-level data. PSI has no experimental table for this investigation.",
+   "conditions": [],
+   "outcomes": {}
+  },
+  {
+   "investigation_id": "PSI-62",
+   "n_tests": 0,
+   "summary": "No test-level data. PSI has no experimental table for this investigation.",
+   "conditions": [],
+   "outcomes": {}
+  },
+  {
+   "investigation_id": "PSI-68",
+   "n_tests": 0,
+   "summary": "No test-level data. Lists the planned ranges for each fuel (for example four oxygen levels and five pressures), not individual tests.",
+   "conditions": [],
+   "outcomes": {}
+  },
+  {
+   "investigation_id": "PSI-69",
+   "n_tests": 274,
+   "summary": "Varied: fuel (2 different entries); oxygen 12–34 % (15 levels); pressure 70.2–309 kPa (7 levels); diluent gas (5 different entries); initial droplet diameter 1.1–4.67 mm (8 levels). Not recorded: flow speed. Recorded for some tests only: pressure (273 of 274).",
+   "conditions": [
+    {
+     "field": "fuel_material",
+     "label": "Fuel",
+     "unit": null,
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 274,
+     "min": null,
+     "max": null,
+     "levels": [
+      "Heptane",
+      "Methanol"
+     ],
+     "n_levels": 2,
+     "precision": null
+    },
+    {
+     "field": "o2_pct",
+     "label": "Oxygen",
+     "unit": "%",
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 274,
+     "min": 12.0,
+     "max": 34.0,
+     "levels": [
+      12.0,
+      13.0,
+      14.0,
+      15.0,
+      16.0,
+      17.0,
+      18.0,
+      19.0,
+      20.0,
+      21.0,
+      23.0,
+      24.0
+     ],
+     "n_levels": 15,
+     "precision": 1.0
+    },
+    {
+     "field": "pressure_kpa",
+     "label": "Pressure",
+     "unit": "kPa",
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 273,
+     "min": 70.167579,
+     "max": 309.294636,
+     "levels": [
+      70.0,
+      75.0,
+      100.0,
+      105.0,
+      205.0,
+      275.0,
+      310.0
+     ],
+     "n_levels": 7,
+     "precision": 5.0
+    },
+    {
+     "field": "flow_cm_s",
+     "label": "Flow speed",
+     "unit": "cm/s",
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
+     "precision": 1.0
+    },
+    {
+     "field": "diluent",
+     "label": "Diluent gas",
+     "unit": null,
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 274,
+     "min": null,
+     "max": null,
+     "levels": [
+      "CO2+N2",
+      "He+N2",
+      "N2",
+      "N2+CO2",
+      "N2+He"
+     ],
+     "n_levels": 5,
+     "precision": null
+    },
+    {
+     "field": "extra.droplet_diameter_mm",
+     "label": "Initial droplet diameter",
+     "unit": "mm",
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 262,
+     "min": 1.1,
+     "max": 4.67,
+     "levels": [
+      1.0,
+      1.5,
+      2.0,
+      2.5,
+      3.0,
+      3.5,
+      4.0,
+      4.5
+     ],
+     "n_levels": 8,
+     "precision": 0.5
+    }
+   ],
+   "outcomes": {
+    "unknown": 61,
+    "extinguished": 186,
+    "sustained": 27
+   }
+  },
+  {
+   "investigation_id": "PSI-98",
+   "n_tests": 2,
+   "summary": "Varied: flow direction (2 different entries). Constant: fuel SIBAL Fabric; oxygen 21.5 %; flow speed 20 cm/s; sample thickness 0.37 cm. Assumed, not in the table: pressure 101 kPa. Not recorded: diluent gas.",
+   "conditions": [
+    {
+     "field": "fuel_material",
+     "label": "Fuel",
+     "unit": null,
+     "status": "constant",
+     "assumed": false,
+     "n_with_value": 2,
+     "min": null,
+     "max": null,
+     "levels": [
+      "SIBAL Fabric"
+     ],
+     "n_levels": 1,
+     "precision": null
+    },
+    {
+     "field": "o2_pct",
+     "label": "Oxygen",
+     "unit": "%",
+     "status": "constant",
+     "assumed": false,
+     "n_with_value": 2,
+     "min": 21.5,
+     "max": 21.6,
+     "levels": [
+      22.0
+     ],
+     "n_levels": 1,
+     "precision": 1.0
+    },
+    {
+     "field": "pressure_kpa",
+     "label": "Pressure",
+     "unit": "kPa",
+     "status": "constant",
+     "assumed": true,
+     "n_with_value": 2,
+     "min": 101.325,
+     "max": 101.325,
+     "levels": [
+      100.0
+     ],
+     "n_levels": 1,
+     "precision": 5.0
+    },
+    {
+     "field": "flow_cm_s",
+     "label": "Flow speed",
+     "unit": "cm/s",
+     "status": "constant",
+     "assumed": false,
+     "n_with_value": 2,
+     "min": 20.0,
+     "max": 20.0,
+     "levels": [
+      20.0
+     ],
+     "n_levels": 1,
+     "precision": 1.0
+    },
+    {
+     "field": "diluent",
+     "label": "Diluent gas",
+     "unit": null,
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
+     "precision": null
+    },
+    {
+     "field": "extra.flow_direction",
+     "label": "Flow direction",
+     "unit": null,
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 2,
+     "min": null,
+     "max": null,
+     "levels": [
+      "Concurrent",
+      "Opposed"
+     ],
+     "n_levels": 2,
+     "precision": null
+    },
+    {
+     "field": "extra.sample_thickness_cm",
+     "label": "Sample thickness",
+     "unit": "cm",
+     "status": "constant",
+     "assumed": false,
+     "n_with_value": 2,
+     "min": 0.37,
+     "max": 0.37,
+     "levels": [
+      0.37
+     ],
+     "n_levels": 1,
+     "precision": 0.01
+    }
+   ],
+   "outcomes": {
+    "unknown": 2
+   }
+  },
+  {
+   "investigation_id": "PSI-99",
+   "n_tests": 9,
+   "summary": "Varied: fuel (4 different entries); flow direction (2 different entries); sample thickness (7 different entries). Constant: oxygen 21.5 %; flow speed 20 cm/s. Assumed, not in the table: pressure 101 kPa. Not recorded: diluent gas. Recorded for some tests only: fuel (7 of 9).",
+   "conditions": [
+    {
+     "field": "fuel_material",
+     "label": "Fuel",
+     "unit": null,
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 7,
+     "min": null,
+     "max": null,
+     "levels": [
+      "Cotton-Fiberglass (SIBAL)",
+      "PMMA",
+      "PMMA & Nomex",
+      "Silicone"
+     ],
+     "n_levels": 4,
+     "precision": null
+    },
+    {
+     "field": "o2_pct",
+     "label": "Oxygen",
+     "unit": "%",
+     "status": "constant",
+     "assumed": false,
+     "n_with_value": 9,
+     "min": 21.5,
+     "max": 22.1,
+     "levels": [
+      22.0
+     ],
+     "n_levels": 1,
+     "precision": 1.0
+    },
+    {
+     "field": "pressure_kpa",
+     "label": "Pressure",
+     "unit": "kPa",
+     "status": "constant",
+     "assumed": true,
+     "n_with_value": 9,
+     "min": 101.325,
+     "max": 101.325,
+     "levels": [
+      100.0
+     ],
+     "n_levels": 1,
+     "precision": 5.0
+    },
+    {
+     "field": "flow_cm_s",
+     "label": "Flow speed",
+     "unit": "cm/s",
+     "status": "constant",
+     "assumed": false,
+     "n_with_value": 9,
+     "min": 20.0,
+     "max": 20.0,
+     "levels": [
+      20.0
+     ],
+     "n_levels": 1,
+     "precision": 1.0
+    },
+    {
+     "field": "diluent",
+     "label": "Diluent gas",
+     "unit": null,
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
+     "precision": null
+    },
+    {
+     "field": "extra.flow_direction",
+     "label": "Flow direction",
+     "unit": null,
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 9,
+     "min": null,
+     "max": null,
+     "levels": [
+      "Concurrent",
+      "Opposed"
+     ],
+     "n_levels": 2,
+     "precision": null
+    },
+    {
+     "field": "extra.sample_thickness",
+     "label": "Sample thickness",
+     "unit": null,
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 9,
+     "min": null,
+     "max": null,
+     "levels": [
+      "0.27 mm",
+      "0.61 mm",
+      "0.85 and 0.37 mm",
+      "037 mm",
+      "1 cm",
+      "1.03 mm",
+      "See Fig. 5"
+     ],
+     "n_levels": 7,
+     "precision": null
+    }
+   ],
+   "outcomes": {
+    "unknown": 9
+   }
+  },
+  {
+   "investigation_id": "PSI-100",
+   "n_tests": 2,
+   "summary": "Varied: flow direction (2 different entries). Constant: fuel SIBAL Fabric; flow speed 30 cm/s; sample thickness .33 cm. Not recorded: oxygen, pressure, diluent gas.",
+   "conditions": [
+    {
+     "field": "fuel_material",
+     "label": "Fuel",
+     "unit": null,
+     "status": "constant",
+     "assumed": false,
+     "n_with_value": 2,
+     "min": null,
+     "max": null,
+     "levels": [
+      "SIBAL Fabric"
+     ],
+     "n_levels": 1,
+     "precision": null
+    },
+    {
+     "field": "o2_pct",
+     "label": "Oxygen",
+     "unit": "%",
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
+     "precision": 1.0
+    },
+    {
+     "field": "pressure_kpa",
+     "label": "Pressure",
+     "unit": "kPa",
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
+     "precision": 5.0
+    },
+    {
+     "field": "flow_cm_s",
+     "label": "Flow speed",
+     "unit": "cm/s",
+     "status": "constant",
+     "assumed": false,
+     "n_with_value": 2,
+     "min": 30.0,
+     "max": 30.0,
+     "levels": [
+      30.0
+     ],
+     "n_levels": 1,
+     "precision": 1.0
+    },
+    {
+     "field": "diluent",
+     "label": "Diluent gas",
+     "unit": null,
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
+     "precision": null
+    },
+    {
+     "field": "extra.flow_direction",
+     "label": "Flow direction",
+     "unit": null,
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 2,
+     "min": null,
+     "max": null,
+     "levels": [
+      "Concurrent",
+      "Opposed"
+     ],
+     "n_levels": 2,
+     "precision": null
+    },
+    {
+     "field": "extra.sample_thickness",
+     "label": "Sample thickness",
+     "unit": null,
+     "status": "constant",
+     "assumed": false,
+     "n_with_value": 2,
+     "min": null,
+     "max": null,
+     "levels": [
+      ".33 cm"
+     ],
+     "n_levels": 1,
+     "precision": null
+    }
+   ],
+   "outcomes": {
+    "unknown": 2
+   }
+  },
+  {
+   "investigation_id": "PSI-101",
+   "n_tests": 109,
+   "summary": "Varied: fuel (5 different entries); flow speed 0–8.1 cm/s (4 levels); heater setting (rt/r0) 1.22–1.48 (7 levels). Not recorded: oxygen, pressure, diluent gas.",
+   "conditions": [
+    {
+     "field": "fuel_material",
+     "label": "Fuel",
+     "unit": null,
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 109,
+     "min": null,
+     "max": null,
+     "levels": [
+      "Kapton",
+      "Lampwick",
+      "Pyrell",
+      "Silicone",
+      "Teflon"
+     ],
+     "n_levels": 5,
+     "precision": null
+    },
+    {
+     "field": "o2_pct",
+     "label": "Oxygen",
+     "unit": "%",
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
+     "precision": 1.0
+    },
+    {
+     "field": "pressure_kpa",
+     "label": "Pressure",
+     "unit": "kPa",
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
+     "precision": 5.0
+    },
+    {
+     "field": "flow_cm_s",
+     "label": "Flow speed",
+     "unit": "cm/s",
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 109,
+     "min": 0.0,
+     "max": 8.1,
+     "levels": [
+      0.0,
+      1.0,
+      2.0,
+      8.0
+     ],
+     "n_levels": 4,
+     "precision": 1.0
+    },
+    {
+     "field": "diluent",
+     "label": "Diluent gas",
+     "unit": null,
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
+     "precision": null
+    },
+    {
+     "field": "extra.heating_temperature_ratio",
+     "label": "Heater setting (Rt/R0)",
+     "unit": null,
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 109,
+     "min": 1.22,
+     "max": 1.48,
+     "levels": [
+      1.2,
+      1.25,
+      1.3,
+      1.35,
+      1.4,
+      1.45,
+      1.5
+     ],
+     "n_levels": 7,
+     "precision": 0.05
+    }
+   ],
+   "outcomes": {
+    "unknown": 109
+   }
+  },
+  {
+   "investigation_id": "PSI-102",
+   "n_tests": 4,
+   "summary": "Varied: flow speed 5–10 cm/s (2 levels). Constant: fuel Teflon. Not recorded: oxygen, pressure, diluent gas.",
+   "conditions": [
+    {
+     "field": "fuel_material",
+     "label": "Fuel",
+     "unit": null,
+     "status": "constant",
+     "assumed": false,
+     "n_with_value": 4,
+     "min": null,
+     "max": null,
+     "levels": [
+      "Teflon"
+     ],
+     "n_levels": 1,
+     "precision": null
+    },
+    {
+     "field": "o2_pct",
+     "label": "Oxygen",
+     "unit": "%",
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
+     "precision": 1.0
+    },
+    {
+     "field": "pressure_kpa",
+     "label": "Pressure",
+     "unit": "kPa",
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
+     "precision": 5.0
+    },
+    {
+     "field": "flow_cm_s",
+     "label": "Flow speed",
+     "unit": "cm/s",
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 4,
+     "min": 5.0,
+     "max": 10.0,
+     "levels": [
+      5.0,
+      10.0
+     ],
+     "n_levels": 2,
+     "precision": 1.0
+    },
+    {
+     "field": "diluent",
+     "label": "Diluent gas",
+     "unit": null,
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
+     "precision": null
+    }
+   ],
+   "outcomes": {
+    "unknown": 4
+   }
+  },
+  {
+   "investigation_id": "PSI-106",
+   "n_tests": 0,
+   "summary": "No test-level data. Two columns only: the test date and the fuel.",
+   "conditions": [],
+   "outcomes": {}
+  },
+  {
+   "investigation_id": "PSI-107",
+   "n_tests": 469,
+   "summary": "Varied: fuel (7 different entries); flow speed 0.66–85.3 cm/s (58 levels); nozzle diameter 0.406–1.6 mm (3 levels). Not recorded: oxygen, pressure, diluent gas. Recorded for some tests only: flow speed (436 of 469).",
+   "conditions": [
+    {
+     "field": "fuel_material",
+     "label": "Fuel",
+     "unit": null,
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 469,
+     "min": null,
+     "max": null,
+     "levels": [
+      "50 % Propylene",
+      "75 % Propylene",
+      "75% Propylene",
+      "Ethylene",
+      "Methane",
+      "Propane",
+      "Propylene"
+     ],
+     "n_levels": 7,
+     "precision": null
+    },
+    {
+     "field": "o2_pct",
+     "label": "Oxygen",
+     "unit": "%",
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
+     "precision": 1.0
+    },
+    {
+     "field": "pressure_kpa",
+     "label": "Pressure",
+     "unit": "kPa",
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
+     "precision": 5.0
+    },
+    {
+     "field": "flow_cm_s",
+     "label": "Flow speed",
+     "unit": "cm/s",
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 436,
+     "min": 0.66,
+     "max": 85.28,
+     "levels": [
+      1.0,
+      4.0,
+      6.0,
+      7.0,
+      9.0,
+      10.0,
+      11.0,
+      12.0,
+      13.0,
+      14.0,
+      15.0,
+      16.0
+     ],
+     "n_levels": 58,
+     "precision": 1.0
+    },
+    {
+     "field": "diluent",
+     "label": "Diluent gas",
+     "unit": null,
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
+     "precision": null
+    },
+    {
+     "field": "extra.nozzle_mm",
+     "label": "Nozzle diameter",
+     "unit": "mm",
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 469,
+     "min": 0.4064,
+     "max": 1.6002,
+     "levels": [
+      0.41,
+      0.76,
+      1.6
+     ],
+     "n_levels": 3,
+     "precision": 0.01
+    }
+   ],
+   "outcomes": {
+    "unknown": 469
+   }
+  },
+  {
+   "investigation_id": "PSI-115",
+   "n_tests": 0,
+   "summary": "No test-level data. PSI has no experimental table for this investigation.",
+   "conditions": [],
+   "outcomes": {}
+  },
+  {
+   "investigation_id": "PSI-117",
+   "n_tests": 0,
+   "summary": "No test-level data. PSI has no experimental table for this investigation.",
+   "conditions": [],
+   "outcomes": {}
+  },
+  {
+   "investigation_id": "PSI-142",
+   "n_tests": 0,
+   "summary": "No test-level data. An index of data files and the figures they belong to, not test conditions.",
+   "conditions": [],
+   "outcomes": {}
+  },
+  {
+   "investigation_id": "PSI-159",
+   "n_tests": 333,
+   "summary": "Varied: fuel (7 different entries); oxygen 18–40 % (12 levels); pressure 49.5–331 kPa (9 levels); flame type (2 different entries); oxygen fed through the burner 12–85 % (12 levels); fuel fraction in the burner gas 0–1 (12 levels); fuel fraction in the atmosphere 0.0565–0.429 (22 levels). Not recorded: flow speed, diluent gas. Recorded for some tests only: oxygen (179 of 333).",
+   "conditions": [
+    {
+     "field": "fuel_material",
+     "label": "Fuel",
+     "unit": null,
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 333,
+     "min": null,
+     "max": null,
+     "levels": [
+      "30% butane",
+      "30% ethane",
+      "30% propane",
+      "50% butane",
+      "butane",
+      "ethane",
+      "propane"
+     ],
+     "n_levels": 7,
+     "precision": null
+    },
+    {
+     "field": "o2_pct",
+     "label": "Oxygen",
+     "unit": "%",
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 179,
+     "min": 17.968567,
+     "max": 39.97,
+     "levels": [
+      18.0,
+      21.0,
+      22.0,
+      23.0,
+      33.0,
+      34.0,
+      35.0,
+      36.0,
+      37.0,
+      38.0,
+      39.0,
+      40.0
+     ],
+     "n_levels": 12,
+     "precision": 1.0
+    },
+    {
+     "field": "pressure_kpa",
+     "label": "Pressure",
+     "unit": "kPa",
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 333,
+     "min": 49.53817,
+     "max": 330.99,
+     "levels": [
+      50.0,
+      55.0,
+      95.0,
+      100.0,
+      110.0,
+      205.0,
+      220.0,
+      305.0,
+      330.0
+     ],
+     "n_levels": 9,
+     "precision": 5.0
+    },
+    {
+     "field": "flow_cm_s",
+     "label": "Flow speed",
+     "unit": "cm/s",
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
+     "precision": 1.0
+    },
+    {
+     "field": "diluent",
+     "label": "Diluent gas",
+     "unit": null,
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
+     "precision": null
+    },
+    {
+     "field": "extra.flame_type",
+     "label": "Flame type",
+     "unit": null,
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 333,
+     "min": null,
+     "max": null,
+     "levels": [
+      "inverse",
+      "normal"
+     ],
+     "n_levels": 2,
+     "precision": null
+    },
+    {
+     "field": "extra.oxidizer_o2_pct",
+     "label": "Oxygen fed through the burner",
+     "unit": "%",
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 154,
+     "min": 12.0,
+     "max": 85.0,
+     "levels": [
+      12.0,
+      14.0,
+      15.0,
+      18.0,
+      19.0,
+      21.0,
+      30.0,
+      40.0,
+      45.0,
+      50.0,
+      70.0,
+      85.0
+     ],
+     "n_levels": 12,
+     "precision": 1.0
+    },
+    {
+     "field": "extra.fuel_mole_fraction",
+     "label": "Fuel fraction in the burner gas",
+     "unit": null,
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 179,
+     "min": 0.0,
+     "max": 1.0,
+     "levels": [
+      0.0,
+      0.02,
+      0.03,
+      0.04,
+      0.05,
+      0.08,
+      0.12,
+      0.15,
+      0.25,
+      0.3,
+      0.5,
+      1.0
+     ],
+     "n_levels": 12,
+     "precision": 0.01
+    },
+    {
+     "field": "extra.ambient_fuel_mole_fraction",
+     "label": "Fuel fraction in the atmosphere",
+     "unit": null,
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 154,
+     "min": 0.056479,
+     "max": 0.4287,
+     "levels": [
+      0.06,
+      0.07,
+      0.08,
+      0.09,
+      0.1,
+      0.12,
+      0.14,
+      0.17,
+      0.18,
+      0.19,
+      0.2,
+      0.21
+     ],
+     "n_levels": 22,
+     "precision": 0.01
+    }
+   ],
+   "outcomes": {
+    "no_ignition": 61,
+    "sustained": 89,
+    "extinguished": 183
+   }
+  }
+ ]
+}

@@ -14,12 +14,14 @@ import argparse
 from typing import Callable
 
 from pipeline import (
+    coverage,
     extract_investigations,
     extract_text,
     fetch,
     inventory,
     transform_tests,
     validate,
+    varied,
 )
 
 # (name, phase that implements it, help text), in pipeline order. validate runs last,
@@ -32,8 +34,8 @@ STEPS: list[tuple[str, int, str]] = [
     ("review-export", 4, "write the review sheet of AI tags for the ME teammate"),
     ("apply-overrides", 4, "reviewed sheet -> data/overrides.json, then rebuild investigations.json"),
     ("transform-tests", 5, "apply the column mappings in pipeline/mappings to build tests.json"),
-    ("coverage", 6, "coverage grid for the gap map"),
-    ("varied", 6, "what varied vs. what stayed the same, per investigation"),
+    ("coverage", 6, "coverage.json: tests per fuel x oxygen band x pressure band, for the gap map"),
+    ("varied", 6, "varied.json: what varied and what stayed the same, per investigation"),
     ("build-index", 7, "build the search index for /ask"),
     ("validate", 2, "check the output files against the contract and sanity ranges"),
 ]
@@ -49,6 +51,8 @@ IMPLEMENTED: dict[str, StepFn] = {
     "review-export": extract_investigations.run_review_export,
     "apply-overrides": extract_investigations.run_apply_overrides,
     "transform-tests": transform_tests.run,
+    "coverage": coverage.run,
+    "varied": varied.run,
     "validate": validate.run,
 }
 

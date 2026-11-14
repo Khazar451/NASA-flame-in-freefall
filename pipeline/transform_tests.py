@@ -246,6 +246,29 @@ def apply_mapping(mapping: dict[str, Any], path: Path) -> tuple[list[dict[str, A
     return rows, report
 
 
+def assumed_fields() -> list[tuple[str, str, set[str]]]:
+    """(investigation, table ending, fields) for every field a mapping fills with an assumption."""
+    mappings, _ = load_mappings()
+    found = []
+    for mapping in mappings:
+        fields = {
+            field for field in NUMERIC_FIELDS
+            if isinstance(mapping.get(field), dict) and mapping[field].get("assumed")
+        }
+        if fields:
+            found.append((mapping["investigation"], mapping["table"], fields))
+    return found
+
+
+def assumed_in(row: dict[str, Any], table: list[tuple[str, str, set[str]]]) -> set[str]:
+    """Which of a test row's values were assumed, given the result of assumed_fields()."""
+    source = (row.get("source") or {}).get("file", "")
+    return set().union(*(
+        fields for psi_id, ending, fields in table
+        if psi_id == row["investigation_id"] and source.endswith(ending)
+    ))
+
+
 def make_ids_unique(rows: list[dict[str, Any]]) -> int:
     """Some tables repeat a test label. Later repeats get ~2, ~3, ... Return how many changed."""
     seen: Counter[str] = Counter()
