@@ -13,8 +13,11 @@ from __future__ import annotations
 import argparse
 from typing import Callable
 
+from pipeline import inventory
+
 # (name, phase that implements it, help text), in pipeline order.
 STEPS: list[tuple[str, int, str]] = [
+    ("inventory", 1, "list PSI combustion investigations into inventory.csv"),
     ("validate", 2, "check JSON files against the schema and sanity ranges"),
     ("fetch", 3, "download PSI files listed in inventory.csv into data/raw/"),
     ("extract-text", 3, "PDFs to page-numbered text in data/interim/text/"),
@@ -32,7 +35,12 @@ STEPS: list[tuple[str, int, str]] = [
 StepFn = Callable[[argparse.Namespace], int]
 
 # Filled in phase by phase: {"fetch": fetch.run, ...}
-IMPLEMENTED: dict[str, StepFn] = {}
+IMPLEMENTED: dict[str, StepFn] = {"inventory": inventory.run}
+
+# Extra command-line options a step accepts.
+ARGUMENTS: dict[str, Callable[[argparse.ArgumentParser], None]] = {
+    "inventory": inventory.add_arguments,
+}
 
 
 def _not_yet(name: str, phase: int) -> StepFn:
@@ -68,6 +76,8 @@ def build_parser() -> argparse.ArgumentParser:
     for name, phase, help_text in STEPS:
         p = sub.add_parser(name, help=f"{help_text} [Phase {phase}]")
         p.set_defaults(func=IMPLEMENTED.get(name) or _not_yet(name, phase))
+        if name in ARGUMENTS:
+            ARGUMENTS[name](p)
     sub.add_parser("all", help="run every implemented step in order").set_defaults(func=_run_all)
     return parser
 

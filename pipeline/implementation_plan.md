@@ -11,8 +11,9 @@
 - **Data source: the PSI JSON API at `psi.nasa.gov`, no login.** The old `psi.ndc.nasa.gov` address is gone and the `s3://nasa-psi` bucket has no combustion data.
   - List: `GET /geode-py/ws/repo/search?term=&source=psi&type=investigation&size=500`, keep `Research Area == "Combustion Science"`
   - One record: `GET /geode-py/ws/repo/investigations/PSI-<n>`
+  - Full file list: `POST /geode-py/ws/files/v2` with `{folder: "", fileType: "study", studyId, version}` (the record's own `added` / `modified` lists only cover the latest version)
   - One file: `GET /geode-py/ws/studies/PSI-<n>/download?file=<name>&version=<v>&redirect=false` returns a short-lived signed URL; GET that
-- **Confirmed: 24 combustion investigations** (18 flight, 6 ground studies reusing flight data).
+- **Confirmed: 24 combustion investigations** (19 flight, 5 ground studies reusing flight data).
 
 ---
 
@@ -42,6 +43,7 @@ pipeline/
   llm.py                   provider interface + disk cache + structured output
   models.py                Pydantic schema (the source of truth)
   validate.py              schema + sanity-range checks
+  psi.py                   PSI API client
   inventory.py             PSI API → inventory.csv
   fetch.py                 downloads + manifest
   extract_text.py          PDF → page-numbered text
@@ -84,9 +86,10 @@ data/
 ## Phase 1: Inventory from the PSI API (Sat 13:45–14:15)
 
 **Build:**
-- `inventory.py`: calls the search endpoint, keeps the combustion investigations, fetches each record into `data/raw/<psi_id>/record.json` and writes `pipeline/inventory.csv`.
-- Columns: `psi_id, acronym, title, project_type, hardware, doi, related, n_tables, table_files, n_docs, docs_mb, n_publications, raw_gb, hardware_family, notes`.
-- `hardware_family` and `notes` are filled by hand (ACME / MDCA droplets / glovebox flow duct / Saffire / smoke and aerosol / ground study); a re-run keeps them.
+- `psi.py`: the API client (search, record, file tree, signed download URL), reused by `fetch.py`.
+- `inventory.py`: calls the search endpoint, keeps the combustion investigations, saves each record and file tree to `data/raw/<psi_id>/record.json` and `files.json`, and writes `pipeline/inventory.csv`. Run with `python -m pipeline.run_all inventory`; add `--refresh` to re-download.
+- Columns: `psi_id, acronym, title, project_type, platform, hardware, sub_area, doi, related, version, n_tables, table_files, n_docs, docs_mb, n_publications, total_gb, file_categories, hardware_family, notes, url`.
+- `hardware_family` starts from the families in the challenge brief (`acme_gas_flames`, `mdca_droplets`, `msg_flow_duct`, `saffire`, `smoke_aerosol`, `ground_study`) and `notes` is free text. Both can be edited by hand in the CSV; a re-run keeps the edits.
 - Long timeout and retries: PSI-23 and PSI-39 are multi-megabyte records that take over a minute.
 
 **Gate:**
