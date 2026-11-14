@@ -5,7 +5,8 @@ import { name } from '../data';
 import { SMOKE_NOTE, assumedLine, formula, isSmokeStudy } from '../format';
 import { HABITATS, toPsi } from '../habitats';
 import { hasAtmosphere, insideHabitat } from '../scoring';
-import type { Dataset, FuelPhase, Role, TestRow } from '../types';
+import { isCoolFlameStudy } from '../topics';
+import type { Dataset, FuelPhase, Investigation, Role, TestRow } from '../types';
 
 // Fuel phase carries colour and shape together, so the chart still reads
 // without colour. Three series is the validated limit for a scatter.
@@ -14,13 +15,18 @@ const PHASES: { key: FuelPhase; label: string; color: string; symbol: string }[]
   { key: 'liquid', label: 'Liquid droplets', color: '#eb6834', symbol: 'square' },
   { key: 'gas', label: 'Gas flames', color: '#1baf7a', symbol: 'triangle-up' },
 ];
-const ROLES: { key: Role | 'all'; label: string }[] = [
+// The four roles, plus one topic that cuts across them.
+type Filter = Role | 'all' | 'cool';
+const ROLES: { key: Filter; label: string }[] = [
   { key: 'all', label: 'All studies' },
   { key: 'prevention', label: 'Prevention' },
   { key: 'detection', label: 'Detection' },
   { key: 'suppression', label: 'Suppression' },
   { key: 'fundamentals', label: 'Flame science' },
+  { key: 'cool', label: 'Cool flames' },
 ];
+const matches = (inv: Investigation | undefined, filter: Filter) =>
+  filter === 'all' || (filter === 'cool' ? isCoolFlameStudy(inv) : inv?.role === filter);
 const INK = '#16202e';
 const SURFACE = '#fcfcfb';
 const LUNAR = HABITATS.find((h) => h.id === 'lunar')!;
@@ -125,14 +131,14 @@ function usePinned<T extends HTMLElement>() {
 }
 
 export default function AtmosphereMap({ data }: { data: Dataset }) {
-  const [role, setRole] = useState<Role | 'all'>('all');
+  const [role, setRole] = useState<Filter>('all');
   const [selected, setSelected] = useState<string | null>(null);
   const [zoom, setZoom] = useState<'full' | 'tested'>('full');
   const pinned = usePinned<HTMLDivElement>();
   const byId = useMemo(() => new Map(data.investigations.map((i) => [i.id, i])), [data]);
 
   const shown = useMemo(
-    () => data.tests.filter(hasAtmosphere).filter((t) => role === 'all' || byId.get(t.investigation_id)?.role === role),
+    () => data.tests.filter(hasAtmosphere).filter((t) => matches(byId.get(t.investigation_id), role)),
     [data, role, byId],
   );
 
@@ -212,8 +218,8 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
   );
   const biggest = useMemo(() => Math.max(0, ...groupTests(shown).map((g) => g.tests.length)), [shown]);
 
-  // Tests the chart cannot place, under the same role filter.
-  const inRole = data.tests.filter((t) => role === 'all' || byId.get(t.investigation_id)?.role === role);
+  // Tests the chart cannot place, under the same filter.
+  const inRole = data.tests.filter((t) => matches(byId.get(t.investigation_id), role));
   const offChart = inRole.length - shown.length;
   const lunarInside = shown.filter((t) => insideHabitat(t, LUNAR));
   const lunarFrom = [...new Set(lunarInside.map((t) => t.investigation_id))].map((id) => {
@@ -236,7 +242,7 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
           habitat are the ones run near its atmosphere.
         </p>
         <div className="toolbar">
-          <div className="chips" role="group" aria-label="Filter by fire-safety role">
+          <div className="chips" role="group" aria-label="Filter by fire-safety role or topic">
             {ROLES.map((r) => (
               <button key={r.key} type="button" aria-pressed={role === r.key} onClick={() => setRole(r.key)}>
                 {r.label}
