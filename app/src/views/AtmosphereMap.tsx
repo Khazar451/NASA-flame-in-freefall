@@ -1,0 +1,186 @@
+import { useMemo, useState } from 'react';
+import Plot from '../components/Plot';
+import { name } from '../data';
+import { HABITATS, toPsi } from '../habitats';
+import { hasAtmosphere, insideHabitat } from '../scoring';
+import type { Dataset, FuelPhase, Role, TestRow } from '../types';
+
+// Fuel phase carries colour and shape together, so the chart still reads
+// without colour. Three series is the validated limit for a scatter.
+const PHASES: { key: FuelPhase; label: string; color: string; symbol: string }[] = [
+  { key: 'solid', label: 'Solid fuel', color: '#2a78d6', symbol: 'circle' },
+  { key: 'liquid', label: 'Liquid droplets', color: '#eb6834', symbol: 'square' },
+  { key: 'gas', label: 'Gas flames', color: '#1baf7a', symbol: 'triangle-up' },
+];
+const ROLES: { key: Role | 'all'; label: string }[] = [
+  { key: 'all', label: 'All studies' },
+  { key: 'prevention', label: 'Prevention' },
+  { key: 'detection', label: 'Detection' },
+  { key: 'suppression', label: 'Suppression' },
+  { key: 'fundamentals', label: 'Flame science' },
+];
+const INK = '#16202e';
+const SURFACE = '#fcfcfb';
+const LUNAR = HABITATS.find((h) => h.id === 'lunar')!;
+const POINTS = HABITATS.filter((h) => h.id !== 'lunar');
+const went_out = (t: TestRow) => t.outcome === 'extinguished' || t.outcome === 'no_ignition';
+const fmt = (n: number, d = 1) => n.toFixed(d).replace(/\.0$/, '');
+
+export default function AtmosphereMap({ data }: { data: Dataset }) {
+  const [role, setRole] = useState<Role | 'all'>('all');
+  const [selected, setSelected] = useState<string | null>(null);
+  const byId = useMemo(() => new Map(data.investigations.map((i) => [i.id, i])), [data]);
+
+  const shown = useMemo(
+    () => data.tests.filter(hasAtmosphere).filter((t) => role === 'all' || byId.get(t.investigation_id)?.role === role),
+    [data, role, byId],
+  );
+
+  const traces = useMemo(() => {
+    const [p0, p1] = LUNAR.psi;
+    const [o0, o1] = LUNAR.o2;
+    const zone = {
+      type: 'scatter', mode: 'lines', x: [p0, p1, p1, p0, p0], y: [o0, o0, o1, o1, o0],
+      fill: 'toself', fillcolor: 'rgba(22,32,46,0.07)', line: { color: INK, width: 1, dash: 'dot' },
+      hoverinfo: 'skip', showlegend: false,
+    };
+    const zoneLabel = {
+      type: 'scatter', mode: 'text', x: [Math.sqrt(p0 * p1)], y: [o1 - 4], text: ['Lunar base / rover range'],
+      textfont: { color: INK, size: 12 }, hoverinfo: 'skip', showlegend: false,
+    };
+    const refs = {
+      type: 'scatter', mode: 'markers+text', showlegend: false,
+      x: POINTS.map((h) => h.psi[0]), y: POINTS.map((h) => h.o2[0]),
+      text: POINTS.map((h) => h.short), textposition: POINTS.map((h) => (h.id === 'suit' ? 'bottom left' : 'top right')),
+      textfont: { color: INK, size: 12 },
+      marker: { symbol: 'diamond-open', size: 13, color: INK, line: { width: 2 } },
+      hovertext: POINTS.map((h) => h.basis), hovertemplate: '%{hovertext}<extra></extra>',
+    };
+    const series = PHASES.map((ph) => {
+      const rows = shown.filter((t) => t.fuel_phase === ph.key);
+      return {
+        type: 'scatter', mode: 'markers', name: ph.label,
+        x: rows.map((t) => toPsi(t.pressure_kpa)), y: rows.map((t) => t.o2_pct),
+        customdata: rows.map((t) => t.investigation_id),
+        marker: {
+          color: ph.color, size: 9, opacity: 0.85,
+          symbol: rows.map((t) => (went_out(t) ? `${ph.symbol}-open` : ph.symbol)),
+          line: { width: 1.5, color: SURFACE },
+        },
+        text: rows.map((t) => {
+          const inv = byId.get(t.investigation_id);
+          const lines = [
+            `<b>${inv ? name(inv) : t.investigation_id}</b>, test ${t.test_label}`,
+            `${fmt(t.o2_pct)}% oxygen at ${fmt(toPsi(t.pressure_kpa))} psi (${fmt(t.pressure_kpa, 0)} kPa)`,
+          ];
+          if (t.fuel_material) lines.push(t.fuel_material);
+          if (t.flow_cm_s != null) lines.push(t.flow_cm_s === 0 ? 'Still atmosphere' : `Air flow ${fmt(t.flow_cm_s)} cm/s`);
+          if (t.outcome !== 'unknown') lines.push(went_out(t) ? 'Flame went out or did not light' : 'Flame sustained');
+          if (t.note) lines.push(`<i>${t.note}</i>`);
+          if (t.sample) lines.push('<i>Placeholder row, not a NASA result</i>');
+          return lines.join('<br>');
+        }),
+        hovertemplate: '%{text}<extra></extra>',
+      };
+    });
+    return [zone, zoneLabel, ...series, refs];
+  }, [shown, byId]);
+
+  const layout = useMemo(
+    () => ({
+      height: 560,
+      margin: { l: 64, r: 24, t: 16, b: 56 },
+      paper_bgcolor: SURFACE,
+      plot_bgcolor: SURFACE,
+      font: { family: '"IBM Plex Sans", system-ui, sans-serif', size: 13, color: INK },
+      xaxis: {
+        title: { text: 'Total pressure (psi, log scale)' }, type: 'log', range: [Math.log10(3), Math.log10(90)],
+        tickvals: [3, 4.3, 7, 10.2, 14.7, 30, 45, 75], gridcolor: '#e6e9ed', zeroline: false,
+      },
+      yaxis: { title: { text: 'Oxygen (% by volume)' }, range: [4, 107], gridcolor: '#e6e9ed', zeroline: false },
+      legend: { orientation: 'h', y: 1.08, x: 0 },
+      hoverlabel: { bgcolor: '#ffffff', bordercolor: '#c9d0d8', font: { color: INK, size: 13 }, align: 'left' },
+    }),
+    [],
+  );
+
+  const lunarInside = shown.filter((t) => insideHabitat(t, LUNAR));
+  const lunarSolid = lunarInside.filter((t) => t.fuel_phase === 'solid').length;
+  const cabin = HABITATS[0];
+  const nearCabin = shown.filter((t) => Math.abs(t.o2_pct - cabin.o2[0]) <= 1.5 && Math.abs(toPsi(t.pressure_kpa) - cabin.psi[0]) <= 0.5);
+  const sel = selected ? byId.get(selected) : undefined;
+  const selTests = sel ? data.tests.filter((t) => t.investigation_id === sel.id) : [];
+
+  return (
+    <section className="split">
+      <div className="panel">
+        <h2>Where the experiments were run, and where crews will live</h2>
+        <p className="lede">
+          Each mark is one test. Flammability rises quickly with oxygen, so the tests that matter most for a habitat
+          are the ones run near its atmosphere.
+        </p>
+        <div className="chips" role="group" aria-label="Filter by fire-safety role">
+          {ROLES.map((r) => (
+            <button key={r.key} type="button" aria-pressed={role === r.key} onClick={() => setRole(r.key)}>
+              {r.label}
+            </button>
+          ))}
+        </div>
+        <Plot
+          data={traces}
+          layout={layout}
+          onPointClick={(id) => typeof id === 'string' && setSelected(id)}
+          label="Scatter chart of test oxygen level against total pressure, with habitat atmospheres marked"
+        />
+        <p className="quiet">
+          Filled marks: the flame kept burning. Hollow marks: it went out or never lit. Select a mark to see its
+          investigation.
+        </p>
+      </div>
+
+      <aside className="stack">
+        <div className="panel">
+          <h3>Coverage of the lunar range</h3>
+          <p className="figure">
+            {lunarInside.length} <span>of {shown.length} tests shown</span>
+          </p>
+          <p>
+            {lunarSolid === 0
+              ? 'No solid-fuel test sits inside the lunar base range.'
+              : `${lunarSolid} of them burned solid fuel, the kind of material a cabin is made of.`}{' '}
+            {nearCabin.length} tests sit at or near ordinary cabin air.
+          </p>
+          <p className="quiet">{LUNAR.basis}</p>
+        </div>
+
+        <div className="panel">
+          <h3>Investigation</h3>
+          {!sel && <p className="quiet">Select a mark on the chart.</p>}
+          {sel && (
+            <>
+              <p className="name">{name(sel)}</p>
+              <p>{sel.title}</p>
+              <dl>
+                <dt>Role</dt>
+                <dd>{ROLES.find((r) => r.key === sel.role)?.label}</dd>
+                <dt>Hardware</dt>
+                <dd>{sel.hardware ?? 'Ground study'}</dd>
+                <dt>Tests on file</dt>
+                <dd>{selTests.length}</dd>
+                {sel.related.length > 0 && (
+                  <>
+                    <dt>Related</dt>
+                    <dd>{sel.related.map((id) => { const r = byId.get(id); return r ? name(r) : id; }).join(', ')}</dd>
+                  </>
+                )}
+              </dl>
+              <a href={sel.doi ? `https://doi.org/${sel.doi}` : sel.url} target="_blank" rel="noreferrer">
+                {sel.doi ? `DOI ${sel.doi}` : `Open ${sel.id} in the PSI repository`}
+              </a>
+            </>
+          )}
+        </div>
+      </aside>
+    </section>
+  );
+}
