@@ -109,6 +109,31 @@ button.primary:disabled { opacity: 0.45; cursor: not-allowed; }
   .rank td:last-child, .rank th:last-child { width: auto; }
 }
 
+/* The chart stays in view while the taller side column scrolls. Its "top" is
+   set by usePinned in AtmosphereMap.tsx. Not in the one-column layout. */
+@media (min-width: 981px) {
+  .pinned { position: sticky; top: 16px; }
+}
+
+/* Ranking: summary on hover, full record on select */
+.who { position: relative; }
+.who-name { font: inherit; font-weight: 500; color: var(--accent); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-align: left; }
+.card {
+  display: none; position: absolute; left: 0; top: calc(100% - 4px); z-index: 5; width: min(400px, 80vw);
+  padding: 12px 14px; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px;
+  box-shadow: 0 6px 20px rgba(22, 32, 46, 0.14); font-size: 0.8125rem; pointer-events: none;
+}
+.who-name:hover ~ .card, .who-name:focus-visible ~ .card { display: block; }
+.card-title { font-weight: 600; font-size: 0.875rem; }
+.card-facts { color: var(--ink-2); margin: 2px 0 6px; }
+.card-hint { color: var(--ink-2); margin-top: 6px; }
+.rank tr.opened td { border-bottom: 0; }
+.rank .detail-row td { padding-top: 4px; padding-bottom: 20px; }
+.rank .detail-row td:last-child { width: auto; max-width: 68ch; }
+/* The row above already shows the name and title. */
+.rank .detail-row .name, .rank .detail-row .name + p { display: none; }
+.rank .detail-row dl:first-of-type { margin-top: 0; }
+
 .toolbar { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 24px; }
 
 /* Investigation detail (side panel of the atmosphere map) */

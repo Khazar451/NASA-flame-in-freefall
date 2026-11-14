@@ -29,7 +29,7 @@ Open the address Vite prints (normally http://localhost:5173).
 | View | File | What it shows |
 |---|---|---|
 | Atmosphere map | `src/views/AtmosphereMap.tsx` | Tests by oxygen level and pressure, grouped into marks sized by test count, with the cabin, lunar base and spacesuit atmospheres marked. A toggle zooms from the full oxygen scale to the tested range |
-| Ranking | `src/views/Ranking.tsx` | Investigations ranked for a chosen habitat, with the score broken into its four parts |
+| Ranking | `src/views/Ranking.tsx` | Investigations ranked for a chosen habitat, with the score broken into its four parts. Hovering a name shows a short summary; selecting it opens the full record |
 | Ask | `src/views/Ask.tsx` | Question box wired to the Q&A backend |
 
 Other files:
@@ -72,9 +72,10 @@ The backend must allow cross-origin requests from the dashboard's address.
 
 ## What the real data does not have
 
-Checked against the pipeline output of 14 Nov (24 investigations, 1,867 tests):
+Checked against the pipeline output of 14 Nov, as of pipeline PR #15 (24 investigations, 1,828 tests). The dashboard counts these from the data files, so the screens stay right when the data changes; only this list has to be updated by hand.
 
-- 886 tests give both oxygen and pressure. Only those are drawn on the atmosphere map and matched to a habitat in the ranking. The other 981 still count toward "Amount of data".
+- 881 tests give both oxygen and pressure. Only those are drawn on the atmosphere map and matched to a habitat in the ranking. The other 947 still count toward "Amount of data".
 - 140 of the drawn tests (BASS-II, Saffire) use an assumed cabin pressure, because their source table gives oxygen only. The hover note on each says so.
-- 495 of the drawn tests have no recorded outcome. The hover text on their mark says so; they are never counted as "kept burning".
-- Twelve investigations have no per-test data at all and score on fuel type and role only.
+- 487 of the drawn tests have no recorded outcome. The hover text on their mark says so; they are never counted as "kept burning".
+- Eleven investigations have no per-test data at all and score on fuel type and role only.
+- 651 tests have an air-flow speed. For BASS-II the source lists several speeds for one burn (for example "5 3 2 1"); the pipeline keeps the first and says so in the note.

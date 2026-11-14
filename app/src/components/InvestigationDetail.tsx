@@ -5,13 +5,13 @@ import { HABITATS, toPsi } from '../habitats';
 import { hasAtmosphere, insideHabitat } from '../scoring';
 import type { FuelPhase, Investigation, Role, TestRow } from '../types';
 
-const ROLE_LABEL: Record<Role, string> = {
+export const ROLE_LABEL: Record<Role, string> = {
   prevention: 'Prevention',
   detection: 'Detection',
   suppression: 'Suppression',
   fundamentals: 'Flame science',
 };
-const FUEL_LABEL: Record<FuelPhase, string> = { solid: 'Solid', liquid: 'Liquid', gas: 'Gas', other: 'Other' };
+export const FUEL_LABEL: Record<FuelPhase, string> = { solid: 'Solid', liquid: 'Liquid', gas: 'Gas', other: 'Other' };
 const LUNAR = HABITATS.find((h) => h.id === 'lunar')!;
 const LISTED = 4; // fuels named before the rest fold into "and n more"
 
