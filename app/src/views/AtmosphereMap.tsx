@@ -26,15 +26,81 @@ const POINTS = HABITATS.filter((h) => h.id !== 'lunar');
 // Drawn in this order, so solid fuel (what a cabin is made of) ends on top.
 const DRAW_ORDER: FuelPhase[] = ['gas', 'liquid', 'solid'];
 const went_out = (t: TestRow) => t.outcome === 'extinguished' || t.outcome === 'no_ignition';
-// Filled = kept burning, hollow = went out, hollow with a dot = not recorded.
-const mark = (t: TestRow, symbol: string) =>
-  t.outcome === 'sustained' ? symbol : went_out(t) ? `${symbol}-open` : `${symbol}-open-dot`;
 const count = (n: number, word: string) => `${n.toLocaleString('en-US')} ${word}${n === 1 ? '' : 's'}`;
 const fmt = (n: number, d = 1) => n.toFixed(d).replace(/\.0$/, '');
+const span = (values: number[], d = 1) => {
+  const lo = fmt(Math.min(...values), d);
+  const hi = fmt(Math.max(...values), d);
+  return lo === hi ? lo : `${lo} to ${hi}`;
+};
+const mean = (values: number[]) => values.reduce((s, v) => s + v, 0) / values.length;
+
+type Placed = TestRow & { o2_pct: number; pressure_kpa: number };
+interface Group {
+  inv: string;
+  tests: Placed[];
+  psi: number;
+  o2: number;
+}
+
+// Hundreds of tests share a handful of conditions, so drawing one mark per
+// test hides most of them. Instead: one mark per investigation and fuel at
+// each tested condition (oxygen to the nearest 1 %, pressure to the nearest
+// 0.5 psi), placed at the group's average and sized by how many tests it holds.
+function groupTests(rows: Placed[]): Group[] {
+  const groups = new Map<string, Placed[]>();
+  for (const t of rows) {
+    const key = [t.investigation_id, t.fuel_phase, Math.round(t.o2_pct), Math.round(toPsi(t.pressure_kpa) * 2)].join('|');
+    const list = groups.get(key);
+    if (list) list.push(t);
+    else groups.set(key, [t]);
+  }
+  return [...groups.values()]
+    .map((tests) => ({
+      inv: tests[0].investigation_id,
+      tests,
+      psi: mean(tests.map((t) => toPsi(t.pressure_kpa))),
+      o2: mean(tests.map((t) => t.o2_pct)),
+    }))
+    .sort((a, b) => b.tests.length - a.tests.length); // big first, so small marks end on top
+}
+// Mark diameter in pixels: area grows with the number of tests.
+const diameter = (n: number) => Math.min(34, 8 + 3 * Math.sqrt(n));
+const LABEL_FROM = 10; // marks this big carry their count
+
+function describe(g: Group, title: string): string {
+  const n = g.tests.length;
+  const kpa = g.tests.map((t) => t.pressure_kpa);
+  const lines = [
+    `<b>${title}</b>: ${count(n, 'test')}`,
+    `${span(g.tests.map((t) => t.o2_pct))}% oxygen at ${span(kpa.map(toPsi))} psi (${span(kpa, 0)} kPa)`,
+  ];
+  const fuels = [...new Set(g.tests.map((t) => t.fuel_material).filter((f): f is string => !!f))];
+  if (fuels.length > 0) {
+    lines.push(`Fuel: ${fuels.slice(0, 3).join('; ')}${fuels.length > 3 ? `; ${fuels.length - 3} more` : ''}`);
+  }
+  const flows = g.tests.map((t) => t.flow_cm_s).filter((f): f is number => f != null);
+  if (flows.length > 0) lines.push(`Air flow ${span(flows)} cm/s`);
+  const burned = g.tests.filter((t) => t.outcome === 'sustained').length;
+  const out = g.tests.filter(went_out).length;
+  const unknown = n - burned - out;
+  const ends = [
+    burned > 0 && `${burned} kept burning`,
+    out > 0 && `${out} went out or did not light`,
+    unknown > 0 && (unknown === n ? 'Outcome not recorded in the source table' : `${unknown} not recorded`),
+  ].filter(Boolean);
+  lines.push(ends.join(', '));
+  const assumed = g.tests.filter((t) => t.note?.toLowerCase().includes('assumed')).length;
+  if (assumed > 0) lines.push(`<i>Pressure assumed, not measured${assumed < n ? `, for ${assumed} of them` : ''}</i>`);
+  const sample = g.tests.filter((t) => t.sample).length;
+  if (sample > 0) lines.push(`<i>${count(sample, 'placeholder row')}, not NASA results</i>`);
+  return lines.join('<br>');
+}
 
 export default function AtmosphereMap({ data }: { data: Dataset }) {
   const [role, setRole] = useState<Role | 'all'>('all');
   const [selected, setSelected] = useState<string | null>(null);
+  const [zoom, setZoom] = useState<'full' | 'tested'>('full');
   const byId = useMemo(() => new Map(data.investigations.map((i) => [i.id, i])), [data]);
 
   const shown = useMemo(
@@ -42,16 +108,25 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
     [data, role, byId],
   );
 
+  // Oxygen axis: the whole 0-100 % scale, or only the band the tests cover.
+  const yRange = useMemo<[number, number]>(() => {
+    if (zoom === 'full' || shown.length === 0) return [4, 107];
+    const o2 = shown.map((t) => t.o2_pct);
+    return [Math.max(0, Math.floor(Math.min(...o2) / 5) * 5 - 2), Math.ceil(Math.max(...o2) / 5) * 5 + 3];
+  }, [zoom, shown]);
+
   const traces = useMemo(() => {
     const [p0, p1] = LUNAR.psi;
     const [o0, o1] = LUNAR.o2;
+    // Keep the zone's label on the chart when its top edge is zoomed away.
+    const zoneLabelY = o1 - 4 < yRange[1] ? o1 - 4 : o0 + 1.5;
     const zone = {
       type: 'scatter', mode: 'lines', x: [p0, p1, p1, p0, p0], y: [o0, o0, o1, o1, o0],
       fill: 'toself', fillcolor: 'rgba(22,32,46,0.07)', line: { color: INK, width: 1, dash: 'dot' },
       hoverinfo: 'skip', showlegend: false,
     };
     const zoneLabel = {
-      type: 'scatter', mode: 'text', x: [Math.sqrt(p0 * p1)], y: [o1 - 4], text: ['Lunar base / rover range'],
+      type: 'scatter', mode: 'text', x: [Math.sqrt(p0 * p1)], y: [zoneLabelY], text: ['Lunar base / rover range'],
       textfont: { color: INK, size: 12 }, hoverinfo: 'skip', showlegend: false,
     };
     const refs = {
@@ -64,43 +139,33 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
     };
     const series = DRAW_ORDER.map((key) => {
       const ph = PHASES.find((p) => p.key === key)!;
-      const rows = shown.filter((t) => t.fuel_phase === ph.key);
+      const groups = groupTests(shown.filter((t) => t.fuel_phase === ph.key));
       return {
-        type: 'scatter', mode: 'markers', name: ph.label, showlegend: false,
-        x: rows.map((t) => toPsi(t.pressure_kpa)), y: rows.map((t) => t.o2_pct),
-        customdata: rows.map((t) => t.investigation_id),
+        type: 'scatter', mode: 'markers+text', name: ph.label, showlegend: false,
+        x: groups.map((g) => g.psi), y: groups.map((g) => g.o2),
+        customdata: groups.map((g) => g.inv),
         marker: {
-          color: ph.color, size: 9, opacity: 0.85,
-          symbol: rows.map((t) => mark(t, ph.symbol)),
-          line: { width: 1.5, color: rows.map((t) => (t.outcome === 'sustained' ? SURFACE : ph.color)) },
+          color: ph.color, symbol: ph.symbol, opacity: 0.8,
+          size: groups.map((g) => diameter(g.tests.length)),
+          line: { width: 1.5, color: SURFACE },
         },
-        text: rows.map((t) => {
-          const inv = byId.get(t.investigation_id);
-          const lines = [
-            `<b>${inv ? name(inv) : t.investigation_id}</b>, test ${t.test_label}`,
-            `${fmt(t.o2_pct)}% oxygen at ${fmt(toPsi(t.pressure_kpa))} psi (${fmt(t.pressure_kpa, 0)} kPa)`,
-          ];
-          if (t.fuel_material) lines.push(t.fuel_material);
-          if (t.flow_cm_s != null) lines.push(t.flow_cm_s === 0 ? 'Still atmosphere' : `Air flow ${fmt(t.flow_cm_s)} cm/s`);
-          lines.push(
-            t.outcome === 'unknown' ? 'Outcome not recorded in the source table'
-              : went_out(t) ? 'Flame went out or did not light' : 'Flame sustained',
-          );
-          if (t.note) lines.push(`<i>${t.note}</i>`);
-          if (t.sample) lines.push('<i>Placeholder row, not a NASA result</i>');
-          return lines.join('<br>');
+        text: groups.map((g) => (g.tests.length >= LABEL_FROM ? String(g.tests.length) : '')),
+        textposition: 'middle center', textfont: { color: '#ffffff', size: 11 },
+        hovertext: groups.map((g) => {
+          const inv = byId.get(g.inv);
+          return describe(g, inv ? name(inv) : g.inv);
         }),
-        hovertemplate: '%{text}<extra></extra>',
+        hovertemplate: '%{hovertext}<extra></extra>',
       };
     });
-    // Legend entries drawn on their own, so each shows the plain filled symbol
-    // whatever the outcome of the first test in its series.
+    // Legend entries drawn on their own, so each shows one plain mark at a
+    // fixed size whatever the size of the first group in its series.
     const legend = PHASES.map((ph) => ({
       type: 'scatter', mode: 'markers', name: ph.label, x: [null], y: [null], hoverinfo: 'skip',
       marker: { color: ph.color, size: 9, symbol: ph.symbol },
     }));
     return [zone, zoneLabel, ...series, ...legend, refs];
-  }, [shown, byId]);
+  }, [shown, byId, yRange]);
 
   const layout = useMemo(
     () => ({
@@ -113,12 +178,13 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
         title: { text: 'Total pressure (psi, log scale)' }, type: 'log', range: [Math.log10(3), Math.log10(90)],
         tickvals: [3, 4.3, 7, 10.2, 14.7, 30, 45, 75], gridcolor: '#e6e9ed', zeroline: false,
       },
-      yaxis: { title: { text: 'Oxygen (% by volume)' }, range: [4, 107], gridcolor: '#e6e9ed', zeroline: false },
+      yaxis: { title: { text: 'Oxygen (% by volume)' }, range: yRange, gridcolor: '#e6e9ed', zeroline: false },
       legend: { orientation: 'h', y: 1.08, x: 0 },
       hoverlabel: { bgcolor: '#ffffff', bordercolor: '#c9d0d8', font: { color: INK, size: 13 }, align: 'left' },
     }),
-    [],
+    [yRange],
   );
+  const biggest = useMemo(() => Math.max(0, ...groupTests(shown).map((g) => g.tests.length)), [shown]);
 
   // Tests the chart cannot place, under the same role filter.
   const inRole = data.tests.filter((t) => role === 'all' || byId.get(t.investigation_id)?.role === role);
@@ -139,25 +205,39 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
       <div className="panel">
         <h2>Where the experiments were run, and where crews will live</h2>
         <p className="lede">
-          Each mark is one test. Flammability rises quickly with oxygen, so the tests that matter most for a habitat
-          are the ones run near its atmosphere.
+          Each mark is a group of tests that one investigation ran at the same oxygen level and pressure: the bigger
+          the mark, the more tests. Flammability rises quickly with oxygen, so the tests that matter most for a
+          habitat are the ones run near its atmosphere.
         </p>
-        <div className="chips" role="group" aria-label="Filter by fire-safety role">
-          {ROLES.map((r) => (
-            <button key={r.key} type="button" aria-pressed={role === r.key} onClick={() => setRole(r.key)}>
-              {r.label}
+        <div className="toolbar">
+          <div className="chips" role="group" aria-label="Filter by fire-safety role">
+            {ROLES.map((r) => (
+              <button key={r.key} type="button" aria-pressed={role === r.key} onClick={() => setRole(r.key)}>
+                {r.label}
+              </button>
+            ))}
+          </div>
+          <div className="chips" role="group" aria-label="Oxygen range shown">
+            <button type="button" aria-pressed={zoom === 'full'} onClick={() => setZoom('full')}>
+              Full range
             </button>
-          ))}
+            <button type="button" aria-pressed={zoom === 'tested'} onClick={() => setZoom('tested')}>
+              Tested range
+            </button>
+          </div>
         </div>
         <Plot
           data={traces}
           layout={layout}
           onPointClick={(id) => typeof id === 'string' && setSelected(id)}
-          label="Scatter chart of test oxygen level against total pressure, with habitat atmospheres marked"
+          label="Bubble chart of test oxygen level against total pressure, sized by number of tests, with habitat atmospheres marked"
         />
         <p className="quiet">
-          Filled marks: the flame kept burning. Hollow marks: it went out or never lit. Hollow marks with a dot: the
-          source table does not record the outcome. Select a mark to see its investigation.
+          {biggest >= LABEL_FROM && `A number on a mark is its test count; the largest holds ${biggest}. `}
+          Hover a mark for its tests and how their flames ended. Select it to see its investigation.{' '}
+          {zoom === 'full'
+            ? 'Full range shows the whole oxygen scale, including the atmospheres nobody has tested.'
+            : 'Tested range zooms in on the oxygen levels the tests cover; the spacesuit and most of the lunar range are above it.'}
         </p>
         {offChart > 0 && (
           <p className="quiet">

@@ -108,3 +108,5 @@ button.primary:disabled { opacity: 0.45; cursor: not-allowed; }
   .split { grid-template-columns: minmax(0, 1fr); }
   .rank td:last-child, .rank th:last-child { width: auto; }
 }
+
+.toolbar { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 24px; }

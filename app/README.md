@@ -28,7 +28,7 @@ Open the address Vite prints (normally http://localhost:5173).
 
 | View | File | What it shows |
 |---|---|---|
-| Atmosphere map | `src/views/AtmosphereMap.tsx` | Every test by oxygen level and pressure, with the cabin, lunar base and spacesuit atmospheres marked |
+| Atmosphere map | `src/views/AtmosphereMap.tsx` | Tests by oxygen level and pressure, grouped into marks sized by test count, with the cabin, lunar base and spacesuit atmospheres marked. A toggle zooms from the full oxygen scale to the tested range |
 | Ranking | `src/views/Ranking.tsx` | Investigations ranked for a chosen habitat, with the score broken into its four parts |
 | Ask | `src/views/Ask.tsx` | Question box wired to the Q&A backend |
 
@@ -75,5 +75,5 @@ Checked against the pipeline output of 14 Nov (24 investigations, 1,867 tests):
 
 - 886 tests give both oxygen and pressure. Only those are drawn on the atmosphere map and matched to a habitat in the ranking. The other 981 still count toward "Amount of data".
 - 140 of the drawn tests (BASS-II, Saffire) use an assumed cabin pressure, because their source table gives oxygen only. The hover note on each says so.
-- 495 of the drawn tests have no recorded outcome. They are drawn hollow with a dot, not as "kept burning".
+- 495 of the drawn tests have no recorded outcome. The hover text on their mark says so; they are never counted as "kept burning".
 - Twelve investigations have no per-test data at all and score on fuel type and role only.
