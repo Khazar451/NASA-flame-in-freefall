@@ -102,7 +102,7 @@
  },
  {
   "question": "What happens to flames in partial gravity on the Moon?",
-  "answer": "PSI has no combustion tests in partial gravity (the Moon is about 0.16 g, Mars about 0.38 g). Every PSI combustion test ran in microgravity, on the ISS or in a Cygnus cargo vehicle, and normal gravity (1 g) on the ground is the other bound, so flame behaviour in partial gravity lies somewhere between the two. ACME E-FIELD Flames used an electric field to imitate some effects of gravity on flames, and two planned experiments, LUCI and FM2, are expected to add partial-gravity data.",
+  "answer": "PSI has no combustion tests in partial gravity (the Moon is about 0.17 g, Mars about 0.38 g). Every PSI combustion test ran in microgravity, on the ISS or in a Cygnus cargo vehicle, and normal gravity (1 g) on the ground is the other bound, so flame behaviour in partial gravity lies somewhere between the two. ACME E-FIELD Flames used an electric field to imitate some effects of gravity on flames, and two planned experiments, LUCI and FM2, are expected to add partial-gravity data. In Saffire-II, 4 of 9 samples (Silicone) barely burned in microgravity (burn length about 0), but 3 of those 4 burned at normal gravity (Complete, 7.6 cm, Complete). The table does not say how the normal-gravity tests were run.",
   "citations": [
    {
     "label": "Challenge brief: partial-gravity data",
@@ -113,6 +113,11 @@
     "label": "ACME E-FIELD Flames (PSI-22): investigation record",
     "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-22#record",
     "kind": "record"
+   },
+   {
+    "label": "SAFFIRE-II (PSI-99): test table, microgravity and normal-gravity burn results",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-99#tests",
+    "kind": "table"
    },
    {
     "label": "ACME E-FIELD Flames (PSI-22): ISS Researchers Guide - Combustion In Reduced Gravity, p. 10",

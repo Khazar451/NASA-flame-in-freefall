@@ -19,5 +19,6 @@ extra:
   microgravity_burn_length: {column: "?-g Burn Length", type: text}
   microgravity_spread_rate: {column: "?-g Spread Length", type: text}
   normal_gravity_burn_length: {column: "1-g Burn Length", type: text}
+  normal_gravity_spread_rate: {column: "1-g Spread Rate", type: text}
   sample_thickness: {column: Samle Thickness, type: text}
   ignition_power_w: {column: "Ignition Power (W)", parse: first_number}

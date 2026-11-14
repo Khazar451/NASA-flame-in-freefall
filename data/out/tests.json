@@ -24199,6 +24199,7 @@
     "flow_direction": "Concurrent",
     "microgravity_burn_length": "~ 0",
     "normal_gravity_burn_length": "Complete",
+    "normal_gravity_spread_rate": "Acceleratory",
     "sample_thickness": "0.27 mm",
     "ignition_power_w": 80.0
    }
@@ -24224,6 +24225,7 @@
     "flow_direction": "Concurrent",
     "microgravity_burn_length": "~ 0",
     "normal_gravity_burn_length": "7.6 cm",
+    "normal_gravity_spread_rate": "1.2 mm/s",
     "sample_thickness": "0.61 mm",
     "ignition_power_w": 80.0
    }
@@ -24274,6 +24276,7 @@
     "flow_direction": "Opposed",
     "microgravity_burn_length": "~ 0",
     "normal_gravity_burn_length": "Complete",
+    "normal_gravity_spread_rate": "0.6 mm/s",
     "sample_thickness": "037 mm",
     "ignition_power_w": 80.0
    }
@@ -24301,6 +24304,7 @@
     "microgravity_burn_length": "29 cm",
     "microgravity_spread_rate": "2.1 mm/s",
     "normal_gravity_burn_length": "Complete",
+    "normal_gravity_spread_rate": "Acceleratory",
     "sample_thickness": "037 mm",
     "ignition_power_w": 80.0
    }
@@ -24328,6 +24332,7 @@
     "microgravity_burn_length": "29 cm",
     "microgravity_spread_rate": "2.6 mm/s",
     "normal_gravity_burn_length": "Complete",
+    "normal_gravity_spread_rate": "Acceleratory",
     "sample_thickness": "037 mm",
     "ignition_power_w": 80.0
    }
@@ -24355,6 +24360,7 @@
     "microgravity_burn_length": "5 cm & 0 (note 2)",
     "microgravity_spread_rate": "n/a (Nomex)",
     "normal_gravity_burn_length": "~ 0 (Nomex)",
+    "normal_gravity_spread_rate": "n/a (Nomex)",
     "sample_thickness": "0.85 and 0.37 mm",
     "ignition_power_w": 80.0
    }
@@ -24382,6 +24388,7 @@
     "microgravity_burn_length": "~ 10 cm (note 3)",
     "microgravity_spread_rate": "Note 4",
     "normal_gravity_burn_length": "Complete",
+    "normal_gravity_spread_rate": "Acceleratory",
     "sample_thickness": "See Fig. 5",
     "ignition_power_w": 97.0
    }
@@ -24409,6 +24416,7 @@
     "microgravity_burn_length": "~ 10 cm (note 4)",
     "microgravity_spread_rate": "Note 4",
     "normal_gravity_burn_length": "Complete",
+    "normal_gravity_spread_rate": "Acceleratory",
     "sample_thickness": "1 cm",
     "ignition_power_w": 97.0
    }

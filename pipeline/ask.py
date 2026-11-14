@@ -123,6 +123,7 @@ class KnowledgeBase:
     search: Search | None = None
     demo: dict[str, dict[str, Any]] = field(default_factory=dict)
     assumed: list[tuple[str, str, set[str]]] = field(default_factory=list)
+    gravity_paired: str = ""  # Saffire-II's microgravity vs 1 g summary from gravity.json
 
     def __post_init__(self) -> None:
         self.by_id = {i["id"]: i for i in self.investigations}
@@ -142,8 +143,9 @@ class KnowledgeBase:
             assumed = transform_tests.assumed_fields()
         except Exception:  # mappings missing on a slim deployment: fall back to the row notes
             assumed = []
+        gravity_paired = read("gravity.json").get("paired_summary", "") if (out_dir / "gravity.json").exists() else ""
         return cls(read("investigations.json")["investigations"], read("tests.json")["tests"],
-                   varied, search, demo, assumed)
+                   varied, search, demo, assumed, gravity_paired)
 
 
 def normalise(question: str) -> str:
@@ -506,15 +508,19 @@ def partial_gravity_answer(question: str, kb: KnowledgeBase) -> dict[str, Any]:
     q = Query(psi_ids=["PSI-22"] if "PSI-22" in kb.by_id else [])
     found = passages(question, q, kb, k=2)
     text = (
-        "PSI has no combustion tests in partial gravity (the Moon is about 0.16 g, Mars about 0.38 g). "
+        "PSI has no combustion tests in partial gravity (the Moon is about 0.17 g, Mars about 0.38 g). "
         "Every PSI combustion test ran in microgravity, on the ISS or in a Cygnus cargo vehicle, and normal "
         "gravity (1 g) on the ground is the other bound, so flame behaviour in partial gravity lies somewhere "
         "between the two. ACME E-FIELD Flames used an electric field to imitate some effects of gravity on "
         "flames, and two planned experiments, LUCI and FM2, are expected to add partial-gravity data."
     )
+    if kb.gravity_paired:
+        text += " " + kb.gravity_paired
     citations = [{"label": "Challenge brief: partial-gravity data", "url": BRIEF_URL, "kind": "brief"}]
     if "PSI-22" in kb.by_id:
         citations.append(_cite_inv(kb, "PSI-22", "investigation record", "record", kind="record"))
+    if kb.gravity_paired and "PSI-99" in kb.by_id:
+        citations.append(_cite_inv(kb, "PSI-99", "test table, microgravity and normal-gravity burn results", "tests"))
     citations += [passage_citation(kb, p, n) for n, p in enumerate(found, start=1)]
     return {"answer": text, "citations": citations, "mode": "no_data"}
 

@@ -258,7 +258,13 @@ Decided with Khazar: **retrieval first**, **ChromaDB embeddings** for document s
 - Not covered: downloading `data/raw/` again from PSI (about 900 MB; `fetch` was checked in Phase 3).
 
 **Extras, only if wanted (each needs a dashboard view from CompE #2):**
-1. Partial-gravity panel data: microgravity and 1 g bounds, E-FIELD as stand-in, LUCI and FM2 to come, and Saffire-II's paired microgravity and 1 g burn results.
+1. **Done:** `gravity.py` (`gravity` step) writes `data/out/gravity.json` for a partial-gravity panel, all by plain code:
+   - `levels`: microgravity (all 1,867 test rows), Moon and Mars (no tests), Earth (comparison only);
+   - `stand_in`: ACME E-FIELD, with two quotes from its PSI record and the reference it cites (Karnani et al., *Simulating Gravity in Microgravity Combustion Using Electric Fields*, 2012);
+   - `paired_results`: Saffire-II's microgravity and normal-gravity burn lengths and spread rates for the same 9 samples, with the table's footnotes and a counted summary (4 silicone samples barely burned in microgravity; 3 of them burned at 1 g);
+   - `statements`: 27 sentences from PSI records that compare gravity levels, word for word;
+   - `upcoming`: LUCI and FM2, cited to the challenge brief only (no PSI document mentions them).
+   `/ask`'s partial-gravity answer now adds the Saffire-II comparison. `validate` checks the file against `tests.json`.
 2. Flame-out prediction from the FLEX rows (oxygen, pressure, diluent → extinguished or not), only if the ME teammate judges it sound.
 3. Hardware and data-reuse graph from `related` and `hardware_family` in `investigations.json`.
 

@@ -21,6 +21,7 @@ from pipeline import (
     extract_investigations,
     extract_text,
     fetch,
+    gravity,
     inventory,
     transform_tests,
     validate,
@@ -40,6 +41,7 @@ STEPS: list[tuple[str, int, str]] = [
     ("coverage", 6, "coverage.json: tests per fuel x oxygen band x pressure band, for the gap map"),
     ("varied", 6, "varied.json: what varied and what stayed the same, per investigation"),
     ("build-index", 7, "embed the document text into the search index for /ask (data/out/search)"),
+    ("gravity", 8, "gravity.json: what PSI can say about partial gravity, for the dashboard panel"),
     ("demo-answers", 7, "answer the demo questions once and save them for /ask"),
     ("validate", 2, "check the output files against the contract and sanity ranges"),
 ]
@@ -63,6 +65,7 @@ IMPLEMENTED: dict[str, StepFn] = {
     "coverage": coverage.run,
     "varied": varied.run,
     "build-index": build_index.run,
+    "gravity": gravity.run,
     "demo-answers": ask.run_demo_answers,
     "validate": validate.run,
 }

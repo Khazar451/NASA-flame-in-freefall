@@ -247,3 +247,14 @@ def test_tidy_removes_a_copied_source_label():
     assert ask.tidy("Test-table summary: In the PSI test tables, 2 tests match.") == "In the PSI test tables, 2 tests match."
     assert ask.tidy("[0] test-table summary:  Two tests.") == "Two tests."
     assert ask.tidy("FLEX tested CO2.") == "FLEX tested CO2."
+
+
+def test_partial_gravity_answer_adds_the_saffire_comparison(kb):
+    kb.investigations.append({**INVESTIGATIONS[0], "id": "PSI-99", "acronym": "SAFFIRE-II",
+                              "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-99"})
+    kb.__post_init__()
+    kb.gravity_paired = "In Saffire-II, 4 of 9 samples barely burned in microgravity."
+    reply = ask.answer("What happens to flames in partial gravity on the Moon?", kb)
+    assert reply["answer"].endswith("In Saffire-II, 4 of 9 samples barely burned in microgravity.")
+    assert reply["citations"][2]["label"] == "SAFFIRE-II (PSI-99): test table, microgravity and normal-gravity burn results"
+    kb.investigations.pop()

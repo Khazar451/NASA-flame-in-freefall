@@ -1,0 +1,417 @@
+{
+ "meta": {
+  "source": "data/out/tests.json, PSI records, the search index and the challenge brief",
+  "investigations_with_test_rows": [
+   "PSI-10",
+   "PSI-25",
+   "PSI-26",
+   "PSI-39",
+   "PSI-69",
+   "PSI-98",
+   "PSI-99",
+   "PSI-100",
+   "PSI-101",
+   "PSI-102",
+   "PSI-107",
+   "PSI-159"
+  ]
+ },
+ "summary": "PSI has no combustion tests in partial gravity. Every PSI combustion test ran in microgravity, on the ISS or in a Cygnus cargo vehicle, and normal gravity on Earth is the other bound, so flame behaviour on the Moon (about 0.17 g) or Mars (about 0.38 g) lies between the two. The closest PSI data are ACME E-FIELD, where an electric field drives a flow that can stand in for buoyancy, and Saffire-II, which reports normal-gravity burn results beside its microgravity results for the same samples. The challenge brief names two planned experiments, LUCI and FM2, that are expected to add partial-gravity data.",
+ "levels": [
+  {
+   "id": "microgravity",
+   "label": "Microgravity (ISS and Cygnus)",
+   "g": 0.0,
+   "status": "tested",
+   "n_tests": 1867,
+   "investigations": [
+    "PSI-10",
+    "PSI-20",
+    "PSI-21",
+    "PSI-22",
+    "PSI-23",
+    "PSI-25",
+    "PSI-26",
+    "PSI-39",
+    "PSI-47",
+    "PSI-68",
+    "PSI-69",
+    "PSI-98",
+    "PSI-99",
+    "PSI-100",
+    "PSI-101",
+    "PSI-102",
+    "PSI-106",
+    "PSI-107",
+    "PSI-159"
+   ],
+   "note": "Every flight investigation in PSI ran here; test rows exist for those listed in tests.json."
+  },
+  {
+   "id": "moon",
+   "label": "Moon",
+   "g": 0.17,
+   "status": "no_data",
+   "n_tests": 0,
+   "investigations": [],
+   "note": "No PSI combustion test has run at lunar gravity."
+  },
+  {
+   "id": "mars",
+   "label": "Mars",
+   "g": 0.38,
+   "status": "no_data",
+   "n_tests": 0,
+   "investigations": [],
+   "note": "No PSI combustion test has run at Martian gravity."
+  },
+  {
+   "id": "earth",
+   "label": "Earth (normal gravity)",
+   "g": 1.0,
+   "status": "comparison_only",
+   "n_tests": 0,
+   "investigations": [
+    "PSI-99"
+   ],
+   "note": "PSI test tables hold flight results only. Saffire-II reports normal-gravity burn results beside its microgravity results for 9 samples; several investigations compare against NASA's normal-gravity flammability test (NASA-STD-6001 Test 1)."
+  }
+ ],
+ "stand_in": {
+  "investigation_id": "PSI-22",
+  "summary": "ACME E-FIELD applied electric fields to flames in microgravity. The ions in the flame drive a flow that can stand in for buoyancy, so its results are the closest PSI data to partial gravity.",
+  "evidence": [
+   {
+    "investigation_id": "PSI-22",
+    "text": "This unique environment is ideal for isolating electric field effects from buoyancy forces.",
+    "source_label": "PSI record, approach",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-22"
+   },
+   {
+    "investigation_id": "PSI-22",
+    "text": "The electric field interacts with ions generated through chemi-ionization during combustion, driving ion-driving convection and influencing flame behavior.",
+    "source_label": "PSI record, approach",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-22"
+   },
+   {
+    "investigation_id": "PSI-22",
+    "text": "Karnani, S. et al., Simulating Gravity in Microgravity Combustion Using Electric Fields, CST, 2012",
+    "source_label": "PSI-22_Presentations_Chien et al 2019 Ion Current and Flame Changes with Electric Fields, p. 6",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-22"
+   }
+  ]
+ },
+ "paired_results": [
+  {
+   "investigation_id": "PSI-99",
+   "sample": "2-1",
+   "material": "Silicone",
+   "flow_direction": "Concurrent",
+   "microgravity_burn_length": "~ 0",
+   "microgravity_spread_rate": null,
+   "normal_gravity_burn_length": "Complete",
+   "normal_gravity_spread_rate": "Acceleratory",
+   "source": {
+    "file": "PSI-99_Experimental table_SAFFIRE-2.csv",
+    "row": 1
+   }
+  },
+  {
+   "investigation_id": "PSI-99",
+   "sample": "2-2",
+   "material": "Silicone",
+   "flow_direction": "Concurrent",
+   "microgravity_burn_length": "~ 0",
+   "microgravity_spread_rate": null,
+   "normal_gravity_burn_length": "7.6 cm",
+   "normal_gravity_spread_rate": "1.2 mm/s",
+   "source": {
+    "file": "PSI-99_Experimental table_SAFFIRE-2.csv",
+    "row": 2
+   }
+  },
+  {
+   "investigation_id": "PSI-99",
+   "sample": "2-3",
+   "material": "Silicone",
+   "flow_direction": "Concurrent",
+   "microgravity_burn_length": "~ 0",
+   "microgravity_spread_rate": null,
+   "normal_gravity_burn_length": "~ 0",
+   "normal_gravity_spread_rate": null,
+   "source": {
+    "file": "PSI-99_Experimental table_SAFFIRE-2.csv",
+    "row": 3
+   }
+  },
+  {
+   "investigation_id": "PSI-99",
+   "sample": "2-4",
+   "material": "Silicone",
+   "flow_direction": "Opposed",
+   "microgravity_burn_length": "~ 0",
+   "microgravity_spread_rate": null,
+   "normal_gravity_burn_length": "Complete",
+   "normal_gravity_spread_rate": "0.6 mm/s",
+   "source": {
+    "file": "PSI-99_Experimental table_SAFFIRE-2.csv",
+    "row": 4
+   }
+  },
+  {
+   "investigation_id": "PSI-99",
+   "sample": "2-5",
+   "material": "Cotton-Fiberglass (SIBAL)",
+   "flow_direction": "Concurrent",
+   "microgravity_burn_length": "29 cm",
+   "microgravity_spread_rate": "2.1 mm/s",
+   "normal_gravity_burn_length": "Complete",
+   "normal_gravity_spread_rate": "Acceleratory",
+   "source": {
+    "file": "PSI-99_Experimental table_SAFFIRE-2.csv",
+    "row": 5
+   }
+  },
+  {
+   "investigation_id": "PSI-99",
+   "sample": "2-6",
+   "material": null,
+   "flow_direction": "Concurrent",
+   "microgravity_burn_length": "29 cm",
+   "microgravity_spread_rate": "2.6 mm/s",
+   "normal_gravity_burn_length": "Complete",
+   "normal_gravity_spread_rate": "Acceleratory",
+   "source": {
+    "file": "PSI-99_Experimental table_SAFFIRE-2.csv",
+    "row": 6
+   }
+  },
+  {
+   "investigation_id": "PSI-99",
+   "sample": "2-7",
+   "material": "PMMA & Nomex",
+   "flow_direction": "Concurrent",
+   "microgravity_burn_length": "5 cm & 0 (note 2)",
+   "microgravity_spread_rate": "n/a (Nomex)",
+   "normal_gravity_burn_length": "~ 0 (Nomex)",
+   "normal_gravity_spread_rate": "n/a (Nomex)",
+   "source": {
+    "file": "PSI-99_Experimental table_SAFFIRE-2.csv",
+    "row": 7
+   }
+  },
+  {
+   "investigation_id": "PSI-99",
+   "sample": "2-8",
+   "material": "PMMA",
+   "flow_direction": "Concurrent",
+   "microgravity_burn_length": "~ 10 cm (note 3)",
+   "microgravity_spread_rate": "Note 4",
+   "normal_gravity_burn_length": "Complete",
+   "normal_gravity_spread_rate": "Acceleratory",
+   "source": {
+    "file": "PSI-99_Experimental table_SAFFIRE-2.csv",
+    "row": 8
+   }
+  },
+  {
+   "investigation_id": "PSI-99",
+   "sample": "2-9",
+   "material": null,
+   "flow_direction": "Concurrent",
+   "microgravity_burn_length": "~ 10 cm (note 4)",
+   "microgravity_spread_rate": "Note 4",
+   "normal_gravity_burn_length": "Complete",
+   "normal_gravity_spread_rate": "Acceleratory",
+   "source": {
+    "file": "PSI-99_Experimental table_SAFFIRE-2.csv",
+    "row": 9
+   }
+  }
+ ],
+ "paired_summary": "In Saffire-II, 4 of 9 samples (Silicone) barely burned in microgravity (burn length about 0), but 3 of those 4 burned at normal gravity (Complete, 7.6 cm, Complete). The table does not say how the normal-gravity tests were run.",
+ "paired_notes": [
+  "Note 1 Derived from measured CO2 production and referenced to initial O2 concentration reported by ISS.",
+  "Note 2 The PMMA portion was completely consumed but the Nomex was not ignited.",
+  "Note 3 This is the length of fuel with significant visible damage.",
+  "Note 4 The flames remain anchored at the base of the sample which has a very slow regression rate (0.01 to 0.04 mm/s)"
+ ],
+ "statements": [
+  {
+   "investigation_id": "PSI-20",
+   "text": "Ignition limit tests are not proposed for microgravity, but we will explore these under normal gravity.",
+   "source_label": "PSI record, approach",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-20"
+  },
+  {
+   "investigation_id": "PSI-20",
+   "text": "In addition to the flight experiments, in normal gravity testing will continue.",
+   "source_label": "PSI record, approach",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-20"
+  },
+  {
+   "investigation_id": "PSI-21",
+   "text": "While normal gravity combustion studies can provide important information on combustion processes, the effects of gravitational forces often complicate the interpretation of both computational and experimental results.",
+   "source_label": "PSI record, Earth benefits",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-21"
+  },
+  {
+   "investigation_id": "PSI-21",
+   "text": "Momentum effects dominate most practical combustion devices, but the contribution of buoyancy forces is hard to eliminate in normal gravity.",
+   "source_label": "PSI record, Earth benefits",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-21"
+  },
+  {
+   "investigation_id": "PSI-22",
+   "text": "This unique environment is ideal for isolating electric field effects from buoyancy forces.",
+   "source_label": "PSI record, approach",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-22"
+  },
+  {
+   "investigation_id": "PSI-25",
+   "text": "2) Begin to bridge the gap between the normal gravity NASA-STD-6001 Test #1 method, ground-based microgravity tests, and actual material flammability in microgravity.",
+   "source_label": "PSI record, objectives",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-25"
+  },
+  {
+   "investigation_id": "PSI-25",
+   "text": "BASS–II tests the hypothesis that materials in microgravity, with adequate ventilation, burn as well if not better than the same material in normal gravity with other conditions being identical (pressure, O2 concentration, temperature, etc.).",
+   "source_label": "PSI record, hypothesis",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-25"
+  },
+  {
+   "investigation_id": "PSI-26",
+   "text": "The two main objectives for BASS are to: 1.) Begin to bridge the gap between the normal gravity NASA-STD-6001 Test#1 method, ground-based microgravity tests, and actual material flammability in microgravity.",
+   "source_label": "PSI record, objectives",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-26"
+  },
+  {
+   "investigation_id": "PSI-26",
+   "text": "Current NASA spacecraft materials selection is based on a standard test method (NASA–STD–6001 Test 1) that segregates material based on 1-g behavior without consideration of low gravity effects.",
+   "source_label": "PSI record, Earth benefits",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-26"
+  },
+  {
+   "investigation_id": "PSI-60",
+   "text": "The work further aimed to reconcile microgravity and normal gravity flame behavior, identify key physical and chemical processes influencing smoke point development, and provide a framework for evaluating model parameter sensitivity.",
+   "source_label": "PSI record, objectives",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-60"
+  },
+  {
+   "investigation_id": "PSI-60",
+   "text": "Microgravity conditions would produce longer, more diffuse flames with lower temperatures and increased soot concentrations compared to normal gravity, and that careful integration of experimental temperature fields into the simulations would reduce discrepancies between measured and predicted soot distributions.",
+   "source_label": "PSI record, hypothesis",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-60"
+  },
+  {
+   "investigation_id": "PSI-62",
+   "text": "Comparative analyses were also carried out with a parallel NSF-supported terrestrial flame spread project, ensuring that the predictive capabilities of the UFGM approach were assessed across both microgravity and normal-gravity conditions.",
+   "source_label": "PSI record, approach",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-62"
+  },
+  {
+   "investigation_id": "PSI-69",
+   "text": "The FLEX (Flame Extinguishment Experiment) investigation aims to map the flammability limits of liquid fuels in microgravity environments, measure the effectiveness of various gaseous fire suppressants such as CO2, He, and SF6, and develop reliable predictive models for combustion limits under reduced gravity conditions.",
+   "source_label": "PSI record, objectives",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-69"
+  },
+  {
+   "investigation_id": "PSI-69",
+   "text": "Specifically, the hypothesis posits that the lack of buoyant convection in microgravity will lead to significant differences in the flammability limits and suppression efficacy of various fire suppressant agents compared to normal gravity conditions.",
+   "source_label": "PSI record, hypothesis",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-69"
+  },
+  {
+   "investigation_id": "PSI-98",
+   "text": "The objectives of this investigation were to: (1) determine how rapidly a large scale fire grows in low-gravity and (2) investigate the low-g flammability limits compared to those obtained in NASA’s normal gravity material flammability screening test.",
+   "source_label": "PSI record, objectives",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-98"
+  },
+  {
+   "investigation_id": "PSI-98",
+   "text": "This investigation hypothesizes that due to large differences between fire behavior in normal and reduced gravity, the use of terrestrial fires and fire standards to design spacecraft fire safety systems presents an inherent risk to the vehicle because of the significant level of uncertainty.",
+   "source_label": "PSI record, hypothesis",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-98"
+  },
+  {
+   "investigation_id": "PSI-99",
+   "text": "The objectives of SAFFIRE-II are to determine how rapidly a large scale fire grows in low-gravity and to investigate the low-g flammability limits compared to those obtained in NASA’s normal gravity material flammability screening test.",
+   "source_label": "PSI record, objectives",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-99"
+  },
+  {
+   "investigation_id": "PSI-99",
+   "text": "This investigation hypothesizes that due to large differences between fire behavior in normal and reduced gravity, the use of terrestrial fires and fire standards to design spacecraft fire safety systems presents an inherent risk to the vehicle because of the significant level of uncertainty.",
+   "source_label": "PSI record, hypothesis",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-99"
+  },
+  {
+   "investigation_id": "PSI-100",
+   "text": "The objectives of this investigation were to: (1) determine how rapidly a large scale fire grows in low-gravity and (2) investigate the low-g flammability limits compared to those obtained in NASA’s normal gravity material flammability screening test.",
+   "source_label": "PSI record, objectives",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-100"
+  },
+  {
+   "investigation_id": "PSI-100",
+   "text": "This investigation hypothesizes that due to large differences between fire behavior in normal and reduced gravity, the use of terrestrial fires and fire standards to design spacecraft fire safety systems presents an inherent risk to the vehicle because of the significant level of uncertainty.",
+   "source_label": "PSI record, hypothesis",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-100"
+  },
+  {
+   "investigation_id": "PSI-101",
+   "text": "Similar to the original SAME investigation, the primary objective of the SAME-R investigation was to quantify the sizes that the liquid smoke particulate achieves in low gravity and to relate the droplet size distribution to the smoke generation and smoke transport conditions in the experiment.",
+   "source_label": "PSI record, objectives",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-101"
+  },
+  {
+   "investigation_id": "PSI-101",
+   "text": "In particular, it is hypothesized that liquid aerosol smokes produced in microgravity will exhibit substantially larger droplet sizes than under the same conditions in normal gravity (with a corresponding decrease in the particle number density for the same mass of smoke).",
+   "source_label": "PSI record, hypothesis",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-101"
+  },
+  {
+   "investigation_id": "PSI-102",
+   "text": "One of the major goals of this investigation was to quantify the sizes that the liquid smoke particulate achieves in low gravity and to relate the droplet size distribution to the smoke generation and smoke transport conditions in the experiment.",
+   "source_label": "PSI record, objectives",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-102"
+  },
+  {
+   "investigation_id": "PSI-102",
+   "text": "Once the flight mass loss rates were determined, 1-g operation conditions to produce the same loss were determined.The measurements were made using smoke generated by overheated spacecraft materials where variables such as the sample temperature, flow field, and particle aging time were more rigorously controlled.",
+   "source_label": "PSI record, approach",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-102"
+  },
+  {
+   "investigation_id": "PSI-106",
+   "text": "Quantify the effects of microgravity on flame length and radiative heat loss compared to normal gravity conditions.",
+   "source_label": "PSI record, objectives",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-106"
+  },
+  {
+   "investigation_id": "PSI-107",
+   "text": "Flame properties are expected to differ significantly from those observed under normal gravity.",
+   "source_label": "PSI record, hypothesis",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-107"
+  },
+  {
+   "investigation_id": "PSI-115",
+   "text": "The objective of this investigation was to use numerical simulation to explore the influence of gravity on pyrolysis smoke growth from a fundamental perspective.",
+   "source_label": "PSI record, objectives",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-115"
+  }
+ ],
+ "upcoming": [
+  {
+   "name": "LUCI",
+   "note": "Named in the challenge brief as a planned experiment that will add partial-gravity combustion data. Not in PSI yet.",
+   "source_label": "Challenge brief",
+   "url": "https://www.spaceappschallenge.org/2026/challenges/flame-in-freefall/?tab=details"
+  },
+  {
+   "name": "FM2",
+   "note": "Named in the challenge brief as a planned experiment that will add partial-gravity combustion data. Not in PSI yet.",
+   "source_label": "Challenge brief",
+   "url": "https://www.spaceappschallenge.org/2026/challenges/flame-in-freefall/?tab=details"
+  }
+ ]
+}
