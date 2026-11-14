@@ -53,6 +53,7 @@ Run it from the repository root. It reads the committed files in `data/out/` (in
 | `ASK_ALLOWED_ORIGINS` | `*` | Comma-separated addresses allowed to call the API (the dashboard's URL) |
 | `LLM_PROVIDER`, `LLM_MODEL`, `GEMINI_API_KEY` | unset | As in `.env.example`. Unset means answers without AI |
 | `LLM_DAILY_LIMIT` | `60` | AI calls per day; after that, answers without AI |
+| `LLM_FALLBACK`, `OPENAI_BASE_URL`, `OPENAI_MODEL`, `OPENAI_API_KEY`, `OPENAI_EXTRA_BODY` | unset | A second provider used when Gemini's quota runs out. `render.yaml` sets NVIDIA NIM (`nvidia/nemotron-3.5-lightning-30b-a3b`); its key is a secret like the Gemini key |
 | `LLM_TIMEOUT_S` | `90` | Seconds to wait for Gemini before answering without AI. `render.yaml` sets `10` |
 | `ASK_RATE_PER_MINUTE` | `10` | Questions per minute from one address |
 | `EMBEDDING_MODEL_DIR` | `~/.cache/chroma` | Where the embedding model is kept; relative paths start at the repository root |

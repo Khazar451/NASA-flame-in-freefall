@@ -534,7 +534,11 @@ AI_SYSTEM = """You answer questions about NASA's microgravity combustion experim
 Use only the numbered sources you are given. Never add facts, numbers or experiment names from memory.
 Write 2 to 5 plain sentences. Copy every number exactly as it appears in a source, with its unit.
 When source 0 (the test-table summary) is given, begin with it and keep its counts, the experiments it
-names and any "no test matches" statement; the documents add explanation.
+names and any "no test matches" statement; the documents add explanation. Source 0 has already applied
+the question's conditions, so never contradict it: if it says tests match, they match.
+Attach each number only to the experiment and fuel its source is about; do not move a value from one
+experiment to another.
+Never write source numbers such as [1] in the answer; name the experiment or document instead.
 If the sources do not answer the question, say so in one sentence and say what they do cover.
 If a source says a value was assumed, say that it was assumed.
 List in sources_used the numbers of the sources you relied on (0 is the test-table summary)."""
@@ -610,8 +614,11 @@ def ai_answer(question: str, table_text: str | None, found: list[dict[str, Any]]
 
 
 def tidy(text: str) -> str:
-    """Remove the source label a model sometimes copies to the front of its answer."""
-    return re.sub(r"^\s*(?:\[0\]\s*)?test-table summary:\s*", "", text, flags=re.IGNORECASE).strip()
+    """Remove source labels and numbers ("[2]") that a model sometimes copies into its answer."""
+    text = re.sub(r"^\s*(?:\[0\]\s*)?test-table summary:\s*", "", text, flags=re.IGNORECASE)
+    one = r"\[\d+(?:\s*(?:,|and|-|–)\s*\d+)*\]"
+    text = re.sub(rf"\s*{one}(?:\s*(?:,|and|-|–)\s*{one})*", "", text)
+    return re.sub(r"\s+([.,;:])", r"\1", text).strip()
 
 
 def answer(question: str, kb: KnowledgeBase, provider: llm.Provider | None = None,

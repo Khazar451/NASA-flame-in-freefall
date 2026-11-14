@@ -1,5 +1,6 @@
 # Exact versions the data in data/out/ was built and tested with (14 Nov 2026).
 # Install with: pip install -r pipeline/requirements.txt
+# Keep this identical to /requirements.txt (the file Render installs).
 
 # Core (Phase 0)
 pydantic==2.14.3
@@ -9,6 +10,7 @@ pytest==9.2.0
 
 # AI provider
 google-genai==3.3.0        # LLM_PROVIDER=gemini (the provider we use)
+openai==3.51.0             # LLM_FALLBACK=openai: NVIDIA NIM when Gemini's quota runs out
 # openai            # LLM_PROVIDER=openai (also local servers via OPENAI_BASE_URL)
 
 # PDF text (Phase 3). Works on Windows, macOS and Linux. If it cannot be installed,
