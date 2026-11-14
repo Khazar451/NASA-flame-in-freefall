@@ -121,13 +121,13 @@ def test_validate_catches_stale_phase6_files(tmp_path):
     inv = {"id": "PSI-69", "acronym": None, "title": "t", "project_type": "flight", "role": "suppression",
            "fuel_phase": "liquid", "hardware": None, "related": [], "doi": None, "url": "https://x"}
     tests = [row("PSI-69", "1"), row("PSI-69", "2")]
-    (tmp_path / "investigations.json").write_text(json.dumps({"investigations": [inv]}))
-    (tmp_path / "tests.json").write_text(json.dumps({"tests": tests}))
-    (tmp_path / "coverage.json").write_text(json.dumps(coverage.build(tests, [])))
-    (tmp_path / "varied.json").write_text(json.dumps(varied.build(tests, ["PSI-69"], [], {})))
+    (tmp_path / "investigations.json").write_text(json.dumps({"investigations": [inv]}), encoding="utf-8")
+    (tmp_path / "tests.json").write_text(json.dumps({"tests": tests}), encoding="utf-8")
+    (tmp_path / "coverage.json").write_text(json.dumps(coverage.build(tests, [])), encoding="utf-8")
+    (tmp_path / "varied.json").write_text(json.dumps(varied.build(tests, ["PSI-69"], [], {})), encoding="utf-8")
     assert validate.check(tmp_path)[0] == []
 
-    (tmp_path / "tests.json").write_text(json.dumps({"tests": tests[:1]}))  # tests changed, nothing rebuilt
+    (tmp_path / "tests.json").write_text(json.dumps({"tests": tests[:1]}), encoding="utf-8")  # tests changed, nothing rebuilt
     errors, _ = validate.check(tmp_path)
     assert any("coverage.json counts 2 tests but tests.json has 1" in e for e in errors)
     assert any("varied.json: PSI-69 counts 2 tests, tests.json has 1" in e for e in errors)

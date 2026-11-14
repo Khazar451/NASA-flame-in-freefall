@@ -91,7 +91,7 @@ def test_provider_exceptions_are_wrapped():
 def test_cache_file_records_provider_and_model(tmp_path):
     complete_json("q", Reply, provider=FakeProvider(lambda p, s: {"city": "Paris"}, model="m9"))
     (entry,) = tmp_path.joinpath("llm_cache").glob("*.json")
-    data = json.loads(entry.read_text())
+    data = json.loads(entry.read_text(encoding="utf-8"))
     assert data["provider"] == "fake" and data["model"] == "m9"
     assert data["output"]["city"] == "Paris"
 

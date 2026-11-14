@@ -24,8 +24,8 @@ RECORD = {
 def workspace(tmp_path, monkeypatch):
     raw = tmp_path / "raw"
     (raw / "PSI-25" / "docs").mkdir(parents=True)
-    (raw / "PSI-25" / "files.json").write_text("{}")
-    (raw / "PSI-25" / "record.json").write_text(json.dumps(RECORD))
+    (raw / "PSI-25" / "files.json").write_text("{}", encoding="utf-8")
+    (raw / "PSI-25" / "record.json").write_text(json.dumps(RECORD), encoding="utf-8")
     entries = []
     for name, sha in (("PSI-25_Reports_Summary.pdf", "sha-a"), ("PSI-25_Reports_Scan.pdf", "sha-b")):
         (raw / "PSI-25" / "docs" / name).write_bytes(b"%PDF")
@@ -34,7 +34,7 @@ def workspace(tmp_path, monkeypatch):
     entries.append({"psi_id": "PSI-25", "category": "Experimental table", "file_name": "PSI-25_table.csv",
                     "version": 1, "bytes": 4, "path": "PSI-25/tables/PSI-25_table.csv", "sha256": "sha-c",
                     "fetched_at": "now"})
-    (raw / "manifest.json").write_text(json.dumps({"files": entries, "skipped": {}}))
+    (raw / "manifest.json").write_text(json.dumps({"files": entries, "skipped": {}}), encoding="utf-8")
 
     text_dir = tmp_path / "interim" / "text"
     monkeypatch.setattr(fetch.config, "RAW_DIR", raw)
@@ -77,7 +77,7 @@ def test_pdf_pages_keep_their_page_numbers(workspace, reader, capsys):
         "source_id": "PSI-25_Reports_Summary.pdf", "psi_id": "PSI-25", "category": "Reports",
         "page": 3, "text": "Flow speeds up to 40 cm/s.",
     }
-    index = json.loads((text_dir / "index.json").read_text())
+    index = json.loads((text_dir / "index.json").read_text(encoding="utf-8"))
     assert index["PSI-25_Reports_Summary.pdf"]["pages"] == 3
     assert index["PSI-25_Reports_Summary.pdf"]["empty_pages"] == 1
     assert index["PSI-25_Reports_Summary.pdf"]["scanned"] is False
@@ -104,17 +104,17 @@ def test_record_becomes_sections_and_skips_empty_ones(workspace, reader):
 def test_rerun_reads_only_changed_pdfs(workspace, reader, capsys):
     raw, text_dir = workspace
     extract_text.run(argparse.Namespace())
-    first_index = (text_dir / "index.json").read_text()
+    first_index = (text_dir / "index.json").read_text(encoding="utf-8")
     assert len(reader) == 2
 
     extract_text.run(argparse.Namespace())
     assert len(reader) == 2
-    assert (text_dir / "index.json").read_text() == first_index
+    assert (text_dir / "index.json").read_text(encoding="utf-8") == first_index
     assert "0 documents read, 2 unchanged" in capsys.readouterr().out
 
-    manifest = json.loads((raw / "manifest.json").read_text())
+    manifest = json.loads((raw / "manifest.json").read_text(encoding="utf-8"))
     manifest["files"][0]["sha256"] = "sha-new"
-    (raw / "manifest.json").write_text(json.dumps(manifest))
+    (raw / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
     extract_text.run(argparse.Namespace())
     assert reader[2:] == ["PSI-25_Reports_Summary.pdf"]
 
@@ -134,7 +134,7 @@ def test_unreadable_pdf_is_recorded_and_not_retried(workspace, monkeypatch, caps
     assert extract_text.run(argparse.Namespace()) == 0
     assert (text_dir / "PSI-25_Reports_Summary.pdf.jsonl").exists()
     assert not (text_dir / "PSI-25_Reports_Scan.pdf.jsonl").exists()
-    index = json.loads((text_dir / "index.json").read_text())
+    index = json.loads((text_dir / "index.json").read_text(encoding="utf-8"))
     assert index["PSI-25_Reports_Scan.pdf"]["error"] == "ValueError: cannot open broken document"
     assert "unreadable: PSI-25_Reports_Scan.pdf: ValueError" in capsys.readouterr().out
 
@@ -182,11 +182,11 @@ def make_pptx(path, slides, order):
 
 def add_to_manifest(raw, name, category, sha, content=b"x"):
     (raw / "PSI-25" / "docs" / name).write_bytes(content)
-    manifest = json.loads((raw / "manifest.json").read_text())
+    manifest = json.loads((raw / "manifest.json").read_text(encoding="utf-8"))
     manifest["files"].append({"psi_id": "PSI-25", "category": category, "file_name": name, "version": 1,
                               "bytes": len(content), "path": f"PSI-25/docs/{name}", "sha256": sha,
                               "fetched_at": "now"})
-    (raw / "manifest.json").write_text(json.dumps(manifest))
+    (raw / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
 
 
 def test_docx_text_in_reading_order_including_tables_and_text_boxes(tmp_path):
@@ -251,7 +251,7 @@ def test_office_files_end_to_end(workspace, reader, monkeypatch):
 
     assert converted == ["PSI-25_Reports_Old.doc"]  # only the old format needs LibreOffice
     assert reader[-1] == "PSI-25_Reports_Old.pdf"
-    index = json.loads((text_dir / "index.json").read_text())
+    index = json.loads((text_dir / "index.json").read_text(encoding="utf-8"))
     assert index["PSI-25_Science Documents_ReadMe.docx"]["engine"] == "docx"
     assert index["PSI-25_Science Documents_ReadMe.docx"]["paged"] is False
     assert index["PSI-25_Presentations_Overview.pptx"]["engine"] == "pptx"
@@ -270,7 +270,7 @@ def test_old_office_file_without_libreoffice_is_recorded_not_fatal(workspace, re
                     (raw / "PSI-25" / "docs" / "PSI-25_Reports_New.docx").read_bytes())
     monkeypatch.setattr(extract_text, "find_soffice", lambda: None)
     assert extract_text.run(argparse.Namespace()) == 0
-    index = json.loads((text_dir / "index.json").read_text())
+    index = json.loads((text_dir / "index.json").read_text(encoding="utf-8"))
     assert "install LibreOffice" in index["PSI-25_Reports_Old.doc"]["error"]
     assert index["PSI-25_Reports_New.docx"]["chars"] == len("Still readable.")  # needs nothing installed
     assert "unreadable: PSI-25_Reports_Old.doc" in capsys.readouterr().out
@@ -282,7 +282,7 @@ def test_file_with_no_pages_or_text_is_listed_as_unreadable(workspace, reader, c
     add_to_manifest(raw, "PSI-25_Reports_Picture.docx", "Reports", "sha-h",
                     (raw / "PSI-25" / "docs" / "PSI-25_Reports_Picture.docx").read_bytes())
     assert extract_text.run(argparse.Namespace()) == 0
-    index = json.loads((text_dir / "index.json").read_text())
+    index = json.loads((text_dir / "index.json").read_text(encoding="utf-8"))
     assert index["PSI-25_Reports_Picture.docx"]["error"] == "ValueError: the file has no readable pages or text"
     assert not (text_dir / "PSI-25_Reports_Picture.docx.jsonl").exists()
     assert "1 unreadable" in capsys.readouterr().out
@@ -304,11 +304,11 @@ def test_source_with_a_slash_in_its_name_gets_a_flat_file(workspace, reader):
     flat = fetch.local_name(name)
     assert flat == "PSI-25_Engineering Documents_rev_A - ACME_CIR_ Schematic.pdf"
     (raw / "PSI-25" / "docs" / flat).write_bytes(b"%PDF")
-    manifest = json.loads((raw / "manifest.json").read_text())
+    manifest = json.loads((raw / "manifest.json").read_text(encoding="utf-8"))
     manifest["files"].append({"psi_id": "PSI-25", "category": "Engineering Documents", "file_name": name,
                               "version": 1, "bytes": 4, "path": f"PSI-25/docs/{flat}", "sha256": "sha-f",
                               "fetched_at": "now"})
-    (raw / "manifest.json").write_text(json.dumps(manifest))
+    (raw / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
     assert extract_text.run(argparse.Namespace()) == 0
     assert read_jsonl(text_dir / f"{flat}.jsonl")[0]["source_id"] == name
     assert [p.name for p in text_dir.iterdir() if p.is_dir()] == []
@@ -322,7 +322,7 @@ def test_real_libreoffice_conversion(tmp_path):
     if not extract_text.find_soffice():
         pytest.skip("LibreOffice is not installed")
     source = tmp_path / "note.txt"
-    source.write_text("Oxygen 30 percent at 10.2 psi")
+    source.write_text("Oxygen 30 percent at 10.2 psi", encoding="utf-8")
     pdf = extract_text.office_to_pdf(source, tmp_path / "converted")
     assert extract_text.pdf_pages(pdf, engine) == ["Oxygen 30 percent at 10.2 psi"]
 

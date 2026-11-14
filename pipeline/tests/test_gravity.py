@@ -50,7 +50,7 @@ TABLE = ("Sample Number,Material\n2-1,Silicone\nNote 1 Derived from measured CO2
 def raw(tmp_path, monkeypatch):
     folder = tmp_path / "raw" / "PSI-99" / "tables"
     folder.mkdir(parents=True)
-    (folder / "PSI-99_Experimental table_SAFFIRE-2.csv").write_text(TABLE)
+    (folder / "PSI-99_Experimental table_SAFFIRE-2.csv").write_text(TABLE, encoding="utf-8")
     monkeypatch.setattr(gravity.transform_tests.config, "RAW_DIR", tmp_path / "raw")
     return tmp_path
 
@@ -113,11 +113,11 @@ def test_upcoming_experiments_cite_the_brief(raw):
 def test_validate_checks_gravity_json(raw):
     out = raw / "out"
     out.mkdir()
-    (out / "investigations.json").write_text(json.dumps({"investigations": INVESTIGATIONS}))
-    (out / "tests.json").write_text(json.dumps({"tests": TESTS}))
-    (out / "gravity.json").write_text(json.dumps(built(raw)))
+    (out / "investigations.json").write_text(json.dumps({"investigations": INVESTIGATIONS}), encoding="utf-8")
+    (out / "tests.json").write_text(json.dumps({"tests": TESTS}), encoding="utf-8")
+    (out / "gravity.json").write_text(json.dumps(built(raw)), encoding="utf-8")
     assert validate.check(out)[0] == []
-    (out / "tests.json").write_text(json.dumps({"tests": TESTS[:2]}))
+    (out / "tests.json").write_text(json.dumps({"tests": TESTS[:2]}), encoding="utf-8")
     errors, _ = validate.check(out)
     assert any("gravity.json counts 4 microgravity tests, tests.json has 2" in e for e in errors)
 

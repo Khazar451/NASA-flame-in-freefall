@@ -50,10 +50,10 @@ def workspace(tmp_path, monkeypatch):
     raw = tmp_path / "raw"
     for psi_id, record in RECORDS.items():
         (raw / psi_id).mkdir(parents=True)
-        (raw / psi_id / "record.json").write_text(json.dumps(record))
-        (raw / psi_id / "files.json").write_text("{}")
+        (raw / psi_id / "record.json").write_text(json.dumps(record), encoding="utf-8")
+        (raw / psi_id / "files.json").write_text("{}", encoding="utf-8")
     inventory_csv = tmp_path / "inventory.csv"
-    inventory_csv.write_text("psi_id,hardware_family\nPSI-25,msg_flow_duct\nPSI-60,ground_study\n")
+    inventory_csv.write_text("psi_id,hardware_family\nPSI-25,msg_flow_duct\nPSI-60,ground_study\n", encoding="utf-8")
     monkeypatch.setattr(ei.config, "RAW_DIR", raw)
     monkeypatch.setattr(ei.config, "REPO_ROOT", tmp_path)
     monkeypatch.setattr(ei.inventory, "INVENTORY_CSV", inventory_csv)
@@ -78,7 +78,7 @@ def use_ai(monkeypatch, replies):
 
 
 def output(workspace):
-    return json.loads((workspace / "out" / "investigations.json").read_text())
+    return json.loads((workspace / "out" / "investigations.json").read_text(encoding="utf-8"))
 
 
 def test_quote_found_ignores_case_spacing_and_quote_style():
@@ -113,11 +113,11 @@ def test_second_run_does_not_call_the_ai_and_retag_does(workspace, monkeypatch):
     fake = use_ai(monkeypatch, GOOD)
     ei.run(argparse.Namespace())
     assert fake.calls == 2
-    first = (workspace / "out" / "investigations.json").read_text()
+    first = (workspace / "out" / "investigations.json").read_text(encoding="utf-8")
 
     monkeypatch.setattr(ei.llm, "get_provider", lambda: pytest.fail("the AI should not be needed"))
     assert ei.run(argparse.Namespace()) == 0
-    assert (workspace / "out" / "investigations.json").read_text() == first
+    assert (workspace / "out" / "investigations.json").read_text(encoding="utf-8") == first
 
     monkeypatch.setattr(ei.llm, "get_provider", lambda: fake)
     ei.run(argparse.Namespace(retag=True))
@@ -134,7 +134,7 @@ def test_invented_quote_is_asked_again_then_flagged(workspace, monkeypatch, caps
     use_ai(monkeypatch, {**GOOD, "PSI-25": stubborn})
     assert ei.run(argparse.Namespace()) == 0
     assert len(prompts) == 2 and "copied exactly" in prompts[1] and "copied exactly" not in prompts[0]
-    tags = json.loads((workspace / "review" / "investigation_tags.json").read_text())
+    tags = json.loads((workspace / "review" / "investigation_tags.json").read_text(encoding="utf-8"))
     assert tags["PSI-25"]["role_evidence_found"] is False and tags["PSI-25"]["fuel_phase_evidence_found"] is True
     assert output(workspace)["meta"]["tags_with_unverified_evidence"] == ["PSI-25.role"]
     assert "quote not found: PSI-25.role" in capsys.readouterr().out
@@ -157,7 +157,7 @@ def test_reply_outside_the_allowed_values_stops_the_run(workspace, monkeypatch, 
     assert ei.run(argparse.Namespace()) == 1
     assert "PSI-60 failed" in capsys.readouterr().out
     # the investigation that did succeed is kept, so the next run only repeats the failed one
-    assert list(json.loads((workspace / "review" / "investigation_tags.json").read_text())) == ["PSI-25"]
+    assert list(json.loads((workspace / "review" / "investigation_tags.json").read_text(encoding="utf-8"))) == ["PSI-25"]
 
 
 def read_review(workspace):
@@ -189,7 +189,7 @@ def test_review_round_trip(workspace, monkeypatch, capsys):
     rows[2]["reviewer_note"] = "smoke point is a flammability measure"
     write_review(workspace, rows)
     assert ei.run_apply_overrides(argparse.Namespace()) == 0
-    overrides = json.loads((workspace / "data" / "overrides.json").read_text())
+    overrides = json.loads((workspace / "data" / "overrides.json").read_text(encoding="utf-8"))
     assert overrides == {"roles_reviewed": False, "investigations": {"PSI-60": {"role": "prevention"}}}
     data = output(workspace)
     assert data["investigations"][1]["role"] == "prevention" and data["meta"]["roles_reviewed"] is False

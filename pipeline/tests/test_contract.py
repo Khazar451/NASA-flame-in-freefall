@@ -43,8 +43,8 @@ def write(folder, investigations=None, tests=None):
     tests = [TEST_ROW] if tests is None else tests
     (folder / "investigations.json").write_text(
         json.dumps({"meta": {"roles_reviewed": False}, "investigations": investigations})
-    )
-    (folder / "tests.json").write_text(json.dumps({"meta": {}, "tests": tests}))
+    , encoding="utf-8")
+    (folder / "tests.json").write_text(json.dumps({"meta": {}, "tests": tests}), encoding="utf-8")
     return folder
 
 
@@ -155,7 +155,7 @@ def test_missing_or_broken_files_are_errors(tmp_path):
     errors, warnings = validate.check(tmp_path)
     assert errors == [] and warnings == ["tests.json is not built yet; only investigations.json was checked"]
     write(tmp_path)
-    (tmp_path / "tests.json").write_text("{not json")
+    (tmp_path / "tests.json").write_text("{not json", encoding="utf-8")
     errors, _ = validate.check(tmp_path)
     assert len(errors) == 1 and "not valid JSON" in errors[0]
 

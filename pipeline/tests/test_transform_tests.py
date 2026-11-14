@@ -66,7 +66,7 @@ def workspace(tmp_path, monkeypatch):
         folder.mkdir(parents=True, exist_ok=True)
         name = f"{mapping['investigation']}_Experimental table_{mapping['table']}"
         (folder / name).write_bytes(csv_text.encode(encoding))
-        (mappings / f"{mapping['table']}.yaml").write_text(yaml.safe_dump(mapping, allow_unicode=True))
+        (mappings / f"{mapping['table']}.yaml").write_text(yaml.safe_dump(mapping, allow_unicode=True), encoding="utf-8")
         return folder / name
 
     return tmp_path, add
@@ -131,9 +131,9 @@ def test_repeated_labels_get_a_suffix_and_the_file_validates(workspace, capsys):
     add(SAFFIRE_MAPPING, SAFFIRE_CSV)
     (tmp_path / "mappings" / "_skipped.yaml").write_text(
         yaml.safe_dump([{"investigation": "PSI-68", "file": "Flex2.csv", "reason": "ranges, not tests"}])
-    )
+    , encoding="utf-8")
     assert tt.run(argparse.Namespace()) == 0
-    data = json.loads((tmp_path / "out" / "tests.json").read_text())
+    data = json.loads((tmp_path / "out" / "tests.json").read_text(encoding="utf-8"))
     assert [t["id"] for t in data["tests"]] == ["PSI-69:1", "PSI-69:2", "PSI-69:2~2", "PSI-98:S1", "PSI-98:S2"]
     assert data["meta"]["total_rows"] == 5 and data["meta"]["rows_with_o2_and_pressure"] == 4
     assert data["meta"]["tables_not_used"][0]["investigation"] == "PSI-68"
@@ -147,7 +147,7 @@ def test_repeated_labels_get_a_suffix_and_the_file_validates(workspace, capsys):
          "fuel_phase": "solid", "hardware": None, "related": [], "doi": None, "url": "https://x"}
         for psi_id in ("PSI-69", "PSI-98")
     ]
-    (tmp_path / "out" / "investigations.json").write_text(json.dumps({"investigations": investigations}))
+    (tmp_path / "out" / "investigations.json").write_text(json.dumps({"investigations": investigations}), encoding="utf-8")
     errors, _ = validate.check(tmp_path / "out")
     assert errors == []
 
@@ -170,7 +170,7 @@ def test_mapping_that_names_a_missing_column_or_table_stops_the_build(workspace,
     add({**FLEX_MAPPING, "fuel_material": {"column": "Fuel type"}}, FLEX_CSV)
     assert tt.run(argparse.Namespace()) == 1
     assert "no column named 'Fuel type'" in capsys.readouterr().out
-    (tmp_path / "mappings" / "FLEX.csv.yaml").write_text(yaml.safe_dump({**FLEX_MAPPING, "table": "Nope.csv"}))
+    (tmp_path / "mappings" / "FLEX.csv.yaml").write_text(yaml.safe_dump({**FLEX_MAPPING, "table": "Nope.csv"}), encoding="utf-8")
     assert tt.run(argparse.Namespace()) == 1
     assert "expected one table ending in 'Nope.csv'" in capsys.readouterr().out
 
@@ -227,7 +227,7 @@ def report_text(tmp_path, monkeypatch):
     pages = {5: "Atmospheres: 14.7 psia, 21 % oxygen; and 8.2  psia, 34 % oxygen.",
              6: "At 34% oxygen, 8.2 psia, the flames generally persisted for 3 minutes."}
     (folder / "PSI-20_Reports_Final.pdf.jsonl").write_text("\n".join(
-        json.dumps({"source_id": "PSI-20_Reports_Final.pdf", "page": n, "text": t}) for n, t in pages.items()))
+        json.dumps({"source_id": "PSI-20_Reports_Final.pdf", "page": n, "text": t}) for n, t in pages.items()), encoding="utf-8")
     monkeypatch.setattr(extract_text, "TEXT_DIR", folder)
 
 
