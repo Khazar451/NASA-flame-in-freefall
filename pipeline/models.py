@@ -86,10 +86,80 @@ class TestsFile(_Strict):
     tests: list[TestRow]
 
 
+# ---------------------------------------------------------------------------------
+# Pipeline-only files (Phase 6). These are not part of docs/data-contract.md yet; the
+# dashboard can use them for the gap map and the "what varied" view.
+
+Habitat = Literal["cabin", "lunar", "suit"]  # the ids in app/src/habitats.ts
+
+
+class Band(_Strict):
+    id: str
+    label: str
+    min: float = Field(description="Inclusive lower edge")
+    max: float | None = Field(description="Exclusive upper edge; null = no upper edge")
+    habitats: list[Habitat] = Field(description="Habitats whose range overlaps this band")
+
+
+class CoverageCell(_Strict):
+    fuel_phase: FuelPhase
+    o2_band: str
+    pressure_band: str
+    n_tests: int = Field(ge=0, description="0 = a gap: nothing tested here")
+    n_pressure_assumed: int = Field(ge=0, description="Tests whose pressure is assumed, not measured")
+    investigations: list[str]
+    outcomes: dict[str, int]
+    habitats: list[Habitat] = Field(description="Habitats inside both bands of this cell")
+
+
+class OffGrid(_Strict):
+    fuel_phase: FuelPhase
+    reason: str
+    n_tests: int = Field(ge=0)
+    investigations: list[str]
+
+
+class CoverageFile(_Strict):
+    meta: dict[str, Any] = Field(default_factory=dict)
+    o2_bands: list[Band]
+    pressure_bands: list[Band]
+    cells: list[CoverageCell]
+    not_on_grid: list[OffGrid]
+
+
+class ConditionSummary(_Strict):
+    field: str = Field(description='A TestRow field, or "extra.<key>"')
+    label: str
+    unit: str | None
+    status: Literal["varied", "constant", "not_recorded"]
+    assumed: bool = Field(description="The value is an assumption, not from the source table")
+    n_with_value: int = Field(ge=0)
+    min: float | None
+    max: float | None
+    levels: list[float | str] = Field(description="Distinct values (numbers rounded to `precision`), at most 12")
+    n_levels: int = Field(ge=0)
+    precision: float | None
+
+
+class InvestigationVariation(_Strict):
+    investigation_id: str = Field(pattern=PSI_ID)
+    n_tests: int = Field(ge=0)
+    summary: str
+    conditions: list[ConditionSummary]
+    outcomes: dict[str, int]
+
+
+class VariedFile(_Strict):
+    meta: dict[str, Any] = Field(default_factory=dict)
+    investigations: list[InvestigationVariation]
+
+
 def json_schema() -> dict[str, Any]:
     return {
         "investigations.json": InvestigationsFile.model_json_schema(),
         "tests.json": TestsFile.model_json_schema(),
+        "coverage.json": CoverageFile.model_json_schema(),
+        "varied.json": VariedFile.model_json_schema(),
     }
 
 

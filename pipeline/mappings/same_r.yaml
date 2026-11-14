@@ -1,0 +1,16 @@
+# SAME-R: smoke from overheated materials, measured by particle instruments. These are
+# smoke-generation runs, not flames, so there is no burn outcome.
+investigation: PSI-101
+table: SAME-R.csv
+fuel_phase: solid
+null_values: [n/a]
+label: {column: "SAME Test #"}
+fuel_material: {column: Sample Type}
+o2_pct: null
+pressure_kpa: null
+flow_cm_s: {column: "Inlet velocity (cm/s)"}
+extra:
+  description: {column: Description, type: text}
+  heating_temperature_ratio: {column: Rt/R0}
+  duration_s: {column: "Duration (sec)"}
+  net_aging_time_s: {column: "Net aging time (sec)"}

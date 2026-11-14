@@ -1,0 +1,218 @@
+{
+ "PSI-10": {
+  "role": "fundamentals",
+  "role_evidence": "This project has the potential for improving efficiency and reducing pollutant emissions in terrestrial combustors.",
+  "role_evidence_found": true,
+  "fuel_phase": "gas",
+  "fuel_phase_evidence": "Sub-area: Flames of Gaseous Fuels",
+  "fuel_phase_evidence_found": true,
+  "model": "gemini-3.5-flash"
+ },
+ "PSI-20": {
+  "role": "prevention",
+  "role_evidence": "This could enable the Cone Calorimeter (NASA Test 2) test as a basis for establishing flammability maps for real materials.",
+  "role_evidence_found": true,
+  "fuel_phase": "gas",
+  "fuel_phase_evidence": "Sub-area: Flames of Gaseous Fuels",
+  "fuel_phase_evidence_found": true,
+  "model": "gemini-3.5-flash"
+ },
+ "PSI-21": {
+  "role": "fundamentals",
+  "role_evidence": "Characterize the sooting tendencies of diffusion flames with long residence times, as a function of velocity and fuel dilution, through measurement of flame shape, gas temperatures in the soot-free portion of the flame, soot luminosity, soot temperatures, and soot volume fractions.",
+  "role_evidence_found": true,
+  "fuel_phase": "gas",
+  "fuel_phase_evidence": "Sub-area: Flames of gaseous fuel",
+  "fuel_phase_evidence_found": true,
+  "model": "gemini-3.5-flash"
+ },
+ "PSI-22": {
+  "role": "fundamentals",
+  "role_evidence": "The objective of this investigation is to better understand the relationship between electric field voltage and chemi-ion current, analyze the dynamic response of flames to electric field changes, evaluate soot formation, and characterize stabilized near-limit lifted flames.",
+  "role_evidence_found": true,
+  "fuel_phase": "gas",
+  "fuel_phase_evidence": "The experiment is conducted with gas-fueled flames, both with and without a coflow of air.",
+  "fuel_phase_evidence_found": true,
+  "model": "gemini-3.5-flash"
+ },
+ "PSI-23": {
+  "role": "fundamentals",
+  "role_evidence": "Fundamentally, the unique buoyancy-free environment offered by microgravity affords simple aerodynamic flow fields to acquire diffusion flame data of high fidelity, with the prospect of understanding unit thermochemical processes as well as quantifying the associated physico-chemical parameters.",
+  "role_evidence_found": true,
+  "fuel_phase": "gas",
+  "fuel_phase_evidence": "Conventional gaseous fuels including hydrogen, methane, and ethylene will be used.",
+  "fuel_phase_evidence_found": true,
+  "model": "gemini-3.5-flash"
+ },
+ "PSI-25": {
+  "role": "prevention",
+  "role_evidence": "Study the ignition, flame growth, flame spread, and extinction limits for solid fuels burning in low-velocity forced flows in microgravity.",
+  "role_evidence_found": true,
+  "fuel_phase": "solid",
+  "fuel_phase_evidence": "Study the ignition, flame growth, flame spread, and extinction limits for solid fuels burning in low-velocity forced flows in microgravity.",
+  "fuel_phase_evidence_found": true,
+  "model": "gemini-3.5-flash"
+ },
+ "PSI-26": {
+  "role": "suppression",
+  "role_evidence": "Assess the effectiveness of an inert, gaseous extinguishing agent (similar to that used on ISS) in putting out flames over different materials, geometries, preheating, and flow.",
+  "role_evidence_found": true,
+  "fuel_phase": "solid",
+  "fuel_phase_evidence": "Custom-made fabric samples consisting of 75% cotton and 25% fiberglass (by mass) measuring were used as a fuel source as well as Nomex fabric and Ultem.",
+  "fuel_phase_evidence_found": true,
+  "model": "gemini-3.5-flash"
+ },
+ "PSI-39": {
+  "role": "fundamentals",
+  "role_evidence": "A basic understanding of cool flames is important for understanding ignition phenomena of practical fuels and fuel additives.",
+  "role_evidence_found": true,
+  "fuel_phase": "liquid",
+  "fuel_phase_evidence": "The Combustion Integrated Rack (CIR) contains the Multi-User Droplet Combustion Apparatus (MDCA) which facilitates the controlled combustion of fuel droplets.",
+  "fuel_phase_evidence_found": true,
+  "model": "gemini-3.5-flash"
+ },
+ "PSI-47": {
+  "role": "detection",
+  "role_evidence": "This research will impact the development of novel fire and smoke detection systems for the International Space Station and future spacecrafts.",
+  "role_evidence_found": true,
+  "fuel_phase": "other",
+  "fuel_phase_evidence": "Arizona Red Dust (ARD) was chosen as an aerosol standard due to its ease of dispersion.",
+  "fuel_phase_evidence_found": true,
+  "model": "gemini-3.5-flash"
+ },
+ "PSI-60": {
+  "role": "fundamentals",
+  "role_evidence": "This ground investigation sought to increase understanding of the issues that control the large discrepancy between soot formation in 1g and in 0g flames.",
+  "role_evidence_found": true,
+  "fuel_phase": "gas",
+  "fuel_phase_evidence": "Sub-area: Gaseous",
+  "fuel_phase_evidence_found": true,
+  "model": "gemini-3.5-flash"
+ },
+ "PSI-62": {
+  "role": "prevention",
+  "role_evidence": "Ultimately, the long-term goal was to enable accurate prediction of flammability limits for spacecraft materials and to provide a tool that could also serve as a subgrid-scale model in large-eddy simulations of fires, supporting spacecraft safety and hazard mitigation.",
+  "role_evidence_found": true,
+  "fuel_phase": "solid",
+  "fuel_phase_evidence": "The research aimed to leverage this methodology to simulate solid fuel combustion processes with high fidelity, using the NASA Burning and Suppression of Solids (BASS and BASS-II) experiments as benchmarks.",
+  "fuel_phase_evidence_found": true,
+  "model": "gemini-3.5-flash"
+ },
+ "PSI-68": {
+  "role": "fundamentals",
+  "role_evidence": "allowing for a clear observation of the fundamental combustion processes",
+  "role_evidence_found": true,
+  "fuel_phase": "liquid",
+  "fuel_phase_evidence": "Investigate the role of liquid-phase mixing on the burning characteristics of bi-component fuel droplets.",
+  "fuel_phase_evidence_found": true,
+  "model": "gemini-3.5-flash"
+ },
+ "PSI-69": {
+  "role": "suppression",
+  "role_evidence": "Specifically, the hypothesis posits that the lack of buoyant convection in microgravity will lead to significant differences in the flammability limits and suppression efficacy of various fire suppressant agents compared to normal gravity conditions.",
+  "role_evidence_found": true,
+  "fuel_phase": "liquid",
+  "fuel_phase_evidence": "The FLEX experiments involve igniting and observing the burning behavior of relatively large droplets.",
+  "fuel_phase_evidence_found": true,
+  "model": "gemini-3.5-flash"
+ },
+ "PSI-98": {
+  "role": "prevention",
+  "role_evidence": "investigate the low-g flammability limits compared to those obtained in NASA’s normal gravity material flammability screening test.",
+  "role_evidence_found": true,
+  "fuel_phase": "solid",
+  "fuel_phase_evidence": "The sample material for Saffire-I is a composite fabric called Sibal consisting of cotton on a fiberglass substrate (75% cotton, 25% fiberglass by weight).",
+  "fuel_phase_evidence_found": true,
+  "model": "gemini-3.5-flash"
+ },
+ "PSI-99": {
+  "role": "prevention",
+  "role_evidence": "The objectives of SAFFIRE-II are to determine how rapidly a large scale fire grows in low-gravity and to investigate the low-g flammability limits compared to those obtained in NASA’s normal gravity material flammability screening test.",
+  "role_evidence_found": true,
+  "fuel_phase": "solid",
+  "fuel_phase_evidence": "As a follow on to the Saffire-I investigation, the Saffire-II investigation added more samples including SIBAL, silicone, structure PMMA, flat PMMA, and PMMA with Nomex.",
+  "fuel_phase_evidence_found": true,
+  "model": "gemini-3.5-flash"
+ },
+ "PSI-100": {
+  "role": "prevention",
+  "role_evidence": "Results determine microgravity flammability limits for several spacecraft materials, help to validate NASA’s material selection criteria, and how microgravity and limited oxygen affect flame size.",
+  "role_evidence_found": true,
+  "fuel_phase": "solid",
+  "fuel_phase_evidence": "As a follow on to the Saffire 1 investigation, the Saffire III investigation also used SIBAL as the sample material.",
+  "fuel_phase_evidence_found": true,
+  "model": "gemini-3.5-flash"
+ },
+ "PSI-101": {
+  "role": "detection",
+  "role_evidence": "Along with the results from the original SAME investigation, the results from SAME-R can lead to technology for an advanced fire detector for future spacecraft that will be used for long duration missions.",
+  "role_evidence_found": true,
+  "fuel_phase": "solid",
+  "fuel_phase_evidence": "1) a new test material, Pyrell®, an intumescent fire-retardant foam by Foamex, was introduced to replace DBP samples,",
+  "fuel_phase_evidence_found": true,
+  "model": "gemini-3.5-flash"
+ },
+ "PSI-102": {
+  "role": "detection",
+  "role_evidence": "The SAME experiment will provide technology for an advanced fire detector for future spacecraft that will be used for long duration missions.",
+  "role_evidence_found": true,
+  "fuel_phase": "solid",
+  "fuel_phase_evidence": "The measurements were made using smoke generated by overheated spacecraft materials where variables such as the sample temperature, flow field, and particle aging time were more rigorously controlled.",
+  "fuel_phase_evidence_found": true,
+  "model": "gemini-3.5-flash"
+ },
+ "PSI-106": {
+  "role": "fundamentals",
+  "role_evidence": "The objective of this investigation is to better understand the structure and stability of laminar diffusion flames in microgravity.",
+  "role_evidence_found": true,
+  "fuel_phase": "gas",
+  "fuel_phase_evidence": "This setup used several fuels such as methane, ethylene, and nitrogen-diluted mixtures.",
+  "fuel_phase_evidence_found": true,
+  "model": "gemini-3.5-flash-lite"
+ },
+ "PSI-107": {
+  "role": "fundamentals",
+  "role_evidence": "The objective of SPICE is to better understand the complex process of combustion by observing flames in a microgravity environment",
+  "role_evidence_found": true,
+  "fuel_phase": "gas",
+  "fuel_phase_evidence": "Identify the laminar smoke-point properties of non-buoyant jet diffusion flames under various co-flow conditions in microgravity.",
+  "fuel_phase_evidence_found": true,
+  "model": "gemini-3.5-flash-lite"
+ },
+ "PSI-115": {
+  "role": "detection",
+  "role_evidence": "This would directly lead to better smoke detection devices and prevent fires that can lead to loss of materiel and loss of life.",
+  "role_evidence_found": true,
+  "fuel_phase": "solid",
+  "fuel_phase_evidence": "The smoke originates from pyrolysis vapor expelled from a heated sample in a geometry similar to that considered in the SAME experiments.",
+  "fuel_phase_evidence_found": true,
+  "model": "gemini-3.5-flash-lite"
+ },
+ "PSI-117": {
+  "role": "fundamentals",
+  "role_evidence": "The objective of this ground investigation was to use flight data obtained from PSI through NASA’s Flame Extinguishment Experiment (FLEX) to quantify how externally imposed thermal and convective perturbations regulated the dynamics and ultimate fate of already established droplet cool flames",
+  "role_evidence_found": true,
+  "fuel_phase": "liquid",
+  "fuel_phase_evidence": "OpenFOAM was used to develop a 3-D CFD model of n-alkane droplet cool flames in microgravity",
+  "fuel_phase_evidence_found": true,
+  "model": "gemini-3.5-flash-lite"
+ },
+ "PSI-142": {
+  "role": "fundamentals",
+  "role_evidence": "Develop a new diagram of the flammability limits of diffusional cool flames affected by radiation, diffusion, and convection.",
+  "role_evidence_found": true,
+  "fuel_phase": "gas",
+  "fuel_phase_evidence": "one dimensional freely-propagating dimethyl ether (DME) flames using an arc-length continuation method",
+  "fuel_phase_evidence_found": true,
+  "model": "gemini-3.5-flash-lite"
+ },
+ "PSI-159": {
+  "role": "fundamentals",
+  "role_evidence": "Determine the conditions for which cool diffusion flames occur for propane, n-butane, and n-pentane; normal and inverse flames; and a broad range of Zst, Tad, and fluent flow rate.",
+  "role_evidence_found": true,
+  "fuel_phase": "gas",
+  "fuel_phase_evidence": "Cool diffusion flames burning propane, n-butane, and n-pentane.",
+  "fuel_phase_evidence_found": true,
+  "model": "gemini-3.5-flash-lite"
+ }
+}

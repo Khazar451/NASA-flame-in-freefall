@@ -1,0 +1,15 @@
+# CFI: Cool Flames Investigation (droplets in the same apparatus as FLEX).
+# Eight test ids appear twice in the table; the repeats get a ~2 suffix.
+investigation: PSI-39
+table: CFI.csv
+fuel_phase: liquid
+label: {column: CIR}
+fuel_material: {column: Fuel}
+o2_pct: {column: Oxygen, scale: 100}
+pressure_kpa: {column: Pressure, parse: first_number, scale: 101.325}   # "3 atm"
+flow_cm_s: null
+diluent:
+  components: {N2: Nitrogen, He: Helium}
+extra:
+  flex_number: {column: Flex Number, type: text}
+  fiber_supported: {column: Fiber, type: text}

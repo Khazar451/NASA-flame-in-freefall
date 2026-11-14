@@ -7,6 +7,7 @@
 ## Decisions (Sat 14 Nov)
 
 - **AI provider: Gemini, free tier (Google AI Studio), for everything.** No spend. All calls go through `llm.py`, so the provider can still be swapped with two lines in `.env`.
+- **The free tier allows about 20 requests per model per day** (found in Phase 4). `LLM_MODEL` is therefore a list of models and `llm.py` moves to the next one when a quota runs out. With four models that is about 80 requests a day, so every AI result the build needs is saved to a committed file, and `/ask` must work well without the model.
 - **`/ask` never depends on the AI being up.** Fallback chain: Gemini → `demo_cache.json` → a retrieval-only answer (matching table rows plus the top cited passages, no model).
 - **Data source: the PSI JSON API at `psi.nasa.gov`, no login.** The old `psi.ndc.nasa.gov` address is gone and the `s3://nasa-psi` bucket has no combustion data.
   - List: `GET /geode-py/ws/repo/search?term=&source=psi&type=investigation&size=500`, keep `Research Area == "Combustion Science"`
@@ -154,60 +155,70 @@ The dashboard already defines the contract: `docs/data-contract.md` and `app/src
 
 ---
 
-## Phase 4: Investigation-level extraction (Sat 17:00–20:00)
+## Phase 4: investigations.json (Sat 16:00–16:30)
 
 **Build:**
-- `extract_investigations.py` fills `Investigation` records in two passes:
-  - **Copied from the PSI record, no AI:** name, acronym, objectives, approach, hypothesis, hardware, DOI, related investigations, Earth benefits, publications. Status `source`.
-  - **AI extraction:** O₂, pressure and flow ranges, fuel, geometry, diluent, and the pillar / context tags, read from the record text, the documents and the experimental-table headers. Every field is a `SourcedValue` with a snippet quoted from the source.
-- Rejection rules:
-  - a snippet that doesn't appear in the source text means the field is cleared
-  - a unit that doesn't match the schema means the field is cleared
-- `review_export`: writes `data/interim/review.csv` for the ME teammate (one row per field, with columns for status and correction).
-- `apply_overrides`: turns the reviewed CSV into `data/overrides.json`, merged last.
-- Output: `data/out/investigations.json`.
+- `extract_investigations.py` writes `data/out/investigations.json`, one record per investigation in the contract shape:
+  - **Copied from the PSI record, no AI:** id, acronym, title, flight or ground, hardware, related investigations, DOI, URL, plus the extras (sub-area, objectives, Earth benefits, publication count, hardware family).
+  - **Proposed by the AI, checked by the ME teammate:** `role` (prevention, detection, suppression, fundamentals) and `fuel_phase` (solid, liquid, gas, other). For each tag the AI must quote the sentence it relied on. The quote is checked against the record text; one retry, then the tag is flagged.
+- The contract has no oxygen, pressure or flow fields per investigation, so nothing else is extracted here. Those ranges come from the test rows in Phase 5.
+- AI tags are saved in `pipeline/review/investigation_tags.json` (committed), so a rebuild on another machine needs no AI calls.
+- `review-export` writes `pipeline/review/investigations.csv`: one row per tag with the AI value and its quote. The ME teammate types `y` under `agree` or a value under `corrected_value`.
+- `apply-overrides` turns the reviewed sheet into `data/overrides.json` and rebuilds. Overrides are applied last on every build. `meta.roles_reviewed` becomes true once every row is reviewed.
 
 **Gate:**
-- [ ] All investigations pass validation; empty fields are reported, not invented
-- [ ] Snippet check: 0 fields kept whose snippet isn't in the source
-- [ ] I check 3 investigations end to end against their PDFs
-- [ ] The ME teammate starts the full review (it can continue alongside Phase 5)
-- [ ] PR #2 merged
+- [ ] `validate` passes on `data/out/`
+- [ ] 0 tags whose quote is missing from the record
+- [ ] I check 3 investigations against their PSI pages
+- [ ] The ME teammate has the review sheet (review can continue alongside Phase 5)
 
 ---
 
-## Phase 5: Test level, FLEX and CFI first (Sat 20:00–00:30)
+## Phase 5: tests.json (Sat 16:30–17:15)
 
 **Build:**
-- `propose_mapping`: the AI reads each table's header and first 5 rows and writes `mappings/<table>.yaml` (column → field, unit conversion, how to read the results). **I review and edit every YAML file.**
-- `transform_tests.py`: plain code applies the mappings and writes `tests.json`, one row per test in the contract shape, with family-specific results in `extra`. Every row keeps its `source` file and row.
-- Order: FLEX, CFI, BASS-II, Saffire I–II, then the ACME tables.
-- Sanity ranges in `validate.py`:
-  - O₂ between 0 and 100%
-  - pressure between 0 and 1000 kPa
-  - flow at least 0
-  - every key in `extra` is in the allowed list for its family
+- One mapping file per table in `pipeline/mappings/*.yaml`: which column feeds which field, the unit conversion, which cell texts mean "no value", which rows to skip, and how the outcome column is read. Written by hand from the tables' real contents; no AI.
+- `transform_tests.py` applies the mappings with plain code and writes `data/out/tests.json`, one row per test in the contract shape, with family-specific values in `extra`. Every row keeps its source file and row.
+- A cell the mapping cannot read fails the build and is listed, so a wrong mapping cannot silently produce empty values.
+- A source value that cannot be real (a pressure of 0, a negative flow) is left empty and the row's note quotes it.
+- `pipeline/mappings/_skipped.yaml` lists the 8 tables that are not test-level, with the reason for each.
+
+**Result:** 1,867 rows from 14 tables covering 12 investigations; 886 rows have both oxygen and pressure.
+
+**For the ME teammate to check (each is marked TO CHECK in its mapping file):**
+- FLEX: "Completion" is read as sustained, "Disruption" as unknown.
+- CFI-G: "SE" is read as extinguished, "FT" (flow terminated) as sustained, "-" as no ignition.
+- BASS-II and Saffire-I/II: cabin pressure (1 atm) is assumed, and every such row says so.
+- Inverse flames (Flame Design, CFI-G) have no ambient oxygen; the burner's oxygen is in `extra.oxidizer_o2_pct`.
 
 **Gate:**
-- [ ] Row count per table equals the source table's row count (minus documented skips)
+- [ ] Row count per table equals the source table's row count minus the skipped rows the build lists
 - [ ] 5 random output rows traced back by hand to the raw file
-- [ ] **End-to-end check with CompE #2:** 2 real investigations show on the atmosphere map at the deployed URL
-- [ ] PR #3 merged
+- [ ] `validate` passes on `data/out/`
+- [ ] **End-to-end check with CompE #2:** the real files load in the dashboard
 
 *Sleep 01:00–07:00.*
 
 ---
 
-## Phase 6: Derived data (Sun 07:00–10:00)
+## Phase 6: Gap map and "what varied" (Sat 16:45–17:00)
+
+No ranking here: the dashboard scores investigations itself (decided at the Phase 2 gate). No AI is used.
 
 **Build:**
-- No ranking here: the dashboard scores investigations itself (decided at the Phase 2 gate).
-- `coverage.py` writes `coverage.json`: a grid of fuel phase × O₂ / pressure band × gravity, counting tests per cell. Empty cells are the gaps.
-- `varied.py` writes `varied.json`: for each test-level investigation, which conditions changed and which stayed constant.
+- `coverage.py` writes `data/out/coverage.json`: every test with oxygen and pressure goes into one cell of fuel phase (solid, liquid, gas) × 5 oxygen bands × 5 pressure bands. All 75 cells are written; an empty cell is a gap.
+  - Band edges follow `app/src/habitats.ts`, so the lunar range (30 % oxygen or more, 4.3–10.2 psi) is exactly two cells per fuel, and each cell lists the habitats inside it.
+  - Tests that cannot go on the grid are counted under `not_on_grid` with the reason (inverse flame, no oxygen, no pressure).
+  - Gravity is not a dimension: every PSI test ran in microgravity. `meta.gravity` says so.
+- `varied.py` writes `data/out/varied.json`: for each investigation, each test condition marked varied, constant or not recorded, with its range and levels, plus a one-paragraph summary. Numbers are compared after rounding (oxygen to 1 %, pressure to 5 kPa), so measurement noise is not called variation. Assumed values (cabin pressure) are labelled assumed, never constant.
+- Both files have Pydantic models in `models.py` and appear in `data/schema.json`. `validate` checks that they match `tests.json`.
+
+**Result:** 886 tests on the grid, 52 of 75 cells empty. Inside the lunar range: 20 gas-flame tests, no liquids, no solids. Nothing at spacesuit conditions.
 
 **Gate:**
-- [ ] The empty cells in `coverage.json` match the gaps the ME teammate expects
-- [ ] PR #4 merged
+- [ ] The empty cells match the gaps the ME teammate expects
+- [ ] The "what varied" summaries read correctly for 3 investigations
+- [ ] `validate` passes on `data/out/`
 
 ---
 

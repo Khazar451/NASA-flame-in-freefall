@@ -403,5 +403,396 @@
     ],
     "title": "TestsFile",
     "type": "object"
+  },
+  "coverage.json": {
+    "$defs": {
+      "Band": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "min": {
+            "description": "Inclusive lower edge",
+            "title": "Min",
+            "type": "number"
+          },
+          "max": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Exclusive upper edge; null = no upper edge",
+            "title": "Max"
+          },
+          "habitats": {
+            "description": "Habitats whose range overlaps this band",
+            "items": {
+              "enum": [
+                "cabin",
+                "lunar",
+                "suit"
+              ],
+              "type": "string"
+            },
+            "title": "Habitats",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "min",
+          "max",
+          "habitats"
+        ],
+        "title": "Band",
+        "type": "object"
+      },
+      "CoverageCell": {
+        "additionalProperties": false,
+        "properties": {
+          "fuel_phase": {
+            "enum": [
+              "solid",
+              "liquid",
+              "gas",
+              "other"
+            ],
+            "title": "Fuel Phase",
+            "type": "string"
+          },
+          "o2_band": {
+            "title": "O2 Band",
+            "type": "string"
+          },
+          "pressure_band": {
+            "title": "Pressure Band",
+            "type": "string"
+          },
+          "n_tests": {
+            "description": "0 = a gap: nothing tested here",
+            "minimum": 0,
+            "title": "N Tests",
+            "type": "integer"
+          },
+          "n_pressure_assumed": {
+            "description": "Tests whose pressure is assumed, not measured",
+            "minimum": 0,
+            "title": "N Pressure Assumed",
+            "type": "integer"
+          },
+          "investigations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Investigations",
+            "type": "array"
+          },
+          "outcomes": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Outcomes",
+            "type": "object"
+          },
+          "habitats": {
+            "description": "Habitats inside both bands of this cell",
+            "items": {
+              "enum": [
+                "cabin",
+                "lunar",
+                "suit"
+              ],
+              "type": "string"
+            },
+            "title": "Habitats",
+            "type": "array"
+          }
+        },
+        "required": [
+          "fuel_phase",
+          "o2_band",
+          "pressure_band",
+          "n_tests",
+          "n_pressure_assumed",
+          "investigations",
+          "outcomes",
+          "habitats"
+        ],
+        "title": "CoverageCell",
+        "type": "object"
+      },
+      "OffGrid": {
+        "additionalProperties": false,
+        "properties": {
+          "fuel_phase": {
+            "enum": [
+              "solid",
+              "liquid",
+              "gas",
+              "other"
+            ],
+            "title": "Fuel Phase",
+            "type": "string"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          },
+          "n_tests": {
+            "minimum": 0,
+            "title": "N Tests",
+            "type": "integer"
+          },
+          "investigations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Investigations",
+            "type": "array"
+          }
+        },
+        "required": [
+          "fuel_phase",
+          "reason",
+          "n_tests",
+          "investigations"
+        ],
+        "title": "OffGrid",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "meta": {
+        "additionalProperties": true,
+        "title": "Meta",
+        "type": "object"
+      },
+      "o2_bands": {
+        "items": {
+          "$ref": "#/$defs/Band"
+        },
+        "title": "O2 Bands",
+        "type": "array"
+      },
+      "pressure_bands": {
+        "items": {
+          "$ref": "#/$defs/Band"
+        },
+        "title": "Pressure Bands",
+        "type": "array"
+      },
+      "cells": {
+        "items": {
+          "$ref": "#/$defs/CoverageCell"
+        },
+        "title": "Cells",
+        "type": "array"
+      },
+      "not_on_grid": {
+        "items": {
+          "$ref": "#/$defs/OffGrid"
+        },
+        "title": "Not On Grid",
+        "type": "array"
+      }
+    },
+    "required": [
+      "o2_bands",
+      "pressure_bands",
+      "cells",
+      "not_on_grid"
+    ],
+    "title": "CoverageFile",
+    "type": "object"
+  },
+  "varied.json": {
+    "$defs": {
+      "ConditionSummary": {
+        "additionalProperties": false,
+        "properties": {
+          "field": {
+            "description": "A TestRow field, or \"extra.<key>\"",
+            "title": "Field",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit"
+          },
+          "status": {
+            "enum": [
+              "varied",
+              "constant",
+              "not_recorded"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "assumed": {
+            "description": "The value is an assumption, not from the source table",
+            "title": "Assumed",
+            "type": "boolean"
+          },
+          "n_with_value": {
+            "minimum": 0,
+            "title": "N With Value",
+            "type": "integer"
+          },
+          "min": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Min"
+          },
+          "max": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max"
+          },
+          "levels": {
+            "description": "Distinct values (numbers rounded to `precision`), at most 12",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "title": "Levels",
+            "type": "array"
+          },
+          "n_levels": {
+            "minimum": 0,
+            "title": "N Levels",
+            "type": "integer"
+          },
+          "precision": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Precision"
+          }
+        },
+        "required": [
+          "field",
+          "label",
+          "unit",
+          "status",
+          "assumed",
+          "n_with_value",
+          "min",
+          "max",
+          "levels",
+          "n_levels",
+          "precision"
+        ],
+        "title": "ConditionSummary",
+        "type": "object"
+      },
+      "InvestigationVariation": {
+        "additionalProperties": false,
+        "properties": {
+          "investigation_id": {
+            "pattern": "^PSI-\\d+$",
+            "title": "Investigation Id",
+            "type": "string"
+          },
+          "n_tests": {
+            "minimum": 0,
+            "title": "N Tests",
+            "type": "integer"
+          },
+          "summary": {
+            "title": "Summary",
+            "type": "string"
+          },
+          "conditions": {
+            "items": {
+              "$ref": "#/$defs/ConditionSummary"
+            },
+            "title": "Conditions",
+            "type": "array"
+          },
+          "outcomes": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Outcomes",
+            "type": "object"
+          }
+        },
+        "required": [
+          "investigation_id",
+          "n_tests",
+          "summary",
+          "conditions",
+          "outcomes"
+        ],
+        "title": "InvestigationVariation",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "meta": {
+        "additionalProperties": true,
+        "title": "Meta",
+        "type": "object"
+      },
+      "investigations": {
+        "items": {
+          "$ref": "#/$defs/InvestigationVariation"
+        },
+        "title": "Investigations",
+        "type": "array"
+      }
+    },
+    "required": [
+      "investigations"
+    ],
+    "title": "VariedFile",
+    "type": "object"
   }
 }

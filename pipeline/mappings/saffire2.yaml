@@ -1,0 +1,23 @@
+# Saffire-II: nine smaller samples. Flow-visualisation runs and the table's footnote
+# rows are skipped. Two rows (2-6 and 2-9) have no material in the table.
+# Outcome is left unknown: the table gives burn lengths and times, not a verdict.
+investigation: PSI-99
+table: SAFFIRE-2.csv
+fuel_phase: solid
+null_values: [Insignificant, n/a]
+keep_if_not_blank: ["Air Flow (cm/s)"]
+label: {column: Sample Number}
+fuel_material: {column: Material}
+o2_pct: {column: "Percent O2 (Note 1)", parse: range_mean}   # "~ 22.1", "22.1 to 22.0"
+pressure_kpa:
+  value: 101.325
+  assumed: "Pressure not in the source table; Cygnus cabin pressure (1 atm) assumed."
+flow_cm_s: {column: "Air Flow (cm/s)", parse: first_number}   # "20 cm/s"
+extra:
+  flow_direction: {column: Flow Direction, type: text}
+  burn_time: {column: "Burn Time (s)", type: text}
+  microgravity_burn_length: {column: "?-g Burn Length", type: text}
+  microgravity_spread_rate: {column: "?-g Spread Length", type: text}
+  normal_gravity_burn_length: {column: "1-g Burn Length", type: text}
+  sample_thickness: {column: Samle Thickness, type: text}
+  ignition_power_w: {column: "Ignition Power (W)", parse: first_number}

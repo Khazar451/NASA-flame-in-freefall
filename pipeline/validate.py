@@ -17,7 +17,7 @@ from typing import Any
 from pydantic import BaseModel, ValidationError
 
 from pipeline import config
-from pipeline.models import InvestigationsFile, TestsFile
+from pipeline.models import CoverageFile, InvestigationsFile, TestsFile, VariedFile
 
 # Hard limits: anything outside is a unit or mapping mistake, not a real test.
 O2_PCT = (0.0, 100.0)
@@ -55,14 +55,18 @@ def check(folder: Path) -> tuple[list[str], list[str]]:
     errors: list[str] = []
     warnings: list[str] = []
     inv_path, tests_path = folder / "investigations.json", folder / "tests.json"
-    for path in (inv_path, tests_path):
-        if not path.exists():
-            errors.append(f"{path.name}: file not found in {folder}")
-    if errors:
+    if not inv_path.exists():
+        errors.append(f"{inv_path.name}: file not found in {folder}")
+        if not tests_path.exists():
+            errors.append(f"{tests_path.name}: file not found in {folder}")
         return errors, warnings
 
     inv_file = _load(inv_path, InvestigationsFile, errors)
-    tests_file = _load(tests_path, TestsFile, errors)
+    if tests_path.exists():
+        tests_file = _load(tests_path, TestsFile, errors)
+    else:  # investigations are built a phase before the tests
+        warnings.append("tests.json is not built yet; only investigations.json was checked")
+        tests_file = TestsFile(tests=[])
     if inv_file is None or tests_file is None:
         return errors, warnings
 
@@ -96,11 +100,32 @@ def check(folder: Path) -> tuple[list[str], list[str]]:
 
     with_tests = {t.investigation_id for t in tests}
     without = sorted(known - with_tests, key=lambda i: int(i.split("-")[1]))
-    if without:
+    if without and tests:
         warnings.append(f"{len(without)} investigation(s) have no test rows: {', '.join(without)}")
     n_sample = sum(t.sample for t in tests)
     if n_sample:
         warnings.append(f"{n_sample} of {len(tests)} test rows are placeholders (sample=true)")
+
+    # The Phase 6 files are optional; when present they must agree with tests.json.
+    coverage_path, varied_path = folder / "coverage.json", folder / "varied.json"
+    if coverage_path.exists():
+        coverage = _load(coverage_path, CoverageFile, errors)
+        if coverage is not None:
+            counted = sum(c.n_tests for c in coverage.cells) + sum(o.n_tests for o in coverage.not_on_grid)
+            if counted != len(tests):
+                errors.append(f"coverage.json counts {counted} tests but tests.json has {len(tests)}; rebuild it")
+    if varied_path.exists():
+        varied_file = _load(varied_path, VariedFile, errors)
+        if varied_file is not None:
+            per_inv = {}
+            for t in tests:
+                per_inv[t.investigation_id] = per_inv.get(t.investigation_id, 0) + 1
+            for entry in varied_file.investigations:
+                if entry.investigation_id not in known:
+                    errors.append(f"varied.json: {entry.investigation_id} is not in investigations.json")
+                elif entry.n_tests != per_inv.get(entry.investigation_id, 0):
+                    errors.append(f"varied.json: {entry.investigation_id} counts {entry.n_tests} tests, "
+                                  f"tests.json has {per_inv.get(entry.investigation_id, 0)}; rebuild it")
     return errors, warnings
 
 

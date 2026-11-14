@@ -1,0 +1,16 @@
+# SPICE: gas-jet flames in a coflow of air in the glovebox duct. One row per flame
+# setting. The table has no test id, so rows are labelled by their row number.
+# Oxygen and pressure are not in the table and are left empty.
+investigation: PSI-107
+table: Spice.csv
+fuel_phase: gas
+label: {template: "day {GMT date} row {row}"}
+fuel_material: {column: Fuel}
+o2_pct: null
+pressure_kpa: null
+flow_cm_s: {column: "Air Rate (cm/s)"}
+extra:
+  nozzle_mm: {column: "Nozzle (mm)"}
+  fuel_rate_mg_s: {column: "Fuel Rate (mg/s)"}
+  hydrocarbon_fuel_rate_mg_s: {column: "HC Fuel Rate (mg/s)"}
+  gmt_ignition: {column: GMT ignition, type: text}

@@ -1,0 +1,27 @@
+# ACME CFI-G, normal flames: gaseous fuel from the burner into an oxygen atmosphere.
+# TO CHECK (ME): the "Self-ext or flow term" column is read as
+#   SE (self-extinguished) -> extinguished
+#   FT (flow terminated: the flame burned until the fuel was shut off) -> sustained
+#   "-" (no flame data recorded) -> no_ignition
+investigation: PSI-159
+table: CFI-G_Normal Flames.csv
+fuel_phase: gas
+null_values: ["-", "#DIV/0!"]   # two cells hold a spreadsheet error
+label: {column: Test}
+fuel_material: {column: Fuel}
+o2_pct: {column: XO2 before test, scale: 100}
+pressure_kpa: {column: "approx p (bar)", scale: 100}
+flow_cm_s: null
+outcome:
+  column: Self-ext or flow term
+  map: {SE: extinguished, FT: sustained, "-": no_ignition}
+extra:
+  flame_type: {value: normal, type: text}
+  cool_flame: {column: "Cool flame?", type: text}
+  hot_ignition: {column: Hot ignition, type: text}
+  o2_after_pct: {column: XO2 after test, scale: 100}
+  fuel_mole_fraction: {column: Xf}
+  fuel_flow_mg_s: {column: "mHC (mg/s)"}
+  burn_time_s: {column: "burn time (sec)"}
+  adiabatic_flame_temperature_k: {column: "Tad (K)"}
+  comments: {column: Comments, type: text}
