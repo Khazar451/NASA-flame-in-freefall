@@ -3,6 +3,7 @@ import InvestigationDetail, { FUEL_LABEL, ROLE_LABEL } from '../components/Inves
 import { name } from '../data';
 import { DEFAULT_WEIGHTS, HABITATS, PARTS, toPsi, type PartKey } from '../habitats';
 import { rank, type Scored } from '../scoring';
+import { isCoolFlameStudy } from '../topics';
 import type { Dataset } from '../types';
 
 // Fixed order, never reassigned when a weight goes to zero.
@@ -52,6 +53,9 @@ export default function Ranking({ data }: { data: Dataset }) {
   const habitat = HABITATS.find((h) => h.id === habitatId)!;
   const ranked = useMemo(() => rank(data.investigations, data.tests, habitat, weights), [data, habitat, weights]);
   const total = PARTS.reduce((s, p) => s + weights[p.key], 0);
+  const [coolOnly, setCoolOnly] = useState(false);
+  // Each row keeps its place in the full ranking, so a filtered list still shows true ranks.
+  const rows = ranked.map((s, i) => ({ s, place: i + 1 })).filter(({ s }) => !coolOnly || isCoolFlameStudy(s.inv));
 
   return (
     <section className="split">
@@ -69,6 +73,14 @@ export default function Ranking({ data }: { data: Dataset }) {
           ))}
         </div>
         <p className="quiet">{habitat.basis}</p>
+        <div className="chips" role="group" aria-label="Investigations listed">
+          <button type="button" aria-pressed={!coolOnly} onClick={() => setCoolOnly(false)}>
+            All investigations
+          </button>
+          <button type="button" aria-pressed={coolOnly} onClick={() => setCoolOnly(true)}>
+            Cool flames
+          </button>
+        </div>
 
         <ul className="legend" aria-label="Score parts">
           {PARTS.map((p) => (
@@ -89,9 +101,9 @@ export default function Ranking({ data }: { data: Dataset }) {
             </tr>
           </thead>
           <tbody>
-            {ranked.map((s, i) => [
+            {rows.map(({ s, place }) => [
               <tr key={s.inv.id} className={open === s.inv.id ? 'opened' : undefined}>
-                <td className="num">{i + 1}</td>
+                <td className="num">{place}</td>
                 <td className="who">
                   <button
                     type="button"

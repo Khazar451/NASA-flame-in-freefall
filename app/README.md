@@ -37,6 +37,7 @@ Other files:
 
 - `src/habitats.ts`: habitat atmospheres (from the challenge brief) and the scoring settings. **The fuel and role values and the default weights are a draft for the domain lead to review.**
 - `src/scoring.ts`: the score calculation. No model is involved.
+- `src/topics.ts`: topics that cut across the four roles. The "Cool flames" filter on the map and the ranking lists the investigations whose NASA record names cool flames in its title, objectives or research impacts.
 - `src/types.ts`: the shape of the data files. See `docs/data-contract.md`.
 - `src/components/Plot.tsx`: small wrapper around Plotly.
 - `src/components/InvestigationDetail.tsx`: the panel shown when a mark on the map is selected: the investigation record, a summary of its tests, and its objectives.

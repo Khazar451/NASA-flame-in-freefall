@@ -3,6 +3,7 @@ import { name } from '../data';
 import { SMOKE_NOTE, formula, isSmokeStudy, numberedList, oxygenAssumed, pressureAssumed } from '../format';
 import { HABITATS, toPsi } from '../habitats';
 import { hasAtmosphere, insideHabitat } from '../scoring';
+import { isCoolFlameStudy } from '../topics';
 import type { FuelPhase, Investigation, Role, TestRow } from '../types';
 
 export const ROLE_LABEL: Record<Role, string> = {
@@ -106,6 +107,12 @@ export default function InvestigationDetail({ inv, tests, byId }: Props) {
         <dd>{inv.project_type === 'flight' ? 'Flight experiment' : 'Ground study'}</dd>
         <dt>Role</dt>
         <dd>{ROLE_LABEL[inv.role]}</dd>
+        {isCoolFlameStudy(inv) && (
+          <>
+            <dt>Topic</dt>
+            <dd>Cool flames</dd>
+          </>
+        )}
         {inv.sub_area && (
           <>
             <dt>Research area</dt>
