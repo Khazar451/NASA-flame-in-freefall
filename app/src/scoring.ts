@@ -24,6 +24,7 @@ export function closeness(t: TestRow, h: Habitat): number {
 
 export interface Scored {
   inv: Investigation;
+  total: number; // every test row on file
   tests: number; // rows with oxygen and pressure
   inside: number; // rows inside the habitat's range
   closest: TestRow | null;
@@ -43,13 +44,16 @@ export function scoreInvestigation(
     atmosphere: ranked.length ? top.reduce((s, r) => s + r.c, 0) / top.length : 0,
     fuel: FUEL_RELEVANCE[inv.fuel_phase],
     role: ROLE_RELEVANCE[inv.role],
-    evidence: Math.min(1, Math.log10(1 + usable.length) / Math.log10(1 + EVIDENCE_FULL_AT)),
+    // Every test on file counts here, including those whose source table does
+    // not give oxygen or pressure: they are still data to work with.
+    evidence: Math.min(1, Math.log10(1 + tests.length) / Math.log10(1 + EVIDENCE_FULL_AT)),
   };
   const keys = Object.keys(parts) as PartKey[];
   const total = keys.reduce((s, k) => s + weights[k], 0);
   const score = total > 0 ? (100 * keys.reduce((s, k) => s + weights[k] * parts[k], 0)) / total : 0;
   return {
     inv,
+    total: tests.length,
     tests: usable.length,
     inside: usable.filter((t) => insideHabitat(t, h)).length,
     closest: ranked[0]?.t ?? null,

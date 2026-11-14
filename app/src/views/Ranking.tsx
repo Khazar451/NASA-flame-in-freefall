@@ -18,7 +18,10 @@ function why(s: Scored): string {
   const lead = s.inv.project_type === 'ground'
     ? 'Ground re-analysis of flight data.'
     : `${s.inv.fuel_phase === 'other' ? 'Aerosol' : s.inv.fuel_phase[0].toUpperCase() + s.inv.fuel_phase.slice(1) + '-fuel'} ${ROLE_WORD[s.inv.role]} study.`;
-  if (s.tests === 0) return `${lead} No test conditions on file yet, so it scores on fuel type and role only.`;
+  if (s.total === 0) return `${lead} No per-test data on file, so it scores on fuel type and role only.`;
+  if (s.tests === 0) {
+    return `${lead} ${s.total} ${s.total === 1 ? 'test' : 'tests'} on file, but the source table does not give both oxygen and pressure, so nothing can be matched to this atmosphere.`;
+  }
   if (s.inside > 0) return `${lead} ${s.inside} of ${s.tests} tests ${s.inside === 1 ? 'falls' : 'fall'} inside this atmosphere.`;
   const c = s.closest;
   return c && c.o2_pct != null && c.pressure_kpa != null

@@ -16,6 +16,12 @@ export interface Investigation {
   related: string[];
   doi: string | null;
   url: string;
+  // Optional extras from the pipeline. No view depends on them.
+  hardware_family?: string | null;
+  sub_area?: string | null;
+  objectives?: string | null;
+  earth_benefits?: string | null;
+  n_publications?: number | null;
 }
 
 export interface TestRow {
@@ -32,6 +38,8 @@ export interface TestRow {
   note: string | null;
   source: { file: string; row: number } | null;
   sample: boolean; // true = placeholder row, not a NASA result
+  // Optional: values only some experiment families report, e.g. burn_time_s.
+  extra?: Record<string, number | string | boolean | null> | null;
 }
 
 export interface Dataset {
