@@ -55,14 +55,18 @@ def check(folder: Path) -> tuple[list[str], list[str]]:
     errors: list[str] = []
     warnings: list[str] = []
     inv_path, tests_path = folder / "investigations.json", folder / "tests.json"
-    for path in (inv_path, tests_path):
-        if not path.exists():
-            errors.append(f"{path.name}: file not found in {folder}")
-    if errors:
+    if not inv_path.exists():
+        errors.append(f"{inv_path.name}: file not found in {folder}")
+        if not tests_path.exists():
+            errors.append(f"{tests_path.name}: file not found in {folder}")
         return errors, warnings
 
     inv_file = _load(inv_path, InvestigationsFile, errors)
-    tests_file = _load(tests_path, TestsFile, errors)
+    if tests_path.exists():
+        tests_file = _load(tests_path, TestsFile, errors)
+    else:  # investigations are built a phase before the tests
+        warnings.append("tests.json is not built yet; only investigations.json was checked")
+        tests_file = TestsFile(tests=[])
     if inv_file is None or tests_file is None:
         return errors, warnings
 
@@ -96,7 +100,7 @@ def check(folder: Path) -> tuple[list[str], list[str]]:
 
     with_tests = {t.investigation_id for t in tests}
     without = sorted(known - with_tests, key=lambda i: int(i.split("-")[1]))
-    if without:
+    if without and tests:
         warnings.append(f"{len(without)} investigation(s) have no test rows: {', '.join(without)}")
     n_sample = sum(t.sample for t in tests)
     if n_sample:

@@ -38,6 +38,10 @@ class LLMError(RuntimeError):
     """The provider failed or returned something that does not match the schema."""
 
 
+class QuotaError(LLMError):
+    """Every configured model has used up its quota. Waiting a few seconds will not help."""
+
+
 class Provider(Protocol):
     name: str
     model: str
@@ -80,7 +84,14 @@ class GeminiProvider:
             raise LLMError("LLM_PROVIDER=gemini needs: pip install google-genai") from exc
         from google.genai import types
 
-        self.model = model
+        # LLM_MODEL may list several models, e.g. "gemini-3.5-flash,gemini-3.5-flash-lite".
+        # The free tier allows about 20 requests a day per model, so when one model's
+        # quota runs out the next one in the list is used. `model` (the first) names the
+        # configuration in the cache key; `last_model` is the one that actually answered.
+        self.models = [m.strip() for m in model.split(",") if m.strip()]
+        self.model = self.models[0]
+        self.last_model = self.model
+        self._exhausted: set[str] = set()
         # Without a timeout a slow model can hang a pipeline run for minutes.
         timeout_ms = int(float(config.env("LLM_TIMEOUT_S") or 90) * 1000)
         self._client = genai.Client(
@@ -96,12 +107,27 @@ class GeminiProvider:
             response_json_schema=schema,
             temperature=0,
         )
-        resp = self._client.models.generate_content(
-            model=self.model, contents=prompt, config=config_
+        for model in self.models:
+            if model in self._exhausted:
+                continue
+            try:
+                resp = self._client.models.generate_content(
+                    model=model, contents=prompt, config=config_
+                )
+            except Exception as exc:
+                if getattr(exc, "code", None) == 429 or "RESOURCE_EXHAUSTED" in str(exc):
+                    self._exhausted.add(model)
+                    continue
+                raise
+            if not resp.text:
+                raise LLMError(f"Gemini returned no text (model={model})")
+            self.last_model = model
+            return resp.text
+        raise QuotaError(
+            f"quota used up on every configured model ({', '.join(self.models)}). The Gemini "
+            "free tier allows about 20 requests per model per day; add more models to "
+            "LLM_MODEL or wait for the daily reset."
         )
-        if not resp.text:
-            raise LLMError(f"Gemini returned no text (model={self.model})")
-        return resp.text
 
 
 class OpenAICompatProvider:
@@ -237,7 +263,7 @@ def complete_json(
 
     try:
         raw = provider.complete_json(prompt, json_schema, system)
-    except LLMError:
+    except LLMError:  # includes QuotaError
         raise
     except Exception as exc:  # SDK errors: auth, quota, network
         raise LLMError(f"{provider.name} call failed: {type(exc).__name__}: {exc}") from exc
@@ -248,7 +274,7 @@ def complete_json(
             path,
             {
                 "provider": provider.name,
-                "model": provider.model,
+                "model": getattr(provider, "last_model", provider.model),
                 "created_at": datetime.now(timezone.utc).isoformat(),
                 "output": output,
             },
@@ -275,7 +301,7 @@ def _check() -> int:
     except LLMError as exc:
         print(f"FAILED: {exc}", file=sys.stderr)
         return 1
-    print(f"OK  provider={provider.name}  model={provider.model}  reply={out}")
+    print(f"OK  provider={provider.name}  model={getattr(provider, 'last_model', provider.model)}  reply={out}")
     return 0
 
 

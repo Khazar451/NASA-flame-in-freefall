@@ -116,3 +116,51 @@ def test_get_provider_explains_missing_settings(monkeypatch, env, message):
 def test_fake_provider_selectable_from_env(monkeypatch):
     monkeypatch.setenv("LLM_PROVIDER", "fake")
     assert llm.get_provider().name == "fake"
+
+
+class _Quota(Exception):
+    code = 429
+
+
+def _gemini(monkeypatch, models, behaviour):
+    """A GeminiProvider whose client is replaced by `behaviour(model) -> text or exception`."""
+    pytest.importorskip("google.genai")
+    provider = llm.GeminiProvider(models, "test-key")
+    asked = []
+
+    class _Models:
+        def generate_content(self, model, contents, config):
+            asked.append(model)
+            out = behaviour(model)
+            if isinstance(out, Exception):
+                raise out
+            return type("Resp", (), {"text": out})()
+
+    provider._client = type("Client", (), {"models": _Models()})()
+    return provider, asked
+
+
+def test_gemini_falls_back_to_the_next_model_when_quota_runs_out(monkeypatch):
+    provider, asked = _gemini(
+        monkeypatch, "flash, flash-lite ,old-lite",
+        lambda model: _Quota("RESOURCE_EXHAUSTED") if model == "flash" else '{"city": "Paris"}',
+    )
+    assert provider.model == "flash"  # the cache key stays on the first model
+    assert complete_json("capital?", Reply, provider=provider, use_cache=False)["city"] == "Paris"
+    assert asked == ["flash", "flash-lite"] and provider.last_model == "flash-lite"
+    complete_json("again?", Reply, provider=provider, use_cache=False)
+    assert asked == ["flash", "flash-lite", "flash-lite"]  # the exhausted model is not asked again
+
+
+def test_gemini_raises_quota_error_when_every_model_is_exhausted(monkeypatch):
+    provider, asked = _gemini(monkeypatch, "flash,flash-lite", lambda model: _Quota("quota"))
+    with pytest.raises(llm.QuotaError, match="flash, flash-lite"):
+        complete_json("capital?", Reply, provider=provider, use_cache=False)
+    assert asked == ["flash", "flash-lite"]
+
+
+def test_gemini_other_errors_are_not_treated_as_quota(monkeypatch):
+    provider, asked = _gemini(monkeypatch, "flash,flash-lite", lambda model: ValueError("bad key"))
+    with pytest.raises(LLMError, match="bad key") as caught:
+        complete_json("capital?", Reply, provider=provider, use_cache=False)
+    assert not isinstance(caught.value, llm.QuotaError) and asked == ["flash"]

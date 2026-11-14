@@ -7,6 +7,7 @@
 ## Decisions (Sat 14 Nov)
 
 - **AI provider: Gemini, free tier (Google AI Studio), for everything.** No spend. All calls go through `llm.py`, so the provider can still be swapped with two lines in `.env`.
+- **The free tier allows about 20 requests per model per day** (found in Phase 4). `LLM_MODEL` is therefore a list of models and `llm.py` moves to the next one when a quota runs out. With four models that is about 80 requests a day, so every AI result the build needs is saved to a committed file, and `/ask` must work well without the model.
 - **`/ask` never depends on the AI being up.** Fallback chain: Gemini → `demo_cache.json` → a retrieval-only answer (matching table rows plus the top cited passages, no model).
 - **Data source: the PSI JSON API at `psi.nasa.gov`, no login.** The old `psi.ndc.nasa.gov` address is gone and the `s3://nasa-psi` bucket has no combustion data.
   - List: `GET /geode-py/ws/repo/search?term=&source=psi&type=investigation&size=500`, keep `Research Area == "Combustion Science"`
@@ -154,25 +155,22 @@ The dashboard already defines the contract: `docs/data-contract.md` and `app/src
 
 ---
 
-## Phase 4: Investigation-level extraction (Sat 17:00–20:00)
+## Phase 4: investigations.json (Sat 16:00–16:30)
 
 **Build:**
-- `extract_investigations.py` fills `Investigation` records in two passes:
-  - **Copied from the PSI record, no AI:** name, acronym, objectives, approach, hypothesis, hardware, DOI, related investigations, Earth benefits, publications. Status `source`.
-  - **AI extraction:** O₂, pressure and flow ranges, fuel, geometry, diluent, and the pillar / context tags, read from the record text, the documents and the experimental-table headers. Every field is a `SourcedValue` with a snippet quoted from the source.
-- Rejection rules:
-  - a snippet that doesn't appear in the source text means the field is cleared
-  - a unit that doesn't match the schema means the field is cleared
-- `review_export`: writes `data/interim/review.csv` for the ME teammate (one row per field, with columns for status and correction).
-- `apply_overrides`: turns the reviewed CSV into `data/overrides.json`, merged last.
-- Output: `data/out/investigations.json`.
+- `extract_investigations.py` writes `data/out/investigations.json`, one record per investigation in the contract shape:
+  - **Copied from the PSI record, no AI:** id, acronym, title, flight or ground, hardware, related investigations, DOI, URL, plus the extras (sub-area, objectives, Earth benefits, publication count, hardware family).
+  - **Proposed by the AI, checked by the ME teammate:** `role` (prevention, detection, suppression, fundamentals) and `fuel_phase` (solid, liquid, gas, other). For each tag the AI must quote the sentence it relied on. The quote is checked against the record text; one retry, then the tag is flagged.
+- The contract has no oxygen, pressure or flow fields per investigation, so nothing else is extracted here. Those ranges come from the test rows in Phase 5.
+- AI tags are saved in `pipeline/review/investigation_tags.json` (committed), so a rebuild on another machine needs no AI calls.
+- `review-export` writes `pipeline/review/investigations.csv`: one row per tag with the AI value and its quote. The ME teammate types `y` under `agree` or a value under `corrected_value`.
+- `apply-overrides` turns the reviewed sheet into `data/overrides.json` and rebuilds. Overrides are applied last on every build. `meta.roles_reviewed` becomes true once every row is reviewed.
 
 **Gate:**
-- [ ] All investigations pass validation; empty fields are reported, not invented
-- [ ] Snippet check: 0 fields kept whose snippet isn't in the source
-- [ ] I check 3 investigations end to end against their PDFs
-- [ ] The ME teammate starts the full review (it can continue alongside Phase 5)
-- [ ] PR #2 merged
+- [ ] `validate` passes on `data/out/`
+- [ ] 0 tags whose quote is missing from the record
+- [ ] I check 3 investigations against their PSI pages
+- [ ] The ME teammate has the review sheet (review can continue alongside Phase 5)
 
 ---
 

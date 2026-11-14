@@ -143,6 +143,10 @@ def test_missing_or_broken_files_are_errors(tmp_path):
     errors, _ = validate.check(tmp_path)
     assert len(errors) == 2 and all("file not found" in e for e in errors)
     write(tmp_path)
+    (tmp_path / "tests.json").unlink()
+    errors, warnings = validate.check(tmp_path)
+    assert errors == [] and warnings == ["tests.json is not built yet; only investigations.json was checked"]
+    write(tmp_path)
     (tmp_path / "tests.json").write_text("{not json")
     errors, _ = validate.check(tmp_path)
     assert len(errors) == 1 and "not valid JSON" in errors[0]

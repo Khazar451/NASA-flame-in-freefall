@@ -13,7 +13,7 @@ from __future__ import annotations
 import argparse
 from typing import Callable
 
-from pipeline import extract_text, fetch, inventory, validate
+from pipeline import extract_investigations, extract_text, fetch, inventory, validate
 
 # (name, phase that implements it, help text), in pipeline order. validate runs last,
 # on the finished output files.
@@ -21,9 +21,9 @@ STEPS: list[tuple[str, int, str]] = [
     ("inventory", 1, "list PSI combustion investigations into inventory.csv"),
     ("fetch", 3, "download experimental tables and PDF documents into data/raw/"),
     ("extract-text", 3, "PDFs to page-numbered text in data/interim/text/"),
-    ("extract-investigations", 4, "AI extraction of investigation-level records"),
-    ("review-export", 4, "write the review sheet for the ME teammate"),
-    ("apply-overrides", 4, "merge reviewed corrections into data/overrides.json"),
+    ("extract-investigations", 4, "build investigations.json: PSI fields plus AI role and fuel tags"),
+    ("review-export", 4, "write the review sheet of AI tags for the ME teammate"),
+    ("apply-overrides", 4, "reviewed sheet -> data/overrides.json, then rebuild investigations.json"),
     ("propose-mappings", 5, "AI drafts a column mapping YAML for each table"),
     ("transform-tests", 5, "apply reviewed mappings to build tests.json"),
     ("coverage", 6, "coverage grid for the gap map"),
@@ -39,6 +39,9 @@ IMPLEMENTED: dict[str, StepFn] = {
     "inventory": inventory.run,
     "fetch": fetch.run,
     "extract-text": extract_text.run,
+    "extract-investigations": extract_investigations.run,
+    "review-export": extract_investigations.run_review_export,
+    "apply-overrides": extract_investigations.run_apply_overrides,
     "validate": validate.run,
 }
 
@@ -46,6 +49,7 @@ IMPLEMENTED: dict[str, StepFn] = {
 ARGUMENTS: dict[str, Callable[[argparse.ArgumentParser], None]] = {
     "inventory": inventory.add_arguments,
     "fetch": fetch.add_arguments,
+    "extract-investigations": extract_investigations.add_arguments,
     "validate": validate.add_arguments,
 }
 
