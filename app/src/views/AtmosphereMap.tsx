@@ -2,8 +2,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import InvestigationDetail from '../components/InvestigationDetail';
 import Plot from '../components/Plot';
 import { name } from '../data';
-import { SMOKE_NOTE, assumedLine, formula, isSmokeStudy } from '../format';
-import { HABITATS, toPsi } from '../habitats';
+import { SMOKE_NOTE, SUMMARY_NOTE, assumedLine, formula, isReportSummary, isSmokeStudy, summaries } from '../format';
+import { EDGE_NOTE_PSI, HABITATS, toPsi } from '../habitats';
 import { hasAtmosphere, insideHabitat } from '../scoring';
 import { isCoolFlameStudy } from '../topics';
 import type { Dataset, FuelPhase, Investigation, Role, TestRow } from '../types';
@@ -78,8 +78,9 @@ const diameter = (n: number) => Math.min(34, 8 + 3 * Math.sqrt(n));
 function describe(g: Group, title: string, smoke: boolean): string {
   const n = g.tests.length;
   const kpa = g.tests.map((t) => t.pressure_kpa);
+  const fromReport = g.tests.filter(isReportSummary).length;
   const lines = [
-    `<b>${title}</b>: ${count(n, 'test')}`,
+    `<b>${title}</b>: ${fromReport === n ? summaries(n) : count(n, 'test')}`,
     `${span(g.tests.map((t) => t.o2_pct))}% oxygen at ${span(kpa.map(toPsi))} psi (${span(kpa, 0)} kPa)`,
   ];
   const fuels = [...new Set(g.tests.map((t) => t.fuel_material).filter((f): f is string => !!f))];
@@ -99,6 +100,7 @@ function describe(g: Group, title: string, smoke: boolean): string {
   lines.push(smoke ? SMOKE_NOTE : ends.join(', '));
   const assumed = assumedLine(g.tests.map((t) => t.note));
   if (assumed) lines.push(`<i>${assumed}</i>`);
+  if (fromReport > 0) lines.push(`<i>${SUMMARY_NOTE}${fromReport < n ? `, for ${fromReport} of them` : ''}</i>`);
   const sample = g.tests.filter((t) => t.sample).length;
   if (sample > 0) lines.push(`<i>${count(sample, 'placeholder row')}, not NASA results</i>`);
   return lines.join('<br>');
@@ -221,14 +223,24 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
   // Tests the chart cannot place, under the same filter.
   const inRole = data.tests.filter((t) => matches(byId.get(t.investigation_id), role));
   const offChart = inRole.length - shown.length;
-  const lunarInside = shown.filter((t) => insideHabitat(t, LUNAR));
-  const lunarFrom = [...new Set(lunarInside.map((t) => t.investigation_id))].map((id) => {
-    const inv = byId.get(id);
-    return inv ? name(inv) : id;
+  // Report summaries are drawn but are not tests, so they are counted apart.
+  const tests = shown.filter((t) => !isReportSummary(t));
+  const from = (rows: TestRow[]) =>
+    [...new Set(rows.map((t) => t.investigation_id))].map((id) => {
+      const inv = byId.get(id);
+      return inv ? name(inv) : id;
+    });
+  const lunarInside = tests.filter((t) => insideHabitat(t, LUNAR));
+  const lunarFrom = from(lunarInside);
+  const lunarReports = shown.filter((t) => isReportSummary(t) && insideHabitat(t, LUNAR));
+  // Right oxygen, pressure just over the limit: named, not counted.
+  const lunarEdge = tests.filter((t) => {
+    const over = toPsi(t.pressure_kpa) - LUNAR.psi[1];
+    return t.o2_pct >= LUNAR.o2[0] && t.o2_pct <= LUNAR.o2[1] && over > 0 && over <= EDGE_NOTE_PSI;
   });
   const lunarSolid = lunarInside.filter((t) => t.fuel_phase === 'solid').length;
   const cabin = HABITATS[0];
-  const nearCabin = shown.filter((t) => Math.abs(t.o2_pct - cabin.o2[0]) <= 1.5 && Math.abs(toPsi(t.pressure_kpa) - cabin.psi[0]) <= 0.5);
+  const nearCabin = tests.filter((t) => Math.abs(t.o2_pct - cabin.o2[0]) <= 1.5 && Math.abs(toPsi(t.pressure_kpa) - cabin.psi[0]) <= 0.5);
   const sel = selected ? byId.get(selected) : undefined;
   const selTests = sel ? data.tests.filter((t) => t.investigation_id === sel.id) : [];
 
@@ -286,7 +298,7 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
         <div className="panel">
           <h3>Coverage of the lunar range</h3>
           <p className="figure">
-            {lunarInside.length} <span>of {count(shown.length, 'test')} shown</span>
+            {lunarInside.length} <span>of {count(tests.length, 'test')} shown</span>
           </p>
           <p>
             {lunarFrom.length > 0 && `All from ${lunarFrom.join(', ')}. `}
@@ -296,6 +308,19 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
             {count(nearCabin.length, 'test')} {nearCabin.length === 1 ? 'sits' : 'sit'} at or near ordinary cabin
             air.
           </p>
+          {lunarEdge.length > 0 && (
+            <p>
+              {count(lunarEdge.length, 'more test')} from {from(lunarEdge).join(', ')}{' '}
+              {lunarEdge.length === 1 ? 'sits' : 'sit'} just above the range, within {EDGE_NOTE_PSI} psi of its{' '}
+              {LUNAR.psi[1]} psi limit. {lunarEdge.length === 1 ? 'It is' : 'They are'} not counted above.
+            </p>
+          )}
+          {lunarReports.length > 0 && (
+            <p>
+              The final report of {from(lunarReports).join(', ')} also describes burning in{' '}
+              {count(lunarReports.length, 'atmosphere')} inside the range, without per-test rows.
+            </p>
+          )}
           <p className="quiet">{LUNAR.basis}</p>
         </div>
 

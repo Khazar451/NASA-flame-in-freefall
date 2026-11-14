@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import InvestigationDetail, { FUEL_LABEL, ROLE_LABEL } from '../components/InvestigationDetail';
 import { name } from '../data';
 import { DEFAULT_WEIGHTS, HABITATS, PARTS, toPsi, type PartKey } from '../habitats';
+import { isReportSummary } from '../format';
 import { rank, type Scored } from '../scoring';
 import { isCoolFlameStudy } from '../topics';
 import type { Dataset } from '../types';
@@ -16,7 +17,7 @@ const PART_COLORS: Record<PartKey, string> = {
 const ROLE_WORD = { prevention: 'prevention', detection: 'detection', suppression: 'suppression', fundamentals: 'flame-science' } as const;
 const fmt = (n: number) => n.toFixed(1).replace(/\.0$/, '');
 
-function why(s: Scored): string {
+function reason(s: Scored): string {
   const lead = s.inv.project_type === 'ground'
     ? 'Ground re-analysis of flight data.'
     : `${s.inv.fuel_phase === 'other' ? 'Aerosol' : s.inv.fuel_phase[0].toUpperCase() + s.inv.fuel_phase.slice(1) + '-fuel'} ${ROLE_WORD[s.inv.role]} study.`;
@@ -30,6 +31,10 @@ function why(s: Scored): string {
     ? `${lead} Closest test: ${fmt(c.o2_pct)}% oxygen at ${fmt(toPsi(c.pressure_kpa))} psi.`
     : lead;
 }
+
+// The reason, plus a caution when the rows behind it are not single tests.
+const why = (s: Scored, fromReport: boolean) =>
+  fromReport ? `${reason(s)} Its rows are atmosphere summaries from the final report, not single tests.` : reason(s);
 
 // One line of facts for the summary shown when a name is hovered.
 function facts(s: Scored): string {
@@ -53,6 +58,12 @@ export default function Ranking({ data }: { data: Dataset }) {
   const habitat = HABITATS.find((h) => h.id === habitatId)!;
   const ranked = useMemo(() => rank(data.investigations, data.tests, habitat, weights), [data, habitat, weights]);
   const total = PARTS.reduce((s, p) => s + weights[p.key], 0);
+  // Investigations whose rows are all report summaries (see isReportSummary).
+  const reportOnly = useMemo(() => {
+    const all = new Map<string, boolean>();
+    for (const t of data.tests) all.set(t.investigation_id, (all.get(t.investigation_id) ?? true) && isReportSummary(t));
+    return new Set([...all].filter(([, only]) => only).map(([id]) => id));
+  }, [data]);
   const [coolOnly, setCoolOnly] = useState(false);
   // Each row keeps its place in the full ranking, so a filtered list still shows true ranks.
   const rows = ranked.map((s, i) => ({ s, place: i + 1 })).filter(({ s }) => !coolOnly || isCoolFlameStudy(s.inv));
@@ -138,7 +149,7 @@ export default function Ranking({ data }: { data: Dataset }) {
                       ) : null;
                     })}
                   </div>
-                  <span className="sub">{why(s)}</span>
+                  <span className="sub">{why(s, reportOnly.has(s.inv.id))}</span>
                 </td>
               </tr>,
               open === s.inv.id && (

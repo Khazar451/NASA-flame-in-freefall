@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { name } from '../data';
-import { SMOKE_NOTE, formula, isSmokeStudy, numberedList, oxygenAssumed, pressureAssumed } from '../format';
+import {
+  SMOKE_NOTE, formula, isReportSummary, isSmokeStudy, numberedList, oxygenAssumed, pressureAssumed,
+} from '../format';
 import { HABITATS, toPsi } from '../habitats';
 import { hasAtmosphere, insideHabitat } from '../scoring';
 import { isCoolFlameStudy } from '../topics';
@@ -85,6 +87,7 @@ export default function InvestigationDetail({ inv, tests, byId }: Props) {
     return n > 0 ? ` (assumed for ${n === placed.length ? 'all' : n} tests)` : '';
   };
   const smoke = isSmokeStudy(inv);
+  const fromReport = tests.filter(isReportSummary).length;
   const inLunar = placed.filter((t) => insideHabitat(t, LUNAR)).length;
 
   const outcomes = [
@@ -150,6 +153,12 @@ export default function InvestigationDetail({ inv, tests, byId }: Props) {
             <dd>
               {tests.length.toLocaleString('en-US')}
               {placed.length < tests.length && `, ${placed.length.toLocaleString('en-US')} of them on the map`}
+              {fromReport > 0 && (
+                <span className="why">
+                  {fromReport === tests.length ? 'Each row' : `${fromReport} of these rows`} is a summary of one
+                  atmosphere from the final report, not a single test.
+                </span>
+              )}
               {offMap.map(([reason, n]) => (
                 <span key={reason} className="why">
                   {n.toLocaleString('en-US')} not drawn: {reason}.

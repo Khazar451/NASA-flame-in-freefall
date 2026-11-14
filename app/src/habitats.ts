@@ -63,6 +63,12 @@ export const ROLE_RELEVANCE: Record<Role, number> = {
   fundamentals: 0.4,
 };
 
+// Tests this far above a range's top pressure are not counted as inside it, but
+// the map names them. FLEX ran at 0.7 atmospheres, which it measured as 10.3 to
+// 10.5 psi: just over the brief's 10.2 psi. The domain lead chose to keep the
+// brief's limit and say so, not to widen the range.
+export const EDGE_NOTE_PSI = 0.3;
+
 // Number of tests at which the "evidence" part reaches full credit.
 export const EVIDENCE_FULL_AT = 150;
 
