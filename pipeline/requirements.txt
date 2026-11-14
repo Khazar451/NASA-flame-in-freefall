@@ -12,4 +12,8 @@ google-genai>=1.0        # LLM_PROVIDER=gemini (the provider we use)
 # extract-text falls back to the pdftotext command (poppler-utils) when that exists.
 pymupdf>=1.24
 
-# Added in later phases: chromadb (7), fastapi + uvicorn (7)
+# Search index and the /ask server (Phase 7)
+chromadb>=1.0
+fastapi>=0.110
+uvicorn[standard]>=0.29
+httpx>=0.27   # only for the API tests

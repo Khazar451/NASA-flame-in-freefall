@@ -222,26 +222,29 @@ No ranking here: the dashboard scores investigations itself (decided at the Phas
 
 ---
 
-## Phase 7: Q&A (Sun 10:00–14:00)
+## Phase 7: `/ask` (Sat 17:00–19:00)
+
+Decided with Khazar: **retrieval first**, **ChromaDB embeddings** for document search, **the dashboard teammate deploys** the server. The request and reply shape is the one in `app/README.md` and `app/src/views/Ask.tsx`.
 
 **Build:**
-- `build_index.py`: splits page text and abstracts into chunks, each tagged with `source_id` and page, and builds a persistent ChromaDB index.
-- `api.py`: FastAPI with `POST /ask`. The model can call three tools:
-  - `query_investigations(filters)`
-  - `query_tests(filters)`
-  - `search_docs(q, k)`
-- After answering, code drops any citation that doesn't appear in the tool results.
-- Questions the data can't answer (for example partial gravity) get an explicit "no data" reply that names what bounds the answer.
-- `demo_cache.json`: stored answers to the 10 demo questions, used if the AI provider fails.
-- Retrieval-only fallback: for any other question when the provider fails or the free-tier rate limit is hit, return the matching rows and the top cited passages without a model-written answer.
-- Rate limit; the API key comes from an environment variable.
+- `build_index.py` (`build-index`): every readable page or record section → chunks of at most 1,500 characters with 200 overlap; scanned, unreadable and near-empty pages skipped. Embedded locally with Chroma's default model (all-MiniLM-L6-v2, no AI quota). Saved to `data/out/search/` (chunks, float16 vectors, manifest) and committed, so the server needs no raw data.
+- `search.py`: loads that index into an in-memory Chroma collection; questions are embedded on demand.
+- `ask.py`: the answer, in this order:
+  - demo questions → the stored answer in `pipeline/review/demo_answers.json`;
+  - partial-gravity questions → a fixed "no data" answer with the bounds (microgravity and 1 g), E-FIELD as stand-in, LUCI and FM2 to come;
+  - otherwise the **retrieval answer**: plain rules read the question (experiment names, fuel, oxygen and pressure limits in %, psi, kPa, atm, mmHg, habitat words, CO₂/helium), filter `tests.json` and summarise it; when nothing matches, the nearest real limit is given. Plus the closest document passages, quoted with their source;
+  - when the AI budget allows, Gemini rewrites that from the numbered sources only. The AI answer is dropped if any number in it is not in the sources (or a unit conversion of one).
+- `api.py`: FastAPI. `POST /ask`, `GET /health`, CORS, 500-character limit, per-address rate limit, daily AI budget. Reply `{answer, citations: [{label, url, kind, page?, snippet?}], mode, note?}`; citation URLs are unique.
+- `demo-answers`: answers the 10 demo questions once and saves them.
+- `requirements-api.txt`: the server's own, smaller requirements.
 
 **Gate:**
-- [ ] All 10 demo questions answered; every citation opens to the right page or row
-- [ ] Every number in an answer matches `tests.json` or `investigations.json`
-- [ ] Partial-gravity question → honest "no data" reply plus what bounds it
-- [ ] Provider disabled → cached answers are served for demo questions, retrieval-only answers for the rest
-- [ ] PR #5 merged
+- [ ] `pytest pipeline -q` passes
+- [ ] The server runs locally and answers the 10 demo questions
+- [ ] Every number in the demo answers matches `tests.json` or a quoted passage
+- [ ] The partial-gravity question gets the no-data answer
+- [ ] With AI off, every question still gets a retrieval answer
+- [ ] The dashboard's Ask view works against the local server (with CompE #2)
 
 ---
 

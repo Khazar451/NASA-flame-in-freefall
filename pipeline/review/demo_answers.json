@@ -1,0 +1,281 @@
+[
+ {
+  "question": "Which tests burned solid fuel above 30% oxygen?",
+  "answer": "No test in the PSI test tables matches solid fuels with oxygen at 30 % or more, as the highest oxygen level tested with solid fuels is 22.2 % in BASS-II, test B1. However, gas-fueled tests conducted during ACME/BRE testing (such as on test days 19039, 19056, 20247, 20279, and 20339) included oxygen concentrations above 30%, specifically listing levels such as 34% and 40%.",
+  "citations": [
+   {
+    "label": "BASS-II (PSI-25): test B1, table row 1",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-25#row-1",
+    "kind": "table"
+   },
+   {
+    "label": "ACME BRE (PSI-20): Final 20220201, p. 83",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-20#source-1",
+    "kind": "document",
+    "snippet": "BRE log of flames ignited in Increments 58-59 (round 1) and 63 (round 2 start) Test Day1 Year Month Date Burner Size2 Fuel bottle Oxygen conc.3 Flames ignited4 First round of tests, with the 25-mm burner, from Feb.-April 2019 19039 2019 Feb.",
+    "page": 83
+   },
+   {
+    "label": "ACME BRE (PSI-20): Final 20220201, p. 24",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-20#source-2",
+    "kind": "document",
+    "snippet": "BRE log of flames ignited in Increments 58-59 (round 1) and 63-64 (round 2) Test Day1 Year Month Date Burner Size2 Fuel bottle Oxygen conc.3 Flames ignited4 First round of tests, with the 25-mm burner, from Feb.-April 2019 19039 2019 Feb.",
+    "page": 24
+   }
+  ],
+  "built_as": "ai"
+ },
+ {
+  "question": "What did FLEX find about carbon dioxide as a suppressant?",
+  "answer": "In the PSI test tables, 123 tests match (diluted with CO2): FLEX (123). They cover oxygen 14 to 25 %, pressure 70.2 to 309 kPa (10.2 to 44.9 psi). Outcome: the flame went out in 88 and it burned to the end of the test in 8; 27 have no recorded outcome. The FLEX tests examine how a slow, sub-buoyant flow influences the efficacy of a single suppressant, CO2, and the influence of a stronger radiative environment achieved by increasing the pressure on its efficacy.",
+  "citations": [
+   {
+    "label": "FLEX (PSI-69): test table, 123 matching rows",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-69#tests",
+    "kind": "table"
+   },
+   {
+    "label": "FLEX (PSI-69): FLEX EIRD v4, p. 45",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-69#source-1",
+    "kind": "document",
+    "snippet": "The tests described in Table 11 examine how a slow, sub-buoyant flow influences the efficacy of a single suppressant, CO2 .",
+    "page": 45
+   }
+  ],
+  "built_as": "ai"
+ },
+ {
+  "question": "How does air flow speed change flame spread in BASS-II?",
+  "answer": "In the PSI test tables, 129 tests match: BASS-II (129). They cover oxygen 13.6 to 22.2 %, pressure 101 kPa (14.7 psi). Pressure for BASS-II is not in the source table; cabin pressure (1 atm) is assumed. As flow speed is reduced incrementally after ignition, both flame length and flame width drop accordingly with the flow. When the velocity is further reduced toward quenching limits, the flame size continues to shrink until extinction is reached.",
+  "citations": [
+   {
+    "label": "BASS-II (PSI-25): test table, 129 matching rows",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-25#tests",
+    "kind": "table"
+   },
+   {
+    "label": "BASS-II (PSI-25): BASS-II Summary Report, p. 106",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-25#source-1",
+    "kind": "document",
+    "snippet": "NASA/TM-20210011385 98 Figure 7.4.—Steady flame spread rate for both 2.2- and 1.2-cm-wide samples. Figure 7.5 shows a typical flame quenching sequence in the BASS–II experiment. A 2.2-cm-wide sample in 18.7 percent O2 was first ignited at 10-cm/s flow.",
+    "page": 106
+   }
+  ],
+  "built_as": "ai"
+ },
+ {
+  "question": "Has any material been burned at lunar-habitat conditions (30% oxygen, 10.2 psi)?",
+  "answer": "In the PSI test tables, 20 tests match (lunar-habitat conditions: 30 % oxygen or more at 4.3 to 10.2 psi): ACME CFI-G (20). They cover oxygen 33.2 to 39.3 %, pressure 50.7 kPa (7.35 psi). Materials most often named in the tables: 50% butane (9), 30% ethane (6), 30% butane (5). Outcome: the flame went out in 13, it burned to the end of the test in 5 and it did not ignite in 2.",
+  "citations": [
+   {
+    "label": "ACME CFI-G (PSI-159): test table, 20 matching rows",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-159#tests",
+    "kind": "table"
+   }
+  ],
+  "built_as": "ai"
+ },
+ {
+  "question": "What oxygen levels and pressures did FLEX test?",
+  "answer": "In the PSI test tables, 274 tests match: FLEX (274). They cover oxygen 12 to 34 %, pressure 70.2 to 309 kPa (10.2 to 44.9 psi). Outcome: the flame went out in 186 and it burned to the end of the test in 27; 61 have no recorded outcome. Additionally, the oxygen mole fraction shall range from 0.1 - 0.4 +/- 0.005, and the test pressure ranges from 0.5 - 1.5 atm.",
+  "citations": [
+   {
+    "label": "FLEX (PSI-69): test table, 274 matching rows",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-69#tests",
+    "kind": "table"
+   },
+   {
+    "label": "FLEX (PSI-69): PSI record, approach",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-69#source-2",
+    "kind": "document",
+    "snippet": "Select an ambient oxygen mole fraction that, based on ground-based testing, will support droplets burning to completion (as opposed to extinguishing at a finite droplet size). 4. Perform a droplet combustion test. 5."
+   },
+   {
+    "label": "FLEX (PSI-69): FLEX EIRD v4, p. 38",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-69#source-4",
+    "kind": "document",
+    "snippet": "Relative humidity: chamber relative humidity shall be less than 10% for the n-heptane test points and less than 2% for the methanol test points. 5.1.6 Ambient Flow Conditions One objective of FLEX is to study slow convective flow effects on suppressant efficacy.",
+    "page": 38
+   }
+  ],
+  "built_as": "ai"
+ },
+ {
+  "question": "What happens to flames in partial gravity on the Moon?",
+  "answer": "PSI has no combustion tests in partial gravity (the Moon is about 0.16 g, Mars about 0.38 g). Every PSI combustion test ran in microgravity, on the ISS or in a Cygnus cargo vehicle, and normal gravity (1 g) on the ground is the other bound, so flame behaviour in partial gravity lies somewhere between the two. ACME E-FIELD Flames used an electric field to imitate some effects of gravity on flames, and two planned experiments, LUCI and FM2, are expected to add partial-gravity data.",
+  "citations": [
+   {
+    "label": "Challenge brief: partial-gravity data",
+    "url": "https://www.spaceappschallenge.org/2026/challenges/flame-in-freefall/?tab=details",
+    "kind": "brief"
+   },
+   {
+    "label": "ACME E-FIELD Flames (PSI-22): investigation record",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-22#record",
+    "kind": "record"
+   },
+   {
+    "label": "ACME E-FIELD Flames (PSI-22): ISS Researchers Guide - Combustion In Reduced Gravity, p. 10",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-22#source-1",
+    "kind": "document",
+    "snippet": "Thus, an improved knowledge of combustion in reduced gravity is essential to adapt fire safety concepts and systems to the more stringent conditions of the space environment.",
+    "page": 10
+   },
+   {
+    "label": "ACME E-FIELD Flames (PSI-22): ISS Researchers Guide - Combustion In Reduced Gravity, p. 9",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-22#source-2",
+    "kind": "document",
+    "snippet": "The effects of these environmental changes on combustion in reduced gravity are unclear and need to be better understood for all mission- relevant scenarios. Every aspect of fire prevention, detection and suppression is Figure 1. 1-g and 0-g comparison flames.",
+    "page": 9
+   }
+  ],
+  "built_as": "no_data"
+ },
+ {
+  "question": "Which experiments studied smoke detection?",
+  "answer": "The CSD experiment on STS-75 studied smoke detection, comparing existing detector performance for several smoke types using limited diagnostics. Additionally, the SAME experiment (PSI-101) focused on the detection of smoke from microgravity fires and the measurement of microgravity smoke using diagnostics such as the P-Trak and DustTrak.",
+  "citations": [
+   {
+    "label": "SAME-R (PSI-101): Detection of Smoke from Microgravity Fires, p. 1",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-101#source-2",
+    "kind": "document",
+    "snippet": "1 Detection of Smoke from Microgravity Fires David Urban, DeVon Griffin, Gary Ruff: NASA Glenn Research Center Thomas Cleary, Jiann Yang, George Mulholland: National Institute for Standards and Technology Zeng-guang Yuan: National Center for Microgravity Research.",
+    "page": 1
+   },
+   {
+    "label": "SAME-R (PSI-101): SAME Baseline Concept Description Document 001 Rev A, p. 7",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-101#source-3",
+    "kind": "document",
+    "snippet": "smoke detection/sensing devices at NASA’s request for the test materials 2.4 SAME “Firsts” for NASA • Measurements of microgravity smoke: Diagnostics such as the P-Trak and the DustTrak will be used to measure particle count and particle mass concentration, respectively.",
+    "page": 7
+   },
+   {
+    "label": "SAME (PSI-102): SAME EarlyResults, p. 11",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-102#source-4",
+    "kind": "document",
+    "snippet": "SAME Experiment Status 11-16-2007 11 National Aeronautics and Space Administration www.nasa.gov Background: CSD Experiment (STS-75) 1996 • Mid-deck Glovebox experiment • Low cost comparison of existing detector performance for several smoke types • Limited diagnostics: –...",
+    "page": 11
+   },
+   {
+    "label": "SAME-R (PSI-101): Detection of Smoke from Microgravity Fires, p. 9",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-101#source-6",
+    "kind": "document",
+    "snippet": "9 CSD Experiment (STS-75) • Mid-deck Glovebox experiment on STS-75 • Low cost comparison of existing detector performance for several smoke types • Limited diagnostics: – Smoke detectors – Thermophoretic particle capture – Light extinction",
+    "page": 9
+   }
+  ],
+  "built_as": "ai"
+ },
+ {
+  "question": "What is a cool flame and which experiments studied it?",
+  "answer": "A cool flame is a flame having a typical temperature of ~ 650 K, or one that burns at relatively low temperatures of ~600 deg C, where the reaction is not vigorous and releases little heat, light, or carbon dioxide. Cool flames were studied by the FLEX team during droplet combustion experiments, and the Cool Flames Investigation with Gases (CFI-G) observes the chemical reactions of cool diffusion flames.",
+  "citations": [
+   {
+    "label": "PSI-117: PSI Users Group Cool Flames in Space 03302026, p. 3",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-117#source-2",
+    "kind": "document",
+    "snippet": "Introduction Cool flame: A flame having a typical temperature of ~ 650 K, reaction is not vigorous and releases little heat, light, or carbon dioxide (source: Wikipedia) Sir Humphrey Davy 1817 Low temperature flame Hot platinum wire into a mixture of air and diethyl ether...",
+    "page": 3
+   },
+   {
+    "label": "CFI (PSI-39): Aspects of Cool-Flame Supported Droplet Combustion in Mic..., p. 2",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-39#source-3",
+    "kind": "document",
+    "snippet": "(commonly encountered in car-engine knock) o More recently diffusion-controlled, quasi-steady cool flames supporting droplet combustion were discovered the FLEX team o Cool-flame low-T chemistry is of importance in new engine designs, fuel reforming, etc.",
+    "page": 2
+   },
+   {
+    "label": "ACME CFI-G (PSI-159): FinalRpt ACME.CFI-G, p. 77",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-159#source-6",
+    "kind": "document",
+    "snippet": "Cool diffusion flames were discovered during droplet combustion experiments aboard the ISS in 2012, and this initiated a rapidly growing field of combustion research. A cool flame is one that burns at about 600 degrees Celsius.",
+    "page": 77
+   }
+  ],
+  "built_as": "ai"
+ },
+ {
+  "question": "How did Saffire test fire spread on large samples?",
+  "answer": "In the PSI test tables, 13 tests match: SAFFIRE-II (9), SAFFIRE-I (2), SAFFIRE-III (2). They cover oxygen 21.5 to 22.1 %, pressure 101 kPa (14.7 psi), air flow 20 to 30 cm/s. Materials most often named in the tables: SIBAL Fabric (4), Silicone (4), Cotton-Fiberglass (SIBAL) (1), PMMA & Nomex (1), PMMA (1). Pressure for SAFFIRE-I, SAFFIRE-II is not in the source table; cabin pressure (1 atm) is assumed. Saffire tests were performed on the Orbital Science’s Cygnus resupply vehicle after it deberthed from the ISS using large flow ducts and sample cards. Once the samples were ignited, flame images were captured using two cameras while thermocouples, radiometers, solid state sensors, and anemometers recorded environmental data.",
+  "citations": [
+   {
+    "label": "SAFFIRE-II (PSI-99): test table, 9 matching rows",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-99#tests",
+    "kind": "table"
+   },
+   {
+    "label": "SAFFIRE-I (PSI-98): test table, 2 matching rows",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-98#tests",
+    "kind": "table"
+   },
+   {
+    "label": "SAFFIRE-III (PSI-100): test table, 2 matching rows",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-100#tests",
+    "kind": "table"
+   },
+   {
+    "label": "SAFFIRE-II (PSI-99): SAFFIRE-II Readme, part 1",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-99#source-1",
+    "kind": "document",
+    "snippet": "The objectives of the SAFFIRE (Spacecraft Fire Experiment) experiments are to (1) determine how rapidly a large scale fire grows in low-gravity and (2) investigate the low-g flammability limits compared to those obtained in NASA’s normal gravity material flammability..."
+   },
+   {
+    "label": "SAFFIRE-I (PSI-98): PSI record, approach",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-98#source-3",
+    "kind": "document",
+    "snippet": "The sample was approximately 0.94 meters long and 0.4 meters wide, simulating a large piece of flammable fabric. The Saffire-1 flight unit had a sample card installed in the middle of a large flow duct."
+   },
+   {
+    "label": "SAFFIRE-III (PSI-100): PSI record, approach",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-100#source-4",
+    "kind": "document",
+    "snippet": "Details related to samples and experimental parameters are provided in the Experimental Details file in the Science document folder."
+   },
+   {
+    "label": "SAFFIRE-III (PSI-100): SAFFIRE-I and SAFFIRE-III Readme, part 1",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-100#source-5",
+    "kind": "document",
+    "snippet": "The specific objective of SAFFIRE-I and SAFFIRE-III tests is to determine how rapidly a large-scale fire grows in low-gravity and whether it reaches a steady-state spread rate."
+   },
+   {
+    "label": "SAFFIRE-II (PSI-99): PSI record, approach",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-99#source-6",
+    "kind": "document",
+    "snippet": "As a follow on to the Saffire-I investigation, the Saffire-II investigation added more samples including SIBAL, silicone, structure PMMA, flat PMMA, and PMMA with Nomex. The Saffire-1I flight unit had a sample card installed in the middle of a large flow duct."
+   }
+  ],
+  "built_as": "ai"
+ },
+ {
+  "question": "Which solid materials were tested, and at what oxygen levels?",
+  "answer": "In the PSI test tables, 377 tests match (solid fuels): BASS-II (129), BASS (122), SAME-R (109), SAFFIRE-II (9), SAME (4), SAFFIRE-I (2), SAFFIRE-III (2). They cover oxygen 13.6 to 22.2 %, pressure 101 kPa (14.7 psi), air flow 0 to 30 cm/s. Materials most often named in the tables include Kapton (29), Silicone (26), Teflon (22), Lampwick (20), Pyrell (20), 2 cm sphere (18), 2 cm SIBAL (17), 1/4\" clear rod (15), and 81 other descriptions.",
+  "citations": [
+   {
+    "label": "BASS-II (PSI-25): test table, 129 matching rows",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-25#tests",
+    "kind": "table"
+   },
+   {
+    "label": "BASS (PSI-26): test table, 122 matching rows",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-26#tests",
+    "kind": "table"
+   },
+   {
+    "label": "SAME-R (PSI-101): test table, 109 matching rows",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-101#tests",
+    "kind": "table"
+   },
+   {
+    "label": "SAFFIRE-II (PSI-99): test table, 9 matching rows",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-99#tests",
+    "kind": "table"
+   },
+   {
+    "label": "SAME (PSI-102): test table, 4 matching rows",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-102#tests",
+    "kind": "table"
+   }
+  ],
+  "built_as": "ai"
+ }
+]
