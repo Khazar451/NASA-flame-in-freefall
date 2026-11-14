@@ -198,10 +198,91 @@
   },
   {
    "investigation_id": "PSI-20",
-   "n_tests": 0,
-   "summary": "No test-level data. One row per test day with the oxygen levels used that day; pressures are not listed and tests are not separated.",
-   "conditions": [],
-   "outcomes": {}
+   "n_tests": 3,
+   "summary": "Varied: oxygen 21–34 % (3 levels); pressure 56.5–101 kPa (3 levels). Constant: fuel CH4/N2 or C2H4/N2 on a porous burner (emulates a burning solid); diluent gas N2. Not recorded: flow speed.",
+   "conditions": [
+    {
+     "field": "fuel_material",
+     "label": "Fuel",
+     "unit": null,
+     "status": "constant",
+     "assumed": false,
+     "n_with_value": 3,
+     "min": null,
+     "max": null,
+     "levels": [
+      "CH4/N2 or C2H4/N2 on a porous burner (emulates a burning solid)"
+     ],
+     "n_levels": 1,
+     "precision": null
+    },
+    {
+     "field": "o2_pct",
+     "label": "Oxygen",
+     "unit": "%",
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 3,
+     "min": 21.0,
+     "max": 34.0,
+     "levels": [
+      21.0,
+      26.0,
+      34.0
+     ],
+     "n_levels": 3,
+     "precision": 1.0
+    },
+    {
+     "field": "pressure_kpa",
+     "label": "Pressure",
+     "unit": "kPa",
+     "status": "varied",
+     "assumed": false,
+     "n_with_value": 3,
+     "min": 56.537,
+     "max": 101.353,
+     "levels": [
+      55.0,
+      70.0,
+      100.0
+     ],
+     "n_levels": 3,
+     "precision": 5.0
+    },
+    {
+     "field": "flow_cm_s",
+     "label": "Flow speed",
+     "unit": "cm/s",
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
+     "precision": 1.0
+    },
+    {
+     "field": "diluent",
+     "label": "Diluent gas",
+     "unit": null,
+     "status": "constant",
+     "assumed": false,
+     "n_with_value": 3,
+     "min": null,
+     "max": null,
+     "levels": [
+      "N2"
+     ],
+     "n_levels": 1,
+     "precision": null
+    }
+   ],
+   "outcomes": {
+    "extinguished": 1,
+    "sustained": 2
+   }
   },
   {
    "investigation_id": "PSI-21",
@@ -227,7 +308,7 @@
   {
    "investigation_id": "PSI-25",
    "n_tests": 129,
-   "summary": "Varied: fuel (49 different entries); oxygen 13.6–22.2 % (9 levels). Constant: diluent gas N2. Assumed, not in the table: pressure 101 kPa. Not recorded: flow speed.",
+   "summary": "Varied: fuel (49 different entries); oxygen 13.6–22.2 % (9 levels); flow speed 0–20 cm/s (12 levels). Constant: diluent gas N2. Assumed, not in the table: pressure 101 kPa. Recorded for some tests only: flow speed (118 of 129).",
    "conditions": [
     {
      "field": "fuel_material",
@@ -297,13 +378,26 @@
      "field": "flow_cm_s",
      "label": "Flow speed",
      "unit": "cm/s",
-     "status": "not_recorded",
+     "status": "varied",
      "assumed": false,
-     "n_with_value": 0,
-     "min": null,
-     "max": null,
-     "levels": [],
-     "n_levels": 0,
+     "n_with_value": 118,
+     "min": 0.0,
+     "max": 20.0,
+     "levels": [
+      0.0,
+      2.0,
+      3.0,
+      4.0,
+      5.0,
+      6.0,
+      8.0,
+      9.0,
+      10.0,
+      11.0,
+      15.0,
+      20.0
+     ],
+     "n_levels": 12,
      "precision": 1.0
     },
     {
@@ -416,7 +510,7 @@
   },
   {
    "investigation_id": "PSI-39",
-   "n_tests": 87,
+   "n_tests": 79,
    "summary": "Varied: fuel (3 different entries); oxygen 17–21 % (2 levels); pressure 50.7–507 kPa (7 levels); diluent gas (3 different entries); droplet on a support fibre (2 different entries). Not recorded: flow speed.",
    "conditions": [
     {
@@ -425,7 +519,7 @@
      "unit": null,
      "status": "varied",
      "assumed": false,
-     "n_with_value": 87,
+     "n_with_value": 79,
      "min": null,
      "max": null,
      "levels": [
@@ -442,7 +536,7 @@
      "unit": "%",
      "status": "varied",
      "assumed": false,
-     "n_with_value": 87,
+     "n_with_value": 79,
      "min": 17.0,
      "max": 21.0,
      "levels": [
@@ -458,7 +552,7 @@
      "unit": "kPa",
      "status": "varied",
      "assumed": false,
-     "n_with_value": 87,
+     "n_with_value": 79,
      "min": 50.6625,
      "max": 506.625,
      "levels": [
@@ -492,7 +586,7 @@
      "unit": null,
      "status": "varied",
      "assumed": false,
-     "n_with_value": 87,
+     "n_with_value": 79,
      "min": null,
      "max": null,
      "levels": [
@@ -509,7 +603,7 @@
      "unit": null,
      "status": "varied",
      "assumed": false,
-     "n_with_value": 78,
+     "n_with_value": 70,
      "min": null,
      "max": null,
      "levels": [
@@ -521,7 +615,7 @@
     }
    ],
    "outcomes": {
-    "unknown": 87
+    "unknown": 79
    }
   },
   {
@@ -1224,8 +1318,8 @@
   },
   {
    "investigation_id": "PSI-107",
-   "n_tests": 469,
-   "summary": "Varied: fuel (7 different entries); flow speed 0.66–85.3 cm/s (58 levels); nozzle diameter 0.406–1.6 mm (3 levels). Not recorded: oxygen, pressure, diluent gas. Recorded for some tests only: flow speed (436 of 469).",
+   "n_tests": 435,
+   "summary": "Varied: fuel (7 different entries); flow speed 0.66–85.3 cm/s (58 levels); nozzle diameter 0.406–1.6 mm (3 levels). Not recorded: oxygen, pressure, diluent gas. Recorded for some tests only: flow speed (407 of 435).",
    "conditions": [
     {
      "field": "fuel_material",
@@ -1233,7 +1327,7 @@
      "unit": null,
      "status": "varied",
      "assumed": false,
-     "n_with_value": 469,
+     "n_with_value": 435,
      "min": null,
      "max": null,
      "levels": [
@@ -1280,7 +1374,7 @@
      "unit": "cm/s",
      "status": "varied",
      "assumed": false,
-     "n_with_value": 436,
+     "n_with_value": 407,
      "min": 0.66,
      "max": 85.28,
      "levels": [
@@ -1319,7 +1413,7 @@
      "unit": "mm",
      "status": "varied",
      "assumed": false,
-     "n_with_value": 469,
+     "n_with_value": 435,
      "min": 0.4064,
      "max": 1.6002,
      "levels": [
@@ -1332,7 +1426,7 @@
     }
    ],
    "outcomes": {
-    "unknown": 469
+    "unknown": 435
    }
   },
   {

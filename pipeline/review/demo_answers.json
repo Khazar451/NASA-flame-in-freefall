@@ -1,33 +1,19 @@
 [
  {
   "question": "Which tests burned solid fuel above 30% oxygen?",
-  "answer": "No test in the PSI test tables matches solid fuels with oxygen at 30 % or more, as the highest oxygen level tested with solid fuels is 22.2 % in BASS-II, test B1. However, gas-fueled tests conducted during ACME/BRE testing (such as on test days 19039, 19056, 20247, 20279, and 20339) included oxygen concentrations above 30%, specifically listing levels such as 34% and 40%.",
+  "answer": "No test in the PSI test tables matches (solid fuels, oxygen 30 % or more). The highest oxygen level tested with solid fuels is 22.2 % (BASS-II, test B1).",
   "citations": [
    {
     "label": "BASS-II (PSI-25): test B1, table row 1",
     "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-25#row-1",
     "kind": "table"
-   },
-   {
-    "label": "ACME BRE (PSI-20): Final 20220201, p. 83",
-    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-20#source-1",
-    "kind": "document",
-    "snippet": "BRE log of flames ignited in Increments 58-59 (round 1) and 63 (round 2 start) Test Day1 Year Month Date Burner Size2 Fuel bottle Oxygen conc.3 Flames ignited4 First round of tests, with the 25-mm burner, from Feb.-April 2019 19039 2019 Feb.",
-    "page": 83
-   },
-   {
-    "label": "ACME BRE (PSI-20): Final 20220201, p. 24",
-    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-20#source-2",
-    "kind": "document",
-    "snippet": "BRE log of flames ignited in Increments 58-59 (round 1) and 63-64 (round 2) Test Day1 Year Month Date Burner Size2 Fuel bottle Oxygen conc.3 Flames ignited4 First round of tests, with the 25-mm burner, from Feb.-April 2019 19039 2019 Feb.",
-    "page": 24
    }
   ],
   "built_as": "ai"
  },
  {
   "question": "What did FLEX find about carbon dioxide as a suppressant?",
-  "answer": "In the PSI test tables, 123 tests match (diluted with CO2): FLEX (123). They cover oxygen 14 to 25 %, pressure 70.2 to 309 kPa (10.2 to 44.9 psi). Outcome: the flame went out in 88 and it burned to the end of the test in 8; 27 have no recorded outcome. The FLEX tests examine how a slow, sub-buoyant flow influences the efficacy of a single suppressant, CO2, and the influence of a stronger radiative environment achieved by increasing the pressure on its efficacy.",
+  "answer": "In the PSI test tables, 123 tests match (diluted with CO2): FLEX (123). They cover oxygen 14 to 25 %, pressure 70.2 to 309 kPa (10.2 to 44.9 psi). Outcome: the flame went out in 88 and it burned to the end of the test in 8; 27 have no recorded outcome. Furthermore, the FLEX documents note that CO2 decreases sooting in diffusion flames by 20% to 30% more than does N2 and is more active radiatively (infrared) than N2.",
   "citations": [
    {
     "label": "FLEX (PSI-69): test table, 123 matching rows",
@@ -35,18 +21,18 @@
     "kind": "table"
    },
    {
-    "label": "FLEX (PSI-69): FLEX EIRD v4, p. 45",
-    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-69#source-1",
+    "label": "FLEX (PSI-69): FLEX EIRD v4, p. 13",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-69#source-3",
     "kind": "document",
-    "snippet": "The tests described in Table 11 examine how a slow, sub-buoyant flow influences the efficacy of a single suppressant, CO2 .",
-    "page": 45
+    "snippet": "The paper stated: “For a suppressant to be effective radiatively, it must decrease flame luminosity, act as a radiation sink itself, and remain transparent between the flame and its surroundings.",
+    "page": 13
    }
   ],
   "built_as": "ai"
  },
  {
   "question": "How does air flow speed change flame spread in BASS-II?",
-  "answer": "In the PSI test tables, 129 tests match: BASS-II (129). They cover oxygen 13.6 to 22.2 %, pressure 101 kPa (14.7 psi). Pressure for BASS-II is not in the source table; cabin pressure (1 atm) is assumed. As flow speed is reduced incrementally after ignition, both flame length and flame width drop accordingly with the flow. When the velocity is further reduced toward quenching limits, the flame size continues to shrink until extinction is reached.",
+  "answer": "In the PSI test tables, 129 tests match: BASS-II (129). They cover oxygen 13.6 to 22.2 %, pressure 101 kPa (14.7 psi), air flow 0 to 20 cm/s. Pressure for BASS-II is not in the source table; cabin pressure (1 atm) is assumed. In the BASS-II experiment, when the flow speed was decreased to 2.2 cm/s incrementally after ignition at 10-cm/s flow, both flame length and flame width dropped accordingly with flow.",
   "citations": [
    {
     "label": "BASS-II (PSI-25): test table, 129 matching rows",
@@ -65,11 +51,16 @@
  },
  {
   "question": "Has any material been burned at lunar-habitat conditions (30% oxygen, 10.2 psi)?",
-  "answer": "In the PSI test tables, 20 tests match (lunar-habitat conditions: 30 % oxygen or more at 4.3 to 10.2 psi): ACME CFI-G (20). They cover oxygen 33.2 to 39.3 %, pressure 50.7 kPa (7.35 psi). Materials most often named in the tables: 50% butane (9), 30% ethane (6), 30% butane (5). Outcome: the flame went out in 13, it burned to the end of the test in 5 and it did not ignite in 2.",
+  "answer": "In the PSI test tables, 21 tests match lunar-habitat conditions, covering ACME CFI-G (20) and ACME BRE (1). The experiments cover oxygen 33.2 to 39.3 % and pressure 50.7 to 56.5 kPa (7.35 to 8.2 psi). Materials most often named in the tables include 50% butane (9), 30% ethane (6), 30% butane (5), and CH4/N2 or C2H4/N2 on a porous burner (1). The outcome was that the flame went out in 13, burned to the end of the test in 6, and did not ignite in 2.",
   "citations": [
    {
     "label": "ACME CFI-G (PSI-159): test table, 20 matching rows",
     "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-159#tests",
+    "kind": "table"
+   },
+   {
+    "label": "ACME BRE (PSI-20): test table, 1 matching row",
+    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-20#tests",
     "kind": "table"
    }
   ],
@@ -77,25 +68,12 @@
  },
  {
   "question": "What oxygen levels and pressures did FLEX test?",
-  "answer": "In the PSI test tables, 274 tests match: FLEX (274). They cover oxygen 12 to 34 %, pressure 70.2 to 309 kPa (10.2 to 44.9 psi). Outcome: the flame went out in 186 and it burned to the end of the test in 27; 61 have no recorded outcome. Additionally, the oxygen mole fraction shall range from 0.1 - 0.4 +/- 0.005, and the test pressure ranges from 0.5 - 1.5 atm.",
+  "answer": "In the PSI test tables, 274 tests match for FLEX. They cover oxygen 12 to 34 %, and pressure 70.2 to 309 kPa (10.2 to 44.9 psi).",
   "citations": [
    {
     "label": "FLEX (PSI-69): test table, 274 matching rows",
     "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-69#tests",
     "kind": "table"
-   },
-   {
-    "label": "FLEX (PSI-69): PSI record, approach",
-    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-69#source-2",
-    "kind": "document",
-    "snippet": "Select an ambient oxygen mole fraction that, based on ground-based testing, will support droplets burning to completion (as opposed to extinguishing at a finite droplet size). 4. Perform a droplet combustion test. 5."
-   },
-   {
-    "label": "FLEX (PSI-69): FLEX EIRD v4, p. 38",
-    "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-69#source-4",
-    "kind": "document",
-    "snippet": "Relative humidity: chamber relative humidity shall be less than 10% for the n-heptane test points and less than 2% for the methanol test points. 5.1.6 Ambient Flow Conditions One objective of FLEX is to study slow convective flow effects on suppressant efficacy.",
-    "page": 38
    }
   ],
   "built_as": "ai"
@@ -138,7 +116,7 @@
  },
  {
   "question": "Which experiments studied smoke detection?",
-  "answer": "The CSD experiment on STS-75 studied smoke detection, comparing existing detector performance for several smoke types using limited diagnostics. Additionally, the SAME experiment (PSI-101) focused on the detection of smoke from microgravity fires and the measurement of microgravity smoke using diagnostics such as the P-Trak and DustTrak.",
+  "answer": "The CSD Experiment (STS-75) studied smoke detection, which was a mid-deck glovebox experiment that provided a low cost comparison of existing detector performance for several smoke types. The SAME (PSI-102) experiment also relates to this background. Additionally, the SAME-R (PSI-101) project involves the detection of smoke from microgravity fires and smoke detection/sensing devices at NASA's request.",
   "citations": [
    {
     "label": "SAME-R (PSI-101): Detection of Smoke from Microgravity Fires, p. 1",
@@ -173,7 +151,7 @@
  },
  {
   "question": "What is a cool flame and which experiments studied it?",
-  "answer": "A cool flame is a flame having a typical temperature of ~ 650 K, or one that burns at relatively low temperatures of ~600 deg C, where the reaction is not vigorous and releases little heat, light, or carbon dioxide. Cool flames were studied by the FLEX team during droplet combustion experiments, and the Cool Flames Investigation with Gases (CFI-G) observes the chemical reactions of cool diffusion flames.",
+  "answer": "A cool flame is a flame having a typical temperature of ~ 650 K, or that burns at about 600 degrees Celsius, where the reaction is not vigorous and releases little heat, light, or carbon dioxide. Cool flames were studied during droplet combustion experiments and the Cool Flames Investigation with Gases. The Cool Flames Investigation with Gases observes the chemical reactions of cool diffusion flames.",
   "citations": [
    {
     "label": "PSI-117: PSI Users Group Cool Flames in Space 03302026, p. 3",
@@ -201,7 +179,7 @@
  },
  {
   "question": "How did Saffire test fire spread on large samples?",
-  "answer": "In the PSI test tables, 13 tests match: SAFFIRE-II (9), SAFFIRE-I (2), SAFFIRE-III (2). They cover oxygen 21.5 to 22.1 %, pressure 101 kPa (14.7 psi), air flow 20 to 30 cm/s. Materials most often named in the tables: SIBAL Fabric (4), Silicone (4), Cotton-Fiberglass (SIBAL) (1), PMMA & Nomex (1), PMMA (1). Pressure for SAFFIRE-I, SAFFIRE-II is not in the source table; cabin pressure (1 atm) is assumed. Saffire tests were performed on the Orbital Science’s Cygnus resupply vehicle after it deberthed from the ISS using large flow ducts and sample cards. Once the samples were ignited, flame images were captured using two cameras while thermocouples, radiometers, solid state sensors, and anemometers recorded environmental data.",
+  "answer": "In the PSI test tables, 13 tests match: SAFFIRE-II (9), SAFFIRE-I (2), SAFFIRE-III (2). They cover oxygen 21.5 to 22.1 %, pressure 101 kPa (14.7 psi), and air flow 20 to 30 cm/s, with cabin pressure (1 atm) assumed for SAFFIRE-I and SAFFIRE-II. The Saffire-I sample was approximately 0.94 meters long and 0.4 meters wide, tested at an air flow velocity of 20 cm/s, and Saffire-III used a flow velocity of 30 cm/s with concurrent or opposed flow. Saffire-II tested 9 samples, each 5 cm x 29 cm, at an air flow velocity of either 20 or 30 cm/s.",
   "citations": [
    {
     "label": "SAFFIRE-II (PSI-99): test table, 9 matching rows",
@@ -253,7 +231,7 @@
  },
  {
   "question": "Which solid materials were tested, and at what oxygen levels?",
-  "answer": "In the PSI test tables, 377 tests match (solid fuels): BASS-II (129), BASS (122), SAME-R (109), SAFFIRE-II (9), SAME (4), SAFFIRE-I (2), SAFFIRE-III (2). They cover oxygen 13.6 to 22.2 %, pressure 101 kPa (14.7 psi), air flow 0 to 30 cm/s. Materials most often named in the tables include Kapton (29), Silicone (26), Teflon (22), Lampwick (20), Pyrell (20), 2 cm sphere (18), 2 cm SIBAL (17), 1/4\" clear rod (15), and 81 other descriptions.",
+  "answer": "In the PSI test tables, 377 tests match solid fuels across BASS-II, BASS, SAME-R, SAFFIRE-II, SAME, SAFFIRE-I, and SAFFIRE-III, covering oxygen 13.6 to 22.2 %. Materials most often named in the tables include Kapton, Silicone, Teflon, Lampwick, Pyrell, 2 cm sphere, 2 cm SIBAL, and 1/4\" clear rod, along with 81 other descriptions. Pressure for BASS-II, SAFFIRE-I, and SAFFIRE-II is not in the source table, where cabin pressure 1 atm is assumed.",
   "citations": [
    {
     "label": "BASS-II (PSI-25): test table, 129 matching rows",

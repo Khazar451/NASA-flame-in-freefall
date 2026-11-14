@@ -2,9 +2,9 @@
  "meta": {
   "source": "data/out/tests.json",
   "gravity": "All PSI combustion tests ran in microgravity. No partial-gravity (Moon or Mars) tests exist in PSI.",
-  "tests_on_grid": 886,
-  "tests_not_on_grid": 981,
-  "empty_cells": 52,
+  "tests_on_grid": 881,
+  "tests_not_on_grid": 947,
+  "empty_cells": 51,
   "cells": 75
  },
  "o2_bands": [
@@ -404,14 +404,14 @@
    "fuel_phase": "liquid",
    "o2_band": "o2_below_air",
    "pressure_band": "p_cabin",
-   "n_tests": 108,
+   "n_tests": 103,
    "n_pressure_assumed": 0,
    "investigations": [
     "PSI-39",
     "PSI-69"
    ],
    "outcomes": {
-    "unknown": 21,
+    "unknown": 16,
     "extinguished": 78,
     "sustained": 9
    },
@@ -476,14 +476,14 @@
    "fuel_phase": "liquid",
    "o2_band": "o2_air",
    "pressure_band": "p_cabin",
-   "n_tests": 84,
+   "n_tests": 81,
    "n_pressure_assumed": 0,
    "investigations": [
     "PSI-39",
     "PSI-69"
    ],
    "outcomes": {
-    "unknown": 45,
+    "unknown": 42,
     "extinguished": 34,
     "sustained": 5
    },
@@ -777,15 +777,16 @@
    "fuel_phase": "gas",
    "o2_band": "o2_air",
    "pressure_band": "p_cabin",
-   "n_tests": 104,
+   "n_tests": 105,
    "n_pressure_assumed": 0,
    "investigations": [
     "PSI-10",
+    "PSI-20",
     "PSI-159"
    ],
    "outcomes": {
     "unknown": 71,
-    "extinguished": 21,
+    "extinguished": 22,
     "no_ignition": 12
    },
    "habitats": [
@@ -821,10 +822,14 @@
    "fuel_phase": "gas",
    "o2_band": "o2_enriched",
    "pressure_band": "p_lunar",
-   "n_tests": 0,
+   "n_tests": 1,
    "n_pressure_assumed": 0,
-   "investigations": [],
-   "outcomes": {},
+   "investigations": [
+    "PSI-20"
+   ],
+   "outcomes": {
+    "sustained": 1
+   },
    "habitats": []
   },
   {
@@ -875,14 +880,15 @@
    "fuel_phase": "gas",
    "o2_band": "o2_lunar",
    "pressure_band": "p_lunar",
-   "n_tests": 20,
+   "n_tests": 21,
    "n_pressure_assumed": 0,
    "investigations": [
+    "PSI-20",
     "PSI-159"
    ],
    "outcomes": {
+    "sustained": 6,
     "extinguished": 13,
-    "sustained": 5,
     "no_ignition": 2
    },
    "habitats": [
@@ -1009,7 +1015,7 @@
   {
    "fuel_phase": "gas",
    "reason": "source table gives neither oxygen nor pressure",
-   "n_tests": 469,
+   "n_tests": 435,
    "investigations": [
     "PSI-107"
    ]

@@ -586,13 +586,18 @@ class Budget:
 
 
 def ai_answer(question: str, table_text: str | None, found: list[dict[str, Any]],
-              provider: llm.Provider, budget: Budget) -> tuple[AiReply | None, str]:
+              provider: llm.Provider, budget: Budget,
+              kb: KnowledgeBase | None = None) -> tuple[AiReply | None, str]:
     """(reply, reason). reply is None when the AI was not used or its answer failed the checks."""
     sources = []
     if table_text:
         sources.append(f"[0] Test-table summary: {table_text}")
     for n, p in enumerate(found, start=1):
-        sources.append(f"[{n}] {where(p)} ({p['psi_id']}): {p['text'][:1200]}")
+        # The experiment's name with its id: documents filed under one investigation often
+        # describe a related one (SAME's papers sit under SAME-R), and a bare id misleads.
+        inv = kb.by_id.get(p["psi_id"]) if kb else None
+        owner = name_with_id(inv) if inv else p["psi_id"]
+        sources.append(f"[{n}] {where(p)}, filed under {owner}: {p['text'][:1200]}")
     # Numbers in an answer may only come from the question or the source texts, not their labels.
     evidence = "\n".join([question, table_text or ""] + [p["text"][:1200] for p in found])
     if not sources:
@@ -642,7 +647,7 @@ def answer(question: str, kb: KnowledgeBase, provider: llm.Provider | None = Non
     }
     if provider is None or budget is None:
         return fallback
-    reply, reason = ai_answer(question, table_text, found, provider, budget)
+    reply, reason = ai_answer(question, table_text, found, provider, budget, kb)
     if reply is None:
         return {**fallback, "note": reason}
     used = [n for n in dict.fromkeys(reply.sources_used) if (n == 0 and table_text) or 1 <= n <= len(found)]
