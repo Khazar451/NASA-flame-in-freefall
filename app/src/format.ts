@@ -31,6 +31,14 @@ export const isSmokeStudy = (inv: { hardware_family?: string | null } | undefine
   inv?.hardware_family === 'smoke_aerosol';
 export const SMOKE_NOTE = 'Smoke test: the material was heated to make smoke, so there is no flame outcome';
 
+// Some rows are not single tests. ACME BRE's table gives no pressures, so the
+// pipeline writes one row per atmosphere that its final report describes and
+// marks it with extra.row_kind = "atmosphere". Such rows are drawn, but never
+// counted as tests.
+export const isReportSummary = (t: { extra?: Record<string, unknown> | null }) => t.extra?.row_kind === 'atmosphere';
+export const SUMMARY_NOTE = 'Summary of one atmosphere from the final report, not a single test';
+export const summaries = (n: number) => (n === 1 ? '1 report summary' : `${n} report summaries`);
+
 export interface Numbered {
   intro: string; // text before point 1, may be empty
   items: string[];
