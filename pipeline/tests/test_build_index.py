@@ -99,3 +99,31 @@ def test_build_index_needs_extracted_text(tmp_path, monkeypatch, capsys):
     monkeypatch.setattr(extract_text, "INDEX", tmp_path / "missing.json")
     assert build_index.run(argparse.Namespace(), embedder=fake_embedder) == 1
     assert "run extract-text first" in capsys.readouterr().out
+
+
+def test_search_loads_the_model_once_and_embeds_one_question_at_a_time():
+    pytest.importorskip("chromadb")
+    import threading
+    import time
+
+    from pipeline.search import SearchIndex
+
+    calls, active, overlap = [], [0], [False]
+
+    def slow_embedder(texts):
+        active[0] += 1
+        overlap[0] |= active[0] > 1
+        time.sleep(0.01)
+        active[0] -= 1
+        calls.append(list(texts))
+        return fake_embedder(texts)
+
+    chunks = [{"id": "c0", "psi_id": "PSI-69", "text": "carbon dioxide"}]
+    index = SearchIndex(chunks, __import__("numpy").array(fake_embedder(["carbon dioxide"])), slow_embedder)
+    assert calls == [["warm up"]]  # loaded when the index is created, before any question
+    threads = [threading.Thread(target=index.query, args=("carbon dioxide",)) for _ in range(6)]
+    for thread in threads:
+        thread.start()
+    for thread in threads:
+        thread.join()
+    assert len(calls) == 7 and not overlap[0]
