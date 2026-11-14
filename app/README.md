@@ -38,6 +38,7 @@ Other files:
 - `src/scoring.ts`: the score calculation. No model is involved.
 - `src/types.ts`: the shape of the data files. See `docs/data-contract.md`.
 - `src/components/Plot.tsx`: small wrapper around Plotly.
+- `src/components/InvestigationDetail.tsx`: the panel shown when a mark on the map is selected: the investigation record, a summary of its tests, and its objectives.
 
 ## Data
 
