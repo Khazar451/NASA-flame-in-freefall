@@ -2,8 +2,8 @@
  "meta": {
   "source": "data/out/tests.json",
   "gravity": "All PSI combustion tests ran in microgravity. No partial-gravity (Moon or Mars) tests exist in PSI.",
-  "tests_on_grid": 881,
-  "tests_not_on_grid": 947,
+  "tests_on_grid": 994,
+  "tests_not_on_grid": 834,
   "empty_cells": 51,
   "cells": 75
  },
@@ -182,15 +182,17 @@
    "fuel_phase": "solid",
    "o2_band": "o2_air",
    "pressure_band": "p_cabin",
-   "n_tests": 62,
-   "n_pressure_assumed": 62,
+   "n_tests": 175,
+   "n_pressure_assumed": 175,
    "investigations": [
     "PSI-25",
     "PSI-98",
-    "PSI-99"
+    "PSI-99",
+    "PSI-101",
+    "PSI-102"
    ],
    "outcomes": {
-    "unknown": 62
+    "unknown": 175
    },
    "habitats": [
     "cabin"
@@ -1039,12 +1041,10 @@
   {
    "fuel_phase": "solid",
    "reason": "source table gives neither oxygen nor pressure",
-   "n_tests": 237,
+   "n_tests": 124,
    "investigations": [
     "PSI-26",
-    "PSI-100",
-    "PSI-101",
-    "PSI-102"
+    "PSI-100"
    ]
   }
  ]

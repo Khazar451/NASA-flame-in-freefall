@@ -6,8 +6,15 @@ fuel_phase: solid
 null_values: [n/a]
 label: {column: "SAME Test #"}
 fuel_material: {column: Sample Type}
-o2_pct: null
-pressure_kpa: null
+# The table gives no oxygen or pressure. The tests ran on the ISS; the ME teammate approved
+# assuming normal cabin air, as for BASS-II and Saffire, and every row says so. The dashboard
+# reads a note that starts with "Oxygen" to label the test "oxygen assumed".
+o2_pct:
+  value: 21
+  assumed: "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed."
+pressure_kpa:
+  value: 101.325
+  assumed: "Pressure not in the source table; ISS cabin pressure (1 atm) assumed."
 flow_cm_s: {column: "Inlet velocity (cm/s)"}
 extra:
   description: {column: Description, type: text}
