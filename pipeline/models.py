@@ -70,6 +70,11 @@ class TestRow(_Strict):
     note: str | None
     source: Source | None
     sample: bool = Field(description="True only for placeholder rows")
+    assumed: list[Literal["o2_pct", "pressure_kpa", "flow_cm_s"]] = Field(
+        default_factory=list,
+        description="Fields whose value is not in the source table but assumed (the note says why); "
+                    "empty when nothing is assumed",
+    )
 
     # Pipeline extras: values only some experiment families report, e.g.
     # {"burning_rate_mm2_s": 0.52, "oxidizer_o2_pct": 40}

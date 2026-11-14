@@ -85,7 +85,7 @@ def test_columns_are_converted_and_every_row_keeps_its_source(workspace):
         "o2_pct": 21.0, "pressure_kpa": 101.325024, "flow_cm_s": None,
         "diluent": "N2", "outcome": "extinguished", "note": None,
         "source": {"file": "PSI-69_Experimental table_FLEX.csv", "row": 1}, "sample": False,
-        "extra": {"burn_time_s": 12.5, "test_end": "Extinction"},
+        "extra": {"burn_time_s": 12.5, "test_end": "Extinction"}, "assumed": [],
     }
     assert rows[1]["diluent"] == "N2+CO2" and rows[1]["outcome"] == "sustained"
     assert rows[1]["extra"]["burn_time_s"] == 9.0  # "~9" read with first_number
@@ -110,6 +110,7 @@ def test_ranges_units_in_cells_assumed_values_and_skipped_rows(workspace):
         ("S1", 21.6, 20.0, 101.325), ("S2", 21.5, 20.0, 101.325),
     ]
     assert rows[0]["note"] == "Large-scale test. Pressure assumed (1 atm)."
+    assert all(r["assumed"] == ["pressure_kpa"] for r in rows)  # the field agrees with the note
     assert rows[0]["outcome"] == "unknown" and rows[0]["diluent"] is None and rows[0]["extra"] is None
     assert report["skipped_rows"] == 2
 

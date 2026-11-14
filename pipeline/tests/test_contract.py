@@ -58,6 +58,13 @@ def test_contract_rows_validate_without_extras():
     assert models.TestRow.model_validate(TEST_ROW).extra is None
 
 
+def test_assumed_lists_only_numeric_fields():
+    assert models.TestRow.model_validate(TEST_ROW).assumed == []
+    assert models.TestRow.model_validate(row(assumed=["o2_pct", "pressure_kpa"])).assumed == ["o2_pct", "pressure_kpa"]
+    with pytest.raises(Exception):
+        models.TestRow.model_validate(row(assumed=["outcome"]))
+
+
 def test_extras_are_accepted():
     models.Investigation.model_validate({**INVESTIGATION, "n_publications": 17, "sub_area": "Spacecraft Fire Safety"})
     models.TestRow.model_validate(row(extra={"burning_rate_mm2_s": 0.52, "flow_direction": "opposed"}))
@@ -103,6 +110,7 @@ def test_valid_folder_passes(tmp_path):
         ({"flow_cm_s": -5.0}, "flow_cm_s -5.0 is outside"),
         ({"investigation_id": "PSI-999"}, "investigation_id PSI-999 is not in investigations.json"),
         ({"source": None}, "must record its source file and row"),
+        ({"o2_pct": None, "assumed": ["o2_pct"]}, "o2_pct is listed as assumed but has no value"),
     ],
 )
 def test_bad_test_rows_are_errors(tmp_path, changes, expected):

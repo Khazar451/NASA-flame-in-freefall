@@ -97,6 +97,9 @@ def check(folder: Path) -> tuple[list[str], list[str]]:
             errors.append(f"{t.id}: flow_cm_s {t.flow_cm_s} is outside 0 to {FLOW_CM_S[1]:g}")
         if not t.sample and t.source is None:
             errors.append(f"{t.id}: a real row (sample=false) must record its source file and row")
+        for field in t.assumed:
+            if getattr(t, field) is None:
+                errors.append(f"{t.id}: {field} is listed as assumed but has no value")
 
     with_tests = {t.investigation_id for t in tests}
     without = sorted(known - with_tests, key=lambda i: int(i.split("-")[1]))
