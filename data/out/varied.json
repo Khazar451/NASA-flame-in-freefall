@@ -1125,7 +1125,7 @@
   {
    "investigation_id": "PSI-101",
    "n_tests": 109,
-   "summary": "Varied: fuel (5 different entries); flow speed 0–8.1 cm/s (4 levels); heater setting (rt/r0) 1.22–1.48 (7 levels). Not recorded: oxygen, pressure, diluent gas.",
+   "summary": "Varied: fuel (5 different entries); flow speed 0–8.1 cm/s (4 levels); heater setting (rt/r0) 1.22–1.48 (7 levels). Assumed, not in the table: oxygen 21 %; pressure 101 kPa. Not recorded: diluent gas.",
    "conditions": [
     {
      "field": "fuel_material",
@@ -1150,26 +1150,30 @@
      "field": "o2_pct",
      "label": "Oxygen",
      "unit": "%",
-     "status": "not_recorded",
-     "assumed": false,
-     "n_with_value": 0,
-     "min": null,
-     "max": null,
-     "levels": [],
-     "n_levels": 0,
+     "status": "constant",
+     "assumed": true,
+     "n_with_value": 109,
+     "min": 21.0,
+     "max": 21.0,
+     "levels": [
+      21.0
+     ],
+     "n_levels": 1,
      "precision": 1.0
     },
     {
      "field": "pressure_kpa",
      "label": "Pressure",
      "unit": "kPa",
-     "status": "not_recorded",
-     "assumed": false,
-     "n_with_value": 0,
-     "min": null,
-     "max": null,
-     "levels": [],
-     "n_levels": 0,
+     "status": "constant",
+     "assumed": true,
+     "n_with_value": 109,
+     "min": 101.325,
+     "max": 101.325,
+     "levels": [
+      100.0
+     ],
+     "n_levels": 1,
      "precision": 5.0
     },
     {
@@ -1232,7 +1236,7 @@
   {
    "investigation_id": "PSI-102",
    "n_tests": 4,
-   "summary": "Varied: flow speed 5–10 cm/s (2 levels). Constant: fuel Teflon. Not recorded: oxygen, pressure, diluent gas.",
+   "summary": "Varied: flow speed 5–10 cm/s (2 levels). Constant: fuel Teflon. Assumed, not in the table: oxygen 21 %; pressure 101 kPa. Not recorded: diluent gas.",
    "conditions": [
     {
      "field": "fuel_material",
@@ -1253,26 +1257,30 @@
      "field": "o2_pct",
      "label": "Oxygen",
      "unit": "%",
-     "status": "not_recorded",
-     "assumed": false,
-     "n_with_value": 0,
-     "min": null,
-     "max": null,
-     "levels": [],
-     "n_levels": 0,
+     "status": "constant",
+     "assumed": true,
+     "n_with_value": 4,
+     "min": 21.0,
+     "max": 21.0,
+     "levels": [
+      21.0
+     ],
+     "n_levels": 1,
      "precision": 1.0
     },
     {
      "field": "pressure_kpa",
      "label": "Pressure",
      "unit": "kPa",
-     "status": "not_recorded",
-     "assumed": false,
-     "n_with_value": 0,
-     "min": null,
-     "max": null,
-     "levels": [],
-     "n_levels": 0,
+     "status": "constant",
+     "assumed": true,
+     "n_with_value": 4,
+     "min": 101.325,
+     "max": 101.325,
+     "levels": [
+      100.0
+     ],
+     "n_levels": 1,
      "precision": 5.0
     },
     {

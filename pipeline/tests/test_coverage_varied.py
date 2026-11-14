@@ -67,9 +67,12 @@ def test_assumed_in_matches_by_investigation_and_table():
     assert transform_tests.assumed_in(row("PSI-25", "B1", source="Other.csv"), table) == set()
 
 
-def test_real_mappings_assume_pressure_only_for_bass2_and_saffire():
+def test_real_mappings_assume_cabin_air_only_where_agreed():
     found = {(psi_id, tuple(sorted(fields))) for psi_id, _, fields in transform_tests.assumed_fields()}
-    assert found == {("PSI-25", ("pressure_kpa",)), ("PSI-98", ("pressure_kpa",)), ("PSI-99", ("pressure_kpa",))}
+    assert found == {
+        ("PSI-25", ("pressure_kpa",)), ("PSI-98", ("pressure_kpa",)), ("PSI-99", ("pressure_kpa",)),
+        ("PSI-101", ("o2_pct", "pressure_kpa")), ("PSI-102", ("o2_pct", "pressure_kpa")),
+    }
 
 
 def test_measurement_noise_is_not_variation_and_assumptions_are_named():

@@ -1,0 +1,603 @@
+{
+ "meta": {
+  "source": "NASA PSI reports and records; every quote checked against its page",
+  "rejected_by_checks": 5,
+  "investigations_failed": []
+ },
+ "findings": [
+  {
+   "investigation_id": "PSI-10",
+   "finding": "Despite a broad range of conditions, all ethylene microgravity spherical diffusion flames extinguish at a critical extinction temperature of 1130 K.",
+   "quote": "Despite this broad range of conditions, all flames extinguish at a critical extinction temperature of 1130 K",
+   "source_id": "PSI-10_Reports_FinalRpt_ACMEFlameDesign.pdf",
+   "page": 25,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-10#finding-1"
+  },
+  {
+   "investigation_id": "PSI-10",
+   "finding": "Normal ethylene microgravity spherical diffusion flames extinguish at a fuel-based mass flux of 0.2 g/m2 - s.",
+   "quote": "and a fuel-based mass flux of 0.2 g/m2 - s for normal flames",
+   "source_id": "PSI-10_Reports_FinalRpt_ACMEFlameDesign.pdf",
+   "page": 25,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-10#finding-2"
+  },
+  {
+   "investigation_id": "PSI-10",
+   "finding": "Inverse ethylene microgravity spherical diffusion flames extinguish at an oxygen-based mass flux of 0.68 g/m2-s.",
+   "quote": "and an oxygen- based mass flux of 0.68 g/m2-s for inverse flames.",
+   "source_id": "PSI-10_Reports_FinalRpt_ACMEFlameDesign.pdf",
+   "page": 25,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-10#finding-3"
+  },
+  {
+   "investigation_id": "PSI-10",
+   "finding": "Burn times for the long duration microgravity spherical diffusion flames investigated aboard the International Space Station ranged from 28 to 336 s.",
+   "quote": "Burn times range from 28 –336 s.",
+   "source_id": "PSI-10_Reports_FinalRpt_ACMEFlameDesign.pdf",
+   "page": 26,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-10#finding-4"
+  },
+  {
+   "investigation_id": "PSI-10",
+   "finding": "Peak gas temperatures generally decreased with time as the flames grew monotonically after ignition.",
+   "quote": "All flames grow monotonically after ignition. Peak gas temperature generally decreases with time.",
+   "source_id": "PSI-10_Reports_FinalRpt_ACMEFlameDesign.pdf",
+   "page": 26,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-10#finding-5"
+  },
+  {
+   "investigation_id": "PSI-20",
+   "finding": "Steady burning is possible for real solids with a flat surface of 25 mm diameter in microgravity.",
+   "quote": "The burner has definitively shown that steady burning is possible for real solids with a flat surface of 25 mm diameter.",
+   "source_id": "PSI-20_Reports_Final_20220201.pdf",
+   "page": 72,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-20#finding-1"
+  },
+  {
+   "investigation_id": "PSI-20",
+   "finding": "At conditions of 27 percent oxygen, 10.2 psia and 34 percent oxygen, 8.2 psia, flames generally persisted for 2 minutes or more.",
+   "quote": "At conditions of 27% oxygen, 10.2 psia and 34% oxygen, 8.2 psia, the flames generally persisted for 2 minutes or more.",
+   "source_id": "PSI-20_Reports_Final_20220201.pdf",
+   "page": 72,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-20#finding-2"
+  },
+  {
+   "investigation_id": "PSI-20",
+   "finding": "All flames at 21 percent oxygen led to self-extinction in less than about 25 seconds.",
+   "quote": "As stated in the figure all of the flames at 21 % oxygen led to self-extinction in less than about 25 s, most of the flames at 27 % oxygen and all of the flames at 34 % oxygen reached steady burning.",
+   "source_id": "PSI-20_Reports_Final_20220201.pdf",
+   "page": 57,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-20#finding-3"
+  },
+  {
+   "investigation_id": "PSI-20",
+   "finding": "The minimum heat of gasification required for ignition increased slightly from 10 to 12, and 13 when oxygen concentration was decreased from 0.4, to 0.34, and 0.265.",
+   "quote": "It shown that the minimum ∆ℎ!, required for ignition increases slightly from 10 to 12, and 13 when XO2 is decreased from 0.4, to 0.34, and 0.265, respectively.",
+   "source_id": "PSI-20_Reports_Dissertation-PD-revised_.pdf",
+   "page": 132,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-20#finding-4"
+  },
+  {
+   "investigation_id": "PSI-20",
+   "finding": "Nominal oxygen mole fractions of 26 percent and above can lead to steady flames which are thin blue in color and grow slowly over time for minutes.",
+   "quote": "Generally, it has been found that nominal oxygen mole fractions of 26 % and above can lead to steady flames which are thin blue in color and grow slowly over time for minutes.",
+   "source_id": "PSI-20_Reports_Dissertation-PD-revised_.pdf",
+   "page": 140,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-20#finding-5"
+  },
+  {
+   "investigation_id": "PSI-22",
+   "finding": "At electric field strengths greater than 1.8 kV/cm in microgravity, the flame begins to oscillate and the ion current jumps up significantly.",
+   "quote": "At electric field strengths greater than 1.8 kV/cm in μg, the flame begins to oscillate and the ion current jumps up significantly.",
+   "source_id": "PSI-22_Presentations_Swenson et al 2011 Electric field induced convection in microgravity combustion.pdf",
+   "page": 6,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-22#finding-1"
+  },
+  {
+   "investigation_id": "PSI-22",
+   "finding": "At electric field strengths more negative than -1.6 kV/cm, the flame is unable to adjust to the abrupt change in flow conditions and extinguishes.",
+   "quote": "At electric field strengths more negative than -1.6 kV/cm, the flame is unable to adjust to the abrupt change in flow conditions and extinguishes.",
+   "source_id": "PSI-22_Presentations_Swenson et al 2011 Electric field induced convection in microgravity combustion.pdf",
+   "page": 6,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-22#finding-2"
+  },
+  {
+   "investigation_id": "PSI-23",
+   "finding": "For a fuel mixture of 20% C2H4 and 80% N2 at a flow rate of 3 cc/s, a seemingly quasi-steady flame is attained for extended duration.",
+   "quote": "For a case of fuel-mixture of 20% C2H4 / 80% N2 at a flow rate of 3 cc/s, a seemingly quasi-steady flame is attained for extended duration.",
+   "source_id": "PSI-23_Reports_s_Flame_final_report_20210729.pdf",
+   "page": 26,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-23#finding-1"
+  },
+  {
+   "investigation_id": "PSI-23",
+   "finding": "For the same mixture, higher flow rates of 5 to 10 cc/s result in radiative extinctions, corresponding to high system Damkohler number.",
+   "quote": "For the same mixture, higher flow rates of 5-10 cc/s result in radiative extinctions, corresponding to high system Damköhler number.",
+   "source_id": "PSI-23_Reports_s_Flame_final_report_20210729.pdf",
+   "page": 26,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-23#finding-2"
+  },
+  {
+   "investigation_id": "PSI-23",
+   "finding": "At 6 cc/s, a blue chemiluminescent flame expands slowly to radiative extinction.",
+   "quote": "At 6 cc/s, a blue chemiluminescent flame expands slowly to radiative extinction.",
+   "source_id": "PSI-23_Reports_s_Flame_final_report_20210729.pdf",
+   "page": 29,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-23#finding-3"
+  },
+  {
+   "investigation_id": "PSI-23",
+   "finding": "For 30% CH4 and 70% N2, flow rates of 3, 5, and 10 cc/s produced flames that expanded to extinction while reduction of flow rate from 3 to 1 cc/s resulted in presumably kinetic extinction during ramp down.",
+   "quote": "For 30% CH4/70% N2, flow rates of 3, 5, and 10 cc/s produced flames that expanded to extinction (assumed radiatively); while reduction of flow rate from 3 to 1 cc/s resulted in presumably kinetic extinction during ramp down.",
+   "source_id": "PSI-23_Reports_s_Flame_final_report_20210729.pdf",
+   "page": 54,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-23#finding-4"
+  },
+  {
+   "investigation_id": "PSI-23",
+   "finding": "For 20% CH4 and 80% N2, a constant flow rate of 10 cc/s created a flame that expanded until extinction while reduction of flow rate from 10 cc/s to 1 cc/s resulted in wavering extinction during ramp down, suggesting kinetic extinction.",
+   "quote": "For 20% CH4/80% N2, constant flow rate of 10 cc/s created a flame that expanded until extinction (assumed radiatively); while reduction of flow rate from 10 cc/s to 1 cc/s resulted in wavering extinction during ramp down, suggesting kinetic extinction.",
+   "source_id": "PSI-23_Reports_s_Flame_final_report_20210729.pdf",
+   "page": 54,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-23#finding-5"
+  },
+  {
+   "investigation_id": "PSI-25",
+   "finding": "The critical extinction velocity for thin polymethylmethacrylate at 1 atm is 10 mm/s when the oxygen level is 21 percent.",
+   "quote": "TABLE 2.1.—COMPARISON OF EXTINCTION VELOCITY Vg,cr FOR THIN POLYMETHYLMETHACRYLATE AT 1 atm Vg,cr, mm/s O2, percent Experiment Computation Theory, Equation (2.5) 21 10±5",
+   "source_id": "PSI-25_Reports_BASS-II Summary Report.pdf",
+   "page": 36,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-25#finding-1"
+  },
+  {
+   "investigation_id": "PSI-25",
+   "finding": "When tests are repeated with samples of different thicknesses, the extinction velocities are found to be about 1 cm/s for 100, 200, and 300 micrometers and about 1.5 cm/s for 400 micrometers.",
+   "quote": "When tests are repeated with samples of different thicknesses, the extinction velocities are found to be about 1 cm/s for 100, 200, and 300 µm and about 1.5 cm/s for 400 µm.",
+   "source_id": "PSI-25_Reports_BASS-II Summary Report.pdf",
+   "page": 31,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-25#finding-2"
+  },
+  {
+   "investigation_id": "PSI-25",
+   "finding": "The quenching speeds for composite fabric samples were found to be between 1 and 5 cm/s with higher speed in lower oxygen atmosphere.",
+   "quote": "The quenching speeds were found to be between 1 and 5 cm/s with higher speed in lower O2 atmosphere.",
+   "source_id": "PSI-25_Reports_BASS-II Summary Report.pdf",
+   "page": 101,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-25#finding-3"
+  },
+  {
+   "investigation_id": "PSI-26",
+   "finding": "For the opposed flow configuration, the flame quickly reached steady spread for each flow speed, and the spread rate was fastest at an intermediate value of flow speed.",
+   "quote": "For the opposed flow configuration, the flame quickly reached steady spread for each flow speed, and the spread rate was fastest at an intermediate value of flow speed.",
+   "source_id": "PSI-26_Science Documents_FlammabilityAspectsofFabric_USNationalCombustion.2013.docx",
+   "page": null,
+   "section": "part 1",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-26#finding-1"
+  },
+  {
+   "investigation_id": "PSI-26",
+   "finding": "For concurrent-flow conditions, the flame spread rate increased linearly with increasing flow.",
+   "quote": "For these conditions, flame spread rate increased linearly with increasing flow.",
+   "source_id": "PSI-26_Science Documents_FlammabilityAspectsofFabric_USNationalCombustion.2013.docx",
+   "page": null,
+   "section": "part 1",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-26#finding-2"
+  },
+  {
+   "investigation_id": "PSI-26",
+   "finding": "By decreasing flow speed to a very low value around 1 cm/s, quenching extinction was observed in concurrent flow.",
+   "quote": "In addition, by decreasing flow speed to a very low value (around 1 cm/s), quenching extinction was observed.",
+   "source_id": "PSI-26_Science Documents_FlammabilityAspectsofFabric_USNationalCombustion.2013.docx",
+   "page": null,
+   "section": "part 1",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-26#finding-3"
+  },
+  {
+   "investigation_id": "PSI-39",
+   "finding": "The smaller droplet had an initially luminous yellow flame that quickly became a relatively bright blue.",
+   "quote": "The smaller droplet had an initially luminous yellow flame that quickly became a relatively bright blue.",
+   "source_id": "PSI-39_Science Documents_SRD_CFI.pdf",
+   "page": 17,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-39#finding-1"
+  },
+  {
+   "investigation_id": "PSI-39",
+   "finding": "The smaller droplet was slightly larger than 2 mm and the larger droplet slightly larger than 3 mm.",
+   "quote": "The smaller droplet was slightly larger than 2 mm and the larger droplet slightly larger than 3 mm.",
+   "source_id": "PSI-39_Science Documents_SRD_CFI.pdf",
+   "page": 17,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-39#finding-2"
+  },
+  {
+   "investigation_id": "PSI-39",
+   "finding": "The initial droplet sizes for the two tests were very close.",
+   "quote": "The initial droplet sizes for the two tests were very close.",
+   "source_id": "PSI-39_Science Documents_SRD_CFI.pdf",
+   "page": 24,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-39#finding-3"
+  },
+  {
+   "investigation_id": "PSI-47",
+   "finding": "The average mass assuming a material density of water is 2.5 E-12 grams, with a range from 2 to 3 E-12.",
+   "quote": "The average mass (assuming a material density of water) is 2.5 E-12 grams, with a range from 2 – 3 E-12.",
+   "source_id": "PSI-47_Reports_DAFT_FinalReport.doc",
+   "page": 10,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-47#finding-1"
+  },
+  {
+   "investigation_id": "PSI-47",
+   "finding": "The calculated average diameter is 1.65 micron, ranging from 1.56 to 1.7 micron.",
+   "quote": "The calculated average diameter is 1.65 micron, ranging from 1.56 – 1.7 micron.",
+   "source_id": "PSI-47_Reports_DAFT_FinalReport.doc",
+   "page": 10,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-47#finding-2"
+  },
+  {
+   "investigation_id": "PSI-47",
+   "finding": "Test point number 2 data shows that the P-Trak responded to the Velcro dust quite well, with several readings above the 30,000 pt/cc mark where the P-Trak has a maximum count of 500,000 pt/cc.",
+   "quote": "Test point #2 data (Figures 3 and 4) shows that the P-Trak responded to the Velcro dust quite well, with several readings above the 30,000 pt/cc mark (P-Trak has a maximum count of 500,000 pt/cc).",
+   "source_id": "PSI-47_Reports_DAFT_1YearReport.doc",
+   "page": 9,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-47#finding-3"
+  },
+  {
+   "investigation_id": "PSI-47",
+   "finding": "The ISS air handling system uses HEPA filtration and the particulate loading of the air on the ISS is very low, being substantially cleaner than the shuttle or a typical office environment.",
+   "quote": "The particulate loading of the air on ISS is very low; substantially cleaner than the shuttle or typical office environment – ISS air handling system uses HEPA filtration",
+   "source_id": "PSI-47_Presentations_DAFT_Increment13SciSymposium_2006.ppt",
+   "page": 10,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-47#finding-4"
+  },
+  {
+   "investigation_id": "PSI-68",
+   "finding": "For a binary droplet array, if the inter-droplet spacing approaches zero, it creates a single droplet whose size is 26 percent larger than each individual droplet.",
+   "quote": "Alternately, if the inter-droplet spacing were to approach zero for a binary droplet array, this would create a single droplet whose size is 26 percent larger than each individual droplet.",
+   "source_id": "PSI-68_Science Documents_FLEX-2 SRD Final _ No Hypertext .pdf",
+   "page": 23,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-68#finding-1"
+  },
+  {
+   "investigation_id": "PSI-69",
+   "finding": "For n-octane droplets with an initial diameter of 3.61 mm, a decrease in the burning rate occurs at about 1.0 s/mm2.",
+   "quote": "Figures 9a, 9d and 9e show such a decrease for n-octane with Do = 3.61 mm at about 1.0 s/mm2.",
+   "source_id": "PSI-69_Presentations_2G11-070HE-0310.pdf",
+   "page": 7,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-69#finding-1"
+  },
+  {
+   "investigation_id": "PSI-69",
+   "finding": "In recent experiments, anomalous combustion of n-heptane droplets is observed with high temperature combustion followed by radiative visible extinction and a transition to a second stage cool flame burn.",
+   "quote": "In recent experiments anomalous combustion of n- heptane droplets are observed; high temperature combustion followed by radiative visible extinction and a transition to a second stage (‘cool flame’) burn characterized by loss of visible flame emission.",
+   "source_id": "PSI-69_Presentations_1G17-070HE-0166.pdf",
+   "page": 1,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-69#finding-2"
+  },
+  {
+   "investigation_id": "PSI-98",
+   "finding": "The Saffire-I flight unit was launched successfully within the Cygnus PCM on an Atlas V launch vehicle on March 22, 2016.",
+   "quote": "The Saffire-I flight unit was successfully launched within the Cygnus PCM on an Atlas V launch vehicle on March 22, 2016 as part of the OA-6 mission.",
+   "source_id": "PSI-98_Science Documents_SAFFIRE Objectives, Development and Status.pdf",
+   "page": 4,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-98#finding-1"
+  },
+  {
+   "investigation_id": "PSI-98",
+   "finding": "The Cygnus vehicle successfully berthed to the International Space Station on March 26, 2016.",
+   "quote": "The Cygnus vehicle was successfully berthed to the ISS on March 26, 2016.",
+   "source_id": "PSI-98_Science Documents_SAFFIRE Objectives, Development and Status.pdf",
+   "page": 4,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-98#finding-2"
+  },
+  {
+   "investigation_id": "PSI-98",
+   "finding": "The Saffire-I experiment used a composite fabric sample approximately 0.94 meters long and 0.4 meters wide.",
+   "quote": "This sample material is approximately 0.94 meters long and 0.4 meters wide.",
+   "source_id": "PSI-98_Science Documents_SAFFIRE Objectives, Development and Status.pdf",
+   "page": 2,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-98#finding-3"
+  },
+  {
+   "investigation_id": "PSI-98",
+   "finding": "Saffire-I was conducted at a designated air flow velocity of 20 cm/s.",
+   "quote": "SAFFIRE-I will be conducted at an air flow velocity of 20 cm/s while SAFFIRE-III will be run at a flow velocity of 30 cm/s.",
+   "source_id": "PSI-98_Science Documents_SAFFIRE-I and SAFFIRE-III Readme.docx",
+   "page": null,
+   "section": "part 1",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-98#finding-4"
+  },
+  {
+   "investigation_id": "PSI-99",
+   "finding": "SAFFIRE-II features a sample card holding 9 samples, with each sample measuring 5 cm by 29 cm.",
+   "quote": "SAFFIRE-II has a sample card that contains 9 samples, each 5 cm x 29 cm.",
+   "source_id": "PSI-99_Science Documents_SAFFIRE-II Readme.docx",
+   "page": null,
+   "section": "part 1",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-99#finding-1"
+  },
+  {
+   "investigation_id": "PSI-99",
+   "finding": "Depending on the specific sample material, SAFFIRE-II tests were performed at an air flow velocity of either 20 or 30 cm/s.",
+   "quote": "Depending on the sample material, the Saffire-II was conducted at an air flow velocity of either 20 or 30 cm/s, the flow being either concurrent or opposed.",
+   "source_id": "PSI-99_record",
+   "page": null,
+   "section": "approach",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-99#finding-2"
+  },
+  {
+   "investigation_id": "PSI-100",
+   "finding": "The sample material used for Saffire-I and Saffire-III is SIBAL cloth, which is a composite fabric consisting of 75 percent cotton and 25 percent fiberglass by weight.",
+   "quote": "The sample material for SAFFIRE-I and SAFFIRE-III is a composite fabric consisting of cotton on a fiberglass substrate (75% cotton, 25% fiberglass by weight).",
+   "source_id": "PSI-100_Science Documents_SAFFIRE-I and SAFFIRE-III Readme.docx",
+   "page": null,
+   "section": "part 1",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-100#finding-1"
+  },
+  {
+   "investigation_id": "PSI-100",
+   "finding": "SAFFIRE-I was conducted at an air flow velocity of 20 cm per second while SAFFIRE-III was run at a flow velocity of 30 cm per second.",
+   "quote": "SAFFIRE-I will be conducted at an air flow velocity of 20 cm/s while SAFFIRE-III will be run at a flow velocity of 30 cm/s.",
+   "source_id": "PSI-100_Science Documents_SAFFIRE-I and SAFFIRE-III Readme.docx",
+   "page": null,
+   "section": "part 1",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-100#finding-2"
+  },
+  {
+   "investigation_id": "PSI-100",
+   "finding": "The sample material used in the Saffire experiments is approximately 0.94 meters long and 0.4 meters wide.",
+   "quote": "This sample material is approximately 0.94 meters long and 0.4 meters wide.",
+   "source_id": "PSI-100_Science Documents_SAFFIRE Objectives, Development and Status.pdf",
+   "page": 2,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-100#finding-3"
+  },
+  {
+   "investigation_id": "PSI-100",
+   "finding": "The Saffire-I flight unit was successfully launched within the Cygnus PCM on an Atlas V launch vehicle on March 22, 2016.",
+   "quote": "The Saffire-I flight unit was successfully launched within the Cygnus PCM on an Atlas V launch vehicle on March 22, 2016 as part of the OA-6 mission.",
+   "source_id": "PSI-100_Science Documents_SAFFIRE Objectives, Development and Status.pdf",
+   "page": 4,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-100#finding-4"
+  },
+  {
+   "investigation_id": "PSI-101",
+   "finding": "For all of the tested materials, the diameter of average mass is 30 percent to 40 percent larger for the zero-flow tests compared to the flow tests.",
+   "quote": "It is found for all of the materials the diameter of average mass is 30 % to 40 % larger for the zero-flow tests compared to the flow tests.",
+   "source_id": "PSI-101_Reports_SAME-R_Final Report.pdf",
+   "page": 83,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-101#finding-1"
+  },
+  {
+   "investigation_id": "PSI-101",
+   "finding": "Particle sizes ranged from 100 to 600 nm during the tests.",
+   "quote": "Particle sizes ranged from 100 to 600 nm",
+   "source_id": "PSI-101_Presentations_SAME-2_Comparison of Flight and Ground Test Results.pptx",
+   "page": 27,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-101#finding-2"
+  },
+  {
+   "investigation_id": "PSI-101",
+   "finding": "For lampwick and silicone approximately 40 percent of the aerosol mass had aerodynamic diameters greater than 1 micrometer.",
+   "quote": "For lampwick and silicone approximately 40% of the aerosol mass had aerodynamic diameters greater than 1 μm however Teflon and Kapton were mostly less than 1 μm",
+   "source_id": "PSI-101_Presentations_SAME-2_Comparison of Flight and Ground Test Results.pptx",
+   "page": 27,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-101#finding-3"
+  },
+  {
+   "investigation_id": "PSI-101",
+   "finding": "For spacecraft materials, number counts decreased by a factor of 1.7 to 2.7 over 800 seconds.",
+   "quote": "For spacecraft materials, number counts decreased by a factor of 1.7 to 2.7 over 800 seconds.",
+   "source_id": "PSI-101_Presentations_SAME-R_Particle Morphology and Size Results from the Smoke Aerosol Measurement Experiment-2.pptx",
+   "page": 41,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-101#finding-4"
+  },
+  {
+   "investigation_id": "PSI-102",
+   "finding": "Smoke particulate produced in low-gravity was found to be typically 50% larger in count mean diameter than similar conditions in normal gravity.",
+   "quote": "Smoke particulate produced in low-gravity was found to be typically 50% large in count mean diameter than similar conditions in normal gravity.",
+   "source_id": "PSI-102_Reports_SAME_Final Science Report.pdf",
+   "page": 66,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-102#finding-1"
+  },
+  {
+   "investigation_id": "PSI-102",
+   "finding": "Particle sizes ranged from 100 to 600 nm and increased substantially with aging or decreased air flow.",
+   "quote": "Particle sizes ranged from 100 to 600 nm Consistent with a log-normal distribution Particle sizes increase substantially with aging Particle dimensions increase substantially as air flow was decreased",
+   "source_id": "PSI-102_Presentations_SAME2_FlightVSGroundTestResults.pptx",
+   "page": 27,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-102#finding-2"
+  },
+  {
+   "investigation_id": "PSI-102",
+   "finding": "For lampwick and silicone approximately 40% of the aerosol mass had aerodynamic diameters greater than 1 micrometer while Teflon and Kapton were mostly less than 1 micrometer.",
+   "quote": "For lampwick and silicone approximately 40% of the aerosol mass had aerodynamic diameters greater than 1 μm however Teflon and Kapton were mostly less than 1 μm",
+   "source_id": "PSI-102_Presentations_SAME2_FlightVSGroundTestResults.pptx",
+   "page": 27,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-102#finding-3"
+  },
+  {
+   "investigation_id": "PSI-102",
+   "finding": "Ground based testing at 8 cm/s showed particle dimensions very close to the flight results.",
+   "quote": "Ground based testing at 8 cm/s showed particle dimensions very close to the flight results",
+   "source_id": "PSI-102_Presentations_SAME2_FlightVSGroundTestResults.pptx",
+   "page": 28,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-102#finding-4"
+  },
+  {
+   "investigation_id": "PSI-107",
+   "finding": "Fifty-two smoke points were found for ethylene, propane, propylene, and propylene/nitrogen mixtures using burner diameters of 0.41, 0.76, and 1.6 mm and co-flow velocities varying from 5.4 to 65 cm/s.",
+   "quote": "Fifty-two smoke points were found for ethylene, propane, propylene, and propylene/nitrogen mixtures. Burner diameters were 0.41, 0.76, and 1.6 mm and co-flow velocities varied from 5.4 – 65 cm/s.",
+   "source_id": "PSI-107_Reports_SPICE_FinalReport.pdf",
+   "page": 2,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-107#finding-1"
+  },
+  {
+   "investigation_id": "PSI-107",
+   "finding": "The measured smoke point lengths correlate with burner diameter to the -0.91 power times coflow velocity to the 0.41 power.",
+   "quote": "The measured smoke point lengths were found to correlate with burner diameter to the –0.91 power times coflow velocity to the 0.41 power.",
+   "source_id": "PSI-107_Reports_SPICE_FinalReport.pdf",
+   "page": 2,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-107#finding-2"
+  },
+  {
+   "investigation_id": "PSI-107",
+   "finding": "Total of 526 flames were ignited and studied aboard the International Space Station.",
+   "quote": "Totally 526 flames were ignited and studied, which were much more than originally planned.",
+   "source_id": "PSI-107_Reports_SPICE_FinalReport.pdf",
+   "page": 20,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-107#finding-3"
+  },
+  {
+   "investigation_id": "PSI-107",
+   "finding": "Flames generally reached steady conditions within 5 s of ignition or a change in flow rate of fuel or air.",
+   "quote": "The flames generally reached steady conditions within 5 s of ignition or a change in flow rate of fuel or air.",
+   "source_id": "PSI-107_Reports_SPICE_30-DayPostFlightReport.pdf",
+   "page": 6,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-107#finding-4"
+  },
+  {
+   "investigation_id": "PSI-115",
+   "finding": "Without recirculation, the mode particle diameter in microgravity is roughly 10 micrometers, which is approximately twice that of terrestrial smoke.",
+   "quote": "Without recirculation, the mode particle diameter in microgravity is ∼10 µm, or approximately twice that of terrestrial smoke.",
+   "source_id": "PSI-115_Reports_NNX17AF08A_FinalReport.pdf",
+   "page": 3,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-115#finding-1"
+  },
+  {
+   "investigation_id": "PSI-115",
+   "finding": "Measurements suggest microgravity smoke particles to be two to eight times larger than terrestrial smoke particles.",
+   "quote": "Measurements suggest microgravity smoke particles to be 2 −8 times larger than terrestrial smoke particles (Urban et al., 2005).",
+   "source_id": "PSI-115_Reports_NNX17AF08A_FinalReport.pdf",
+   "page": 4,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-115#finding-2"
+  },
+  {
+   "investigation_id": "PSI-117",
+   "finding": "The average burning rate computed from the detailed and reduced reaction model differed by 3%, 0.583 mm2/s for the detailed model and 0.602 mm2/s for the reduced model.",
+   "quote": "The average burning rate computed from the detailed and reduced reaction model differed by ~3%, 0.583 mm2/s for the detailed model and 0.602 mm2/s for the reduced model.",
+   "source_id": "PSI-117_Reports_Dissertation_Combustion Behavior Of Sub-Millimeter Sized Oxygenated And N-Alka.pdf",
+   "page": 106,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-117#finding-1"
+  },
+  {
+   "investigation_id": "PSI-117",
+   "finding": "The maximum flame temperature at which transition to the second stage occurred was universally found to be 1200K.",
+   "quote": "• Two-stage hot-cool flame burning mode transitions are demonstrated to exist for the three fuels, and the maximum flame temperature at which transition to the second stage occurred was universally found to be ~ 1200K.",
+   "source_id": "PSI-117_Presentations_Extinction_Characteristics_TFarouk.pdf",
+   "page": 16,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-117#finding-2"
+  },
+  {
+   "investigation_id": "PSI-117",
+   "finding": "The helium filled ambient contains water as much as 22.5% by mass at the flame location near extinction.",
+   "quote": "It is observed that the helium-filled ambient contains water as much as 22.5% (by mass) at the flame location near extinction.",
+   "source_id": "PSI-117_Reports_Dissertation_Combustion Behavior Of Sub-Millimeter Sized Oxygenated And N-Alka.pdf",
+   "page": 81,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-117#finding-3"
+  },
+  {
+   "investigation_id": "PSI-142",
+   "finding": "The results showed that the warm flame has a double reaction zone structure and plays a critical role in the transition between cool flames and hot flames.",
+   "quote": "The results showed that the warm flame has a double reaction zone structure and plays a critical role in the transition between cool flames and hot flames.",
+   "source_id": "PSI-142_record",
+   "page": null,
+   "section": "earth_benefits",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-142#finding-1"
+  },
+  {
+   "investigation_id": "PSI-142",
+   "finding": "At elevated pressures, it was found that the flammable region of warm flames and cool flames expands due to the increase in low-temperature and intermediate-temperature reactivity with pressure.",
+   "quote": "At elevated pressures, it was found that the flammable region of warm flames and cool flames expands due to the increase in low-temperature and intermediate-temperature reactivity with pressure.",
+   "source_id": "PSI-142_record",
+   "page": null,
+   "section": "earth_benefits",
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-142#finding-2"
+  },
+  {
+   "investigation_id": "PSI-159",
+   "finding": "A total of 280 hot diffusion flames were observed during the experiment.",
+   "quote": "A total of 280 hot diffusion flames were observed.",
+   "source_id": "PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+   "page": 44,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-159#finding-1"
+  },
+  {
+   "investigation_id": "PSI-159",
+   "finding": "Of the hot flames that experienced radiative extinction, 15 subsequently reignited as cool diffusion flames.",
+   "quote": "Of those that extinguished radiatively, 15 subsequently reignited as cool diffusion flames.",
+   "source_id": "PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+   "page": 44,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-159#finding-2"
+  },
+  {
+   "investigation_id": "PSI-159",
+   "finding": "Cool diffusion flames were only observed for normal n-butane flames at a pressure of 2.03 bar and an ambient oxygen mole fraction of 0.39.",
+   "quote": "However, these CDFs were not readily produced and were only obtained for normal n-butane flames at 2 bar with an ambient oxygen mole fraction of 0.39.",
+   "source_id": "PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+   "page": 23,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-159#finding-3"
+  },
+  {
+   "investigation_id": "PSI-159",
+   "finding": "The hot flames that spawned the cool diffusion flames were 2.6 times as large as the cool flames.",
+   "quote": "The hot flames that spawned the CDFs were 2.6 times as large.",
+   "source_id": "PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+   "page": 23,
+   "section": null,
+   "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-159#finding-4"
+  }
+ ]
+}

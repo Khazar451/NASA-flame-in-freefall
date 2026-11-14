@@ -64,3 +64,32 @@ def test_bare_address_says_the_service_is_running(client):
     assert res.status_code == 200
     assert res.json()["status"] == "running" and res.json()["health"] == "/health"
     assert client.head("/").status_code in (200, 405)  # Render's own checks send HEAD /
+
+
+def test_at_most_n_questions_are_answered_at_once(monkeypatch):
+    import threading
+    import time
+
+    monkeypatch.setenv("ASK_CONCURRENCY", "2")
+    monkeypatch.setenv("ASK_RATE_PER_MINUTE", "100")
+    active, peak, lock = [0], [0], threading.Lock()
+
+    def slow_answer(question, kb, provider, budget):
+        with lock:
+            active[0] += 1
+            peak[0] = max(peak[0], active[0])
+        time.sleep(0.05)
+        with lock:
+            active[0] -= 1
+        return {"answer": "ok", "citations": [], "mode": "retrieval"}
+
+    monkeypatch.setattr(api.ask, "answer", slow_answer)
+    kb = ask.KnowledgeBase(INVESTIGATIONS, TESTS)
+    with TestClient(api.create_app(kb=kb, use_ai=False)) as test_client:
+        threads = [threading.Thread(target=test_client.post, args=("/ask",), kwargs={"json": {"question": "q"}})
+                   for _ in range(6)]
+        for thread in threads:
+            thread.start()
+        for thread in threads:
+            thread.join()
+    assert peak[0] == 2

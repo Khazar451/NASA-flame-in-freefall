@@ -1,0 +1,83 @@
+# Questions a judge might ask, with facts a good answer must contain. Each fact is a
+# regular expression, matched case-insensitively; "a|b" accepts either. Every fact comes
+# from NASA's data or reports (source noted), so a good answer is checkable.
+# Used by: python -m pipeline.evaluate
+- question: How does lowering the pressure affect flammability?
+  facts:
+  - 10\.2|8\.2|reduced pressure|lower pressure
+  - persist|minutes|continued to burn|kept burning|steady burning|self-extin
+  source: ACME BRE final report p. 18
+- question: Is a lunar habitat with 30% oxygen more dangerous for fires than the ISS?
+  facts:
+  - persist|minutes|kept burning|steady burning|continued to burn
+  - 21 ?%|21 percent
+  - 27|34
+  source: ACME BRE final report p. 5 and p. 18
+- question: What did BASS-II find?
+  facts:
+  - critical|extinction|quench
+  - flow|velocity|speed
+  - thickness|thick|micrometer|µm
+  source: BASS-II Summary Report p. 36
+- question: How does air flow speed change flame spread in BASS-II?
+  facts:
+  - flow
+  - spread
+  - extinction|quench|cannot be sustained|went out
+  source: BASS-II Summary Report p. 36 and p. 106
+- question: What did the BRE experiment find?
+  facts:
+  - 27|34|10\.2|8\.2
+  - persist|minutes|kept burning|steady burning
+  source: ACME BRE final report p. 18
+- question: Which solid materials were tested above 30% oxygen?
+  facts:
+  - \bno\b|none|not
+  - 22\.2
+  source: 'tests.json: highest oxygen with a solid fuel is 22.2 % (BASS-II)'
+- question: What pressures did CFI test droplets at?
+  facts:
+  - 0\.5 ?atm|50\.7
+  - 5(\.0)? ?atm|507
+  source: CFI experimental table
+- question: Which experiments studied smoke detection?
+  facts:
+  - \bSAME\b
+  - SAME-R
+  source: investigations.json
+- question: What happens to flames in partial gravity on the Moon?
+  facts:
+  - no (combustion )?tests|no data|not tested
+  - E-FIELD
+  source: coverage.json and the challenge brief
+- question: What is a cool flame?
+  facts:
+  - 650|600
+  - low[- ]temperature|cool
+  source: PSI-117 presentation p. 3
+- question: How did Saffire test fire spread on large samples?
+  facts:
+  - Cygnus
+  - SIBAL|fabric|cotton
+  - 20 cm/s|30 cm/s
+  source: Saffire records and tables
+- question: What air flow did SAME use?
+  facts:
+  - \b5\b
+  - \b10\b
+  - cm/s
+  source: SAME experimental table
+- question: Why do flames behave differently in microgravity?
+  facts:
+  - buoyan
+  source: ACME and SLICE records
+- question: Which experiments ran gas flames above 2 atm?
+  facts:
+  - CFI-G
+  - Flame Design
+  source: tests.json
+- question: What did FLEX find about carbon dioxide as a suppressant?
+  facts:
+  - CO2|carbon dioxide
+  - extinguish|went out|extinction
+  source: FLEX table and documents

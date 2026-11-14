@@ -276,7 +276,7 @@ def assumed_fields() -> list[tuple[str, str, set[str]]]:
     for mapping in mappings:
         fields = {
             field for field in NUMERIC_FIELDS
-            if isinstance(mapping.get(field), dict) and mapping[field].get("assumed")
+            if isinstance(mapping.get(field), dict) and "assumed" in mapping[field]  # "" = assumed, note said elsewhere
         }
         if fields:
             found.append((mapping["investigation"], mapping["table"], fields))

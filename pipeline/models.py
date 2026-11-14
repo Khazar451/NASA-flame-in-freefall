@@ -208,6 +208,21 @@ class GravityFile(_Strict):
     upcoming: list[Upcoming]
 
 
+class Finding(_Strict):
+    investigation_id: str = Field(pattern=PSI_ID)
+    finding: str = Field(min_length=1, description="One plain sentence; every number in it is in the quote")
+    quote: str = Field(min_length=1, description="Copied word for word from the page")
+    source_id: str
+    page: int | None = Field(description="None for a PSI record section or a Word file part")
+    section: str | None = None
+    url: str
+
+
+class FindingsFile(_Strict):
+    meta: dict[str, Any] = Field(default_factory=dict)
+    findings: list[Finding]
+
+
 def json_schema() -> dict[str, Any]:
     return {
         "investigations.json": InvestigationsFile.model_json_schema(),
@@ -215,6 +230,7 @@ def json_schema() -> dict[str, Any]:
         "coverage.json": CoverageFile.model_json_schema(),
         "varied.json": VariedFile.model_json_schema(),
         "gravity.json": GravityFile.model_json_schema(),
+        "findings.json": FindingsFile.model_json_schema(),
     }
 
 

@@ -297,5 +297,18 @@ A review against NASA's tables and reports found three errors. Fixed without add
 
 Also: the `/ask` provider chain moves to NVIDIA when Gemini is overloaded (HTTP 503), and AI sources are labelled with the experiment's name, not only its PSI id (SAME's documents are filed under SAME-R). The demo answers were rebuilt on the fixed data.
 
+### Answer quality (same evening)
+
+Live answers were accurate but poor: they opened with test counts, and search missed NASA's stated results (for example BRE's pressure result). Four changes, measured on `pipeline/review/eval_questions.yaml` (15 questions, 34 facts, each from NASA's data or reports; `python -m pipeline.evaluate --provider nim`):
+
+1. `findings.py` (`findings`, hand-run, AI): for each experiment, the AI reads the pages most likely to state results and writes 3–6 findings, each with a word-for-word quote. Code checks the quote is on the page and every number in the finding is in the quote. 66 findings from 20 experiments in `data/out/findings.json`; searched first by `/ask`.
+2. Search: `keyword_index.py` adds BM25 keyword search (2.3 MB, `data/out/search/keywords.npz`) merged with the meaning-based search; at most 2 passages per document; planning documents and reference lists ranked last; a short synonym list (pressure → psia, atm, kPa).
+3. Instructions: answer the question in the first sentence; findings first; the test table is authoritative for conditions; counts only when asked.
+4. A code check rejects an answer that ignores the experiments the test table lists (it had answered "no tests above 2 atm" while the table lists CFI-G and Flame Design).
+
+Result with the NVIDIA model: facts in the answers 22/34 → 29/34; facts in the sources given to the AI 27/34 → 33/34; no answer opens with a test count. Server memory after the changes: about 435 MB after startup, 450–460 MB under load (freed memory is handed back after loading; at most 2 questions are answered at once). Remaining misses are mostly the NVIDIA model preferring document values over the table; Gemini, the main model, follows the table more closely.
+
+SAME and SAME-R: their 113 tests now sit at the cabin point (21 % oxygen, 14.7 psi), labelled as assumed, as agreed with the ME teammate.
+
 Still open, for the ME teammate: the outcome mappings marked TO CHECK, the AI role and fuel tags, and whether the existing cabin-pressure assumption for BASS-II and Saffire may stay on the map.
 

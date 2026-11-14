@@ -46,7 +46,7 @@ python -m pipeline.search --download-model   # optional: fetch the 80 MB model n
 uvicorn pipeline.api:app --host 0.0.0.0 --port $PORT
 ```
 
-Run it from the repository root. It reads the committed files in `data/out/` (including `data/out/search/`) and `pipeline/review/demo_answers.json`; it does not need `data/raw/`. Memory use peaks at about 380 MB. `GET /health` reports what loaded and how many AI calls are left today.
+Run it from the repository root. It reads the committed files in `data/out/` (including `data/out/search/`) and `pipeline/review/demo_answers.json`; it does not need `data/raw/`. Memory: about 435 MB after startup and 450–460 MB under load (measured with both AI clients and 8 questions at once), within Render's 512 MB. `GET /health` reports what loaded and how many AI calls are left today.
 
 | Variable | Default | Meaning |
 |---|---|---|
@@ -56,6 +56,7 @@ Run it from the repository root. It reads the committed files in `data/out/` (in
 | `LLM_FALLBACK`, `OPENAI_BASE_URL`, `OPENAI_MODEL`, `OPENAI_API_KEY`, `OPENAI_EXTRA_BODY` | unset | A second provider used when Gemini's quota runs out. `render.yaml` sets NVIDIA NIM (`nvidia/nemotron-3.5-lightning-30b-a3b`); its key is a secret like the Gemini key |
 | `LLM_TIMEOUT_S` | `90` | Seconds to wait for Gemini before answering without AI. `render.yaml` sets `10` |
 | `ASK_RATE_PER_MINUTE` | `10` | Questions per minute from one address |
+| `ASK_CONCURRENCY` | `2` | Questions answered at the same time; others wait their turn |
 | `EMBEDDING_MODEL_DIR` | `~/.cache/chroma` | Where the embedding model is kept; relative paths start at the repository root |
 
 **The Gemini key is a server secret.** Put it only in the host's environment settings, never in `app/.env`, a `VITE_` variable or the repository: the dashboard is public, and anything built into it can be read by anyone.
@@ -77,3 +78,15 @@ A service created by hand instead of from the Blueprint needs the same settings:
 `render.yaml` asks for the paid `starter` plan, which does not sleep. With `plan: free` the service costs nothing but sleeps after about 15 minutes without requests; the next question wakes it, which takes about a minute. Both plans have 512 MB of memory; the server peaks at about 440 MB with 8 questions at once.
 
 The dashboard's build uses `https://nasa-flame-in-freefall.onrender.com` unless the repository variable `VITE_API_URL` names another address (`.github/workflows/deploy.yml`).
+
+## Answer quality
+
+`/ask` answers from three kinds of NASA evidence, in this order: key findings (`data/out/findings.json`, results from NASA's reports, each with a quote checked against its page), the test-table summary, and document passages (keyword and meaning-based search combined).
+
+```bash
+python -m pipeline.run_all findings          # rebuild the findings (AI calls; quotes checked by code)
+python -m pipeline.evaluate --provider nim    # score 15 realistic questions against facts from NASA's data
+```
+
+`findings` and `demo-answers` spend AI calls, so `run_all all` leaves them out; their results are committed.
+
