@@ -127,3 +127,4 @@ def test_search_loads_the_model_once_and_embeds_one_question_at_a_time():
     for thread in threads:
         thread.join()
     assert len(calls) == 7 and not overlap[0]
+

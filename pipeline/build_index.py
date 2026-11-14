@@ -179,6 +179,10 @@ def run(args: argparse.Namespace, embedder: Embedder | None = None) -> int:
             print(f"  embedded {done}/{len(chunks)} ({time.monotonic() - started:.0f} s)", flush=True)
 
     vectors = embed([c["text"] for c in chunks], embedder, report)
+    from pipeline.keyword_index import FILE, KeywordIndex
+
+    SEARCH_DIR.mkdir(parents=True, exist_ok=True)
+    KeywordIndex.build([c["text"] for c in chunks]).save(SEARCH_DIR / FILE)
     save(SEARCH_DIR, chunks, vectors, MODEL_NAME if embedder.__class__.__name__ == "ONNXMiniLM_L6_V2"
          else embedder.__class__.__name__, skipped)
     sizes = ", ".join(f"{p.name} {p.stat().st_size / 1e6:.1f} MB" for p in sorted(SEARCH_DIR.iterdir()))

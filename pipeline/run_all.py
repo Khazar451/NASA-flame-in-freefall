@@ -21,6 +21,7 @@ from pipeline import (
     extract_investigations,
     extract_text,
     fetch,
+    findings,
     gravity,
     inventory,
     transform_tests,
@@ -42,6 +43,7 @@ STEPS: list[tuple[str, int, str]] = [
     ("varied", 6, "varied.json: what varied and what stayed the same, per investigation"),
     ("build-index", 7, "embed the document text into the search index for /ask (data/out/search)"),
     ("gravity", 8, "gravity.json: what PSI can say about partial gravity, for the dashboard panel"),
+    ("findings", 8, "findings.json: key results per experiment from NASA's reports, quotes checked (AI)"),
     ("demo-answers", 7, "answer the demo questions once and save them for /ask"),
     ("validate", 2, "check the output files against the contract and sanity ranges"),
 ]
@@ -50,8 +52,9 @@ StepFn = Callable[[argparse.Namespace], int]
 
 # Steps that involve a person or spend AI quota, so `all` leaves them out:
 # review-export / apply-overrides are the domain lead's review loop (the build already
-# applies data/overrides.json), and demo-answers makes AI calls and rewrites answers.
-MANUAL = ("review-export", "apply-overrides", "demo-answers")
+# applies data/overrides.json), and findings and demo-answers make AI calls (their results are
+# committed, so a rebuild does not need them).
+MANUAL = ("review-export", "apply-overrides", "findings", "demo-answers")
 
 # Filled in phase by phase: {"fetch": fetch.run, ...}
 IMPLEMENTED: dict[str, StepFn] = {
@@ -66,6 +69,7 @@ IMPLEMENTED: dict[str, StepFn] = {
     "varied": varied.run,
     "build-index": build_index.run,
     "gravity": gravity.run,
+    "findings": findings.run,
     "demo-answers": ask.run_demo_answers,
     "validate": validate.run,
 }

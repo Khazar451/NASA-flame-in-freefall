@@ -1143,5 +1143,93 @@
     ],
     "title": "GravityFile",
     "type": "object"
+  },
+  "findings.json": {
+    "$defs": {
+      "Finding": {
+        "additionalProperties": false,
+        "properties": {
+          "investigation_id": {
+            "pattern": "^PSI-\\d+$",
+            "title": "Investigation Id",
+            "type": "string"
+          },
+          "finding": {
+            "description": "One plain sentence; every number in it is in the quote",
+            "minLength": 1,
+            "title": "Finding",
+            "type": "string"
+          },
+          "quote": {
+            "description": "Copied word for word from the page",
+            "minLength": 1,
+            "title": "Quote",
+            "type": "string"
+          },
+          "source_id": {
+            "title": "Source Id",
+            "type": "string"
+          },
+          "page": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "None for a PSI record section or a Word file part",
+            "title": "Page"
+          },
+          "section": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Section"
+          },
+          "url": {
+            "title": "Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "investigation_id",
+          "finding",
+          "quote",
+          "source_id",
+          "page",
+          "url"
+        ],
+        "title": "Finding",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "meta": {
+        "additionalProperties": true,
+        "title": "Meta",
+        "type": "object"
+      },
+      "findings": {
+        "items": {
+          "$ref": "#/$defs/Finding"
+        },
+        "title": "Findings",
+        "type": "array"
+      }
+    },
+    "required": [
+      "findings"
+    ],
+    "title": "FindingsFile",
+    "type": "object"
   }
 }

@@ -17,7 +17,7 @@ from typing import Any
 from pydantic import BaseModel, ValidationError
 
 from pipeline import config
-from pipeline.models import CoverageFile, GravityFile, InvestigationsFile, TestsFile, VariedFile
+from pipeline.models import CoverageFile, FindingsFile, GravityFile, InvestigationsFile, TestsFile, VariedFile
 
 # Hard limits: anything outside is a unit or mapping mistake, not a real test.
 O2_PCT = (0.0, 100.0)
@@ -126,6 +126,13 @@ def check(folder: Path) -> tuple[list[str], list[str]]:
                 elif entry.n_tests != per_inv.get(entry.investigation_id, 0):
                     errors.append(f"varied.json: {entry.investigation_id} counts {entry.n_tests} tests, "
                                   f"tests.json has {per_inv.get(entry.investigation_id, 0)}; rebuild it")
+    findings_path = folder / "findings.json"
+    if findings_path.exists():
+        findings_file = _load(findings_path, FindingsFile, errors)
+        if findings_file is not None:
+            for f in findings_file.findings:
+                if f.investigation_id not in known:
+                    errors.append(f"findings.json: {f.investigation_id} is not in investigations.json")
     gravity_path = folder / "gravity.json"
     if gravity_path.exists():
         gravity = _load(gravity_path, GravityFile, errors)

@@ -268,3 +268,74 @@ def test_partial_gravity_answer_adds_the_saffire_comparison(kb):
 ])
 def test_tidy_removes_source_numbers(raw, clean):
     assert ask.tidy(raw) == clean
+
+
+def test_assumed_oxygen_and_pressure_are_both_named(kb):
+    note = ("Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. "
+            "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.")
+    kb.tests = TESTS + [row("PSI-102", "9", "solid", 21.0, 101.325, note=note)]
+    text, _ = ask.table_answer(ask.read_question("solid materials at 21% oxygen", kb), kb)
+    assert "Pressure for BASS-II is not in the source table; cabin pressure (1 atm) is assumed." in text
+    assert "Oxygen and pressure for SAME are not in the source tables; ISS cabin air (21 % oxygen, 14.7 psi) is assumed." in text
+
+
+FINDINGS = [
+    {"investigation_id": "PSI-69", "finding": "Carbon dioxide put out methanol droplet flames sooner than nitrogen.",
+     "quote": "carbon dioxide extinguished the flames sooner", "source_id": "PSI-69_Reports_FLEX Final Report.pdf",
+     "page": 12, "section": None, "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-69#finding-1"},
+    {"investigation_id": "PSI-25", "finding": "Extinction flow speeds were about 1 cm/s for thin samples.",
+     "quote": "extinction velocities are found to be about 1 cm/s", "source_id": "PSI-25_Reports_BASS-II Summary Report.pdf",
+     "page": 31, "section": None, "url": "https://psi.nasa.gov/physci/repo/data/investigations/PSI-25#finding-1"},
+]
+
+
+def test_findings_of_a_named_experiment_come_first(kb):
+    kb.findings = FINDINGS
+    q = ask.read_question("What did BASS-II find?", kb)
+    _, _, found = ask.gather("What did BASS-II find?", q, kb)
+    assert found[0]["kind"] == "finding" and found[0]["psi_id"] == "PSI-25"
+    assert all(f["psi_id"] == "PSI-25" for f in found if f.get("kind") == "finding")
+
+
+def test_unrelated_findings_are_left_out_without_a_named_experiment(kb):
+    kb.findings = FINDINGS
+    q = ask.read_question("What is a cool flame?", kb)
+    assert ask.key_findings("What is a cool flame?", q, kb) == []  # no embedder, no keyword overlap
+
+
+def test_retrieval_answer_leads_with_findings(kb):
+    kb.findings = FINDINGS
+    reply = ask.answer("What did BASS-II find?", kb)
+    assert reply["answer"].startswith("Extinction flow speeds were about 1 cm/s for thin samples (BASS-II, ")
+    assert reply["citations"][0]["kind"] == "table" and any(c["kind"] == "finding" for c in reply["citations"])
+    finding = next(c for c in reply["citations"] if c["kind"] == "finding")
+    assert finding["snippet"] == "extinction velocities are found to be about 1 cm/s" and finding["page"] == 31
+
+
+def test_findings_are_labelled_for_the_ai(kb):
+    kb.findings = FINDINGS
+    seen = {}
+
+    def responder(prompt, schema):
+        seen["prompt"] = prompt
+        return {"answer": "BASS-II found extinction flow speeds of about 1 cm/s.", "sources_used": [0, 1]}
+
+    reply = ask.answer("What did BASS-II find?", kb, llm.FakeProvider(responder), ask.Budget(5))
+    assert "Key finding of BASS-II (PSI-25)" in seen["prompt"] and "Quote: “extinction velocities" in seen["prompt"]
+    assert reply["mode"] == "ai"
+
+
+@pytest.mark.parametrize("answer_text, ok", [
+    ("CFI-G and Flame Design ran gas flames above 2 atm.", True),
+    ("The Cool Flames Investigation with Gases ran them.", True),
+    ("No, the experiments did not run gas flames above 2 atm.", False),
+])
+def test_an_answer_must_name_the_tests_the_table_lists(kb, answer_text, ok):
+    kb.investigations.append({**INVESTIGATIONS[0], "id": "PSI-10", "acronym": "ACME/Flame Design",
+                              "title": "Advanced Combustion via Microgravity Experiments / Flame Design"})
+    kb.investigations[-2]["title"] = "Advanced Combustion via Microgravity Experiments / Cool Flames Investigation with Gases"
+    kb.__post_init__()
+    table = "In the PSI test tables, 30 tests match (gas flames, pressure 203 kPa (29.4 psi) or more): ACME CFI-G (20), ACME Flame Design (10). They cover oxygen 20 to 40 %."
+    assert (ask.contradicts_table(answer_text, table, kb) is None) is ok
+    assert ask.contradicts_table("No tests.", "No test in the PSI test tables matches (solid fuels).", kb) is None
+    kb.investigations.pop()

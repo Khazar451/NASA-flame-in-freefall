@@ -10,6 +10,9 @@ Settings (environment variables or pipeline/.env):
   ASK_ALLOWED_ORIGINS   comma-separated origins allowed to call the API (default "*")
   LLM_DAILY_LIMIT       AI calls per day before answers are retrieval-only (default 60)
   ASK_RATE_PER_MINUTE   questions per minute from one address (default 10)
+  ASK_CONCURRENCY       questions answered at the same time; others wait (default 2). Each
+                        question in progress holds search results in memory, and Render's
+                        free plan has 512 MB.
   LLM_PROVIDER, LLM_MODEL, GEMINI_API_KEY   as in pipeline/llm.py; unset = retrieval only
 """
 
@@ -68,6 +71,19 @@ class RateLimiter:
             return True
 
 
+def release_free_memory() -> None:
+    """Hand memory freed after loading back to the system (Linux), so it is not held for nothing
+    on a 512 MB host. Elsewhere this does nothing."""
+    import ctypes
+    import gc
+
+    gc.collect()
+    try:
+        ctypes.CDLL("libc.so.6").malloc_trim(0)
+    except (OSError, AttributeError):
+        pass
+
+
 def _provider() -> llm.Provider | None:
     try:
         return llm.get_provider()
@@ -92,6 +108,8 @@ def create_app(kb: ask.KnowledgeBase | None = None, provider: llm.Provider | Non
         state["provider"] = provider if provider is not None else (_provider() if use_ai else None)
         state["budget"] = ask.Budget(int(config.env("LLM_DAILY_LIMIT") or 60))
         state["limiter"] = RateLimiter(int(config.env("ASK_RATE_PER_MINUTE") or 10))
+        state["slots"] = threading.BoundedSemaphore(int(config.env("ASK_CONCURRENCY") or 2))
+        release_free_memory()
         yield
 
     app = FastAPI(title="Flame in Freefall Q&A", lifespan=lifespan)
@@ -129,7 +147,8 @@ def create_app(kb: ask.KnowledgeBase | None = None, provider: llm.Provider | Non
         client = request.client.host if request.client else "unknown"
         if not state["limiter"].allow(client):
             raise HTTPException(status_code=429, detail="Too many questions; wait a minute and ask again.")
-        reply = ask.answer(body.question.strip(), state["kb"], state["provider"], state["budget"])
+        with state["slots"]:
+            reply = ask.answer(body.question.strip(), state["kb"], state["provider"], state["budget"])
         seen: set[str] = set()  # the dashboard keys the citation list on url
         reply["citations"] = [c for c in reply["citations"] if not (c["url"] in seen or seen.add(c["url"]))]
         return reply

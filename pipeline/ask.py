@@ -1,9 +1,12 @@
 """Phase 7: answer a question about the PSI combustion data.
 
 Every answer is first built without any AI model ("retrieval answer"):
+  * key findings: results stated in NASA's reports (data/out/findings.json, each with a
+    checked quote), searched first;
   * a table answer: the question is read with plain rules (experiment names, fuel type,
     oxygen and pressure limits, diluent gas) and tests.json is filtered and summarised;
-  * document passages: the closest chunks from the search index, quoted with their source.
+  * document passages: keyword and meaning-based search combined, at most two passages per
+    document, planning documents and reference lists ranked last.
 When the AI budget allows, Gemini rewrites this into a short answer using only those
 sources. The AI answer is kept only if every number in it appears in the sources (or
 is a unit conversion of one); otherwise the retrieval answer is returned.
@@ -34,7 +37,12 @@ KPA_PER_MMHG = 0.1333224
 DEMO_ANSWERS = config.PIPELINE_DIR / "review" / "demo_answers.json"
 BRIEF_URL = "https://www.spaceappschallenge.org/2026/challenges/flame-in-freefall/?tab=details"
 MAX_PASSAGES = 6
+MAX_FINDINGS = 4
+PASSAGES_PER_SOURCE = 2
 PASSAGES_IN_TEXT = 3
+# Requirements, plans and procedures say what was meant to happen, not what was found.
+PLANNING = re.compile(r"requirement|\bSRD\b|\bERD\b|EIRD|plan\b|procedure|operation|protocol|safety|\bICD\b|"
+                      r"concept|drawing", re.IGNORECASE)
 
 # Names people use for each investigation, besides its acronym. Matching is
 # case-insensitive except for names that are also ordinary English words.
@@ -124,9 +132,12 @@ class KnowledgeBase:
     demo: dict[str, dict[str, Any]] = field(default_factory=dict)
     assumed: list[tuple[str, str, set[str]]] = field(default_factory=list)
     gravity_paired: str = ""  # Saffire-II's microgravity vs 1 g summary from gravity.json
+    findings: list[dict[str, Any]] = field(default_factory=list)
 
     def __post_init__(self) -> None:
         self.by_id = {i["id"]: i for i in self.investigations}
+        self._finding_keywords = None
+        self._finding_vectors = None
 
     @classmethod
     def load(cls, out_dir: Path | None = None, search: Search | None = None,
@@ -144,8 +155,24 @@ class KnowledgeBase:
         except Exception:  # mappings missing on a slim deployment: fall back to the row notes
             assumed = []
         gravity_paired = read("gravity.json").get("paired_summary", "") if (out_dir / "gravity.json").exists() else ""
-        return cls(read("investigations.json")["investigations"], read("tests.json")["tests"],
-                   varied, search, demo, assumed, gravity_paired)
+        findings = read("findings.json")["findings"] if (out_dir / "findings.json").exists() else []
+        kb = cls(read("investigations.json")["investigations"], read("tests.json")["tests"],
+                 varied, search, demo, assumed, gravity_paired, findings)
+        kb.prepare_findings()  # at startup, not inside the first question
+        return kb
+
+    def prepare_findings(self) -> None:
+        """Build the small keyword index and the vectors for the findings, once."""
+        if not self.findings or self._finding_keywords is not None:
+            return
+        from pipeline.keyword_index import KeywordIndex
+
+        texts = [f"{f['finding']} {f['quote']}" for f in self.findings]
+        self._finding_keywords = KeywordIndex.build(texts)
+        if self.search is not None and hasattr(self.search, "embed"):
+            import numpy as np
+
+            self._finding_vectors = np.array(self.search.embed(texts), dtype=np.float32)
 
 
 def normalise(question: str) -> str:
@@ -260,6 +287,10 @@ def _psi(kpa: float) -> str:
     return _num(kpa / KPA_PER_PSI)
 
 
+def psi_order(psi_id: str) -> int:
+    return int(psi_id.split("-")[1])
+
+
 def scope_words(q: Query, kb: KnowledgeBase) -> str:
     """" with solid fuels in BASS-II": the filters that are not oxygen or pressure, as words."""
     words = ""
@@ -367,12 +398,24 @@ def table_answer(q: Query, kb: KnowledgeBase, wants_materials: bool = False) -> 
             joined = known[0] if len(known) == 1 else ", ".join(known[:-1]) + " and " + known[-1]
             unknown = len(rows) - sum(outcomes.values())
             sentences.append(f"Outcome: {joined}" + (f"; {unknown} have no recorded outcome." if unknown else "."))
-        assumed = sorted({t["investigation_id"] for t in rows
-                          if "pressure_kpa" in transform_tests.assumed_in(t, kb.assumed)
-                          or "pressure not in the source table" in (t["note"] or "").lower()})
-        if assumed:
-            sentences.append(f"Pressure for {', '.join(name(kb.by_id[i]) for i in assumed)} is not in the "
-                             "source table; cabin pressure (1 atm) is assumed.")
+        assumed: dict[str, set[str]] = {}
+        for t in rows:
+            fields = set(transform_tests.assumed_in(t, kb.assumed))
+            note = (t["note"] or "").lower()  # the notes still say it where the mappings are not shipped
+            if "oxygen not in the source table" in note:
+                fields.add("o2_pct")
+            if "pressure not in the source table" in note:
+                fields.add("pressure_kpa")
+            if fields:
+                assumed.setdefault(t["investigation_id"], set()).update(fields)
+        both = [i for i, f in assumed.items() if {"o2_pct", "pressure_kpa"} <= f]
+        pressure_only = [i for i, f in assumed.items() if f == {"pressure_kpa"}]
+        if pressure_only:
+            sentences.append(f"Pressure for {', '.join(name(kb.by_id[i]) for i in sorted(pressure_only, key=psi_order))} "
+                             "is not in the source table; cabin pressure (1 atm) is assumed.")
+        if both:
+            sentences.append(f"Oxygen and pressure for {', '.join(name(kb.by_id[i]) for i in sorted(both, key=psi_order))} "
+                             "are not in the source tables; ISS cabin air (21 % oxygen, 14.7 psi) is assumed.")
         for psi_id, n in sorted(per.items(), key=lambda kv: -kv[1])[:5]:
             citations.append(_cite_inv(kb, psi_id, f"test table, {n} matching row{'s' if n != 1 else ''}", "tests"))
     else:
@@ -420,6 +463,8 @@ def doc_title(source_id: str, category: str) -> str:
 
 
 def where(chunk: dict[str, Any]) -> str:
+    if chunk.get("kind") == "finding" and chunk["source_id"].endswith("_record"):
+        return f"PSI record, {(chunk.get('section') or 'description').replace('_', ' ')}"
     if chunk["category"] == "PSI record":
         return f"PSI record, {(chunk.get('section') or 'description').replace('_', ' ')}"
     title = doc_title(chunk["source_id"], chunk["category"])
@@ -464,8 +509,12 @@ def looks_like_references(text: str) -> bool:
 def passages(question: str, q: Query, kb: KnowledgeBase, k: int = MAX_PASSAGES) -> list[dict[str, Any]]:
     if kb.search is None:
         return []
-    found = kb.search.query(question, k=k * 4, psi_ids=q.psi_ids or None)
-    out, weak, seen, snippets = [], [], set(), set()
+    psi_ids = q.psi_ids or None
+    if hasattr(kb.search, "hybrid"):
+        found = kb.search.hybrid(question, k=k * 5, psi_ids=psi_ids)
+    else:
+        found = kb.search.query(question, k=k * 4, psi_ids=psi_ids)
+    out, weak, seen, snippets, per_source = [], [], set(), set(), {}
     for chunk in found:
         key = (chunk["source_id"], chunk.get("page"), chunk.get("section"))
         if key in seen or chunk["psi_id"] not in kb.by_id:
@@ -475,14 +524,55 @@ def passages(question: str, q: Query, kb: KnowledgeBase, k: int = MAX_PASSAGES) 
         if snippet in snippets:  # the same text in two documents
             continue
         snippets.add(snippet)
-        (weak if looks_like_references(chunk["text"]) else out).append({**chunk, "snippet": snippet})
-    return (out + weak)[:k]  # reference-like passages only fill the gaps
+        passage = {**chunk, "snippet": snippet}
+        if looks_like_references(chunk["text"]) or PLANNING.search(chunk["source_id"]):
+            weak.append(passage)
+        elif per_source.get(chunk["source_id"], 0) < PASSAGES_PER_SOURCE:
+            per_source[chunk["source_id"]] = per_source.get(chunk["source_id"], 0) + 1
+            out.append(passage)
+    return (out + weak)[:k]  # planning documents and reference lists only fill the gaps
+
+
+def key_findings(question: str, q: Query, kb: KnowledgeBase, k: int = MAX_FINDINGS) -> list[dict[str, Any]]:
+    """The findings from NASA's reports that best match the question, as passage-like dicts."""
+    pool = [f for f in kb.findings if f["investigation_id"] in kb.by_id
+            and (not q.psi_ids or f["investigation_id"] in q.psi_ids)]
+    if not pool:
+        return []
+    kb.prepare_findings()
+    keyword = kb._finding_keywords.scores(question)
+    meaning = None
+    if kb._finding_vectors is not None:
+        import numpy as np
+
+        meaning = kb._finding_vectors @ np.array(kb.search.embed([question])[0], dtype=np.float32)
+    index_of = {id(f): i for i, f in enumerate(kb.findings)}
+    scored = []
+    for f in pool:
+        i = index_of[id(f)]
+        cos = float(meaning[i]) if meaning is not None else 0.0
+        kw = float(keyword[i])
+        # Without a named experiment, a finding must really be about the question.
+        if not q.psi_ids and not (cos >= 0.45 or (kw > 0 and cos >= 0.25) or (meaning is None and kw > 2)):
+            continue
+        scored.append((cos + 0.05 * kw, f))
+    scored.sort(key=lambda s: -s[0])
+    out = []
+    for _, f in scored[:k]:
+        out.append({
+            "id": f["url"], "source_id": f["source_id"], "psi_id": f["investigation_id"],
+            "category": "Key finding", "page": f["page"], "section": f.get("section"),
+            "text": f"{f['finding']} \u201c{f['quote']}\u201d", "snippet": f["finding"],
+            "finding": f["finding"], "quote": f["quote"], "kind": "finding",
+        })
+    return out
 
 
 def passage_citation(kb: KnowledgeBase, chunk: dict[str, Any], n: int) -> dict[str, Any]:
     inv = kb.by_id[chunk["psi_id"]]
+    kind = "finding" if chunk.get("kind") == "finding" else "document"
     citation = {"label": f"{name_with_id(inv)}: {where(chunk)}", "url": f"{inv['url']}#source-{n}",
-                "kind": "document", "snippet": chunk["snippet"]}
+                "kind": kind, "snippet": chunk.get("quote") or chunk["snippet"]}
     if chunk.get("page") is not None:
         citation["page"] = chunk["page"]
     return citation
@@ -492,10 +582,17 @@ def passage_citation(kb: KnowledgeBase, chunk: dict[str, Any], n: int) -> dict[s
 
 
 def retrieval_answer(table_text: str | None, found: list[dict[str, Any]], kb: KnowledgeBase) -> str:
-    parts = [table_text] if table_text else []
-    if found:
+    results = [p for p in found if p.get("kind") == "finding"]
+    documents = [p for p in found if p.get("kind") != "finding"]
+    parts = []
+    if results:
+        parts.append(" ".join(f"{p['finding'].rstrip('.')} ({name(kb.by_id[p['psi_id']])}, {where(p)})."
+                              for p in results[:PASSAGES_IN_TEXT]))
+    if table_text:
+        parts.append(table_text)
+    if documents and len(results) < 2:
         quoted = "; ".join(
-            f"“{p['snippet']}” ({name(kb.by_id[p['psi_id']])}, {where(p)})" for p in found[:PASSAGES_IN_TEXT]
+            f"\u201c{p['snippet']}\u201d ({name(kb.by_id[p['psi_id']])}, {where(p)})" for p in documents[:PASSAGES_IN_TEXT]
         )
         parts.append(f"From the documents: {quoted}.")
     if not parts:
@@ -530,17 +627,21 @@ class AiReply(BaseModel):
     sources_used: list[int]
 
 
-AI_SYSTEM = """You answer questions about NASA's microgravity combustion experiments for engineers and students.
-Use only the numbered sources you are given. Never add facts, numbers or experiment names from memory.
-Write 2 to 5 plain sentences. Copy every number exactly as it appears in a source, with its unit.
-When source 0 (the test-table summary) is given, begin with it and keep its counts, the experiments it
-names and any "no test matches" statement; the documents add explanation. Source 0 has already applied
-the question's conditions, so never contradict it: if it says tests match, they match.
-Attach each number only to the experiment and fuel its source is about; do not move a value from one
-experiment to another.
-Never write source numbers such as [1] in the answer; name the experiment or document instead.
+AI_SYSTEM = """You answer questions about NASA's microgravity combustion experiments for engineers and students,
+using only the numbered sources you are given.
+Answer the question directly in the first sentence (the result, the yes or no, or the explanation), then
+support it with specific results and numbers from the sources.
+Prefer sources marked "Key finding": they are results stated in NASA's reports.
+The test-table summary (source 0) is authoritative for which tests were run and under what conditions
+(oxygen, pressure, flow, fuel): when it lists tests that match the question, say which experiments they
+are, and never say such tests do not exist. For conditions, use its values over those in documents.
+Do not open with a count of tests unless the question asks how many.
+You may compare results across sources when they support it, for example the same experiment at
+different oxygen levels or pressures. Never add facts, numbers or experiment names that are not in the
+sources, and attach each number only to the experiment and conditions its source is about.
 If the sources do not answer the question, say so in one sentence and say what they do cover.
 If a source says a value was assumed, say that it was assumed.
+Write 2 to 5 plain sentences. Never write source numbers such as [1]; name the experiment or document.
 List in sources_used the numbers of the sources you relied on (0 is the test-table summary)."""
 
 
@@ -597,7 +698,11 @@ def ai_answer(question: str, table_text: str | None, found: list[dict[str, Any]]
         # describe a related one (SAME's papers sit under SAME-R), and a bare id misleads.
         inv = kb.by_id.get(p["psi_id"]) if kb else None
         owner = name_with_id(inv) if inv else p["psi_id"]
-        sources.append(f"[{n}] {where(p)}, filed under {owner}: {p['text'][:1200]}")
+        if p.get("kind") == "finding":
+            sources.append(f"[{n}] Key finding of {owner}, from {where(p)}: {p['finding']} "
+                           f"Quote: \u201c{p['quote']}\u201d")
+        else:
+            sources.append(f"[{n}] {where(p)}, filed under {owner}: {p['text'][:1200]}")
     # Numbers in an answer may only come from the question or the source texts, not their labels.
     evidence = "\n".join([question, table_text or ""] + [p["text"][:1200] for p in found])
     if not sources:
@@ -615,7 +720,35 @@ def ai_answer(question: str, table_text: str | None, found: list[dict[str, Any]]
     ok, missing = numbers_supported(reply.answer, evidence)
     if not ok:
         return None, f"numbers not in the sources: {', '.join(missing)}"
+    contradiction = contradicts_table(reply.answer, table_text, kb)
+    if contradiction:
+        return None, contradiction
     return reply, "ok"
+
+
+def contradicts_table(answer_text: str, table_text: str | None, kb: KnowledgeBase | None) -> str | None:
+    """An answer that ignores the tests the table lists for the question is not used."""
+    if not table_text or kb is None:
+        return None
+    listed = re.match(r"In the PSI test tables, \d+ tests? match(?:es)?[^:]*: ([^.]+)\.", table_text)
+    if not listed:
+        return None
+    names = [re.sub(r"\s*\(\d+\)$", "", part.strip()) for part in listed.group(1).split(",")]
+    variants = {v.lower() for n in names for v in (n, n.replace("ACME ", ""))}
+    for inv in kb.investigations:  # the full title counts too ("Burning Rate Emulator")
+        if name(inv) in names:
+            title = re.sub(r"^Advanced Combustion via Microgravity Experiments\s*[-/]?\s*", "", inv["title"])
+            variants.add(title.lower())
+    if any(v and v in answer_text.lower() for v in variants):
+        return None
+    return f"answer does not name the tests the table lists ({', '.join(names)})"
+
+
+def gather(question: str, q: Query, kb: KnowledgeBase) -> tuple[str | None, list[dict[str, Any]], list[dict[str, Any]]]:
+    """Everything an answer may draw on: the table summary, its citations, and document passages."""
+    wants_materials = bool(re.search(r"\b(?:materials?|samples?|fuels?)\b", question, re.IGNORECASE))
+    table_text, table_cites = table_answer(q, kb, wants_materials)
+    return table_text, table_cites, key_findings(question, q, kb) + passages(question, q, kb)
 
 
 def tidy(text: str) -> str:
@@ -636,9 +769,7 @@ def answer(question: str, kb: KnowledgeBase, provider: llm.Provider | None = Non
     if q.partial_gravity:
         return partial_gravity_answer(question, kb)
 
-    wants_materials = bool(re.search(r"\b(?:materials?|samples?|fuels?)\b", question, re.IGNORECASE))
-    table_text, table_cites = table_answer(q, kb, wants_materials)
-    found = passages(question, q, kb)
+    table_text, table_cites, found = gather(question, q, kb)
     doc_cites = [passage_citation(kb, p, n) for n, p in enumerate(found, start=1)]
     fallback = {
         "answer": retrieval_answer(table_text, found, kb),
