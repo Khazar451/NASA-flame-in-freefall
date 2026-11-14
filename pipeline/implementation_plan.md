@@ -310,5 +310,16 @@ Result with the NVIDIA model: facts in the answers 22/34 → 29/34; facts in the
 
 SAME and SAME-R: their 113 tests now sit at the cabin point (21 % oxygen, 14.7 psi), labelled as assumed, as agreed with the ME teammate.
 
+### Explained answers for every kind of question (2026-11-15)
+
+Live answers to plain questions ("so what is BASS") still opened with the test count, named the test-table summary and listed hardware from acceptance reviews. Changes, for all questions:
+
+1. Each experiment the question names gets an overview from its PSI record (what it is, objectives, why it matters) as the first source; the no-AI answer opens with it too.
+2. New instructions: answer first, then why or how and what was found, 3 to 6 sentences of prose; no counts, hardware lists, document titles, source talk or PSI ids unless asked. `tidy()` removes an unasked count opener, "test-table summary" and "(PSI-nn)" if they slip through.
+3. Fixes that had thrown good answers away: the check that an answer names the listed experiments misread conditions holding a colon (lunar habitat) and now applies only to answers that deny something; family names count ("Saffire"); numbers written as words count ("Fifty-two"); PSI ids no longer fail the number check.
+4. A Gemini timeout now goes to NVIDIA instead of the no-AI answer. Hardware and acceptance reviews rank with planning documents.
+
+On 20 questions (5 new plain "what is" ones; `eval_questions.yaml`): Gemini first, NVIDIA as fallback, 43/47 facts, every answer written by AI, 2–4 s each. NVIDIA alone: 35/47, often one sentence, and once moved a result to the wrong experiment, so Gemini stays first. Demo answers rebuilt.
+
 Still open, for the ME teammate: the outcome mappings marked TO CHECK, the AI role and fuel tags, and whether the existing cabin-pressure assumption for BASS-II and Saffire may stay on the map.
 

@@ -1,14 +1,16 @@
 """Phase 7: answer a question about the PSI combustion data.
 
 Every answer is first built without any AI model ("retrieval answer"):
+  * experiment overviews: for each experiment the question names, what it is and why it
+    was done, from its PSI record;
   * key findings: results stated in NASA's reports (data/out/findings.json, each with a
     checked quote), searched first;
   * a table answer: the question is read with plain rules (experiment names, fuel type,
     oxygen and pressure limits, diluent gas) and tests.json is filtered and summarised;
   * document passages: keyword and meaning-based search combined, at most two passages per
     document, planning documents and reference lists ranked last.
-When the AI budget allows, Gemini rewrites this into a short answer using only those
-sources. The AI answer is kept only if every number in it appears in the sources (or
+When the AI budget allows, the AI model explains the answer in a few sentences using only
+those sources. The AI answer is kept only if every number in it appears in the sources (or
 is a unit conversion of one); otherwise the retrieval answer is returned.
 
 Questions about partial gravity always get a fixed "no data" answer, because PSI has
@@ -38,11 +40,14 @@ DEMO_ANSWERS = config.PIPELINE_DIR / "review" / "demo_answers.json"
 BRIEF_URL = "https://www.spaceappschallenge.org/2026/challenges/flame-in-freefall/?tab=details"
 MAX_PASSAGES = 6
 MAX_FINDINGS = 4
+MAX_OVERVIEWS = 3
 PASSAGES_PER_SOURCE = 2
 PASSAGES_IN_TEXT = 3
-# Requirements, plans and procedures say what was meant to happen, not what was found.
+# Requirements, plans, procedures and hardware reviews say what was meant to happen or what
+# was built, not what was found.
 PLANNING = re.compile(r"requirement|\bSRD\b|\bERD\b|EIRD|plan\b|procedure|operation|protocol|safety|\bICD\b|"
-                      r"concept|drawing", re.IGNORECASE)
+                      r"concept|drawing|review|acceptance|verification", re.IGNORECASE)
+HOW_MANY = re.compile(r"how many|number of|\bcount\b|(?:which|what) tests", re.IGNORECASE)
 
 # Names people use for each investigation, besides its acronym. Matching is
 # case-insensitive except for names that are also ordinary English words.
@@ -533,6 +538,33 @@ def passages(question: str, q: Query, kb: KnowledgeBase, k: int = MAX_PASSAGES) 
     return (out + weak)[:k]  # planning documents and reference lists only fill the gaps
 
 
+def first_sentence(text: str) -> str:
+    return re.split(r"(?<=[.!?])\s+(?=[A-Z0-9])", " ".join(text.split()), maxsplit=1)[0]
+
+
+def overviews(q: Query, kb: KnowledgeBase) -> list[dict[str, Any]]:
+    """What each named experiment is and why it was done, from its PSI record, as passage-like dicts.
+
+    Documents and findings say what an experiment measured; without this, "what is BASS?" is
+    answered from hardware reviews."""
+    out = []
+    for psi_id in q.psi_ids[:MAX_OVERVIEWS]:
+        inv = kb.by_id[psi_id]
+        if not inv.get("objectives"):
+            continue
+        kind = {"flight": "a flight experiment", "ground": "a ground study"}.get(inv.get("project_type") or "",
+                                                                             "an investigation")
+        fuel = f", with {inv['fuel_phase']} fuels" if inv.get("fuel_phase") in ("solid", "liquid", "gas") else ""
+        parts = [f"{name(inv)} ({inv['title']}) is {kind}{fuel}.", f"Objectives: {' '.join(inv['objectives'].split())}"]
+        if inv.get("earth_benefits"):
+            parts.append(f"Why it matters: {' '.join(inv['earth_benefits'].split())[:700]}")
+        text = " ".join(parts)
+        out.append({"id": f"{inv['url']}#record", "source_id": f"{psi_id}_record", "psi_id": psi_id,
+                    "category": "PSI record", "page": None, "section": "overview", "text": text,
+                    "snippet": first_sentence(inv["objectives"]), "kind": "overview"})
+    return out
+
+
 def key_findings(question: str, q: Query, kb: KnowledgeBase, k: int = MAX_FINDINGS) -> list[dict[str, Any]]:
     """The findings from NASA's reports that best match the question, as passage-like dicts."""
     pool = [f for f in kb.findings if f["investigation_id"] in kb.by_id
@@ -570,8 +602,9 @@ def key_findings(question: str, q: Query, kb: KnowledgeBase, k: int = MAX_FINDIN
 
 def passage_citation(kb: KnowledgeBase, chunk: dict[str, Any], n: int) -> dict[str, Any]:
     inv = kb.by_id[chunk["psi_id"]]
-    kind = "finding" if chunk.get("kind") == "finding" else "document"
-    citation = {"label": f"{name_with_id(inv)}: {where(chunk)}", "url": f"{inv['url']}#source-{n}",
+    kind = {"finding": "finding", "overview": "record"}.get(chunk.get("kind") or "", "document")
+    label = "investigation record" if kind == "record" else where(chunk)
+    citation = {"label": f"{name_with_id(inv)}: {label}", "url": f"{inv['url']}#source-{n}",
                 "kind": kind, "snippet": chunk.get("quote") or chunk["snippet"]}
     if chunk.get("page") is not None:
         citation["page"] = chunk["page"]
@@ -582,9 +615,14 @@ def passage_citation(kb: KnowledgeBase, chunk: dict[str, Any], n: int) -> dict[s
 
 
 def retrieval_answer(table_text: str | None, found: list[dict[str, Any]], kb: KnowledgeBase) -> str:
+    """The answer without AI: what the experiment is, what it found, what was tested, then quotes."""
+    about = [p for p in found if p.get("kind") == "overview"]
     results = [p for p in found if p.get("kind") == "finding"]
-    documents = [p for p in found if p.get("kind") != "finding"]
+    documents = [p for p in found if p.get("kind") not in ("finding", "overview")]
     parts = []
+    for p in about:
+        inv = kb.by_id[p["psi_id"]]
+        parts.append(f"{name(inv)} ({inv['title']}): {p['snippet'].rstrip('.')}.")
     if results:
         parts.append(" ".join(f"{p['finding'].rstrip('.')} ({name(kb.by_id[p['psi_id']])}, {where(p)})."
                               for p in results[:PASSAGES_IN_TEXT]))
@@ -627,31 +665,67 @@ class AiReply(BaseModel):
     sources_used: list[int]
 
 
-AI_SYSTEM = """You answer questions about NASA's microgravity combustion experiments for engineers and students,
-using only the numbered sources you are given.
-Answer the question directly in the first sentence (the result, the yes or no, or the explanation), then
-support it with specific results and numbers from the sources.
-Prefer sources marked "Key finding": they are results stated in NASA's reports.
-The test-table summary (source 0) is authoritative for which tests were run and under what conditions
-(oxygen, pressure, flow, fuel): when it lists tests that match the question, say which experiments they
-are, and never say such tests do not exist. For conditions, use its values over those in documents.
-Do not open with a count of tests unless the question asks how many.
-You may compare results across sources when they support it, for example the same experiment at
-different oxygen levels or pressures. Never add facts, numbers or experiment names that are not in the
-sources, and attach each number only to the experiment and conditions its source is about.
-If the sources do not answer the question, say so in one sentence and say what they do cover.
-If a source says a value was assumed, say that it was assumed.
-Write 2 to 5 plain sentences. Never write source numbers such as [1]; name the experiment or document.
-List in sources_used the numbers of the sources you relied on (0 is the test-table summary)."""
+AI_SYSTEM = """You are a combustion scientist explaining NASA's microgravity combustion experiments to engineers
+and students, using only the numbered sources you are given.
+
+How to answer, whatever the question:
+- The first sentence answers it directly: what something is, the result, the yes or no, or the explanation.
+- Then explain, as a knowledgeable person would in conversation: why it happens or why it was studied,
+  how the experiment worked, and what it found, with specific results and numbers from the sources.
+- Explain a technical term in a few plain words the first time you use it.
+- Say what it means for fire safety on spacecraft or habitats when the sources support it.
+- Write 3 to 6 sentences of connected prose, not a list of facts.
+
+Which sources to use:
+- "Experiment overview" sources say what an experiment is and why it was done.
+- "Key finding" sources are results stated in NASA's reports; prefer them for results.
+- The test data (source 0) is authoritative for which tests were run and under what conditions (oxygen,
+  pressure, flow, fuel): when it lists tests that match the question, name those experiments and never
+  say such tests do not exist. For conditions, use its values over those in documents.
+- You may compare results across sources when they support it, for example the same experiment at
+  different oxygen levels or pressures.
+
+Leave out:
+- test counts, unless the question asks how many or which tests;
+- hardware part lists, document titles, reviews and schedules, unless the question asks for them;
+- any mention of the sources themselves ("the test data summary", "the sources", "the record", "source 0"),
+  source numbers such as [1], and ids such as PSI-69: name the experiment instead.
+
+Accuracy:
+- Never add facts, numbers or experiment names that are not in the sources, and attach each number only
+  to the experiment and conditions its source is about.
+- If a source says a value was assumed, say that it was assumed.
+- If the sources do not answer the question, say so in one sentence and say what they do cover.
+
+List in sources_used the numbers of the sources you relied on (0 is the test data)."""
 
 
 def _numbers(text: str) -> list[tuple[float, str]]:
     return [(float(m.group(1).replace(",", "")), (m.group(2) or "").lower()) for m in NUMBER_WITH_UNIT.finditer(text)]
 
 
+UNITS_WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven",
+               "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"]
+TENS_WORDS = ["twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"]
+SPELLED = re.compile(rf"\b(?:({'|'.join(TENS_WORDS)})(?:[- ]({'|'.join(UNITS_WORDS[1:10])}))?|({'|'.join(UNITS_WORDS)}))\b",
+                     re.IGNORECASE)
+
+
+def spelled_numbers(text: str) -> list[float]:
+    """Numbers written as words ("Fifty-two smoke points"), which an answer may write as digits."""
+    out = []
+    for tens, unit, small in SPELLED.findall(text):
+        if small:
+            out.append(float(UNITS_WORDS.index(small.lower())))
+        else:
+            out.append(20.0 + 10 * TENS_WORDS.index(tens.lower()) + (UNITS_WORDS.index(unit.lower()) if unit else 0))
+    return out
+
+
 def numbers_supported(answer: str, context: str) -> tuple[bool, list[str]]:
-    """Every number in the answer must appear in the context or be a unit conversion of one."""
-    allowed = [v for v, _ in _numbers(context)]
+    """Every number in the answer must appear in the context (in digits or words) or be a unit
+    conversion of one."""
+    allowed = [v for v, _ in _numbers(context)] + spelled_numbers(context)
     factors = (1.0, KPA_PER_PSI, 1 / KPA_PER_PSI, KPA_PER_ATM, 1 / KPA_PER_ATM, 100.0, 0.01, KPA_PER_MMHG, 1 / KPA_PER_MMHG)
     missing = []
     for value, unit in _numbers(answer):
@@ -692,22 +766,28 @@ def ai_answer(question: str, table_text: str | None, found: list[dict[str, Any]]
     """(reply, reason). reply is None when the AI was not used or its answer failed the checks."""
     sources = []
     if table_text:
-        sources.append(f"[0] Test-table summary: {table_text}")
+        sources.append(f"[0] Test data (which tests PSI's tables hold, and their conditions): {table_text}")
     for n, p in enumerate(found, start=1):
         # The experiment's name with its id: documents filed under one investigation often
         # describe a related one (SAME's papers sit under SAME-R), and a bare id misleads.
         inv = kb.by_id.get(p["psi_id"]) if kb else None
         owner = name_with_id(inv) if inv else p["psi_id"]
-        if p.get("kind") == "finding":
+        if p.get("kind") == "overview":
+            sources.append(f"[{n}] Experiment overview of {owner}: {p['text']}")
+        elif p.get("kind") == "finding":
             sources.append(f"[{n}] Key finding of {owner}, from {where(p)}: {p['finding']} "
                            f"Quote: \u201c{p['quote']}\u201d")
         else:
             sources.append(f"[{n}] {where(p)}, filed under {owner}: {p['text'][:1200]}")
     # Numbers in an answer may only come from the question or the source texts, not their labels.
-    evidence = "\n".join([question, table_text or ""] + [p["text"][:1200] for p in found])
+    evidence = "\n".join([question, table_text or ""]
+                         + [p["text"] if p.get("kind") == "overview" else p["text"][:1200] for p in found])
     if not sources:
         return None, "no sources"
-    prompt = f"Question: {question}\n\nSources:\n" + "\n\n".join(sources)
+    # The reminder comes last: smaller models follow the end of the prompt more than the system text.
+    prompt = (f"Question: {question}\n\nSources:\n" + "\n\n".join(sources)
+              + f"\n\nAnswer the question \"{question}\" in 3 to 6 sentences: answer it first, then explain "
+                "why or how and what was found, in plain words.")
     if not llm.is_cached(prompt, AiReply, system=AI_SYSTEM, provider=provider) and not budget.take():
         return None, "daily AI budget used"
     try:
@@ -717,7 +797,7 @@ def ai_answer(question: str, table_text: str | None, found: list[dict[str, Any]]
         return None, "AI quota used up"
     except llm.LLMError as exc:
         return None, f"AI error: {exc}"
-    ok, missing = numbers_supported(reply.answer, evidence)
+    ok, missing = numbers_supported(re.sub(r"PSI-\d+", "", reply.answer), evidence)  # ids are removed later
     if not ok:
         return None, f"numbers not in the sources: {', '.join(missing)}"
     contradiction = contradicts_table(reply.answer, table_text, kb)
@@ -730,11 +810,19 @@ def contradicts_table(answer_text: str, table_text: str | None, kb: KnowledgeBas
     """An answer that ignores the tests the table lists for the question is not used."""
     if not table_text or kb is None:
         return None
-    listed = re.match(r"In the PSI test tables, \d+ tests? match(?:es)?[^:]*: ([^.]+)\.", table_text)
+    # The danger is an answer that denies the tests exist; one that lists materials need not
+    # name every experiment.
+    if not re.search(r"\b(?:no|none|not|never|nothing|neither)\b|n't\b", answer_text, re.IGNORECASE):
+        return None
+    # The list of experiments follows the filters, which may hold colons and brackets of their own.
+    listed = re.match(r"In the PSI test tables, \d+ tests? match(?:es)?.*?: ((?:[^:,()]+ \(\d+\)(?:, )?)+)\.",
+                      table_text)
     if not listed:
         return None
     names = [re.sub(r"\s*\(\d+\)$", "", part.strip()) for part in listed.group(1).split(",")]
-    variants = {v.lower() for n in names for v in (n, n.replace("ACME ", ""))}
+    # "Saffire" names SAFFIRE-I to -III, "BASS" names BASS-II.
+    variants = {v.lower() for n in names
+                for v in (n, n.replace("ACME ", ""), re.sub(r"[- ](?:I{1,3}|\d)$", "", n))}
     for inv in kb.investigations:  # the full title counts too ("Burning Rate Emulator")
         if name(inv) in names:
             title = re.sub(r"^Advanced Combustion via Microgravity Experiments\s*[-/]?\s*", "", inv["title"])
@@ -748,14 +836,28 @@ def gather(question: str, q: Query, kb: KnowledgeBase) -> tuple[str | None, list
     """Everything an answer may draw on: the table summary, its citations, and document passages."""
     wants_materials = bool(re.search(r"\b(?:materials?|samples?|fuels?)\b", question, re.IGNORECASE))
     table_text, table_cites = table_answer(q, kb, wants_materials)
-    return table_text, table_cites, key_findings(question, q, kb) + passages(question, q, kb)
+    about = overviews(q, kb)
+    records = {p["source_id"] for p in about}  # the overview already holds the record's text
+    found = [p for p in passages(question, q, kb) if p["source_id"] not in records]
+    return table_text, table_cites, about + key_findings(question, q, kb) + found
 
 
-def tidy(text: str) -> str:
-    """Remove source labels and numbers ("[2]") that a model sometimes copies into its answer."""
-    text = re.sub(r"^\s*(?:\[0\]\s*)?test-table summary:\s*", "", text, flags=re.IGNORECASE)
+COUNT_OPENER = re.compile(r"(?:in the psi test tables, )?\d+ tests? match|(?:the |psi'?s )?test[- ](?:table|data) "
+                          r"summary (?:lists|shows)|psi'?s test (?:data|tables) (?:lists?|shows?|holds?|contains?) \d+",
+                          re.IGNORECASE)
+
+
+def tidy(text: str, question: str = "") -> str:
+    """Remove what a model sometimes copies from its sources: labels, source numbers ("[2]"),
+    PSI ids after a name, and an opening test count the question did not ask for."""
+    text = re.sub(r"^\s*(?:\[0\]\s*)?test[- ](?:table|data) summary[^:]*:\s*", "", text, flags=re.IGNORECASE)
     one = r"\[\d+(?:\s*(?:,|and|-|–)\s*\d+)*\]"
     text = re.sub(rf"\s*{one}(?:\s*(?:,|and|-|–)\s*{one})*", "", text)
+    text = re.sub(r"\s*\(PSI-\d+(?:,\s*PSI-\d+)*\)", "", text)
+    text = re.sub(r"\b(?:the |psi'?s )?test[- ](?:table|data) summary\b", "PSI's test data", text, flags=re.IGNORECASE)
+    sentences = re.split(r"(?<=[.!?])\s+(?=[A-Z])", text.strip())
+    if len(sentences) > 1 and not HOW_MANY.search(question) and COUNT_OPENER.match(sentences[0]):
+        text = " ".join(sentences[1:])
     return re.sub(r"\s+([.,;:])", r"\1", text).strip()
 
 
@@ -783,7 +885,7 @@ def answer(question: str, kb: KnowledgeBase, provider: llm.Provider | None = Non
         return {**fallback, "note": reason}
     used = [n for n in dict.fromkeys(reply.sources_used) if (n == 0 and table_text) or 1 <= n <= len(found)]
     citations = (table_cites if 0 in used or not used else []) + [doc_cites[n - 1] for n in used if n >= 1]
-    return {"answer": tidy(reply.answer), "citations": citations or fallback["citations"], "mode": "ai"}
+    return {"answer": tidy(reply.answer, question), "citations": citations or fallback["citations"], "mode": "ai"}
 
 
 # --------------------------------------------------------------------------- demo answers

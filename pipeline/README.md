@@ -54,7 +54,7 @@ Run it from the repository root. It reads the committed files in `data/out/` (in
 | `LLM_PROVIDER`, `LLM_MODEL`, `GEMINI_API_KEY` | unset | As in `.env.example`. Unset means answers without AI |
 | `LLM_DAILY_LIMIT` | `60` | AI calls per day; after that, answers without AI |
 | `LLM_FALLBACK`, `OPENAI_BASE_URL`, `OPENAI_MODEL`, `OPENAI_API_KEY`, `OPENAI_EXTRA_BODY` | unset | A second provider used when Gemini's quota runs out. `render.yaml` sets NVIDIA NIM (`nvidia/nemotron-3.5-lightning-30b-a3b`); its key is a secret like the Gemini key |
-| `LLM_TIMEOUT_S` | `90` | Seconds to wait for Gemini before answering without AI. `render.yaml` sets `10` |
+| `LLM_TIMEOUT_S` | `90` | Seconds to wait for each provider: a slow Gemini hands the question to the fallback, a slow fallback gives the answer without AI. `render.yaml` sets `10` |
 | `ASK_RATE_PER_MINUTE` | `10` | Questions per minute from one address |
 | `ASK_CONCURRENCY` | `2` | Questions answered at the same time; others wait their turn |
 | `EMBEDDING_MODEL_DIR` | `~/.cache/chroma` | Where the embedding model is kept; relative paths start at the repository root |
@@ -81,7 +81,7 @@ The dashboard's build uses `https://nasa-flame-in-freefall.onrender.com` unless 
 
 ## Answer quality
 
-`/ask` answers from three kinds of NASA evidence, in this order: key findings (`data/out/findings.json`, results from NASA's reports, each with a quote checked against its page), the test-table summary, and document passages (keyword and meaning-based search combined).
+`/ask` answers from four kinds of NASA evidence, in this order: an overview of each experiment the question names (what it is and why it was done, from its PSI record), key findings (`data/out/findings.json`, results from NASA's reports, each with a quote checked against its page), the test-table summary, and document passages (keyword and meaning-based search combined). The AI is told to answer first and then explain why or how and what was found, in 3 to 6 sentences, without test counts, hardware lists or talk of its sources unless asked; code removes any that slip through.
 
 ```bash
 python -m pipeline.run_all findings          # rebuild the findings (AI calls; quotes checked by code)

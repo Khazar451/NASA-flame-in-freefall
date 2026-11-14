@@ -81,3 +81,33 @@
   - CO2|carbon dioxide
   - extinguish|went out|extinction
   source: FLEX table and documents
+# Plain "what is" questions, phrased as people type them: the answer must say what the
+# experiment is and what it was for, not list hardware or open with a test count.
+- question: so what is BASS
+  facts:
+  - Burning and Suppression of Solids
+  - solid|material
+  - flammab|extinction|suppress|went out|go out
+  source: BASS PSI record
+- question: so what is FLEX?
+  facts:
+  - Flame Extinguishment
+  - droplet|liquid fuel
+  - suppress|CO2|carbon dioxide|helium
+  source: FLEX PSI record
+- question: what is SAME-R
+  facts:
+  - smoke
+  - particle|particulate|droplet size
+  source: SAME-R PSI record
+- question: what was Saffire
+  facts:
+  - large
+  - grow|spread
+  - flammab
+  source: Saffire-I PSI record
+- question: tell me about SPICE
+  facts:
+  - smoke point|smoke-point
+  - co-flow|coflow
+  source: SPICE PSI record

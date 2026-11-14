@@ -199,11 +199,17 @@ def test_chain_moves_on_when_a_quota_runs_out():
     assert (first.calls, second.calls) == (1, 2)  # the exhausted provider is not asked again
 
 
-def test_chain_does_not_hide_other_errors():
+def test_chain_moves_on_after_a_timeout():
     first, second = _Step("gemini", TimeoutError("slow")), _Step("openai", '{"city": "Paris"}')
-    with pytest.raises(LLMError, match="slow"):
+    out = complete_json("capital?", Reply, provider=llm.ChainProvider([first, second]), use_cache=False)
+    assert out["city"] == "Paris" and second.calls == 1
+
+
+def test_chain_does_not_hide_other_errors():
+    first, second = _Step("gemini", ValueError("bad request")), _Step("openai", '{"city": "Paris"}')
+    with pytest.raises(LLMError, match="bad request"):
         complete_json("capital?", Reply, provider=llm.ChainProvider([first, second]), use_cache=False)
-    assert second.calls == 0  # a timeout goes to the data-only answer, not to a second slow call
+    assert second.calls == 0
 
 
 def test_chain_reports_quota_when_every_provider_is_used_up():
