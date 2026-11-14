@@ -35,5 +35,7 @@ services:
         value: https://khazar451.github.io
       - key: LLM_DAILY_LIMIT
         value: "60"
+      - key: LLM_TIMEOUT_S  # a slow Gemini reply falls back to the data-only answer after this
+        value: "10"
       - key: ASK_RATE_PER_MINUTE
         value: "10"
