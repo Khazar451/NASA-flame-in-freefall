@@ -1,0 +1,9 @@
+# Experimental tables that are not turned into test rows, and why.
+- {investigation: PSI-68, file: Flex2.csv, reason: "Lists the planned ranges for each fuel (for example four oxygen levels and five pressures), not individual tests."}
+- {investigation: PSI-20, file: ACME BRE.csv, reason: "One row per test day with the oxygen levels used that day; pressures are not listed and tests are not separated."}
+- {investigation: PSI-21, file: CLD Flame.csv, reason: "One row per test day with a count of flames ignited, not one row per test."}
+- {investigation: PSI-22, file: ACME E-FIELD Flames.csv, reason: "One row per test day with a count of flames ignited, not one row per test."}
+- {investigation: PSI-23, file: ACME s-Flame.csv, reason: "One row per test day with a count of flames ignited, not one row per test."}
+- {investigation: PSI-106, file: Slice.csv, reason: "Two columns only: the test date and the fuel."}
+- {investigation: PSI-47, file: DAFT.csv, reason: "Two dust-sampling sessions; no combustion test conditions."}
+- {investigation: PSI-142, file: Data Summary Table.csv, reason: "An index of data files and the figures they belong to, not test conditions."}

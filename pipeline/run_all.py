@@ -13,7 +13,14 @@ from __future__ import annotations
 import argparse
 from typing import Callable
 
-from pipeline import extract_investigations, extract_text, fetch, inventory, validate
+from pipeline import (
+    extract_investigations,
+    extract_text,
+    fetch,
+    inventory,
+    transform_tests,
+    validate,
+)
 
 # (name, phase that implements it, help text), in pipeline order. validate runs last,
 # on the finished output files.
@@ -24,8 +31,7 @@ STEPS: list[tuple[str, int, str]] = [
     ("extract-investigations", 4, "build investigations.json: PSI fields plus AI role and fuel tags"),
     ("review-export", 4, "write the review sheet of AI tags for the ME teammate"),
     ("apply-overrides", 4, "reviewed sheet -> data/overrides.json, then rebuild investigations.json"),
-    ("propose-mappings", 5, "AI drafts a column mapping YAML for each table"),
-    ("transform-tests", 5, "apply reviewed mappings to build tests.json"),
+    ("transform-tests", 5, "apply the column mappings in pipeline/mappings to build tests.json"),
     ("coverage", 6, "coverage grid for the gap map"),
     ("varied", 6, "what varied vs. what stayed the same, per investigation"),
     ("build-index", 7, "build the search index for /ask"),
@@ -42,6 +48,7 @@ IMPLEMENTED: dict[str, StepFn] = {
     "extract-investigations": extract_investigations.run,
     "review-export": extract_investigations.run_review_export,
     "apply-overrides": extract_investigations.run_apply_overrides,
+    "transform-tests": transform_tests.run,
     "validate": validate.run,
 }
 

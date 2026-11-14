@@ -1,0 +1,14 @@
+# SAME: the table gives conditions for the four Teflon runs; the other four rows only
+# say "same conditions as 1-4" for another material and are skipped.
+investigation: PSI-102
+table: SAME.csv
+fuel_phase: solid
+keep_if_not_blank: ["Air Flow (cm/s)"]
+label: {column: "Sample #"}
+fuel_material: {column: Sample Material}
+o2_pct: null
+pressure_kpa: null
+flow_cm_s: {column: "Air Flow (cm/s)"}
+extra:
+  weight_loss_rate_mg_min: {column: "Weight loss rate (mg/min)"}
+  aging_duration_min: {column: "Aging Duration (minutes)"}

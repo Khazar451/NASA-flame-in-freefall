@@ -1,0 +1,28 @@
+# BASS-II: solid samples in the glovebox flow duct. One row per burn.
+# The table gives oxygen but not pressure. BASS-II ran in the ISS cabin, so cabin
+# pressure is assumed and every row says so (ME to confirm this may be shown).
+# The "Fan display" and "Air display" columns are instrument readings, often several per
+# test ("5 down to ext"), not a flow speed, so flow is left empty and they go to extra.
+investigation: PSI-25
+table: BASS-II.csv
+fuel_phase: solid
+# "OR", "over" and ">500" are the gas sensor reading over its range: no number to keep.
+null_values: [none, OR, over, ">500"]
+label: {column: "Test #"}
+fuel_material: {column: Fuel Sample Material}
+o2_pct: {column: "Calibrated initial O2 % by vol"}
+pressure_kpa:
+  value: 101.325
+  assumed: "Pressure not in the source table; ISS cabin pressure (1 atm) assumed."
+flow_cm_s: null
+diluent: {value: N2}   # PSI record: oxygen was lowered by adding nitrogen
+extra:
+  o2_final_pct: {column: "Calibrated final O2 % by vol"}
+  co2_initial_pct: {column: "Initial CO2 % by vol"}
+  co2_final_pct: {column: "Final CO2 % by vol"}
+  co_initial_ppm: {column: "Initial CO (ppm)"}
+  co_final_ppm: {column: "Final CO (ppm)"}
+  fan_display: {column: Fan display, type: text}
+  air_display: {column: Air display, type: text}
+  flow_restrictor: {column: Flow restrictor, type: text}
+  investigator: {column: PI, type: text}

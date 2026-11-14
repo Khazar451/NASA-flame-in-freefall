@@ -1,0 +1,28 @@
+# ACME CFI-G, inverse flames: oxygen (up to 85 %) flows from the burner into a fuel
+# atmosphere. As with Flame Design, there is no ambient oxygen level: the burner's
+# oxygen goes to extra.oxidizer_o2_pct and the rows stay off the atmosphere map.
+# The file has 861 empty rows after the data; they are dropped.
+investigation: PSI-159
+table: CFI-G_Inverse Flames.csv
+fuel_phase: gas
+null_values: ["-"]
+keep_if_not_blank: [Test]
+label: {column: Test}
+fuel_material: {column: Fuel}
+o2_pct: null
+pressure_kpa: {column: "approx p (bar)", scale: 100}
+flow_cm_s: null
+note: "Inverse flame: oxygen flows from the burner into a fuel atmosphere, so there is no ambient oxygen level."
+outcome:
+  column: Self -ext or flow term
+  map: {SE: extinguished, FT: sustained, "-": no_ignition}
+extra:
+  flame_type: {value: inverse, type: text}
+  oxidizer_o2_pct: {column: XO2, scale: 100}
+  ambient_fuel_mole_fraction: {column: Xf before test}
+  hot_ignition: {column: Hot ignition, type: text}
+  burn_time_s: {column: "burn time (sec)"}
+  oxygen_flow_mg_s: {column: "O2 flow rate (mg/s)"}
+  adiabatic_flame_temperature_k: {column: "Tad (K)"}
+  flame_colour: {column: Color, type: text}
+  comments: {column: Comments, type: text}

@@ -1,0 +1,21 @@
+# ACME Flame Design, inverse flames: oxygen flows from the burner into a fuel
+# atmosphere. There is no ambient oxygen level, so o2_pct stays empty and the burner's
+# oxygen goes to extra.oxidizer_o2_pct. These rows stay off the atmosphere map.
+investigation: PSI-10
+table: Flame Design_Inverse Flame.csv
+fuel_phase: gas
+null_values: [RAMP, LOW O2]
+label: {column: Test}
+fuel_material: {value: C2H4}   # the ambient fuel, column "XC2H4 initial"
+o2_pct: null
+pressure_kpa: {column: "pinit (atm)", scale: 101.325}
+flow_cm_s: null
+note: "Inverse flame: oxygen flows from the burner into a fuel atmosphere, so there is no ambient oxygen level."
+extra:
+  flame_type: {value: inverse, type: text}
+  oxidizer_o2_pct: {column: XO2, scale: 100}
+  oxygen_flow_mg_s: {column: "mO2 (mg/s)"}
+  ambient_fuel_mole_fraction: {column: XC2H4 initial}
+  pressure_final_kpa: {column: "pfinal (atm)", scale: 101.325}
+  adiabatic_flame_temperature_k: {column: "Tad (K)"}
+  stoichiometric_mixture_fraction: {column: mean Zst}

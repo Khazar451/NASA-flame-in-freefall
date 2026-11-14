@@ -1,0 +1,20 @@
+# Saffire-I: one large fabric sample burned in a Cygnus vehicle. The table also lists
+# two flow-visualisation runs with no burn; those are skipped.
+investigation: PSI-98
+table: SAFFIRE-1.csv
+fuel_phase: solid
+keep_if_not_blank: ["Air Flow (cm/s)"]
+label: {column: Sample Number}
+fuel_material: {column: Material}
+o2_pct: {column: Percent O2, parse: range_mean}   # "21.5 - 21.7", "~ 21.5"
+pressure_kpa:
+  value: 101.325
+  assumed: "Pressure not in the source table; Cygnus cabin pressure (1 atm) assumed."
+flow_cm_s: {column: "Air Flow (cm/s)"}
+extra:
+  flow_direction: {column: Flow Direction, type: text}
+  burn_time_s: {column: "Burn Time (s)"}
+  sample_thickness_cm: {column: "Sample Thickness (cm)"}
+  sample_length_cm: {column: "Sample Length (cm)"}
+  sample_width_cm: {column: "Sample Width (cm)"}
+  ignition_power_w: {column: "Ignition Power (W)"}

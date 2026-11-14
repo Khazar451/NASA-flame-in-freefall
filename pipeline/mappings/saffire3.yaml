@@ -1,0 +1,13 @@
+# Saffire-III: a repeat of Saffire-I at a higher flow. The table has no oxygen column,
+# so these two rows carry flow only and do not appear on the atmosphere map.
+investigation: PSI-100
+table: SAFFIRE-3.csv
+fuel_phase: solid
+label: {column: Sample Number}
+fuel_material: {column: Material}
+o2_pct: null
+pressure_kpa: null
+flow_cm_s: {column: Air Flow, parse: first_number}   # "30 cm/s"
+extra:
+  flow_direction: {column: Direction, type: text}
+  sample_thickness: {column: Sample Thickness, type: text}

@@ -1,0 +1,29 @@
+# FLEX: Flame Extinguishment Experiment. One row per droplet burn.
+# The header abbreviates the gases as "O", "N", "CO" and "He". FLEX diluted the
+# atmosphere with nitrogen, carbon dioxide or helium, so "CO" is read as CO2.
+# TO CHECK (ME): "Completion" is mapped to sustained (the droplet burned out);
+# "Disruption" (the droplet broke up) is left as unknown.
+investigation: PSI-69
+table: FLEX.csv
+fuel_phase: liquid
+null_values: ["–"]
+label: {column: "FLEX Test #"}
+fuel_material: {column: Fuel}
+o2_pct: {column: "O initial ambient composition; mole fraction", scale: 100}
+pressure_kpa: {column: "Ambient pressure; mmHg", scale: 0.1333224}   # 1 mmHg = 0.1333224 kPa
+flow_cm_s: null   # not in the table; some FLEX tests used a slow flow
+diluent:
+  components:
+    N2: "N initial ambient composition; mole fraction"
+    CO2: "CO initial ambient composition; mole fraction"
+    He: "He initial ambient composition; mole fraction"
+outcome:
+  column: Test end
+  map: {Extinction: extinguished, Completion: sustained, Disruption: unknown}
+extra:
+  flex_identifier: {column: FLEX Identifier, type: text}
+  test_end: {column: Test end, type: text}
+  droplet_diameter_mm: {column: "Droplet initial diameter; mm"}
+  extinction_diameter_mm: {column: "Visible flame extinction diameter; mm"}
+  burning_rate: {column: "Burning rate; mm"}   # the header gives the unit only as "mm"
+  burn_time_s: {column: "Burn time; s", parse: first_number}   # two cells read "~6" and "~9"

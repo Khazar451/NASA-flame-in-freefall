@@ -1,0 +1,20 @@
+# ACME Flame Design, normal flames: fuel flows from a spherical burner into an
+# oxygen/nitrogen atmosphere, so XO2 is the ambient oxygen level.
+# "RAMP" means the fuel flow was ramped during the test, so there is no single value.
+investigation: PSI-10
+table: Flame Design_Normal Flame.csv
+fuel_phase: gas
+null_values: [RAMP, RAMPED]
+label: {column: Test}
+fuel_material: {column: Fuel}
+o2_pct: {column: "XO2 (init)", scale: 100}
+pressure_kpa: {column: "pinit (atm)", scale: 101.325}
+flow_cm_s: null
+extra:
+  flame_type: {value: normal, type: text}
+  fuel_mole_fraction: {column: Xfuel}
+  fuel_flow_mg_s: {column: "mfuel (mg/s)"}
+  o2_final_pct: {column: "XO2 (final)", scale: 100}
+  pressure_final_kpa: {column: "pfinal (atm)", scale: 101.325}
+  adiabatic_flame_temperature_k: {column: "Tad (K)"}
+  stoichiometric_mixture_fraction: {column: mean Zst}

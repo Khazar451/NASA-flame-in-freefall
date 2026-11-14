@@ -174,23 +174,28 @@ The dashboard already defines the contract: `docs/data-contract.md` and `app/src
 
 ---
 
-## Phase 5: Test level, FLEX and CFI first (Sat 20:00–00:30)
+## Phase 5: tests.json (Sat 16:30–17:15)
 
 **Build:**
-- `propose_mapping`: the AI reads each table's header and first 5 rows and writes `mappings/<table>.yaml` (column → field, unit conversion, how to read the results). **I review and edit every YAML file.**
-- `transform_tests.py`: plain code applies the mappings and writes `tests.json`, one row per test in the contract shape, with family-specific results in `extra`. Every row keeps its `source` file and row.
-- Order: FLEX, CFI, BASS-II, Saffire I–II, then the ACME tables.
-- Sanity ranges in `validate.py`:
-  - O₂ between 0 and 100%
-  - pressure between 0 and 1000 kPa
-  - flow at least 0
-  - every key in `extra` is in the allowed list for its family
+- One mapping file per table in `pipeline/mappings/*.yaml`: which column feeds which field, the unit conversion, which cell texts mean "no value", which rows to skip, and how the outcome column is read. Written by hand from the tables' real contents; no AI.
+- `transform_tests.py` applies the mappings with plain code and writes `data/out/tests.json`, one row per test in the contract shape, with family-specific values in `extra`. Every row keeps its source file and row.
+- A cell the mapping cannot read fails the build and is listed, so a wrong mapping cannot silently produce empty values.
+- A source value that cannot be real (a pressure of 0, a negative flow) is left empty and the row's note quotes it.
+- `pipeline/mappings/_skipped.yaml` lists the 8 tables that are not test-level, with the reason for each.
+
+**Result:** 1,867 rows from 14 tables covering 12 investigations; 887 rows have both oxygen and pressure.
+
+**For the ME teammate to check (each is marked TO CHECK in its mapping file):**
+- FLEX: "Completion" is read as sustained, "Disruption" as unknown.
+- CFI-G: "SE" is read as extinguished, "FT" (flow terminated) as sustained, "-" as no ignition.
+- BASS-II and Saffire-I/II: cabin pressure (1 atm) is assumed, and every such row says so.
+- Inverse flames (Flame Design, CFI-G) have no ambient oxygen; the burner's oxygen is in `extra.oxidizer_o2_pct`.
 
 **Gate:**
-- [ ] Row count per table equals the source table's row count (minus documented skips)
+- [ ] Row count per table equals the source table's row count minus the skipped rows the build lists
 - [ ] 5 random output rows traced back by hand to the raw file
-- [ ] **End-to-end check with CompE #2:** 2 real investigations show on the atmosphere map at the deployed URL
-- [ ] PR #3 merged
+- [ ] `validate` passes on `data/out/`
+- [ ] **End-to-end check with CompE #2:** the real files load in the dashboard
 
 *Sleep 01:00–07:00.*
 
