@@ -1,9 +1,9 @@
 {
  "meta": {
   "source": "NASA Physical Sciences Informatics (psi.nasa.gov) experimental tables",
-  "total_rows": 1867,
+  "total_rows": 1828,
   "sample_rows": 0,
-  "rows_with_o2_and_pressure": 886,
+  "rows_with_o2_and_pressure": 881,
   "tables": [
    {
     "investigation": "PSI-10",
@@ -11,6 +11,7 @@
     "source_rows": 120,
     "rows": 120,
     "skipped_rows": 0,
+    "duplicate_rows_dropped": 0,
     "unreadable": {},
     "impossible_values_left_empty": {},
     "mapping": "flame_design_inverse.yaml"
@@ -21,9 +22,21 @@
     "source_rows": 207,
     "rows": 207,
     "skipped_rows": 0,
+    "duplicate_rows_dropped": 0,
     "unreadable": {},
     "impossible_values_left_empty": {},
     "mapping": "flame_design_normal.yaml"
+   },
+   {
+    "investigation": "PSI-20",
+    "file": "PSI-20_Reports_Final_20220201.pdf",
+    "source_rows": 3,
+    "rows": 3,
+    "skipped_rows": 0,
+    "duplicate_rows_dropped": 0,
+    "unreadable": {},
+    "impossible_values_left_empty": {},
+    "mapping": "bre_atmospheres.yaml"
    },
    {
     "investigation": "PSI-25",
@@ -31,6 +44,7 @@
     "source_rows": 129,
     "rows": 129,
     "skipped_rows": 0,
+    "duplicate_rows_dropped": 0,
     "unreadable": {},
     "impossible_values_left_empty": {},
     "mapping": "bass2.yaml"
@@ -41,6 +55,7 @@
     "source_rows": 122,
     "rows": 122,
     "skipped_rows": 0,
+    "duplicate_rows_dropped": 0,
     "unreadable": {},
     "impossible_values_left_empty": {},
     "mapping": "bass.yaml"
@@ -49,8 +64,9 @@
     "investigation": "PSI-39",
     "file": "PSI-39_Experimental table_CFI.csv",
     "source_rows": 87,
-    "rows": 87,
+    "rows": 79,
     "skipped_rows": 0,
+    "duplicate_rows_dropped": 8,
     "unreadable": {},
     "impossible_values_left_empty": {},
     "mapping": "cfi.yaml"
@@ -61,6 +77,7 @@
     "source_rows": 274,
     "rows": 274,
     "skipped_rows": 0,
+    "duplicate_rows_dropped": 0,
     "unreadable": {},
     "impossible_values_left_empty": {
      "pressure_kpa": 1
@@ -73,6 +90,7 @@
     "source_rows": 4,
     "rows": 2,
     "skipped_rows": 2,
+    "duplicate_rows_dropped": 0,
     "unreadable": {},
     "impossible_values_left_empty": {},
     "mapping": "saffire1.yaml"
@@ -83,6 +101,7 @@
     "source_rows": 15,
     "rows": 9,
     "skipped_rows": 6,
+    "duplicate_rows_dropped": 0,
     "unreadable": {},
     "impossible_values_left_empty": {},
     "mapping": "saffire2.yaml"
@@ -93,6 +112,7 @@
     "source_rows": 2,
     "rows": 2,
     "skipped_rows": 0,
+    "duplicate_rows_dropped": 0,
     "unreadable": {},
     "impossible_values_left_empty": {},
     "mapping": "saffire3.yaml"
@@ -103,6 +123,7 @@
     "source_rows": 109,
     "rows": 109,
     "skipped_rows": 0,
+    "duplicate_rows_dropped": 0,
     "unreadable": {},
     "impossible_values_left_empty": {},
     "mapping": "same_r.yaml"
@@ -113,6 +134,7 @@
     "source_rows": 8,
     "rows": 4,
     "skipped_rows": 4,
+    "duplicate_rows_dropped": 0,
     "unreadable": {},
     "impossible_values_left_empty": {},
     "mapping": "same.yaml"
@@ -121,8 +143,9 @@
     "investigation": "PSI-107",
     "file": "PSI-107_Experimental table_Spice.csv",
     "source_rows": 469,
-    "rows": 469,
+    "rows": 435,
     "skipped_rows": 0,
+    "duplicate_rows_dropped": 34,
     "unreadable": {},
     "impossible_values_left_empty": {
      "flow_cm_s": 8
@@ -135,6 +158,7 @@
     "source_rows": 1015,
     "rows": 154,
     "skipped_rows": 861,
+    "duplicate_rows_dropped": 0,
     "unreadable": {},
     "impossible_values_left_empty": {},
     "mapping": "cfig_inverse.yaml"
@@ -145,6 +169,7 @@
     "source_rows": 179,
     "rows": 179,
     "skipped_rows": 0,
+    "duplicate_rows_dropped": 0,
     "unreadable": {},
     "impossible_values_left_empty": {},
     "mapping": "cfig_normal.yaml"
@@ -159,7 +184,7 @@
    {
     "investigation": "PSI-20",
     "file": "ACME BRE.csv",
-    "reason": "One row per test day with the oxygen levels used that day; pressures are not listed and tests are not separated."
+    "reason": "One row per test day with the oxygen levels used that day; pressures are not listed and tests are not separated. BRE's tested atmospheres come from its final report instead (bre_atmospheres.yaml)."
    },
    {
     "investigation": "PSI-21",
@@ -8703,6 +8728,72 @@
    }
   },
   {
+   "id": "PSI-20:atmosphere 21 % O2, 14.7 psia",
+   "investigation_id": "PSI-20",
+   "test_label": "atmosphere 21 % O2, 14.7 psia",
+   "fuel_material": "CH4/N2 or C2H4/N2 on a porous burner (emulates a burning solid)",
+   "fuel_phase": "gas",
+   "o2_pct": 21.0,
+   "pressure_kpa": 101.353,
+   "flow_cm_s": null,
+   "diluent": "N2",
+   "outcome": "extinguished",
+   "note": "One row per atmosphere ACME BRE tested, from its final report, not one row per test: the BRE table lists tests by day without pressures. The table also lists 25 % and 40 % oxygen on some days, at pressures it does not give. Conditions: p. 5, “14.7 psia, 21 % oxygen”. Outcome: p. 18, “this extinction was predominately seen for nominal ambient conditions of 21% oxygen and 14.7 psia”.",
+   "source": {
+    "file": "PSI-20_Reports_Final_20220201.pdf",
+    "row": 5
+   },
+   "sample": false,
+   "extra": {
+    "row_kind": "atmosphere",
+    "pressure_psia": 14.7
+   }
+  },
+  {
+   "id": "PSI-20:atmosphere 26.5 % O2, 10.2 psia",
+   "investigation_id": "PSI-20",
+   "test_label": "atmosphere 26.5 % O2, 10.2 psia",
+   "fuel_material": "CH4/N2 or C2H4/N2 on a porous burner (emulates a burning solid)",
+   "fuel_phase": "gas",
+   "o2_pct": 26.5,
+   "pressure_kpa": 70.327,
+   "flow_cm_s": null,
+   "diluent": "N2",
+   "outcome": "sustained",
+   "note": "One row per atmosphere ACME BRE tested, from its final report, not one row per test: the BRE table lists tests by day without pressures. The table also lists 25 % and 40 % oxygen on some days, at pressures it does not give. Conditions: p. 5, “10.2 psia, 26.5 %”. Outcome: p. 18, “At conditions of 27% oxygen, 10.2 psia and 34% oxygen, 8.2 psia, the flames generally persisted for 3 minutes or more”. The report writes this atmosphere as 26.5 % on p. 5 and 27 % on p. 18.",
+   "source": {
+    "file": "PSI-20_Reports_Final_20220201.pdf",
+    "row": 5
+   },
+   "sample": false,
+   "extra": {
+    "row_kind": "atmosphere",
+    "pressure_psia": 10.2
+   }
+  },
+  {
+   "id": "PSI-20:atmosphere 34 % O2, 8.2 psia",
+   "investigation_id": "PSI-20",
+   "test_label": "atmosphere 34 % O2, 8.2 psia",
+   "fuel_material": "CH4/N2 or C2H4/N2 on a porous burner (emulates a burning solid)",
+   "fuel_phase": "gas",
+   "o2_pct": 34.0,
+   "pressure_kpa": 56.537,
+   "flow_cm_s": null,
+   "diluent": "N2",
+   "outcome": "sustained",
+   "note": "One row per atmosphere ACME BRE tested, from its final report, not one row per test: the BRE table lists tests by day without pressures. The table also lists 25 % and 40 % oxygen on some days, at pressures it does not give. Conditions: p. 5, “8.2 psia, 34 % oxygen”. Outcome: p. 18, “At conditions of 27% oxygen, 10.2 psia and 34% oxygen, 8.2 psia, the flames generally persisted for 3 minutes or more”.",
+   "source": {
+    "file": "PSI-20_Reports_Final_20220201.pdf",
+    "row": 5
+   },
+   "sample": false,
+   "extra": {
+    "row_kind": "atmosphere",
+    "pressure_psia": 8.2
+   }
+  },
+  {
    "id": "PSI-25:B1",
    "investigation_id": "PSI-25",
    "test_label": "B1",
@@ -8710,7 +8801,7 @@
    "fuel_phase": "solid",
    "o2_pct": 22.2,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
    "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
@@ -8739,7 +8830,7 @@
    "fuel_phase": "solid",
    "o2_pct": 22.2,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
    "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
@@ -8766,7 +8857,7 @@
    "fuel_phase": "solid",
    "o2_pct": 22.2,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 2.0,
    "diluent": "N2",
    "outcome": "unknown",
    "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
@@ -8795,7 +8886,7 @@
    "fuel_phase": "solid",
    "o2_pct": 22.2,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
    "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
@@ -8824,7 +8915,7 @@
    "fuel_phase": "solid",
    "o2_pct": 22.2,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
    "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
@@ -8853,10 +8944,10 @@
    "fuel_phase": "solid",
    "o2_pct": 21.0,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 3.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “3 5 approaching 10”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 6
@@ -8882,7 +8973,7 @@
    "fuel_phase": "solid",
    "o2_pct": 22.2,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 2.0,
    "diluent": "N2",
    "outcome": "unknown",
    "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
@@ -8911,10 +9002,10 @@
    "fuel_phase": "solid",
    "o2_pct": 21.0,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “10 max”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 8
@@ -8940,10 +9031,10 @@
    "fuel_phase": "solid",
    "o2_pct": 21.0,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 2.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “2 <1”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 9
@@ -8969,10 +9060,10 @@
    "fuel_phase": "solid",
    "o2_pct": 21.0,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 4 3 2 1”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 10
@@ -8998,10 +9089,10 @@
    "fuel_phase": "solid",
    "o2_pct": 21.0,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 3 1 <1”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 11
@@ -9027,7 +9118,7 @@
    "fuel_phase": "solid",
    "o2_pct": 22.2,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 2.0,
    "diluent": "N2",
    "outcome": "unknown",
    "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
@@ -9056,10 +9147,10 @@
    "fuel_phase": "solid",
    "o2_pct": 21.0,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “10 5 4 3 2 1”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 13
@@ -9085,10 +9176,10 @@
    "fuel_phase": "solid",
    "o2_pct": 15.0,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 3 2 ext”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 14
@@ -9111,10 +9202,10 @@
    "fuel_phase": "solid",
    "o2_pct": 21.0,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “10 max”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 15
@@ -9140,10 +9231,10 @@
    "fuel_phase": "solid",
    "o2_pct": 17.3,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 3.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “3 0.5 pot 0.4 pot”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 16
@@ -9169,10 +9260,10 @@
    "fuel_phase": "solid",
    "o2_pct": 17.5,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 3 pot 0.4”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 17
@@ -9198,10 +9289,10 @@
    "fuel_phase": "solid",
    "o2_pct": 17.4,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “10 blowoff”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 18
@@ -9227,10 +9318,10 @@
    "fuel_phase": "solid",
    "o2_pct": 17.3,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “10 blowoff”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 19
@@ -9256,10 +9347,10 @@
    "fuel_phase": "solid",
    "o2_pct": 17.4,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 3 pot 0.5”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 20
@@ -9285,10 +9376,10 @@
    "fuel_phase": "solid",
    "o2_pct": 20.8,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 down to ext”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 21
@@ -9314,10 +9405,10 @@
    "fuel_phase": "solid",
    "o2_pct": 20.7,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 2 0”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 22
@@ -9343,7 +9434,7 @@
    "fuel_phase": "solid",
    "o2_pct": 22.2,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 9.5,
    "diluent": "N2",
    "outcome": "unknown",
    "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
@@ -9372,7 +9463,7 @@
    "fuel_phase": "solid",
    "o2_pct": 21.0,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 15.0,
    "diluent": "N2",
    "outcome": "unknown",
    "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
@@ -9401,7 +9492,7 @@
    "fuel_phase": "solid",
    "o2_pct": 21.7,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 8.0,
    "diluent": "N2",
    "outcome": "unknown",
    "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
@@ -9427,10 +9518,10 @@
    "fuel_phase": "solid",
    "o2_pct": 17.4,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 3.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “3 ign”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 26
@@ -9456,10 +9547,10 @@
    "fuel_phase": "solid",
    "o2_pct": 22.2,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “10 8”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 27
@@ -9485,10 +9576,10 @@
    "fuel_phase": "solid",
    "o2_pct": 22.2,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 20.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “20 15 13 14”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 28
@@ -9514,10 +9605,10 @@
    "fuel_phase": "solid",
    "o2_pct": 20.8,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “10 20 18”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 29
@@ -9543,10 +9634,10 @@
    "fuel_phase": "solid",
    "o2_pct": 21.8,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 4 3”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 30
@@ -9572,10 +9663,10 @@
    "fuel_phase": "solid",
    "o2_pct": 22.2,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 20.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “20 13 10 8 5”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 31
@@ -9599,10 +9690,10 @@
    "fuel_phase": "solid",
    "o2_pct": 21.8,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “10 5 3 0”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 32
@@ -9628,10 +9719,10 @@
    "fuel_phase": "solid",
    "o2_pct": 18.9,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “10 6 5 4.5 4 3”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 33
@@ -9657,10 +9748,10 @@
    "fuel_phase": "solid",
    "o2_pct": 19.1,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “10 5>7 5 decr”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 34
@@ -9686,10 +9777,10 @@
    "fuel_phase": "solid",
    "o2_pct": 18.0,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “10 14”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 35
@@ -9715,10 +9806,10 @@
    "fuel_phase": "solid",
    "o2_pct": 20.1,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “10 17 14 10 8”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 36
@@ -9744,10 +9835,10 @@
    "fuel_phase": "solid",
    "o2_pct": 20.0,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “10 20 15 12”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 37
@@ -9789,7 +9880,6 @@
     "co_initial_ppm": 15.0,
     "co_final_ppm": 443.0,
     "fan_display": "41 42 41",
-    "air_display": "<1",
     "flow_restrictor": "1",
     "investigator": "Miller"
    }
@@ -9802,10 +9892,10 @@
    "fuel_phase": "solid",
    "o2_pct": 20.8,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 6.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “6 5 4”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 39
@@ -9831,10 +9921,10 @@
    "fuel_phase": "solid",
    "o2_pct": 22.2,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “10 ~8”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 40
@@ -9860,10 +9950,10 @@
    "fuel_phase": "solid",
    "o2_pct": 21.0,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “10 8 7 8 10 20 18 16 15”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 41
@@ -9889,10 +9979,10 @@
    "fuel_phase": "solid",
    "o2_pct": 19.2,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “10 6 3 2 1 10”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 42
@@ -9918,10 +10008,10 @@
    "fuel_phase": "solid",
    "o2_pct": 18.8,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “10 5 3 0ext”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 43
@@ -9947,10 +10037,10 @@
    "fuel_phase": "solid",
    "o2_pct": 17.9,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “10 15 (brief) 10 8”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 44
@@ -9976,10 +10066,10 @@
    "fuel_phase": "solid",
    "o2_pct": 19.0,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “10 17 14 10 7 5”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 45
@@ -10005,10 +10095,10 @@
    "fuel_phase": "solid",
    "o2_pct": 18.0,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “10 8”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 46
@@ -10034,10 +10124,10 @@
    "fuel_phase": "solid",
    "o2_pct": 22.2,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 20.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “20 10 5 2 1”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 47
@@ -10063,7 +10153,7 @@
    "fuel_phase": "solid",
    "o2_pct": 22.2,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 0.0,
    "diluent": "N2",
    "outcome": "unknown",
    "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
@@ -10092,10 +10182,10 @@
    "fuel_phase": "solid",
    "o2_pct": 18.0,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 3”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 49
@@ -10120,10 +10210,10 @@
    "fuel_phase": "solid",
    "o2_pct": 18.0,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 3 2 1 low”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 50
@@ -10148,10 +10238,10 @@
    "fuel_phase": "solid",
    "o2_pct": 14.8,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 down to ext”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 51
@@ -10176,10 +10266,10 @@
    "fuel_phase": "solid",
    "o2_pct": 15.1,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 10 5 2 0 (49 62 49 44 42)”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 52
@@ -10221,7 +10311,6 @@
     "co_initial_ppm": 496.0,
     "co_final_ppm": 590.0,
     "fan_display": "1.3",
-    "air_display": "49 5 cm/s",
     "flow_restrictor": "2",
     "investigator": "Olson"
    }
@@ -10250,7 +10339,6 @@
     "co_initial_ppm": 1.0,
     "co_final_ppm": 232.0,
     "fan_display": "5 .36 .32 .31 .305 out .275",
-    "air_display": "see fan",
     "flow_restrictor": "2",
     "investigator": "Olson"
    }
@@ -10375,10 +10463,10 @@
    "fuel_phase": "solid",
    "o2_pct": 16.7,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 2 0 max”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 59
@@ -10404,10 +10492,10 @@
    "fuel_phase": "solid",
    "o2_pct": 15.4,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 down then blowoff”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 60
@@ -10447,7 +10535,6 @@
     "co2_initial_pct": 1.72,
     "co2_final_pct": 1.71,
     "fan_display": "pots 1.4 3 0.9 0.7",
-    "air_display": "no ign at any flow",
     "flow_restrictor": "2",
     "investigator": "Olson"
    }
@@ -10476,7 +10563,6 @@
     "co_initial_ppm": 389.0,
     "co_final_ppm": 950.0,
     "fan_display": "1.3 0.7 0.45 0.36 0.32 0.31",
-    "air_display": "49 44 42 41 41 40.5 (5 2 0)",
     "flow_restrictor": "2",
     "investigator": "Olson"
    }
@@ -10504,7 +10590,6 @@
     "co2_final_pct": 2.09,
     "co_initial_ppm": 950.0,
     "fan_display": "1.3 0.9",
-    "air_display": "7 4? (49 ?)",
     "flow_restrictor": "2",
     "investigator": "Olson"
    }
@@ -10517,10 +10602,10 @@
    "fuel_phase": "solid",
    "o2_pct": 16.3,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 down to ext”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 64
@@ -10546,10 +10631,10 @@
    "fuel_phase": "solid",
    "o2_pct": 17.1,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 0”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 65
@@ -10575,10 +10660,10 @@
    "fuel_phase": "solid",
    "o2_pct": 16.7,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 0”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 66
@@ -10604,7 +10689,7 @@
    "fuel_phase": "solid",
    "o2_pct": 14.5,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
    "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
@@ -10633,10 +10718,10 @@
    "fuel_phase": "solid",
    "o2_pct": 15.1,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 3.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “3 0 11”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 68
@@ -10662,10 +10747,10 @@
    "fuel_phase": "solid",
    "o2_pct": 15.2,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 2 0 11 2 11 2 0”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 69
@@ -10691,10 +10776,10 @@
    "fuel_phase": "solid",
    "o2_pct": 15.3,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 down to ext”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 70
@@ -10720,10 +10805,10 @@
    "fuel_phase": "solid",
    "o2_pct": 16.5,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 8 incr to max 38.5”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 71
@@ -10765,7 +10850,6 @@
     "co_initial_ppm": 52.0,
     "co_final_ppm": 187.0,
     "fan_display": "46 (pot 0.8) pot 7 10",
-    "air_display": "incr to 28",
     "flow_restrictor": "0",
     "investigator": "Olson"
    }
@@ -10778,10 +10862,10 @@
    "fuel_phase": "solid",
    "o2_pct": 15.4,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 4.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “4 incr to 26.5”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 73
@@ -10807,10 +10891,10 @@
    "fuel_phase": "solid",
    "o2_pct": 17.7,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 2 slow decr to ext”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 74
@@ -10835,10 +10919,10 @@
    "fuel_phase": "solid",
    "o2_pct": 17.4,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 2.5 2 (pot .9 .5 .35. .33)”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 75
@@ -10863,10 +10947,10 @@
    "fuel_phase": "solid",
    "o2_pct": 17.7,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 2.5 (1.15 .5 .35 .33. .32 .315 .31 .3)”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 76
@@ -10891,10 +10975,10 @@
    "fuel_phase": "solid",
    "o2_pct": 17.4,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 very low (0.85 0.32 0.31 0.305 0.30 0.295)”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 77
@@ -10918,10 +11002,10 @@
    "fuel_phase": "solid",
    "o2_pct": 18.5,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 pots 0.4 0.36 0.32 0.308 .3 off”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 78
@@ -10947,10 +11031,10 @@
    "fuel_phase": "solid",
    "o2_pct": 19.3,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 down to ext”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 79
@@ -10976,10 +11060,10 @@
    "fuel_phase": "solid",
    "o2_pct": 18.9,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 pots 0.4 0.36 0.32 0.31 off”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 80
@@ -11005,10 +11089,10 @@
    "fuel_phase": "solid",
    "o2_pct": 16.4,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 would not stay lit 10 15 ibid”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 81
@@ -11034,10 +11118,10 @@
    "fuel_phase": "solid",
    "o2_pct": 17.6,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 down to ext”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 82
@@ -11063,10 +11147,10 @@
    "fuel_phase": "solid",
    "o2_pct": 17.0,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 pots 0.4 0.36 0.32 0.31 0.30 extinguished”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 83
@@ -11092,10 +11176,10 @@
    "fuel_phase": "solid",
    "o2_pct": 17.5,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 3 2 1 0.5 lower”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 84
@@ -11121,10 +11205,10 @@
    "fuel_phase": "solid",
    "o2_pct": 20.7,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 down to ext”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 85
@@ -11150,10 +11234,10 @@
    "fuel_phase": "solid",
    "o2_pct": 20.6,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 down to ext”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 86
@@ -11179,10 +11263,10 @@
    "fuel_phase": "solid",
    "o2_pct": 18.4,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 low (.85 .4 .32)”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 87
@@ -11208,10 +11292,10 @@
    "fuel_phase": "solid",
    "o2_pct": 18.0,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 (0.36)”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 88
@@ -11237,10 +11321,10 @@
    "fuel_phase": "solid",
    "o2_pct": 18.2,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 8 2 low”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 89
@@ -11266,10 +11350,10 @@
    "fuel_phase": "solid",
    "o2_pct": 16.8,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 3 2 22 2 low”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 90
@@ -11295,10 +11379,10 @@
    "fuel_phase": "solid",
    "o2_pct": 20.0,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 2.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “2 0 2 0 etc”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 91
@@ -11324,10 +11408,10 @@
    "fuel_phase": "solid",
    "o2_pct": 17.5,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 8 2 max 0”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 92
@@ -11353,10 +11437,10 @@
    "fuel_phase": "solid",
    "o2_pct": 19.0,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 2.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “2 0 2 0 etc”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 93
@@ -11382,7 +11466,7 @@
    "fuel_phase": "solid",
    "o2_pct": 16.3,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
    "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
@@ -11411,7 +11495,7 @@
    "fuel_phase": "solid",
    "o2_pct": 16.3,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
    "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
@@ -11440,10 +11524,10 @@
    "fuel_phase": "solid",
    "o2_pct": 20.8,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 down to ext”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 96
@@ -11467,10 +11551,10 @@
    "fuel_phase": "solid",
    "o2_pct": 20.0,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 down to ext”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 97
@@ -11494,10 +11578,10 @@
    "fuel_phase": "solid",
    "o2_pct": 18.2,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 2.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “2 0 2 0 etc”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 98
@@ -11523,10 +11607,10 @@
    "fuel_phase": "solid",
    "o2_pct": 19.0,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 2.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “2 0 2 0 etc”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 99
@@ -11552,10 +11636,10 @@
    "fuel_phase": "solid",
    "o2_pct": 20.9,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 down to ext”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 100
@@ -11581,7 +11665,7 @@
    "fuel_phase": "solid",
    "o2_pct": 18.5,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
    "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
@@ -11610,10 +11694,10 @@
    "fuel_phase": "solid",
    "o2_pct": 18.5,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 9.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “9 5 4”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 102
@@ -11639,7 +11723,7 @@
    "fuel_phase": "solid",
    "o2_pct": 17.2,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
    "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
@@ -11668,10 +11752,10 @@
    "fuel_phase": "solid",
    "o2_pct": 18.7,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 9.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “9 1”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 104
@@ -11697,10 +11781,10 @@
    "fuel_phase": "solid",
    "o2_pct": 18.8,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “10 2 1”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 105
@@ -11726,10 +11810,10 @@
    "fuel_phase": "solid",
    "o2_pct": 18.8,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 2 1 <1”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 106
@@ -11754,10 +11838,10 @@
    "fuel_phase": "solid",
    "o2_pct": 17.3,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “10 5 3 1 decr”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 107
@@ -11783,7 +11867,7 @@
    "fuel_phase": "solid",
    "o2_pct": 16.4,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
    "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
@@ -11812,7 +11896,7 @@
    "fuel_phase": "solid",
    "o2_pct": 16.4,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
    "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
@@ -11841,7 +11925,7 @@
    "fuel_phase": "solid",
    "o2_pct": 17.1,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
    "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
@@ -11870,7 +11954,7 @@
    "fuel_phase": "solid",
    "o2_pct": 16.8,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
    "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
@@ -11899,10 +11983,10 @@
    "fuel_phase": "solid",
    "o2_pct": 17.5,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 1”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 112
@@ -11927,10 +12011,10 @@
    "fuel_phase": "solid",
    "o2_pct": 16.9,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 3”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 113
@@ -11955,10 +12039,10 @@
    "fuel_phase": "solid",
    "o2_pct": 18.7,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 9.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “9 29”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 114
@@ -11984,10 +12068,10 @@
    "fuel_phase": "solid",
    "o2_pct": 17.6,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 3”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 115
@@ -12012,10 +12096,10 @@
    "fuel_phase": "solid",
    "o2_pct": 16.9,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 6.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “6 53”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 116
@@ -12040,10 +12124,10 @@
    "fuel_phase": "solid",
    "o2_pct": 17.4,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 2”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 117
@@ -12068,7 +12152,7 @@
    "fuel_phase": "solid",
    "o2_pct": 17.2,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 11.0,
    "diluent": "N2",
    "outcome": "unknown",
    "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
@@ -12097,10 +12181,10 @@
    "fuel_phase": "solid",
    "o2_pct": 17.2,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 11.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “11 3”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 119
@@ -12126,10 +12210,10 @@
    "fuel_phase": "solid",
    "o2_pct": 17.2,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 11.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “11 max(47)”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 120
@@ -12155,10 +12239,10 @@
    "fuel_phase": "solid",
    "o2_pct": 17.1,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “10 5”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 121
@@ -12184,7 +12268,7 @@
    "fuel_phase": "solid",
    "o2_pct": 17.2,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
    "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
@@ -12213,7 +12297,7 @@
    "fuel_phase": "solid",
    "o2_pct": 18.2,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 10.0,
    "diluent": "N2",
    "outcome": "unknown",
    "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
@@ -12242,10 +12326,10 @@
    "fuel_phase": "solid",
    "o2_pct": 20.8,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 2.5”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 124
@@ -12271,10 +12355,10 @@
    "fuel_phase": "solid",
    "o2_pct": 20.8,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 2.5”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 125
@@ -12300,10 +12384,10 @@
    "fuel_phase": "solid",
    "o2_pct": 20.7,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 2”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 126
@@ -12329,7 +12413,7 @@
    "fuel_phase": "solid",
    "o2_pct": 20.7,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
    "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
@@ -12356,7 +12440,7 @@
    "fuel_phase": "solid",
    "o2_pct": 20.7,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
    "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
@@ -12383,10 +12467,10 @@
    "fuel_phase": "solid",
    "o2_pct": 20.7,
    "pressure_kpa": 101.325,
-   "flow_cm_s": null,
+   "flow_cm_s": 5.0,
    "diluent": "N2",
    "outcome": "unknown",
-   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": "Pressure not in the source table; ISS cabin pressure (1 atm) assumed. Air flow (cm/s) recorded as “5 2(?)”; the first value is used.",
    "source": {
     "file": "PSI-25_Experimental table_BASS-II.csv",
     "row": 129
@@ -16935,182 +17019,6 @@
    "sample": false,
    "extra": {
     "flex_number": "1387"
-   }
-  },
-  {
-   "id": "PSI-39:f173e01~2",
-   "investigation_id": "PSI-39",
-   "test_label": "f173e01~2",
-   "fuel_material": "[.75]/[.25] C12H26/iso-dodecane",
-   "fuel_phase": "liquid",
-   "o2_pct": 17.0,
-   "pressure_kpa": 101.325,
-   "flow_cm_s": null,
-   "diluent": "N2",
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-39_Experimental table_CFI.csv",
-    "row": 80
-   },
-   "sample": false,
-   "extra": {
-    "flex_number": "1285",
-    "fiber_supported": "Yes"
-   }
-  },
-  {
-   "id": "PSI-39:f173e02~2",
-   "investigation_id": "PSI-39",
-   "test_label": "f173e02~2",
-   "fuel_material": "[.75]/[.25] C12H26/iso-dodecane",
-   "fuel_phase": "liquid",
-   "o2_pct": 17.0,
-   "pressure_kpa": 101.325,
-   "flow_cm_s": null,
-   "diluent": "N2",
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-39_Experimental table_CFI.csv",
-    "row": 81
-   },
-   "sample": false,
-   "extra": {
-    "flex_number": "1286",
-    "fiber_supported": "Yes"
-   }
-  },
-  {
-   "id": "PSI-39:f173e03~2",
-   "investigation_id": "PSI-39",
-   "test_label": "f173e03~2",
-   "fuel_material": "[.75]/[.25] C12H26/iso-dodecane",
-   "fuel_phase": "liquid",
-   "o2_pct": 17.0,
-   "pressure_kpa": 101.325,
-   "flow_cm_s": null,
-   "diluent": "N2",
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-39_Experimental table_CFI.csv",
-    "row": 82
-   },
-   "sample": false,
-   "extra": {
-    "flex_number": "1287",
-    "fiber_supported": "No"
-   }
-  },
-  {
-   "id": "PSI-39:f173e05~2",
-   "investigation_id": "PSI-39",
-   "test_label": "f173e05~2",
-   "fuel_material": "[.75]/[.25] C12H26/iso-dodecane",
-   "fuel_phase": "liquid",
-   "o2_pct": 17.0,
-   "pressure_kpa": 101.325,
-   "flow_cm_s": null,
-   "diluent": "N2",
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-39_Experimental table_CFI.csv",
-    "row": 83
-   },
-   "sample": false,
-   "extra": {
-    "flex_number": "1288",
-    "fiber_supported": "No"
-   }
-  },
-  {
-   "id": "PSI-39:f173e06~2",
-   "investigation_id": "PSI-39",
-   "test_label": "f173e06~2",
-   "fuel_material": "[.75]/[.25] C12H26/iso-dodecane",
-   "fuel_phase": "liquid",
-   "o2_pct": 17.0,
-   "pressure_kpa": 101.325,
-   "flow_cm_s": null,
-   "diluent": "N2",
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-39_Experimental table_CFI.csv",
-    "row": 84
-   },
-   "sample": false,
-   "extra": {
-    "flex_number": "1289",
-    "fiber_supported": "Yes"
-   }
-  },
-  {
-   "id": "PSI-39:f179e01~2",
-   "investigation_id": "PSI-39",
-   "test_label": "f179e01~2",
-   "fuel_material": "[.75]/[.25] C12H26/iso-dodecane",
-   "fuel_phase": "liquid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
-   "flow_cm_s": null,
-   "diluent": "N2",
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-39_Experimental table_CFI.csv",
-    "row": 85
-   },
-   "sample": false,
-   "extra": {
-    "flex_number": "1295",
-    "fiber_supported": "Yes"
-   }
-  },
-  {
-   "id": "PSI-39:f179e02~2",
-   "investigation_id": "PSI-39",
-   "test_label": "f179e02~2",
-   "fuel_material": "[.75]/[.25] C12H26/iso-dodecane",
-   "fuel_phase": "liquid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
-   "flow_cm_s": null,
-   "diluent": "N2",
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-39_Experimental table_CFI.csv",
-    "row": 86
-   },
-   "sample": false,
-   "extra": {
-    "flex_number": "1296",
-    "fiber_supported": "Yes"
-   }
-  },
-  {
-   "id": "PSI-39:f179e05~2",
-   "investigation_id": "PSI-39",
-   "test_label": "f179e05~2",
-   "fuel_material": "[.75]/[.25] C12H26/iso-dodecane",
-   "fuel_phase": "liquid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
-   "flow_cm_s": null,
-   "diluent": "N2",
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-39_Experimental table_CFI.csv",
-    "row": 87
-   },
-   "sample": false,
-   "extra": {
-    "flex_number": "1297",
-    "fiber_supported": "No"
    }
   },
   {
@@ -27148,30 +27056,6 @@
    }
   },
   {
-   "id": "PSI-107:day 45 row 2",
-   "investigation_id": "PSI-107",
-   "test_label": "day 45 row 2",
-   "fuel_material": "Ethylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 36.39,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 2
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 1.6002,
-    "fuel_rate_mg_s": 1.971,
-    "hydrocarbon_fuel_rate_mg_s": 1.971,
-    "gmt_ignition": "14:37:08"
-   }
-  },
-  {
    "id": "PSI-107:day 45 row 3",
    "investigation_id": "PSI-107",
    "test_label": "day 45 row 3",
@@ -27244,30 +27128,6 @@
    }
   },
   {
-   "id": "PSI-107:day 45 row 6",
-   "investigation_id": "PSI-107",
-   "test_label": "day 45 row 6",
-   "fuel_material": "Ethylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 57.08,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 6
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 1.6002,
-    "fuel_rate_mg_s": 2.62,
-    "hydrocarbon_fuel_rate_mg_s": 2.62,
-    "gmt_ignition": "15:35:44"
-   }
-  },
-  {
    "id": "PSI-107:day 45 row 7",
    "investigation_id": "PSI-107",
    "test_label": "day 45 row 7",
@@ -27316,30 +27176,6 @@
    }
   },
   {
-   "id": "PSI-107:day 45 row 9",
-   "investigation_id": "PSI-107",
-   "test_label": "day 45 row 9",
-   "fuel_material": "Ethylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 58.02,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 9
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 1.6002,
-    "fuel_rate_mg_s": 1.31,
-    "hydrocarbon_fuel_rate_mg_s": 1.31,
-    "gmt_ignition": "15:42:22"
-   }
-  },
-  {
    "id": "PSI-107:day 45 row 10",
    "investigation_id": "PSI-107",
    "test_label": "day 45 row 10",
@@ -27364,30 +27200,6 @@
    }
   },
   {
-   "id": "PSI-107:day 45 row 11",
-   "investigation_id": "PSI-107",
-   "test_label": "day 45 row 11",
-   "fuel_material": "Ethylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 17.59,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 11
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 1.6002,
-    "fuel_rate_mg_s": 1.207,
-    "hydrocarbon_fuel_rate_mg_s": 1.207,
-    "gmt_ignition": "15:48:39"
-   }
-  },
-  {
    "id": "PSI-107:day 45 row 12",
    "investigation_id": "PSI-107",
    "test_label": "day 45 row 12",
@@ -27402,30 +27214,6 @@
    "source": {
     "file": "PSI-107_Experimental table_Spice.csv",
     "row": 12
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 1.6002,
-    "fuel_rate_mg_s": 0.661,
-    "hydrocarbon_fuel_rate_mg_s": 0.661,
-    "gmt_ignition": "15:50:59"
-   }
-  },
-  {
-   "id": "PSI-107:day 45 row 13",
-   "investigation_id": "PSI-107",
-   "test_label": "day 45 row 13",
-   "fuel_material": "Ethylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 16.65,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 13
    },
    "sample": false,
    "extra": {
@@ -29545,29 +29333,6 @@
    }
   },
   {
-   "id": "PSI-107:day 52 row 102",
-   "investigation_id": "PSI-107",
-   "test_label": "day 52 row 102",
-   "fuel_material": "75 % Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": null,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 102
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 1.6002,
-    "hydrocarbon_fuel_rate_mg_s": 0.0,
-    "gmt_ignition": "Ku LOS"
-   }
-  },
-  {
    "id": "PSI-107:day 52 row 103",
    "investigation_id": "PSI-107",
    "test_label": "day 52 row 103",
@@ -30072,30 +29837,6 @@
    }
   },
   {
-   "id": "PSI-107:day 52 row 124",
-   "investigation_id": "PSI-107",
-   "test_label": "day 52 row 124",
-   "fuel_material": "75 % Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 13.83,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 124
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 0.4064,
-    "fuel_rate_mg_s": 1.155,
-    "hydrocarbon_fuel_rate_mg_s": 0.945,
-    "gmt_ignition": "17.47.12"
-   }
-  },
-  {
    "id": "PSI-107:day 52 row 125",
    "investigation_id": "PSI-107",
    "test_label": "day 52 row 125",
@@ -30212,54 +29953,6 @@
     "nozzle_mm": 0.4064,
     "fuel_rate_mg_s": 0.339,
     "hydrocarbon_fuel_rate_mg_s": 0.277,
-    "gmt_ignition": "17.50.49"
-   }
-  },
-  {
-   "id": "PSI-107:day 52 row 130",
-   "investigation_id": "PSI-107",
-   "test_label": "day 52 row 130",
-   "fuel_material": "75 % Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 41.09,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 130
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 0.4064,
-    "fuel_rate_mg_s": 0.715,
-    "hydrocarbon_fuel_rate_mg_s": 0.585,
-    "gmt_ignition": "17.50.49"
-   }
-  },
-  {
-   "id": "PSI-107:day 52 row 131",
-   "investigation_id": "PSI-107",
-   "test_label": "day 52 row 131",
-   "fuel_material": "75 % Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 41.09,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 131
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 0.4064,
-    "fuel_rate_mg_s": 0.715,
-    "hydrocarbon_fuel_rate_mg_s": 0.585,
     "gmt_ignition": "17.50.49"
    }
   },
@@ -30576,30 +30269,6 @@
    }
   },
   {
-   "id": "PSI-107:day 55 row 145",
-   "investigation_id": "PSI-107",
-   "test_label": "day 55 row 145",
-   "fuel_material": "50 % Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 10.07,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 145
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 1.6002,
-    "fuel_rate_mg_s": 1.31,
-    "hydrocarbon_fuel_rate_mg_s": 0.786,
-    "gmt_ignition": "8:56:16"
-   }
-  },
-  {
    "id": "PSI-107:day 55 row 146",
    "investigation_id": "PSI-107",
    "test_label": "day 55 row 146",
@@ -30620,30 +30289,6 @@
     "nozzle_mm": 1.6002,
     "fuel_rate_mg_s": 0.662,
     "hydrocarbon_fuel_rate_mg_s": 0.397,
-    "gmt_ignition": "8:56:16"
-   }
-  },
-  {
-   "id": "PSI-107:day 55 row 147",
-   "investigation_id": "PSI-107",
-   "test_label": "day 55 row 147",
-   "fuel_material": "50 % Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 10.07,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 147
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 1.6002,
-    "fuel_rate_mg_s": 1.641,
-    "hydrocarbon_fuel_rate_mg_s": 0.985,
     "gmt_ignition": "8:56:16"
    }
   },
@@ -30744,30 +30389,6 @@
    }
   },
   {
-   "id": "PSI-107:day 55 row 152",
-   "investigation_id": "PSI-107",
-   "test_label": "day 55 row 152",
-   "fuel_material": "50 % Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 57.08,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 152
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 1.6002,
-    "fuel_rate_mg_s": 1.034,
-    "hydrocarbon_fuel_rate_mg_s": 0.621,
-    "gmt_ignition": "9:00:26"
-   }
-  },
-  {
    "id": "PSI-107:day 55 row 153",
    "investigation_id": "PSI-107",
    "test_label": "day 55 row 153",
@@ -30788,30 +30409,6 @@
     "nozzle_mm": 1.6002,
     "fuel_rate_mg_s": 2.386,
     "hydrocarbon_fuel_rate_mg_s": 1.432,
-    "gmt_ignition": "9:00:26"
-   }
-  },
-  {
-   "id": "PSI-107:day 55 row 154",
-   "investigation_id": "PSI-107",
-   "test_label": "day 55 row 154",
-   "fuel_material": "50 % Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 57.08,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 154
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 1.6002,
-    "fuel_rate_mg_s": 2.537,
-    "hydrocarbon_fuel_rate_mg_s": 1.523,
     "gmt_ignition": "9:00:26"
    }
   },
@@ -30884,54 +30481,6 @@
     "nozzle_mm": 1.6002,
     "fuel_rate_mg_s": 2.124,
     "hydrocarbon_fuel_rate_mg_s": 1.275,
-    "gmt_ignition": "9:36:14"
-   }
-  },
-  {
-   "id": "PSI-107:day 55 row 158",
-   "investigation_id": "PSI-107",
-   "test_label": "day 55 row 158",
-   "fuel_material": "50 % Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 26.05,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 158
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 1.6002,
-    "fuel_rate_mg_s": 1.931,
-    "hydrocarbon_fuel_rate_mg_s": 1.159,
-    "gmt_ignition": "9:36:14"
-   }
-  },
-  {
-   "id": "PSI-107:day 55 row 159",
-   "investigation_id": "PSI-107",
-   "test_label": "day 55 row 159",
-   "fuel_material": "50 % Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 26.05,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 159
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 1.6002,
-    "fuel_rate_mg_s": 0.965,
-    "hydrocarbon_fuel_rate_mg_s": 0.579,
     "gmt_ignition": "9:36:14"
    }
   },
@@ -31032,30 +30581,6 @@
    }
   },
   {
-   "id": "PSI-107:day 55 row 164",
-   "investigation_id": "PSI-107",
-   "test_label": "day 55 row 164",
-   "fuel_material": "50 % Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 40.15,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 164
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 1.6002,
-    "fuel_rate_mg_s": 2.179,
-    "hydrocarbon_fuel_rate_mg_s": 1.308,
-    "gmt_ignition": "9:39:14"
-   }
-  },
-  {
    "id": "PSI-107:day 55 row 165",
    "investigation_id": "PSI-107",
    "test_label": "day 55 row 165",
@@ -31076,30 +30601,6 @@
     "nozzle_mm": 1.6002,
     "fuel_rate_mg_s": 1.103,
     "hydrocarbon_fuel_rate_mg_s": 0.662,
-    "gmt_ignition": "9:39:14"
-   }
-  },
-  {
-   "id": "PSI-107:day 55 row 166",
-   "investigation_id": "PSI-107",
-   "test_label": "day 55 row 166",
-   "fuel_material": "50 % Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 39.21,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 166
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 1.6002,
-    "fuel_rate_mg_s": 2.496,
-    "hydrocarbon_fuel_rate_mg_s": 1.498,
     "gmt_ignition": "9:39:14"
    }
   },
@@ -31190,78 +30691,6 @@
    "source": {
     "file": "PSI-107_Experimental table_Spice.csv",
     "row": 170
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 0.762,
-    "fuel_rate_mg_s": 2.303,
-    "hydrocarbon_fuel_rate_mg_s": 1.382,
-    "gmt_ignition": "9:49:56"
-   }
-  },
-  {
-   "id": "PSI-107:day 55 row 171",
-   "investigation_id": "PSI-107",
-   "test_label": "day 55 row 171",
-   "fuel_material": "50 % Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 11.95,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 171
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 0.762,
-    "fuel_rate_mg_s": 2.524,
-    "hydrocarbon_fuel_rate_mg_s": 1.515,
-    "gmt_ignition": "9:49:56"
-   }
-  },
-  {
-   "id": "PSI-107:day 55 row 172",
-   "investigation_id": "PSI-107",
-   "test_label": "day 55 row 172",
-   "fuel_material": "50 % Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 11.01,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 172
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 0.762,
-    "fuel_rate_mg_s": 1.255,
-    "hydrocarbon_fuel_rate_mg_s": 0.753,
-    "gmt_ignition": "9:49:56"
-   }
-  },
-  {
-   "id": "PSI-107:day 55 row 173",
-   "investigation_id": "PSI-107",
-   "test_label": "day 55 row 173",
-   "fuel_material": "50 % Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 11.01,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 173
    },
    "sample": false,
    "extra": {
@@ -31488,54 +30917,6 @@
    }
   },
   {
-   "id": "PSI-107:day 55 row 183",
-   "investigation_id": "PSI-107",
-   "test_label": "day 55 row 183",
-   "fuel_material": "50 % Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 42.03,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 183
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 0.762,
-    "fuel_rate_mg_s": 1.076,
-    "hydrocarbon_fuel_rate_mg_s": 0.646,
-    "gmt_ignition": "10:01:00"
-   }
-  },
-  {
-   "id": "PSI-107:day 55 row 184",
-   "investigation_id": "PSI-107",
-   "test_label": "day 55 row 184",
-   "fuel_material": "50 % Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 42.03,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 184
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 0.762,
-    "fuel_rate_mg_s": 0.552,
-    "hydrocarbon_fuel_rate_mg_s": 0.331,
-    "gmt_ignition": "10:01:00"
-   }
-  },
-  {
    "id": "PSI-107:day 55 row 185",
    "investigation_id": "PSI-107",
    "test_label": "day 55 row 185",
@@ -31670,30 +31051,6 @@
    "source": {
     "file": "PSI-107_Experimental table_Spice.csv",
     "row": 190
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 0.762,
-    "fuel_rate_mg_s": 1.531,
-    "hydrocarbon_fuel_rate_mg_s": 0.919,
-    "gmt_ignition": "10:25:40"
-   }
-  },
-  {
-   "id": "PSI-107:day 55 row 191",
-   "investigation_id": "PSI-107",
-   "test_label": "day 55 row 191",
-   "fuel_material": "50 % Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 26.99,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 191
    },
    "sample": false,
    "extra": {
@@ -32256,30 +31613,6 @@
    }
   },
   {
-   "id": "PSI-107:day 58 row 215",
-   "investigation_id": "PSI-107",
-   "test_label": "day 58 row 215",
-   "fuel_material": "Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 9.13,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 215
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 1.6002,
-    "fuel_rate_mg_s": 0.409,
-    "hydrocarbon_fuel_rate_mg_s": 0.409,
-    "gmt_ignition": "9:37:52"
-   }
-  },
-  {
    "id": "PSI-107:day 58 row 216",
    "investigation_id": "PSI-107",
    "test_label": "day 58 row 216",
@@ -32396,30 +31729,6 @@
     "nozzle_mm": 1.6002,
     "fuel_rate_mg_s": 0.537,
     "hydrocarbon_fuel_rate_mg_s": 0.537,
-    "gmt_ignition": "9:44:17"
-   }
-  },
-  {
-   "id": "PSI-107:day 58 row 221",
-   "investigation_id": "PSI-107",
-   "test_label": "day 58 row 221",
-   "fuel_material": "Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 22.29,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 221
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 1.6002,
-    "fuel_rate_mg_s": 0.327,
-    "hydrocarbon_fuel_rate_mg_s": 0.327,
     "gmt_ignition": "9:44:17"
    }
   },
@@ -32616,54 +31925,6 @@
    }
   },
   {
-   "id": "PSI-107:day 58 row 230",
-   "investigation_id": "PSI-107",
-   "test_label": "day 58 row 230",
-   "fuel_material": "Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 50.49,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 230
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 1.6002,
-    "fuel_rate_mg_s": 0.946,
-    "hydrocarbon_fuel_rate_mg_s": 0.946,
-    "gmt_ignition": "9:55:18"
-   }
-  },
-  {
-   "id": "PSI-107:day 58 row 231",
-   "investigation_id": "PSI-107",
-   "test_label": "day 58 row 231",
-   "fuel_material": "Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 50.49,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 231
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 1.6002,
-    "fuel_rate_mg_s": 0.479,
-    "hydrocarbon_fuel_rate_mg_s": 0.479,
-    "gmt_ignition": "9:55:18"
-   }
-  },
-  {
    "id": "PSI-107:day 58 row 232",
    "investigation_id": "PSI-107",
    "test_label": "day 58 row 232",
@@ -32702,52 +31963,6 @@
    "source": {
     "file": "PSI-107_Experimental table_Spice.csv",
     "row": 233
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 1.6002,
-    "hydrocarbon_fuel_rate_mg_s": 0.0,
-    "gmt_ignition": "Ku LOS"
-   }
-  },
-  {
-   "id": "PSI-107:day 58 row 234",
-   "investigation_id": "PSI-107",
-   "test_label": "day 58 row 234",
-   "fuel_material": "Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": null,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 234
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 1.6002,
-    "hydrocarbon_fuel_rate_mg_s": 0.0,
-    "gmt_ignition": "Ku LOS"
-   }
-  },
-  {
-   "id": "PSI-107:day 58 row 235",
-   "investigation_id": "PSI-107",
-   "test_label": "day 58 row 235",
-   "fuel_material": "Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": null,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 235
    },
    "sample": false,
    "extra": {
@@ -32843,52 +32058,6 @@
    "source": {
     "file": "PSI-107_Experimental table_Spice.csv",
     "row": 239
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 0.762,
-    "hydrocarbon_fuel_rate_mg_s": 0.0,
-    "gmt_ignition": "10:18:27"
-   }
-  },
-  {
-   "id": "PSI-107:day 58 row 240",
-   "investigation_id": "PSI-107",
-   "test_label": "day 58 row 240",
-   "fuel_material": "Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": null,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 240
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 0.762,
-    "hydrocarbon_fuel_rate_mg_s": 0.0,
-    "gmt_ignition": "10:18:27"
-   }
-  },
-  {
-   "id": "PSI-107:day 58 row 241",
-   "investigation_id": "PSI-107",
-   "test_label": "day 58 row 241",
-   "fuel_material": "Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": null,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 241
    },
    "sample": false,
    "extra": {
@@ -33134,30 +32303,6 @@
     "nozzle_mm": 0.4064,
     "fuel_rate_mg_s": 0.654,
     "hydrocarbon_fuel_rate_mg_s": 0.654,
-    "gmt_ignition": "11:25:49"
-   }
-  },
-  {
-   "id": "PSI-107:day 58 row 252",
-   "investigation_id": "PSI-107",
-   "test_label": "day 58 row 252",
-   "fuel_material": "Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 14.77,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 252
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 0.4064,
-    "fuel_rate_mg_s": 1.319,
-    "hydrocarbon_fuel_rate_mg_s": 1.319,
     "gmt_ignition": "11:25:49"
    }
   },
@@ -33462,30 +32607,6 @@
    "source": {
     "file": "PSI-107_Experimental table_Spice.csv",
     "row": 265
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 0.762,
-    "fuel_rate_mg_s": 0.362,
-    "hydrocarbon_fuel_rate_mg_s": 0.362,
-    "gmt_ignition": "12:42:59"
-   }
-  },
-  {
-   "id": "PSI-107:day 58 row 266",
-   "investigation_id": "PSI-107",
-   "test_label": "day 58 row 266",
-   "fuel_material": "Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 26.99,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 266
    },
    "sample": false,
    "extra": {
@@ -35118,30 +34239,6 @@
    "source": {
     "file": "PSI-107_Experimental table_Spice.csv",
     "row": 334
-   },
-   "sample": false,
-   "extra": {
-    "nozzle_mm": 0.4064,
-    "fuel_rate_mg_s": 0.538,
-    "hydrocarbon_fuel_rate_mg_s": 0.323,
-    "gmt_ignition": "11:04:59"
-   }
-  },
-  {
-   "id": "PSI-107:day 167 row 335",
-   "investigation_id": "PSI-107",
-   "test_label": "day 167 row 335",
-   "fuel_material": "50 % Propylene",
-   "fuel_phase": "gas",
-   "o2_pct": null,
-   "pressure_kpa": null,
-   "flow_cm_s": 11.95,
-   "diluent": null,
-   "outcome": "unknown",
-   "note": null,
-   "source": {
-    "file": "PSI-107_Experimental table_Spice.csv",
-    "row": 335
    },
    "sample": false,
    "extra": {

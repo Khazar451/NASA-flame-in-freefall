@@ -183,7 +183,7 @@ The dashboard already defines the contract: `docs/data-contract.md` and `app/src
 - A source value that cannot be real (a pressure of 0, a negative flow) is left empty and the row's note quotes it.
 - `pipeline/mappings/_skipped.yaml` lists the 8 tables that are not test-level, with the reason for each.
 
-**Result:** 1,867 rows from 14 tables covering 12 investigations; 886 rows have both oxygen and pressure.
+**Result:** 1,828 rows from 14 tables and one report, covering 13 investigations; 881 rows have both oxygen and pressure (after the review fixes below).
 
 **For the ME teammate to check (each is marked TO CHECK in its mapping file):**
 - FLEX: "Completion" is read as sustained, "Disruption" as unknown.
@@ -213,7 +213,7 @@ No ranking here: the dashboard scores investigations itself (decided at the Phas
 - `varied.py` writes `data/out/varied.json`: for each investigation, each test condition marked varied, constant or not recorded, with its range and levels, plus a one-paragraph summary. Numbers are compared after rounding (oxygen to 1 %, pressure to 5 kPa), so measurement noise is not called variation. Assumed values (cabin pressure) are labelled assumed, never constant.
 - Both files have Pydantic models in `models.py` and appear in `data/schema.json`. `validate` checks that they match `tests.json`.
 
-**Result:** 886 tests on the grid, 52 of 75 cells empty. Inside the lunar range: 20 gas-flame tests, no liquids, no solids. Nothing at spacesuit conditions.
+**Result:** 881 tests on the grid, 51 of 75 cells empty. Inside the lunar range: 21 gas-flame tests (20 ACME CFI-G and one ACME BRE atmosphere), no liquids, no solids. Nothing at spacesuit conditions.
 
 **Gate:**
 - [ ] The empty cells match the gaps the ME teammate expects
@@ -259,7 +259,7 @@ Decided with Khazar: **retrieval first**, **ChromaDB embeddings** for document s
 
 **Extras, only if wanted (each needs a dashboard view from CompE #2):**
 1. **Done:** `gravity.py` (`gravity` step) writes `data/out/gravity.json` for a partial-gravity panel, all by plain code:
-   - `levels`: microgravity (all 1,867 test rows), Moon and Mars (no tests), Earth (comparison only);
+   - `levels`: microgravity (all test rows), Moon and Mars (no tests), Earth (comparison only);
    - `stand_in`: ACME E-FIELD, with two quotes from its PSI record and the reference it cites (Karnani et al., *Simulating Gravity in Microgravity Combustion Using Electric Fields*, 2012);
    - `paired_results`: Saffire-II's microgravity and normal-gravity burn lengths and spread rates for the same 9 samples, with the table's footnotes and a counted summary (4 silicone samples barely burned in microgravity; 3 of them burned at 1 g);
    - `statements`: 27 sentences from PSI records that compare gravity levels, word for word;
@@ -284,3 +284,18 @@ Decided with Khazar: **retrieval first**, **ChromaDB embeddings** for document s
 | Sat ~20:00 onward | ME | Review of the investigation-level CSV |
 | Sat 20:00 | ME | Which metrics each family records (flow-duct first) |
 | Sat ~00:30 | CompE #2 | End-to-end check on the deployed URL |
+
+---
+
+## Fixes after the data review (Sat 14 Nov, evening)
+
+A review against NASA's tables and reports found three errors. Fixed without adding any new assumption:
+
+1. **Exact duplicate rows counted twice.** CFI repeats 8 rows and SPICE 34, identical down to their timestamps. `transform_tests.py` now drops an exact copy of an earlier row and reports how many (1,867 → 1,825 table rows).
+2. **BASS-II flow speed was discarded.** The BASS-II Summary Report (p. 74) says the air velocity was "read out to the units place … ±0.5 cm/s", so "Air display" is the flow speed. 118 of 129 rows now have it (0–20 cm/s). When a cell lists several readings because the flow was changed during the test, the first is used and the note quotes the cell. Cells with no starting number, or with the fan setting mixed in, stay empty.
+3. **ACME BRE was missing.** Its table has no pressures, but its final report states the atmospheres it tested (p. 5) and the result (p. 18: flames mostly went out at 21 % / 14.7 psia and "generally persisted for 3 minutes or more" at 27 % / 10.2 psia and 34 % / 8.2 psia). These are 3 atmosphere-level rows (`mappings/bre_atmospheres.yaml`, `kind: document`); the build checks every number against the quoted page. One of them (34 % at 8.2 psia) lies inside the lunar range.
+
+Also: the `/ask` provider chain moves to NVIDIA when Gemini is overloaded (HTTP 503), and AI sources are labelled with the experiment's name, not only its PSI id (SAME's documents are filed under SAME-R). The demo answers were rebuilt on the fixed data.
+
+Still open, for the ME teammate: the outcome mappings marked TO CHECK, the AI role and fuel tags, and whether the existing cabin-pressure assumption for BASS-II and Saffire may stay on the map.
+

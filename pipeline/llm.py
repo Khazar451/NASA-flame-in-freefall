@@ -13,9 +13,9 @@ Providers are chosen with LLM_PROVIDER in pipeline/.env:
   fake    -> offline stub for tests
 
 LLM_FALLBACK=openai adds an OpenAI-compatible provider after the main one: when the main
-provider's quota is used up, calls go to the fallback (model from OPENAI_MODEL). Other
-errors, such as a timeout, are not retried elsewhere, so a slow call stays bounded by
-LLM_TIMEOUT_S. OPENAI_EXTRA_BODY is optional JSON sent with every OpenAI-compatible
+provider's quota is used up, or it answers "overloaded" (HTTP 503), calls go to the fallback
+(model from OPENAI_MODEL). Other errors, such as a timeout, are not retried elsewhere, so a
+slow call stays bounded by LLM_TIMEOUT_S. OPENAI_EXTRA_BODY is optional JSON sent with every OpenAI-compatible
 request, e.g. {"chat_template_kwargs": {"enable_thinking": false}} to turn off a model's
 slow "thinking" mode.
 
@@ -184,8 +184,14 @@ class OpenAICompatProvider:
         return re.sub(r"<think>.*?</think>", "", content, flags=re.DOTALL).strip()
 
 
+def _overloaded(exc: BaseException) -> bool:
+    """HTTP 503 / UNAVAILABLE: the provider is busy right now, which another provider may not be."""
+    code = getattr(exc, "code", None) or getattr(exc, "status_code", None)
+    return code == 503 or "UNAVAILABLE" in str(exc)
+
+
 class ChainProvider:
-    """Several providers in order: when one has used up its quota, the next one answers."""
+    """Several providers in order: when one has used up its quota or is overloaded, the next answers."""
 
     def __init__(self, providers: list[Any]) -> None:
         self.providers = providers
@@ -203,6 +209,10 @@ class ChainProvider:
             except QuotaError:
                 self._exhausted.add(index)
                 continue
+            except Exception as exc:
+                if _overloaded(exc) and index < len(self.providers) - 1:
+                    continue  # busy now, not used up: try the next one, and this one again next time
+                raise
             self.last_model = f"{provider.name}:{getattr(provider, 'last_model', provider.model)}"
             return out
         raise QuotaError(f"quota used up on every provider ({self.name})")

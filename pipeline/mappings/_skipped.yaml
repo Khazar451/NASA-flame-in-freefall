@@ -1,6 +1,6 @@
 # Experimental tables that are not turned into test rows, and why.
 - {investigation: PSI-68, file: Flex2.csv, reason: "Lists the planned ranges for each fuel (for example four oxygen levels and five pressures), not individual tests."}
-- {investigation: PSI-20, file: ACME BRE.csv, reason: "One row per test day with the oxygen levels used that day; pressures are not listed and tests are not separated."}
+- {investigation: PSI-20, file: ACME BRE.csv, reason: "One row per test day with the oxygen levels used that day; pressures are not listed and tests are not separated. BRE's tested atmospheres come from its final report instead (bre_atmospheres.yaml)."}
 - {investigation: PSI-21, file: CLD Flame.csv, reason: "One row per test day with a count of flames ignited, not one row per test."}
 - {investigation: PSI-22, file: ACME E-FIELD Flames.csv, reason: "One row per test day with a count of flames ignited, not one row per test."}
 - {investigation: PSI-23, file: ACME s-Flame.csv, reason: "One row per test day with a count of flames ignited, not one row per test."}
