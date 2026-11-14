@@ -22,7 +22,7 @@ Open the address Vite prints (normally http://localhost:5173).
 
 - Address: https://khazar451.github.io/NASA-flame-in-freefall/
 - One-time setup by the repo owner: Settings > Pages > Source: "GitHub Actions".
-- To connect the Ask tab, add a repository variable named `VITE_API_URL` (Settings > Secrets and variables > Actions > Variables) and re-run the workflow.
+- The Ask tab calls the Q&A server at https://nasa-flame-in-freefall.onrender.com; the address is set in the workflow file. To use another server without a commit, add a repository variable named `VITE_API_URL` (Settings > Secrets and variables > Actions > Variables) and re-run the workflow.
 
 ## What is here
 

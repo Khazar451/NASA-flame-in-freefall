@@ -43,9 +43,10 @@ jobs:
       # `npm run build` first copies data/out/*.json into app/public/data/.
       - run: npm run build
         env:
-          # Address of the Q&A backend. Set it under Settings > Secrets and
-          # variables > Actions > Variables; empty leaves the Ask tab offline.
-          VITE_API_URL: ${{ vars.VITE_API_URL }}
+          # Address of the Q&A backend (pipeline/api.py, hosted on Render). To
+          # point at another server without a commit, set a repository variable
+          # VITE_API_URL under Settings > Secrets and variables > Actions.
+          VITE_API_URL: ${{ vars.VITE_API_URL || 'https://nasa-flame-in-freefall.onrender.com' }}
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:
