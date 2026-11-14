@@ -16,6 +16,14 @@ Open the address Vite prints (normally http://localhost:5173).
 
 `npm run build` writes the static site to `app/dist/`. It uses relative paths, so it can be hosted from any folder.
 
+## Deploy
+
+`.github/workflows/deploy.yml` builds the dashboard and publishes it to GitHub Pages on every push to `main` that changes `app/` or `data/out/`. It can also be started by hand from the Actions tab.
+
+- Address: https://khazar451.github.io/NASA-flame-in-freefall/
+- One-time setup by the repo owner: Settings > Pages > Source: "GitHub Actions".
+- To connect the Ask tab, add a repository variable named `VITE_API_URL` (Settings > Secrets and variables > Actions > Variables) and re-run the workflow.
+
 ## What is here
 
 | View | File | What it shows |
