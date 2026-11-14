@@ -37,3 +37,25 @@ pytest pipeline                     # tests (no network, no API key needed)
 - `data/raw/` and `data/interim/` are never committed.
 - Every value in `data/out/` records its source (`source_id` plus page or row).
 - All AI calls go through `pipeline/llm.py`, which caches replies in `data/interim/llm_cache/`.
+
+## The /ask server (for whoever deploys it)
+
+```bash
+pip install -r pipeline/requirements-api.txt
+uvicorn pipeline.api:app --host 0.0.0.0 --port $PORT
+```
+
+Run it from the repository root. It reads the committed files in `data/out/` (including `data/out/search/`) and `pipeline/review/demo_answers.json`; it does not need `data/raw/`.
+
+- The first start downloads Chroma's embedding model (about 80 MB) to `~/.cache/chroma`. Memory use is roughly 400–600 MB.
+- `GET /health` reports what loaded and how many AI calls are left today.
+- Settings, as environment variables:
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `ASK_ALLOWED_ORIGINS` | `*` | Comma-separated addresses allowed to call the API (the dashboard's URL) |
+| `LLM_PROVIDER`, `LLM_MODEL`, `GEMINI_API_KEY` | unset | As in `.env.example`. Unset means answers without AI |
+| `LLM_DAILY_LIMIT` | `60` | AI calls per day; after that, answers without AI |
+| `ASK_RATE_PER_MINUTE` | `10` | Questions per minute from one address |
+
+The dashboard then needs `VITE_API_URL` set to the server's address (see `app/README.md`).

@@ -1,0 +1,15 @@
+{
+ "model": "all-MiniLM-L6-v2",
+ "dimensions": 384,
+ "chunks": 13398,
+ "sources": 251,
+ "investigations": 24,
+ "chunk_chars": 1500,
+ "overlap": 200,
+ "skipped": {
+  "scanned_sources": 75,
+  "unreadable_sources": 2,
+  "near_empty_pages": 424
+ },
+ "built_at": "2026-11-14T14:31:06+00:00"
+}

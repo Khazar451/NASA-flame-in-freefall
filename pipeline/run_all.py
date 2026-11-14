@@ -14,6 +14,8 @@ import argparse
 from typing import Callable
 
 from pipeline import (
+    ask,
+    build_index,
     coverage,
     extract_investigations,
     extract_text,
@@ -36,7 +38,8 @@ STEPS: list[tuple[str, int, str]] = [
     ("transform-tests", 5, "apply the column mappings in pipeline/mappings to build tests.json"),
     ("coverage", 6, "coverage.json: tests per fuel x oxygen band x pressure band, for the gap map"),
     ("varied", 6, "varied.json: what varied and what stayed the same, per investigation"),
-    ("build-index", 7, "build the search index for /ask"),
+    ("build-index", 7, "embed the document text into the search index for /ask (data/out/search)"),
+    ("demo-answers", 7, "answer the demo questions once and save them for /ask"),
     ("validate", 2, "check the output files against the contract and sanity ranges"),
 ]
 
@@ -53,6 +56,8 @@ IMPLEMENTED: dict[str, StepFn] = {
     "transform-tests": transform_tests.run,
     "coverage": coverage.run,
     "varied": varied.run,
+    "build-index": build_index.run,
+    "demo-answers": ask.run_demo_answers,
     "validate": validate.run,
 }
 

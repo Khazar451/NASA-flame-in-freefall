@@ -240,6 +240,21 @@ def _atomic_write_json(path: Path, obj: Any) -> None:
         raise
 
 
+def is_cached(
+    prompt: str,
+    schema: type[BaseModel] | dict[str, Any],
+    *,
+    system: str | None = None,
+    provider: Provider | None = None,
+) -> bool:
+    """True when complete_json() would answer from the disk cache without calling the provider."""
+    provider = provider or get_provider()
+    model_cls = schema if isinstance(schema, type) and issubclass(schema, BaseModel) else None
+    json_schema = model_cls.model_json_schema() if model_cls else schema
+    key = cache_key(provider.name, provider.model, system, prompt, json_schema)
+    return (config.llm_cache_dir() / f"{key}.json").exists()
+
+
 def complete_json(
     prompt: str,
     schema: type[BaseModel] | dict[str, Any],
