@@ -60,7 +60,7 @@ Run it from the repository root. It reads the committed files in `data/out/` (in
 
 ### Deploy on Render
 
-`render.yaml` at the repository root holds every setting.
+`render.yaml` at the repository root holds every setting. It installs the root `requirements.txt` (keep it identical to `pipeline/requirements.txt`), then downloads the embedding model during the build.
 
 1. Render: **New > Blueprint**, pick this repository, branch `main`. Render reads `render.yaml`.
 2. When asked for `GEMINI_API_KEY`, paste the key. Leave it empty to run without AI.
@@ -70,4 +70,6 @@ Run it from the repository root. It reads the committed files in `data/out/` (in
 
 A service created by hand instead of from the Blueprint needs the same settings: root directory empty, the build and start commands and the environment variables from `render.yaml`.
 
-On the free plan the service sleeps after about 15 minutes without requests; the next question wakes it, which takes about a minute.
+`render.yaml` asks for the paid `starter` plan, which does not sleep. With `plan: free` the service costs nothing but sleeps after about 15 minutes without requests; the next question wakes it, which takes about a minute. Both plans have 512 MB of memory; the server peaks at about 440 MB with 8 questions at once.
+
+The dashboard's build uses `https://nasa-flame-in-freefall.onrender.com` unless the repository variable `VITE_API_URL` names another address (`.github/workflows/deploy.yml`).

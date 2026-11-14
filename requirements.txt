@@ -1,0 +1,30 @@
+# Every third-party package the Python code imports, pinned to the versions
+# data/out/ was built and tested with (14 Nov 2026, Python 3.12.3).
+# Install from the repository root: pip install -r requirements.txt
+# Render installs this file. Keep it identical to pipeline/requirements.txt.
+#
+# Do not replace this with `pip freeze` from the system Python. That list
+# includes Ubuntu packages (Brlapi, python-apt, ufw, dbus-python, ...) that
+# are not on PyPI, so the Render build stops at "No matching distribution
+# found for Brlapi==0.8.5".
+
+# Core
+pydantic==2.14.3
+python-dotenv==1.2.4
+pyyaml==6.0.3
+pytest==9.2.0
+
+# AI provider
+google-genai==3.3.0        # LLM_PROVIDER=gemini (the provider we use)
+# openai            # LLM_PROVIDER=openai (also local servers via OPENAI_BASE_URL)
+
+# PDF text (rebuilding data/out/). The /ask server does not import this.
+# If it cannot be installed, extract-text falls back to pdftotext (poppler-utils).
+pymupdf==2.1
+
+# Search index and the /ask server
+numpy==2.5.4
+chromadb==1.5.9
+fastapi==0.162.7
+uvicorn[standard]==0.54.0
+httpx==0.28.1   # only for the API tests

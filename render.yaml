@@ -1,15 +1,15 @@
-# Render Blueprint for the /ask question service (pipeline/api.py).
-# Render: New > Blueprint > pick this repository. It reads this file and asks for the
-# GEMINI_API_KEY value (never commit the key). Details: pipeline/README.md, "Deploy on Render".
+# The /ask API. The dashboard is a static site on GitHub Pages, not this service.
+# Render Dashboard: New > Blueprint, repository NASA-flame-in-freefall, this branch.
+# Render asks for GEMINI_API_KEY when the Blueprint is created (sync: false); never commit the key.
+# Details: pipeline/README.md, "Deploy on Render".
 services:
   - type: web
     name: flame-in-freefall-ask
     runtime: python
-    plan: free
-    branch: main
+    plan: starter
     # The model is downloaded during the build into the project folder (only that folder
     # is kept from build to run), so the first question does not wait for it.
-    buildCommand: pip install -r pipeline/requirements-api.txt && python -m pipeline.search --download-model
+    buildCommand: pip install -r requirements.txt && python -m pipeline.search --download-model
     startCommand: uvicorn pipeline.api:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
     autoDeploy: true
@@ -17,20 +17,22 @@ services:
       paths:
         - pipeline/**
         - data/out/**
+        - requirements.txt
+        - .python-version
         - render.yaml
     envVars:
       - key: PYTHON_VERSION  # the version the server was tested with
         value: 3.12.3
       - key: EMBEDDING_MODEL_DIR
         value: data/interim/embedding-model
-      - key: ASK_ALLOWED_ORIGINS  # the dashboard on GitHub Pages
-        value: https://khazar451.github.io
       - key: LLM_PROVIDER
         value: gemini
       - key: LLM_MODEL
         value: gemini-3.5-flash,gemini-3.5-flash-lite,gemini-3.1-flash-lite,gemini-3.7-flash
       - key: GEMINI_API_KEY
-        sync: false  # Render asks for it when the Blueprint is created
+        sync: false
+      - key: ASK_ALLOWED_ORIGINS  # the dashboard on GitHub Pages
+        value: https://khazar451.github.io
       - key: LLM_DAILY_LIMIT
         value: "60"
       - key: ASK_RATE_PER_MINUTE
