@@ -42,3 +42,13 @@ def test_all_stops_at_first_failure(monkeypatch):
     )
     assert run_all.main(["all"]) == 2
     assert order == ["fetch"]
+
+
+def test_all_skips_the_hand_run_steps(monkeypatch, capsys):
+    order = []
+    steps = {name: (lambda n: (lambda a: order.append(n) or 0))(name) for name, _, _ in run_all.STEPS}
+    monkeypatch.setattr(run_all, "IMPLEMENTED", steps)
+    assert run_all.main(["all"]) == 0
+    assert not set(order) & set(run_all.MANUAL)
+    assert order == [name for name, _, _ in run_all.STEPS if name not in run_all.MANUAL]
+    assert "Not run by 'all'" in capsys.readouterr().out

@@ -2,7 +2,8 @@
 
     python -m pipeline.run_all --help      list steps
     python -m pipeline.run_all <step>      run one step
-    python -m pipeline.run_all all         run every implemented step in order
+    python -m pipeline.run_all all         rebuild everything: every step in order, except
+                                           the hand-run steps in MANUAL
 
 Steps are registered in IMPLEMENTED as each phase lands; until then they report
 which phase will add them.
@@ -45,6 +46,11 @@ STEPS: list[tuple[str, int, str]] = [
 
 StepFn = Callable[[argparse.Namespace], int]
 
+# Steps that involve a person or spend AI quota, so `all` leaves them out:
+# review-export / apply-overrides are the domain lead's review loop (the build already
+# applies data/overrides.json), and demo-answers makes AI calls and rewrites answers.
+MANUAL = ("review-export", "apply-overrides", "demo-answers")
+
 # Filled in phase by phase: {"fetch": fetch.run, ...}
 IMPLEMENTED: dict[str, StepFn] = {
     "inventory": inventory.run,
@@ -82,7 +88,7 @@ def _run_all(args: argparse.Namespace) -> int:
     ran = 0
     for name, _, _ in STEPS:
         fn = IMPLEMENTED.get(name)
-        if fn is None:
+        if fn is None or name in MANUAL:
             continue
         print(f"==> {name}")
         code = fn(args)
@@ -91,6 +97,7 @@ def _run_all(args: argparse.Namespace) -> int:
             return code
         ran += 1
     print(f"Done: {ran} step(s) ran." if ran else "No steps implemented yet.")
+    print(f"Not run by 'all' (run them by hand when needed): {', '.join(MANUAL)}")
     return 0
 
 
@@ -105,7 +112,9 @@ def build_parser() -> argparse.ArgumentParser:
         p.set_defaults(func=IMPLEMENTED.get(name) or _not_yet(name, phase))
         if name in ARGUMENTS:
             ARGUMENTS[name](p)
-    sub.add_parser("all", help="run every implemented step in order").set_defaults(func=_run_all)
+    sub.add_parser("all", help="rebuild everything, except the hand-run steps: " + ", ".join(MANUAL)).set_defaults(
+        func=_run_all
+    )
     return parser
 
 

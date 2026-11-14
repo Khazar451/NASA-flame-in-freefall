@@ -21,7 +21,6 @@ import gzip
 import json
 import time
 import unicodedata
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Sequence
 
@@ -138,8 +137,7 @@ def save(folder: Path, chunks: list[dict[str, Any]], vectors, model: str, skippe
         "chunk_chars": CHUNK_CHARS,
         "overlap": OVERLAP,
         "skipped": skipped,
-        "built_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-    }
+    }  # no build date: rebuilding the same inputs must give the same bytes (git records when)
     (folder / MANIFEST).write_text(json.dumps(manifest, indent=1) + "\n", encoding="utf-8")
 
 
