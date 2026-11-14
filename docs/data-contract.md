@@ -1,6 +1,8 @@
 # Data contract
 
-The pipeline writes two JSON files. The dashboard reads them from `app/public/data/`. The TypeScript version of this contract is `app/src/types.ts`; change both together.
+The pipeline writes two JSON files to `data/out/`. The dashboard copies them into `app/public/data/` when it starts or builds (`npm run sync-data`) and reads them from there. The TypeScript version of this contract is `app/src/types.ts`; change both together.
+
+The pipeline also adds optional fields the dashboard does not depend on: `hardware_family`, `sub_area`, `objectives`, `earth_benefits` and `n_publications` on an investigation, and `extra` (family-specific values such as `burn_time_s`) on a test. They are listed in `app/src/types.ts` as optional.
 
 ## investigations.json
 

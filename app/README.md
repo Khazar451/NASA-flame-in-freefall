@@ -38,9 +38,9 @@ The app reads two files from `public/data/`:
 - `investigations.json`
 - `tests.json`
 
-**The current `tests.json` is placeholder data.** Only five BASS-II rows are copied from the PSI experimental table; the other 265 are randomly generated so the views have something to draw. The app shows a yellow banner while any row has `"sample": true`. Replace both files with the pipeline output and the banner disappears.
+Both come from the pipeline, which writes them to `data/out/` at the repo root. `npm run dev` and `npm run build` first run `npm run sync-data` (`scripts/sync-data.mjs`), which copies them into `public/data/`. That folder is not in git: `data/out/` is the only copy that is. After pulling new pipeline output, restart `npm run dev` to pick it up.
 
-`npm run sample-data` regenerates the placeholder files.
+To work without the pipeline output, `npm run sample-data` writes placeholder files straight into `public/data/`. Only five of those rows are real; the rest are randomly generated, and the app shows a yellow banner while any row has `"sample": true`.
 
 ## Q&A backend
 
@@ -61,6 +61,11 @@ and expects:
 
 The backend must allow cross-origin requests from the dashboard's address.
 
-## Not checked yet
+## What the real data does not have
 
-This was written without access to npm, so `npm install` and the real Plotly chart have not been run. The app logic was tested in a browser with a stand-in for Plotly. If the chart misbehaves on first run, start in `src/views/AtmosphereMap.tsx` (traces and layout) and `src/components/Plot.tsx`.
+Checked against the pipeline output of 14 Nov (24 investigations, 1,867 tests):
+
+- 886 tests give both oxygen and pressure. Only those are drawn on the atmosphere map and matched to a habitat in the ranking. The other 981 still count toward "Amount of data".
+- 140 of the drawn tests (BASS-II, Saffire) use an assumed cabin pressure, because their source table gives oxygen only. The hover note on each says so.
+- 495 of the drawn tests have no recorded outcome. They are drawn hollow with a dot, not as "kept burning".
+- Twelve investigations have no per-test data at all and score on fuel type and role only.

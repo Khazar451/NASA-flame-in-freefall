@@ -23,7 +23,13 @@ const INK = '#16202e';
 const SURFACE = '#fcfcfb';
 const LUNAR = HABITATS.find((h) => h.id === 'lunar')!;
 const POINTS = HABITATS.filter((h) => h.id !== 'lunar');
+// Drawn in this order, so solid fuel (what a cabin is made of) ends on top.
+const DRAW_ORDER: FuelPhase[] = ['gas', 'liquid', 'solid'];
 const went_out = (t: TestRow) => t.outcome === 'extinguished' || t.outcome === 'no_ignition';
+// Filled = kept burning, hollow = went out, hollow with a dot = not recorded.
+const mark = (t: TestRow, symbol: string) =>
+  t.outcome === 'sustained' ? symbol : went_out(t) ? `${symbol}-open` : `${symbol}-open-dot`;
+const count = (n: number, word: string) => `${n.toLocaleString('en-US')} ${word}${n === 1 ? '' : 's'}`;
 const fmt = (n: number, d = 1) => n.toFixed(d).replace(/\.0$/, '');
 
 export default function AtmosphereMap({ data }: { data: Dataset }) {
@@ -51,21 +57,22 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
     const refs = {
       type: 'scatter', mode: 'markers+text', showlegend: false,
       x: POINTS.map((h) => h.psi[0]), y: POINTS.map((h) => h.o2[0]),
-      text: POINTS.map((h) => h.short), textposition: POINTS.map((h) => (h.id === 'suit' ? 'bottom left' : 'top right')),
+      text: POINTS.map((h) => h.short), textposition: 'top right',
       textfont: { color: INK, size: 12 },
       marker: { symbol: 'diamond-open', size: 13, color: INK, line: { width: 2 } },
       hovertext: POINTS.map((h) => h.basis), hovertemplate: '%{hovertext}<extra></extra>',
     };
-    const series = PHASES.map((ph) => {
+    const series = DRAW_ORDER.map((key) => {
+      const ph = PHASES.find((p) => p.key === key)!;
       const rows = shown.filter((t) => t.fuel_phase === ph.key);
       return {
-        type: 'scatter', mode: 'markers', name: ph.label,
+        type: 'scatter', mode: 'markers', name: ph.label, showlegend: false,
         x: rows.map((t) => toPsi(t.pressure_kpa)), y: rows.map((t) => t.o2_pct),
         customdata: rows.map((t) => t.investigation_id),
         marker: {
           color: ph.color, size: 9, opacity: 0.85,
-          symbol: rows.map((t) => (went_out(t) ? `${ph.symbol}-open` : ph.symbol)),
-          line: { width: 1.5, color: SURFACE },
+          symbol: rows.map((t) => mark(t, ph.symbol)),
+          line: { width: 1.5, color: rows.map((t) => (t.outcome === 'sustained' ? SURFACE : ph.color)) },
         },
         text: rows.map((t) => {
           const inv = byId.get(t.investigation_id);
@@ -75,7 +82,10 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
           ];
           if (t.fuel_material) lines.push(t.fuel_material);
           if (t.flow_cm_s != null) lines.push(t.flow_cm_s === 0 ? 'Still atmosphere' : `Air flow ${fmt(t.flow_cm_s)} cm/s`);
-          if (t.outcome !== 'unknown') lines.push(went_out(t) ? 'Flame went out or did not light' : 'Flame sustained');
+          lines.push(
+            t.outcome === 'unknown' ? 'Outcome not recorded in the source table'
+              : went_out(t) ? 'Flame went out or did not light' : 'Flame sustained',
+          );
           if (t.note) lines.push(`<i>${t.note}</i>`);
           if (t.sample) lines.push('<i>Placeholder row, not a NASA result</i>');
           return lines.join('<br>');
@@ -83,7 +93,13 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
         hovertemplate: '%{text}<extra></extra>',
       };
     });
-    return [zone, zoneLabel, ...series, refs];
+    // Legend entries drawn on their own, so each shows the plain filled symbol
+    // whatever the outcome of the first test in its series.
+    const legend = PHASES.map((ph) => ({
+      type: 'scatter', mode: 'markers', name: ph.label, x: [null], y: [null], hoverinfo: 'skip',
+      marker: { color: ph.color, size: 9, symbol: ph.symbol },
+    }));
+    return [zone, zoneLabel, ...series, ...legend, refs];
   }, [shown, byId]);
 
   const layout = useMemo(
@@ -104,7 +120,14 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
     [],
   );
 
+  // Tests the chart cannot place, under the same role filter.
+  const inRole = data.tests.filter((t) => role === 'all' || byId.get(t.investigation_id)?.role === role);
+  const offChart = inRole.length - shown.length;
   const lunarInside = shown.filter((t) => insideHabitat(t, LUNAR));
+  const lunarFrom = [...new Set(lunarInside.map((t) => t.investigation_id))].map((id) => {
+    const inv = byId.get(id);
+    return inv ? name(inv) : id;
+  });
   const lunarSolid = lunarInside.filter((t) => t.fuel_phase === 'solid').length;
   const cabin = HABITATS[0];
   const nearCabin = shown.filter((t) => Math.abs(t.o2_pct - cabin.o2[0]) <= 1.5 && Math.abs(toPsi(t.pressure_kpa) - cabin.psi[0]) <= 0.5);
@@ -133,22 +156,33 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
           label="Scatter chart of test oxygen level against total pressure, with habitat atmospheres marked"
         />
         <p className="quiet">
-          Filled marks: the flame kept burning. Hollow marks: it went out or never lit. Select a mark to see its
-          investigation.
+          Filled marks: the flame kept burning. Hollow marks: it went out or never lit. Hollow marks with a dot: the
+          source table does not record the outcome. Select a mark to see its investigation.
         </p>
+        {offChart > 0 && (
+          <p className="quiet">
+            {shown.length === 0
+              ? `None of the ${count(offChart, 'test')} in this group can be drawn,`
+              : `${count(offChart, 'more test')} ${offChart === 1 ? 'is' : 'are'} on file but not drawn,`}{' '}
+            because the source table does not give both oxygen and pressure. Where a pressure is assumed, not measured, the hover note
+            says so.
+          </p>
+        )}
       </div>
 
       <aside className="stack">
         <div className="panel">
           <h3>Coverage of the lunar range</h3>
           <p className="figure">
-            {lunarInside.length} <span>of {shown.length} tests shown</span>
+            {lunarInside.length} <span>of {count(shown.length, 'test')} shown</span>
           </p>
           <p>
+            {lunarFrom.length > 0 && `All from ${lunarFrom.join(', ')}. `}
             {lunarSolid === 0
               ? 'No solid-fuel test sits inside the lunar base range.'
               : `${lunarSolid} of them burned solid fuel, the kind of material a cabin is made of.`}{' '}
-            {nearCabin.length} tests sit at or near ordinary cabin air.
+            {count(nearCabin.length, 'test')} {nearCabin.length === 1 ? 'sits' : 'sit'} at or near ordinary cabin
+            air.
           </p>
           <p className="quiet">{LUNAR.basis}</p>
         </div>

@@ -45,15 +45,16 @@ export default function App() {
       {data && data.sampleRows > 0 && (
         <p className="notice" role="status">
           <strong>Placeholder data.</strong> {data.sampleRows} of {data.tests.length} test rows are randomly
-          generated stand-ins, not NASA results. They go away when the real dataset replaces{' '}
-          <code>public/data/tests.json</code>.
+          generated stand-ins, not NASA results. Run <code>npm run sync-data</code> to load the pipeline output
+          from <code>data/out/</code>.
         </p>
       )}
 
       <main>
         {error && (
           <p className="notice error" role="alert">
-            {error} Check that <code>public/data/</code> holds investigations.json and tests.json.
+            {error} Run <code>npm run sync-data</code> to copy investigations.json and tests.json from{' '}
+            <code>data/out/</code>.
           </p>
         )}
         {!data && !error && <p className="quiet">Loading data…</p>}
