@@ -236,6 +236,9 @@ def apply_mapping(mapping: dict[str, Any], path: Path) -> tuple[list[dict[str, A
                 notes.append(f"The source table gives {name} as {source}, which is not possible; left empty.")
                 table.out_of_range[field] += 1
                 values[field] = None
+        # The same test as assumed_fields(), so the field and the mapping always agree.
+        assumed = [field for field in NUMERIC_FIELDS
+                   if isinstance(mapping.get(field), dict) and "assumed" in mapping[field] and values[field] is not None]
         extra: dict[str, Any] = {}
         for key, spec in (mapping.get("extra") or {}).items():
             value = table.text(row, spec) if spec.get("type") == "text" else table.number(row, spec, f"extra.{key}")
@@ -255,6 +258,7 @@ def apply_mapping(mapping: dict[str, Any], path: Path) -> tuple[list[dict[str, A
             "source": {"file": path.name, "row": number},
             "sample": False,
             "extra": extra or None,
+            "assumed": assumed,
         })
     report = {
         "investigation": psi_id,
@@ -346,6 +350,7 @@ def apply_document(mapping: dict[str, Any]) -> tuple[list[dict[str, Any]], dict[
             "source": {"file": source, "row": item["page"]},  # a report: the row is the page
             "sample": False,
             "extra": {"row_kind": "atmosphere", "pressure_psia": float(item["pressure_psia"])},
+            "assumed": [],  # the report states these values
         })
     report = {"investigation": psi_id, "file": source, "source_rows": len(rows), "rows": len(rows),
               "skipped_rows": 0, "duplicate_rows_dropped": 0, "unreadable": {},

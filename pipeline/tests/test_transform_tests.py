@@ -66,7 +66,7 @@ def workspace(tmp_path, monkeypatch):
         folder.mkdir(parents=True, exist_ok=True)
         name = f"{mapping['investigation']}_Experimental table_{mapping['table']}"
         (folder / name).write_bytes(csv_text.encode(encoding))
-        (mappings / f"{mapping['table']}.yaml").write_text(yaml.safe_dump(mapping, allow_unicode=True))
+        (mappings / f"{mapping['table']}.yaml").write_text(yaml.safe_dump(mapping, allow_unicode=True), encoding="utf-8")
         return folder / name
 
     return tmp_path, add
@@ -85,7 +85,7 @@ def test_columns_are_converted_and_every_row_keeps_its_source(workspace):
         "o2_pct": 21.0, "pressure_kpa": 101.325024, "flow_cm_s": None,
         "diluent": "N2", "outcome": "extinguished", "note": None,
         "source": {"file": "PSI-69_Experimental table_FLEX.csv", "row": 1}, "sample": False,
-        "extra": {"burn_time_s": 12.5, "test_end": "Extinction"},
+        "extra": {"burn_time_s": 12.5, "test_end": "Extinction"}, "assumed": [],
     }
     assert rows[1]["diluent"] == "N2+CO2" and rows[1]["outcome"] == "sustained"
     assert rows[1]["extra"]["burn_time_s"] == 9.0  # "~9" read with first_number
@@ -110,6 +110,7 @@ def test_ranges_units_in_cells_assumed_values_and_skipped_rows(workspace):
         ("S1", 21.6, 20.0, 101.325), ("S2", 21.5, 20.0, 101.325),
     ]
     assert rows[0]["note"] == "Large-scale test. Pressure assumed (1 atm)."
+    assert all(r["assumed"] == ["pressure_kpa"] for r in rows)  # the field agrees with the note
     assert rows[0]["outcome"] == "unknown" and rows[0]["diluent"] is None and rows[0]["extra"] is None
     assert report["skipped_rows"] == 2
 
@@ -130,9 +131,9 @@ def test_repeated_labels_get_a_suffix_and_the_file_validates(workspace, capsys):
     add(SAFFIRE_MAPPING, SAFFIRE_CSV)
     (tmp_path / "mappings" / "_skipped.yaml").write_text(
         yaml.safe_dump([{"investigation": "PSI-68", "file": "Flex2.csv", "reason": "ranges, not tests"}])
-    )
+    , encoding="utf-8")
     assert tt.run(argparse.Namespace()) == 0
-    data = json.loads((tmp_path / "out" / "tests.json").read_text())
+    data = json.loads((tmp_path / "out" / "tests.json").read_text(encoding="utf-8"))
     assert [t["id"] for t in data["tests"]] == ["PSI-69:1", "PSI-69:2", "PSI-69:2~2", "PSI-98:S1", "PSI-98:S2"]
     assert data["meta"]["total_rows"] == 5 and data["meta"]["rows_with_o2_and_pressure"] == 4
     assert data["meta"]["tables_not_used"][0]["investigation"] == "PSI-68"
@@ -146,7 +147,7 @@ def test_repeated_labels_get_a_suffix_and_the_file_validates(workspace, capsys):
          "fuel_phase": "solid", "hardware": None, "related": [], "doi": None, "url": "https://x"}
         for psi_id in ("PSI-69", "PSI-98")
     ]
-    (tmp_path / "out" / "investigations.json").write_text(json.dumps({"investigations": investigations}))
+    (tmp_path / "out" / "investigations.json").write_text(json.dumps({"investigations": investigations}), encoding="utf-8")
     errors, _ = validate.check(tmp_path / "out")
     assert errors == []
 
@@ -169,7 +170,7 @@ def test_mapping_that_names_a_missing_column_or_table_stops_the_build(workspace,
     add({**FLEX_MAPPING, "fuel_material": {"column": "Fuel type"}}, FLEX_CSV)
     assert tt.run(argparse.Namespace()) == 1
     assert "no column named 'Fuel type'" in capsys.readouterr().out
-    (tmp_path / "mappings" / "FLEX.csv.yaml").write_text(yaml.safe_dump({**FLEX_MAPPING, "table": "Nope.csv"}))
+    (tmp_path / "mappings" / "FLEX.csv.yaml").write_text(yaml.safe_dump({**FLEX_MAPPING, "table": "Nope.csv"}), encoding="utf-8")
     assert tt.run(argparse.Namespace()) == 1
     assert "expected one table ending in 'Nope.csv'" in capsys.readouterr().out
 
@@ -226,7 +227,7 @@ def report_text(tmp_path, monkeypatch):
     pages = {5: "Atmospheres: 14.7 psia, 21 % oxygen; and 8.2  psia, 34 % oxygen.",
              6: "At 34% oxygen, 8.2 psia, the flames generally persisted for 3 minutes."}
     (folder / "PSI-20_Reports_Final.pdf.jsonl").write_text("\n".join(
-        json.dumps({"source_id": "PSI-20_Reports_Final.pdf", "page": n, "text": t}) for n, t in pages.items()))
+        json.dumps({"source_id": "PSI-20_Reports_Final.pdf", "page": n, "text": t}) for n, t in pages.items()), encoding="utf-8")
     monkeypatch.setattr(extract_text, "TEXT_DIR", folder)
 
 

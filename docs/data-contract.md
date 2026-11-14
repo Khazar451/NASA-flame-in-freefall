@@ -51,5 +51,6 @@ One row per test run.
 | `note` | string or null | Shown in the hover box. Use it for assumptions, e.g. an assumed pressure |
 | `source` | `{ "file": string, "row": number }` or null | Where the values came from |
 | `sample` | boolean | `true` only for placeholder rows. Real rows must be `false` |
+| `assumed` | list of `"o2_pct"`, `"pressure_kpa"`, `"flow_cm_s"` | The fields whose value is assumed rather than taken from the source table, e.g. `["o2_pct", "pressure_kpa"]` for ISS cabin air. Empty when nothing is assumed. Every listed field has a value |
 
-Rows need both `o2_pct` and `pressure_kpa` to appear on the atmosphere map and to count toward the atmosphere part of the ranking score. Leave a value `null` when the source does not give it; do not guess. If a value is assumed, say so in `note`.
+Rows need both `o2_pct` and `pressure_kpa` to appear on the atmosphere map and to count toward the atmosphere part of the ranking score. Leave a value `null` when the source does not give it; do not guess. If a value is assumed, list it in `assumed` and say why in `note`.

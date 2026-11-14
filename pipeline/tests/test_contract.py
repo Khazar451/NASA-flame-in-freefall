@@ -43,8 +43,8 @@ def write(folder, investigations=None, tests=None):
     tests = [TEST_ROW] if tests is None else tests
     (folder / "investigations.json").write_text(
         json.dumps({"meta": {"roles_reviewed": False}, "investigations": investigations})
-    )
-    (folder / "tests.json").write_text(json.dumps({"meta": {}, "tests": tests}))
+    , encoding="utf-8")
+    (folder / "tests.json").write_text(json.dumps({"meta": {}, "tests": tests}), encoding="utf-8")
     return folder
 
 
@@ -56,6 +56,13 @@ def test_contract_rows_validate_without_extras():
     inv = models.Investigation.model_validate(INVESTIGATION)
     assert inv.objectives is None and inv.hardware_family is None
     assert models.TestRow.model_validate(TEST_ROW).extra is None
+
+
+def test_assumed_lists_only_numeric_fields():
+    assert models.TestRow.model_validate(TEST_ROW).assumed == []
+    assert models.TestRow.model_validate(row(assumed=["o2_pct", "pressure_kpa"])).assumed == ["o2_pct", "pressure_kpa"]
+    with pytest.raises(Exception):
+        models.TestRow.model_validate(row(assumed=["outcome"]))
 
 
 def test_extras_are_accepted():
@@ -103,6 +110,7 @@ def test_valid_folder_passes(tmp_path):
         ({"flow_cm_s": -5.0}, "flow_cm_s -5.0 is outside"),
         ({"investigation_id": "PSI-999"}, "investigation_id PSI-999 is not in investigations.json"),
         ({"source": None}, "must record its source file and row"),
+        ({"o2_pct": None, "assumed": ["o2_pct"]}, "o2_pct is listed as assumed but has no value"),
     ],
 )
 def test_bad_test_rows_are_errors(tmp_path, changes, expected):
@@ -147,7 +155,7 @@ def test_missing_or_broken_files_are_errors(tmp_path):
     errors, warnings = validate.check(tmp_path)
     assert errors == [] and warnings == ["tests.json is not built yet; only investigations.json was checked"]
     write(tmp_path)
-    (tmp_path / "tests.json").write_text("{not json")
+    (tmp_path / "tests.json").write_text("{not json", encoding="utf-8")
     errors, _ = validate.check(tmp_path)
     assert len(errors) == 1 and "not valid JSON" in errors[0]
 

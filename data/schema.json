@@ -332,6 +332,19 @@
             "title": "Sample",
             "type": "boolean"
           },
+          "assumed": {
+            "description": "Fields whose value is not in the source table but assumed (the note says why); empty when nothing is assumed",
+            "items": {
+              "enum": [
+                "o2_pct",
+                "pressure_kpa",
+                "flow_cm_s"
+              ],
+              "type": "string"
+            },
+            "title": "Assumed",
+            "type": "array"
+          },
           "extra": {
             "anyOf": [
               {

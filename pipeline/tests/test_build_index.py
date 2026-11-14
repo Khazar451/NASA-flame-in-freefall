@@ -51,20 +51,20 @@ def text_dir(tmp_path, monkeypatch):
         lines = [{"source_id": source_id, "psi_id": psi_id, "category": "Reports", "page": n, "text": t}
                  for n, t in enumerate(texts, start=1)]
         name = build_index.fetch.local_name(source_id)
-        (folder / f"{name}.jsonl").write_text("\n".join(json.dumps(l, ensure_ascii=False) for l in lines) + "\n")
+        (folder / f"{name}.jsonl").write_text("\n".join(json.dumps(l, ensure_ascii=False) for l in lines) + "\n", encoding="utf-8")
         index[source_id] = {"pages": len(texts), "chars": 1, "psi_id": psi_id, "category": "Reports",
                             "scanned": "Scan" in source_id}
     record = [{"source_id": "PSI-25_record", "psi_id": "PSI-25", "category": "PSI record", "page": None,
                "section": "objectives", "text": "Study flame spread over thin solid fabric samples in a small wind tunnel inside the glovebox."}]
-    (folder / "PSI-25_record.jsonl").write_text(json.dumps(record[0]) + "\n")
+    (folder / "PSI-25_record.jsonl").write_text(json.dumps(record[0]) + "\n", encoding="utf-8")
     index["PSI-25_record"] = {"pages": 1, "chars": 1, "psi_id": "PSI-25", "category": "PSI record"}
     index["PSI-22_Broken.pdf"] = {"pages": 0, "chars": 0, "psi_id": "PSI-22", "category": "Reports", "error": "bad"}
-    (folder / "index.json").write_text(json.dumps(index))
+    (folder / "index.json").write_text(json.dumps(index), encoding="utf-8")
     return folder
 
 
 def test_chunks_skip_scanned_unreadable_and_near_empty_pages(text_dir):
-    chunks, skipped = build_index.build_chunks(json.loads((text_dir / "index.json").read_text()))
+    chunks, skipped = build_index.build_chunks(json.loads((text_dir / "index.json").read_text(encoding="utf-8")))
     assert skipped == {"scanned_sources": 1, "unreadable_sources": 1, "near_empty_pages": 1}
     assert [(c["source_id"], c["page"], c["section"]) for c in chunks] == [
         ("PSI-25_record", None, "objectives"),

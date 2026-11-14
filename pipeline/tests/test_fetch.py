@@ -39,7 +39,7 @@ TREE = {
 def raw(tmp_path, monkeypatch):
     raw_dir = tmp_path / "raw"
     (raw_dir / "PSI-25").mkdir(parents=True)
-    (raw_dir / "PSI-25" / "files.json").write_text(json.dumps(TREE))
+    (raw_dir / "PSI-25" / "files.json").write_text(json.dumps(TREE), encoding="utf-8")
     monkeypatch.setattr(fetch.config, "RAW_DIR", raw_dir)
     monkeypatch.setattr(fetch, "MANIFEST", raw_dir / "manifest.json")
     return raw_dir
@@ -78,7 +78,7 @@ def test_select_takes_tables_and_pdfs_and_never_raw_data():
 def test_run_downloads_then_rerun_downloads_nothing(raw, downloads, capsys):
     assert fetch.run(argparse.Namespace(dry_run=False)) == 0
     assert len(downloads) == 2
-    manifest = json.loads((raw / "manifest.json").read_text())
+    manifest = json.loads((raw / "manifest.json").read_text(encoding="utf-8"))
     assert [f["path"] for f in manifest["files"]] == [
         "PSI-25/docs/PSI-25_Reports_Summary.PDF",
         "PSI-25/tables/PSI-25_Experimental table_BASS-II.csv",
@@ -90,7 +90,7 @@ def test_run_downloads_then_rerun_downloads_nothing(raw, downloads, capsys):
 
     assert fetch.run(argparse.Namespace()) == 0
     assert len(downloads) == 2  # nothing fetched again
-    assert json.loads((raw / "manifest.json").read_text()) == manifest
+    assert json.loads((raw / "manifest.json").read_text(encoding="utf-8")) == manifest
     assert "0 downloaded, 2 already on disk, 0 unavailable at PSI, 0 failed" in capsys.readouterr().out
 
 
@@ -100,7 +100,7 @@ def test_file_already_on_disk_is_hashed_not_downloaded(raw, downloads):
     table.write_bytes(b"y" * 11)
     assert fetch.run(argparse.Namespace()) == 0
     assert [name for _, name, _ in downloads] == ["PSI-25_Reports_Summary.PDF"]
-    entry = json.loads((raw / "manifest.json").read_text())["files"][1]
+    entry = json.loads((raw / "manifest.json").read_text(encoding="utf-8"))["files"][1]
     assert len(entry["sha256"]) == 64
 
 
@@ -115,7 +115,7 @@ def test_network_failure_fails_the_run_but_a_404_does_not(raw, monkeypatch, caps
     out = capsys.readouterr().out
     assert "0 downloaded, 0 already on disk, 1 unavailable at PSI, 1 failed" in out
     assert "FAILED: PSI-25/tables/PSI-25_Experimental table_BASS-II.csv: connection dropped" in out
-    manifest = json.loads((raw / "manifest.json").read_text())
+    manifest = json.loads((raw / "manifest.json").read_text(encoding="utf-8"))
     assert manifest["files"] == []
     assert [u["path"] for u in manifest["unavailable"]] == ["PSI-25/docs/PSI-25_Reports_Summary.PDF"]
 
@@ -134,7 +134,7 @@ def test_size_different_from_listing_is_kept_and_not_refetched(raw, monkeypatch)
 
     monkeypatch.setattr(psi, "download", download)
     assert fetch.run(argparse.Namespace()) == 0
-    files = json.loads((raw / "manifest.json").read_text())["files"]
+    files = json.loads((raw / "manifest.json").read_text(encoding="utf-8"))["files"]
     assert [(f["bytes"], f["listed_bytes"]) for f in files] == [(20, 7), (20, 11)]
     assert fetch.run(argparse.Namespace()) == 0
     assert len(calls) == 2

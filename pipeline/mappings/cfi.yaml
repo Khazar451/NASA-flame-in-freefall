@@ -1,5 +1,6 @@
 # CFI: Cool Flames Investigation (droplets in the same apparatus as FLEX).
-# Eight test ids appear twice in the table; the repeats get a ~2 suffix.
+# Eight test ids appear twice in the table, each time as an exact copy of the earlier row; the build
+# drops the copies (87 source rows, 79 kept).
 investigation: PSI-39
 table: CFI.csv
 fuel_phase: liquid
