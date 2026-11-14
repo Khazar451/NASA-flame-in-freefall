@@ -66,7 +66,6 @@ function groupTests(rows: Placed[]): Group[] {
 }
 // Mark diameter in pixels: area grows with the number of tests.
 const diameter = (n: number) => Math.min(34, 8 + 3 * Math.sqrt(n));
-const LABEL_FROM = 10; // marks this big carry their count
 
 function describe(g: Group, title: string): string {
   const n = g.tests.length;
@@ -141,7 +140,7 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
       const ph = PHASES.find((p) => p.key === key)!;
       const groups = groupTests(shown.filter((t) => t.fuel_phase === ph.key));
       return {
-        type: 'scatter', mode: 'markers+text', name: ph.label, showlegend: false,
+        type: 'scatter', mode: 'markers', name: ph.label, showlegend: false,
         x: groups.map((g) => g.psi), y: groups.map((g) => g.o2),
         customdata: groups.map((g) => g.inv),
         marker: {
@@ -149,8 +148,6 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
           size: groups.map((g) => diameter(g.tests.length)),
           line: { width: 1.5, color: SURFACE },
         },
-        text: groups.map((g) => (g.tests.length >= LABEL_FROM ? String(g.tests.length) : '')),
-        textposition: 'middle center', textfont: { color: '#ffffff', size: 11 },
         hovertext: groups.map((g) => {
           const inv = byId.get(g.inv);
           return describe(g, inv ? name(inv) : g.inv);
@@ -233,8 +230,8 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
           label="Bubble chart of test oxygen level against total pressure, sized by number of tests, with habitat atmospheres marked"
         />
         <p className="quiet">
-          {biggest >= LABEL_FROM && `A number on a mark is its test count; the largest holds ${biggest}. `}
-          Hover a mark for its tests and how their flames ended. Select it to see its investigation.{' '}
+          {biggest > 1 && `The largest mark holds ${biggest} tests. `}
+          Hover a mark for its number of tests and how their flames ended. Select it to see its investigation.{' '}
           {zoom === 'full'
             ? 'Full range shows the whole oxygen scale, including the atmospheres nobody has tested.'
             : 'Tested range zooms in on the oxygen levels the tests cover; the spacesuit and most of the lunar range are above it.'}
