@@ -423,7 +423,7 @@
   {
    "investigation_id": "PSI-26",
    "n_tests": 122,
-   "summary": "Varied: fuel (31 different entries). Not recorded: oxygen, pressure, flow speed, diluent gas.",
+   "summary": "Varied: fuel (31 different entries). Assumed, not in the table: oxygen 21 %; pressure 101 kPa. Not recorded: flow speed, diluent gas.",
    "conditions": [
     {
      "field": "fuel_material",
@@ -455,26 +455,30 @@
      "field": "o2_pct",
      "label": "Oxygen",
      "unit": "%",
-     "status": "not_recorded",
-     "assumed": false,
-     "n_with_value": 0,
-     "min": null,
-     "max": null,
-     "levels": [],
-     "n_levels": 0,
+     "status": "constant",
+     "assumed": true,
+     "n_with_value": 122,
+     "min": 21.0,
+     "max": 21.0,
+     "levels": [
+      21.0
+     ],
+     "n_levels": 1,
      "precision": 1.0
     },
     {
      "field": "pressure_kpa",
      "label": "Pressure",
      "unit": "kPa",
-     "status": "not_recorded",
-     "assumed": false,
-     "n_with_value": 0,
-     "min": null,
-     "max": null,
-     "levels": [],
-     "n_levels": 0,
+     "status": "constant",
+     "assumed": true,
+     "n_with_value": 122,
+     "min": 101.325,
+     "max": 101.325,
+     "levels": [
+      100.0
+     ],
+     "n_levels": 1,
      "precision": 5.0
     },
     {
@@ -1015,7 +1019,7 @@
   {
    "investigation_id": "PSI-100",
    "n_tests": 2,
-   "summary": "Varied: flow direction (2 different entries). Constant: fuel SIBAL Fabric; flow speed 30 cm/s; sample thickness .33 cm. Not recorded: oxygen, pressure, diluent gas.",
+   "summary": "Varied: flow direction (2 different entries). Constant: fuel SIBAL Fabric; flow speed 30 cm/s; sample thickness .33 cm. Assumed, not in the table: oxygen 21 %; pressure 101 kPa. Not recorded: diluent gas.",
    "conditions": [
     {
      "field": "fuel_material",
@@ -1036,26 +1040,30 @@
      "field": "o2_pct",
      "label": "Oxygen",
      "unit": "%",
-     "status": "not_recorded",
-     "assumed": false,
-     "n_with_value": 0,
-     "min": null,
-     "max": null,
-     "levels": [],
-     "n_levels": 0,
+     "status": "constant",
+     "assumed": true,
+     "n_with_value": 2,
+     "min": 21.0,
+     "max": 21.0,
+     "levels": [
+      21.0
+     ],
+     "n_levels": 1,
      "precision": 1.0
     },
     {
      "field": "pressure_kpa",
      "label": "Pressure",
      "unit": "kPa",
-     "status": "not_recorded",
-     "assumed": false,
-     "n_with_value": 0,
-     "min": null,
-     "max": null,
-     "levels": [],
-     "n_levels": 0,
+     "status": "constant",
+     "assumed": true,
+     "n_with_value": 2,
+     "min": 101.325,
+     "max": 101.325,
+     "levels": [
+      100.0
+     ],
+     "n_levels": 1,
      "precision": 5.0
     },
     {
@@ -1327,7 +1335,7 @@
   {
    "investigation_id": "PSI-107",
    "n_tests": 435,
-   "summary": "Varied: fuel (7 different entries); flow speed 0.66–85.3 cm/s (58 levels); nozzle diameter 0.406–1.6 mm (3 levels). Not recorded: oxygen, pressure, diluent gas. Recorded for some tests only: flow speed (407 of 435).",
+   "summary": "Varied: fuel (7 different entries); flow speed 0.66–85.3 cm/s (58 levels); nozzle diameter 0.406–1.6 mm (3 levels). Assumed, not in the table: oxygen 21 %; pressure 101 kPa. Not recorded: diluent gas. Recorded for some tests only: flow speed (407 of 435).",
    "conditions": [
     {
      "field": "fuel_material",
@@ -1354,26 +1362,30 @@
      "field": "o2_pct",
      "label": "Oxygen",
      "unit": "%",
-     "status": "not_recorded",
-     "assumed": false,
-     "n_with_value": 0,
-     "min": null,
-     "max": null,
-     "levels": [],
-     "n_levels": 0,
+     "status": "constant",
+     "assumed": true,
+     "n_with_value": 435,
+     "min": 21.0,
+     "max": 21.0,
+     "levels": [
+      21.0
+     ],
+     "n_levels": 1,
      "precision": 1.0
     },
     {
      "field": "pressure_kpa",
      "label": "Pressure",
      "unit": "kPa",
-     "status": "not_recorded",
-     "assumed": false,
-     "n_with_value": 0,
-     "min": null,
-     "max": null,
-     "levels": [],
-     "n_levels": 0,
+     "status": "constant",
+     "assumed": true,
+     "n_with_value": 435,
+     "min": 101.325,
+     "max": 101.325,
+     "levels": [
+      100.0
+     ],
+     "n_levels": 1,
      "precision": 5.0
     },
     {

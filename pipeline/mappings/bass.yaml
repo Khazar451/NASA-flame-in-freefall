@@ -1,12 +1,17 @@
 # BASS: the table lists only the date, test numbers and the sample burned. No oxygen,
-# pressure or flow is given, so these rows record which materials were tested.
+# pressure or flow is given. The tests ran in the ISS glovebox, so normal cabin air is
+# assumed, as for SAME, and every row says so (ME to confirm). Flow stays empty.
 investigation: PSI-26
 table: BASS.csv
 fuel_phase: solid
 label: {column: "As Run Test #"}
 fuel_material: {column: Fuel Sample Material}
-o2_pct: null
-pressure_kpa: null
+o2_pct:
+  value: 21
+  assumed: "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed."
+pressure_kpa:
+  value: 101.325
+  assumed: "Pressure not in the source table; ISS cabin pressure (1 atm) assumed."
 flow_cm_s: null
 extra:
   planned_test_number: {column: "Test #", type: text}

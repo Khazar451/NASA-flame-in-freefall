@@ -72,6 +72,8 @@ def test_real_mappings_assume_cabin_air_only_where_agreed():
     assert found == {
         ("PSI-25", ("pressure_kpa",)), ("PSI-98", ("pressure_kpa",)), ("PSI-99", ("pressure_kpa",)),
         ("PSI-101", ("o2_pct", "pressure_kpa")), ("PSI-102", ("o2_pct", "pressure_kpa")),
+        ("PSI-26", ("o2_pct", "pressure_kpa")), ("PSI-100", ("o2_pct", "pressure_kpa")),
+        ("PSI-107", ("o2_pct", "pressure_kpa")),
     }
 
 

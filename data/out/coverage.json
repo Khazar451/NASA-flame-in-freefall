@@ -2,8 +2,8 @@
  "meta": {
   "source": "data/out/tests.json",
   "gravity": "All PSI combustion tests ran in microgravity. No partial-gravity (Moon or Mars) tests exist in PSI.",
-  "tests_on_grid": 994,
-  "tests_not_on_grid": 834,
+  "tests_on_grid": 1553,
+  "tests_not_on_grid": 275,
   "empty_cells": 51,
   "cells": 75
  },
@@ -182,17 +182,19 @@
    "fuel_phase": "solid",
    "o2_band": "o2_air",
    "pressure_band": "p_cabin",
-   "n_tests": 175,
-   "n_pressure_assumed": 175,
+   "n_tests": 299,
+   "n_pressure_assumed": 299,
    "investigations": [
     "PSI-25",
+    "PSI-26",
     "PSI-98",
     "PSI-99",
+    "PSI-100",
     "PSI-101",
     "PSI-102"
    ],
    "outcomes": {
-    "unknown": 175
+    "unknown": 299
    },
    "habitats": [
     "cabin"
@@ -779,15 +781,16 @@
    "fuel_phase": "gas",
    "o2_band": "o2_air",
    "pressure_band": "p_cabin",
-   "n_tests": 105,
-   "n_pressure_assumed": 0,
+   "n_tests": 540,
+   "n_pressure_assumed": 435,
    "investigations": [
     "PSI-10",
     "PSI-20",
+    "PSI-107",
     "PSI-159"
    ],
    "outcomes": {
-    "unknown": 71,
+    "unknown": 506,
     "extinguished": 22,
     "no_ignition": 12
    },
@@ -1016,14 +1019,6 @@
   },
   {
    "fuel_phase": "gas",
-   "reason": "source table gives neither oxygen nor pressure",
-   "n_tests": 435,
-   "investigations": [
-    "PSI-107"
-   ]
-  },
-  {
-   "fuel_phase": "gas",
    "reason": "source table gives no oxygen",
    "n_tests": 11,
    "investigations": [
@@ -1036,15 +1031,6 @@
    "n_tests": 1,
    "investigations": [
     "PSI-69"
-   ]
-  },
-  {
-   "fuel_phase": "solid",
-   "reason": "source table gives neither oxygen nor pressure",
-   "n_tests": 124,
-   "investigations": [
-    "PSI-26",
-    "PSI-100"
    ]
   }
  ]
