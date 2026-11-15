@@ -3,7 +3,7 @@
   "source": "NASA Physical Sciences Informatics (psi.nasa.gov) experimental tables",
   "total_rows": 1828,
   "sample_rows": 0,
-  "rows_with_o2_and_pressure": 1553,
+  "rows_with_o2_and_pressure": 1431,
   "tables": [
    {
     "investigation": "PSI-10",
@@ -13211,21 +13211,18 @@
    "test_label": "1",
    "fuel_material": "SIBAL 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 1
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "1",
     "sample_number": "4",
@@ -13238,21 +13235,18 @@
    "test_label": "2",
    "fuel_material": "PMMA sphere 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 2
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "42",
     "sample_number": "24",
@@ -13265,21 +13259,18 @@
    "test_label": "3",
    "fuel_material": "PMMA sphere 1 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 3
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "18",
     "sample_number": "19",
@@ -13292,21 +13283,18 @@
    "test_label": "4",
    "fuel_material": "SIBAL 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 4
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "7",
     "sample_number": "10",
@@ -13319,21 +13307,18 @@
    "test_label": "5",
    "fuel_material": "SIBAL 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 5
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "8",
     "sample_number": "11",
@@ -13346,21 +13331,18 @@
    "test_label": "6",
    "fuel_material": "PMMA sphere 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 6
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "43",
     "sample_number": "24",
@@ -13373,21 +13355,18 @@
    "test_label": "7",
    "fuel_material": "PMMA sphere 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 7
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "44",
     "sample_number": "24",
@@ -13400,21 +13379,18 @@
    "test_label": "8",
    "fuel_material": "PMMA sphere 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 8
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "45",
     "sample_number": "24",
@@ -13427,21 +13403,18 @@
    "test_label": "9",
    "fuel_material": "PMMA sphere 1 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 9
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "19",
     "sample_number": "19",
@@ -13454,21 +13427,18 @@
    "test_label": "10",
    "fuel_material": "PMMA sphere 1 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 10
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "20",
     "sample_number": "19",
@@ -13481,21 +13451,18 @@
    "test_label": "11",
    "fuel_material": "PMMA sphere 1 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 11
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "21",
     "sample_number": "19",
@@ -13508,21 +13475,18 @@
    "test_label": "12",
    "fuel_material": "SIBAL 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 12
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "4",
     "sample_number": "12",
@@ -13535,21 +13499,18 @@
    "test_label": "13",
    "fuel_material": "SIBAL 1 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 13
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "10",
     "sample_number": "2",
@@ -13562,21 +13523,18 @@
    "test_label": "14",
    "fuel_material": "Nomex blend 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 14
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "12",
     "sample_number": "27",
@@ -13589,21 +13547,18 @@
    "test_label": "15",
    "fuel_material": "PMMA 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 15
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "54",
     "sample_number": "21",
@@ -13616,21 +13571,18 @@
    "test_label": "16",
    "fuel_material": "PMMA 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 16
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "55",
     "sample_number": "21",
@@ -13643,21 +13595,18 @@
    "test_label": "17",
    "fuel_material": "PMMA 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 17
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "56",
     "sample_number": "21",
@@ -13670,21 +13619,18 @@
    "test_label": "18",
    "fuel_material": "PMMA 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 18
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "57",
     "sample_number": "21",
@@ -13697,21 +13643,18 @@
    "test_label": "19",
    "fuel_material": "PMMA 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 19
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "110",
     "sample_number": "21",
@@ -13724,21 +13667,18 @@
    "test_label": "20",
    "fuel_material": "PMMA 1 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 20
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "30",
     "sample_number": "15",
@@ -13751,21 +13691,18 @@
    "test_label": "21",
    "fuel_material": "PMMA 1 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 21
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "31",
     "sample_number": "15",
@@ -13778,21 +13715,18 @@
    "test_label": "22",
    "fuel_material": "PMMA 1 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 22
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "32",
     "sample_number": "15",
@@ -13805,21 +13739,18 @@
    "test_label": "23",
    "fuel_material": "PMMA 1 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 23
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "33",
     "sample_number": "15",
@@ -13832,21 +13763,18 @@
    "test_label": "24",
    "fuel_material": "Nomex blend 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 24
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "12-R",
     "sample_number": "27",
@@ -13859,21 +13787,18 @@
    "test_label": "24~2",
    "fuel_material": "Nomex blend 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 25
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "12-R2",
     "sample_number": "27",
@@ -13886,21 +13811,18 @@
    "test_label": "25",
    "fuel_material": "2 cm sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 26
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "46",
     "sample_number": "22",
@@ -13913,21 +13835,18 @@
    "test_label": "26",
    "fuel_material": "2 cm sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 27
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "47",
     "sample_number": "22",
@@ -13940,21 +13859,18 @@
    "test_label": "27",
    "fuel_material": "2 cm sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 28
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "48",
     "sample_number": "22",
@@ -13967,21 +13883,18 @@
    "test_label": "28",
    "fuel_material": "2 cm sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 29
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "49",
     "sample_number": "22",
@@ -13994,21 +13907,18 @@
    "test_label": "29",
    "fuel_material": "1 cm sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 30
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "22",
     "sample_number": "18",
@@ -14021,21 +13931,18 @@
    "test_label": "30",
    "fuel_material": "1 cm sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 31
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "23",
     "sample_number": "18",
@@ -14048,21 +13955,18 @@
    "test_label": "31",
    "fuel_material": "1 cm sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 32
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "24",
     "sample_number": "18",
@@ -14075,21 +13979,18 @@
    "test_label": "32",
    "fuel_material": "1 cm sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 33
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "25",
     "sample_number": "18",
@@ -14102,21 +14003,18 @@
    "test_label": "33",
    "fuel_material": "2 cm sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 34
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "58",
     "sample_number": "25",
@@ -14129,21 +14027,18 @@
    "test_label": "34",
    "fuel_material": "2 cm sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 35
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "59",
     "sample_number": "25",
@@ -14156,21 +14051,18 @@
    "test_label": "35",
    "fuel_material": "2 cm sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 36
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "60",
     "sample_number": "25",
@@ -14183,21 +14075,18 @@
    "test_label": "36",
    "fuel_material": "2 cm sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 37
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "61",
     "sample_number": "25",
@@ -14210,21 +14099,18 @@
    "test_label": "37",
    "fuel_material": "SIBAL 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 38
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "5",
     "sample_number": "9",
@@ -14237,21 +14123,18 @@
    "test_label": "38",
    "fuel_material": "Nomex III Natural",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 39
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "14",
     "sample_number": "29",
@@ -14264,21 +14147,18 @@
    "test_label": "39",
    "fuel_material": "PMMA slab",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 40
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "66",
     "sample_number": "33",
@@ -14291,21 +14171,18 @@
    "test_label": "40",
    "fuel_material": "PMMA slab",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 41
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "67",
     "sample_number": "33",
@@ -14318,21 +14195,18 @@
    "test_label": "41",
    "fuel_material": "1 cm sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 42
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "34",
     "sample_number": "16",
@@ -14345,21 +14219,18 @@
    "test_label": "42",
    "fuel_material": "1 cm sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 43
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "35",
     "sample_number": "16",
@@ -14372,21 +14243,18 @@
    "test_label": "43",
    "fuel_material": "ultem sheet",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 44
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "16",
     "sample_number": "31",
@@ -14399,21 +14267,18 @@
    "test_label": "44",
    "fuel_material": "SIBAL 2 cm opposed flow",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 45
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "5b",
     "sample_number": "9",
@@ -14426,21 +14291,18 @@
    "test_label": "45",
    "fuel_material": "SIBAL 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 46
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "6",
     "sample_number": "8",
@@ -14453,21 +14315,18 @@
    "test_label": "46",
    "fuel_material": "candle",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 47
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "82",
     "sample_number": "35",
@@ -14480,21 +14339,18 @@
    "test_label": "47",
    "fuel_material": "candle",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 48
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "82a",
     "sample_number": "35",
@@ -14507,21 +14363,18 @@
    "test_label": "48",
    "fuel_material": "candle",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 49
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "82b",
     "sample_number": "35",
@@ -14534,21 +14387,18 @@
    "test_label": "49",
    "fuel_material": "pmma slab",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 50
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "68",
     "sample_number": "33",
@@ -14561,21 +14411,18 @@
    "test_label": "50",
    "fuel_material": "pmma slab",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 51
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "69",
     "sample_number": "33",
@@ -14588,21 +14435,18 @@
    "test_label": "51",
    "fuel_material": "2 cm sphere wake ign",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 52
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "111",
     "sample_number": "21",
@@ -14615,21 +14459,18 @@
    "test_label": "52",
    "fuel_material": "2 cm sphere wake ign",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 53
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "112",
     "sample_number": "21",
@@ -14642,21 +14483,18 @@
    "test_label": "53",
    "fuel_material": "2 cm sphere wake ign",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 54
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "113",
     "sample_number": "21",
@@ -14669,21 +14507,18 @@
    "test_label": "54",
    "fuel_material": "SIBAL 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 55
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "2",
     "sample_number": "5",
@@ -14696,21 +14531,18 @@
    "test_label": "55",
    "fuel_material": "SIBAL 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 56
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "3",
     "sample_number": "6",
@@ -14723,21 +14555,18 @@
    "test_label": "56",
    "fuel_material": "nomex natural III",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 57
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "15",
     "sample_number": "30",
@@ -14750,21 +14579,18 @@
    "test_label": "57",
    "fuel_material": "Nomex blend 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 58
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "13",
     "sample_number": "28",
@@ -14777,21 +14603,18 @@
    "test_label": "58",
    "fuel_material": "ultem sheet",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 59
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "17",
     "sample_number": "32",
@@ -14804,21 +14627,18 @@
    "test_label": "59",
    "fuel_material": "pmma sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 60
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "114",
     "sample_number": "25",
@@ -14831,21 +14651,18 @@
    "test_label": "60",
    "fuel_material": "PMMA sphere 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 61
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "62",
     "sample_number": "23",
@@ -14858,21 +14675,18 @@
    "test_label": "61",
    "fuel_material": "PMMA sphere 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 62
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "63",
     "sample_number": "23",
@@ -14885,21 +14699,18 @@
    "test_label": "62",
    "fuel_material": "PMMA sphere 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 63
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "64",
     "sample_number": "23",
@@ -14912,21 +14723,18 @@
    "test_label": "63",
    "fuel_material": "PMMA sphere 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 64
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "65",
     "sample_number": "23",
@@ -14939,21 +14747,18 @@
    "test_label": "64",
    "fuel_material": "PMMA sphere 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 65
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "118",
     "sample_number": "23",
@@ -14966,21 +14771,18 @@
    "test_label": "row 66",
    "fuel_material": "SOOT Cleaning",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 66
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "date": "8/3/2012"
    }
@@ -14991,21 +14793,18 @@
    "test_label": "65",
    "fuel_material": "SIBAL 1 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 67
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "11",
     "sample_number": "3",
@@ -15018,21 +14817,18 @@
    "test_label": "66",
    "fuel_material": "SIBAL 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 68
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "9",
     "sample_number": "7",
@@ -15045,21 +14841,18 @@
    "test_label": "67",
    "fuel_material": "PMMA sphere 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 69
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "102",
     "sample_number": "22",
@@ -15072,21 +14865,18 @@
    "test_label": "68",
    "fuel_material": "Japan Wax Candle wake",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 70
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "83a",
     "sample_number": "36",
@@ -15099,21 +14889,18 @@
    "test_label": "69",
    "fuel_material": "Japan Wax Candle wake",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 71
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "83b",
     "sample_number": "36",
@@ -15126,21 +14913,18 @@
    "test_label": "70",
    "fuel_material": "Japan Wax Candle wake",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 72
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "83c",
     "sample_number": "36",
@@ -15153,21 +14937,18 @@
    "test_label": "71",
    "fuel_material": "Japan Wax Candle wake",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 73
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "84a",
     "sample_number": "37",
@@ -15180,21 +14961,18 @@
    "test_label": "72",
    "fuel_material": "Japan Wax Candle wake",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 74
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "84b",
     "sample_number": "37",
@@ -15207,21 +14985,18 @@
    "test_label": "73",
    "fuel_material": "Japan Wax Candle wake",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 75
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "86a",
     "sample_number": "38",
@@ -15234,21 +15009,18 @@
    "test_label": "74",
    "fuel_material": "Japan Wax Candle wake",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 76
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "86b",
     "sample_number": "38",
@@ -15261,21 +15033,18 @@
    "test_label": "75",
    "fuel_material": "Japan Wax Candle wake",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 77
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "86c",
     "sample_number": "38",
@@ -15288,21 +15057,18 @@
    "test_label": "76",
    "fuel_material": "PMMA slab",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 78
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "70",
     "sample_number": "34",
@@ -15315,21 +15081,18 @@
    "test_label": "77",
    "fuel_material": "PMMA slab",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 79
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "71",
     "sample_number": "34",
@@ -15342,21 +15105,18 @@
    "test_label": "78",
    "fuel_material": "paraffin wax slab",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 80
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "74",
     "sample_number": "41",
@@ -15369,21 +15129,18 @@
    "test_label": "79",
    "fuel_material": "parrafin wax slab",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 81
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "75",
     "sample_number": "41",
@@ -15396,21 +15153,18 @@
    "test_label": "80",
    "fuel_material": "PMMA 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 82
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "98",
     "sample_number": "24",
@@ -15423,21 +15177,18 @@
    "test_label": "81",
    "fuel_material": "PMMA 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 83
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "99",
     "sample_number": "24",
@@ -15450,21 +15201,18 @@
    "test_label": "82",
    "fuel_material": "PMMA 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 84
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "114",
     "sample_number": "25",
@@ -15477,21 +15225,18 @@
    "test_label": "83",
    "fuel_material": "pmma 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 85
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "115",
     "sample_number": "25",
@@ -15504,21 +15249,18 @@
    "test_label": "84",
    "fuel_material": "pmma 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 86
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "116",
     "sample_number": "25",
@@ -15531,21 +15273,18 @@
    "test_label": "85",
    "fuel_material": "pmma 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 87
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "117",
     "sample_number": "25",
@@ -15558,21 +15297,18 @@
    "test_label": "85~2",
    "fuel_material": "pmma 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 88
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "117a",
     "sample_number": "25",
@@ -15585,21 +15321,18 @@
    "test_label": "86",
    "fuel_material": "pmma 2 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 89
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "100",
     "sample_number": "24",
@@ -15612,21 +15345,18 @@
    "test_label": "87",
    "fuel_material": "candle paraffin wake",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 90
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "85",
     "sample_number": "43",
@@ -15639,21 +15369,18 @@
    "test_label": "88",
    "fuel_material": "candle paraffin wake",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 91
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "93",
     "sample_number": "43",
@@ -15666,21 +15393,18 @@
    "test_label": "89",
    "fuel_material": "pmma 1 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 92
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "26",
     "sample_number": "17",
@@ -15693,21 +15417,18 @@
    "test_label": "90",
    "fuel_material": "pmma 1 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 93
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "27",
     "sample_number": "17",
@@ -15720,21 +15441,18 @@
    "test_label": "91",
    "fuel_material": "pmma 1 cm",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 94
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "28",
     "sample_number": "17",
@@ -15747,21 +15465,18 @@
    "test_label": "89~2",
    "fuel_material": "candle Japan wax",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 95
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "87",
     "sample_number": "40",
@@ -15774,21 +15489,18 @@
    "test_label": "90~2",
    "fuel_material": "2 cm sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 96
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "103",
     "sample_number": "22",
@@ -15801,21 +15513,18 @@
    "test_label": "91~2",
    "fuel_material": "2 cm sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 97
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "104",
     "sample_number": "22",
@@ -15828,21 +15537,18 @@
    "test_label": "92",
    "fuel_material": "2 cm sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 98
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "105",
     "sample_number": "22",
@@ -15855,21 +15561,18 @@
    "test_label": "93",
    "fuel_material": "1 cm sphere wake",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 99
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "38",
     "sample_number": "20",
@@ -15882,21 +15585,18 @@
    "test_label": "94",
    "fuel_material": "1 cm wake sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 100
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "39",
     "sample_number": "20",
@@ -15909,21 +15609,18 @@
    "test_label": "95",
    "fuel_material": "1 cm wake sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 101
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "40",
     "sample_number": "20",
@@ -15936,21 +15633,18 @@
    "test_label": "96",
    "fuel_material": "pmma slab opposed",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 102
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "72",
     "sample_number": "34",
@@ -15963,21 +15657,18 @@
    "test_label": "97",
    "fuel_material": "pmma slab oppsed",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 103
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "73",
     "sample_number": "34",
@@ -15990,21 +15681,18 @@
    "test_label": "98",
    "fuel_material": "2 cm pmma sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 104
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "118",
     "sample_number": "23",
@@ -16017,21 +15705,18 @@
    "test_label": "99",
    "fuel_material": "2 cm pmma sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 105
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "119",
     "sample_number": "23",
@@ -16044,21 +15729,18 @@
    "test_label": "100",
    "fuel_material": "parrafin wax candle",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 106
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "89",
     "sample_number": "44",
@@ -16071,21 +15753,18 @@
    "test_label": "101",
    "fuel_material": "paraffin wax candle",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 107
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "95",
     "sample_number": "44",
@@ -16098,21 +15777,18 @@
    "test_label": "102",
    "fuel_material": "candle Japan wax",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 108
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "92",
     "sample_number": "40",
@@ -16125,21 +15801,18 @@
    "test_label": "103",
    "fuel_material": "paraffin wax slab",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 109
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "78",
     "sample_number": "42",
@@ -16152,21 +15825,18 @@
    "test_label": "104",
    "fuel_material": "2 cm pmma sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 110
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "50",
     "sample_number": "26",
@@ -16179,21 +15849,18 @@
    "test_label": "105",
    "fuel_material": "2 cm sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 111
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "51",
     "sample_number": "26",
@@ -16206,21 +15873,18 @@
    "test_label": "106",
    "fuel_material": "2 cm sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 112
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "52",
     "sample_number": "26",
@@ -16233,21 +15897,18 @@
    "test_label": "107",
    "fuel_material": "2 cm sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 113
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "53",
     "sample_number": "26",
@@ -16260,21 +15921,18 @@
    "test_label": "108",
    "fuel_material": "2 cm sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 114
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "106",
     "sample_number": "26",
@@ -16287,21 +15945,18 @@
    "test_label": "109",
    "fuel_material": "2 cm sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 115
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "107",
     "sample_number": "26",
@@ -16314,21 +15969,18 @@
    "test_label": "110",
    "fuel_material": "2 cm sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 116
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "108",
     "sample_number": "26",
@@ -16341,21 +15993,18 @@
    "test_label": "111",
    "fuel_material": "2 cm sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 117
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "109",
     "sample_number": "26",
@@ -16368,21 +16017,18 @@
    "test_label": "112",
    "fuel_material": "flat wax slab",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 118
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "79",
     "sample_number": "42",
@@ -16395,21 +16041,18 @@
    "test_label": "113",
    "fuel_material": "flat wax slab",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 119
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "80",
     "sample_number": "42",
@@ -16422,21 +16065,18 @@
    "test_label": "114",
    "fuel_material": "flat wax slab",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 120
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "75",
     "sample_number": "41",
@@ -16449,21 +16089,18 @@
    "test_label": "115",
    "fuel_material": "pmma sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 121
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "53",
     "sample_number": "26",
@@ -16476,21 +16113,18 @@
    "test_label": "116",
    "fuel_material": "pmma sphere",
    "fuel_phase": "solid",
-   "o2_pct": 21.0,
-   "pressure_kpa": 101.325,
+   "o2_pct": null,
+   "pressure_kpa": null,
    "flow_cm_s": null,
    "diluent": null,
    "outcome": "unknown",
-   "note": "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed. Pressure not in the source table; ISS cabin pressure (1 atm) assumed.",
+   "note": null,
    "source": {
     "file": "PSI-26_Experimental table_BASS.csv",
     "row": 122
    },
    "sample": false,
-   "assumed": [
-    "o2_pct",
-    "pressure_kpa"
-   ],
+   "assumed": [],
    "extra": {
     "planned_test_number": "53a",
     "sample_number": "26",

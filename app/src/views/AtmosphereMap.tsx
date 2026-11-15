@@ -5,7 +5,7 @@ import Plot from '../components/Plot';
 import { name } from '../data';
 import { SMOKE_NOTE, SUMMARY_NOTE, assumedLine, formula, isReportSummary, isSmokeStudy, summaries } from '../format';
 import { FLOW_REGIMES, flowRegime, type FlowRegime } from '../flow';
-import { EDGE_NOTE_PSI, EXPLORATION, HABITATS, toPsi } from '../habitats';
+import { EDGE_NOTE_PSI, HABITATS, NASA_PLANNED, PLANNED_MAX_O2, toPsi } from '../habitats';
 import { hasAtmosphere, insideHabitat } from '../scoring';
 import { isCoolFlameStudy } from '../topics';
 import type { Dataset, FuelPhase, Investigation, Role, TestRow } from '../types';
@@ -30,11 +30,11 @@ const ROLES: { key: Filter; label: string }[] = [
 const matches = (inv: Investigation | undefined, filter: Filter) =>
   filter === 'all' || (filter === 'cool' ? isCoolFlameStudy(inv) : inv?.role === filter);
 const LUNAR = HABITATS.find((h) => h.id === 'lunar')!;
-// Reference marks: the cabin and spacesuit atmospheres, and NASA's planned
-// exploration atmosphere inside the lunar range.
+// Reference marks: the cabin and spacesuit atmospheres beside their labels, and
+// NASA's planned atmospheres, whose labels are drawn as annotations (see layout).
 const POINTS = [
   ...HABITATS.filter((h) => h.id !== 'lunar').map((h) => ({ psi: h.psi[0], o2: h.o2[0], label: h.short, basis: h.basis })),
-  { psi: EXPLORATION.psi, o2: EXPLORATION.o2, label: EXPLORATION.label, basis: EXPLORATION.basis },
+  ...NASA_PLANNED.map((p) => ({ psi: p.psi, o2: p.o2, label: '', basis: p.basis })),
 ];
 // Drawn in this order, so solid fuel (what a cabin is made of) ends on top.
 const DRAW_ORDER: FuelPhase[] = ['gas', 'liquid', 'solid'];
@@ -165,9 +165,8 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
   const traces = useMemo(() => {
     const [p0, p1] = LUNAR.psi;
     const [o0, o1] = LUNAR.o2;
-    // The range is a thin band with NASA's planned atmosphere inside it, so its
-    // label sits just below it.
-    const zoneLabelY = Math.max(o0 - 2.5, yRange[0] + 1);
+    // Near the top of the range when the axis shows it, otherwise near its foot.
+    const zoneLabelY = o1 - 4 < yRange[1] ? o1 - 4 : o0 + 1.5;
     const zone = {
       type: 'scatter', mode: 'lines', x: [p0, p1, p1, p0, p0], y: [o0, o0, o1, o1, o0],
       fill: 'toself', fillcolor: 'rgba(22,32,46,0.07)', line: { color: INK, width: 1, dash: 'dot' },
@@ -225,6 +224,17 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
       },
       yaxis: { ...AXIS, title: { text: 'Oxygen (% by volume)' }, range: yRange },
       legend: { orientation: 'h', y: 1.08, x: 0 },
+      // NASA's planned atmospheres sit among the test marks, so their labels
+      // stand in clear space with a thin line to the point: the 34% one above
+      // it, the 26.5% one to its left. On a log axis, annotation x is log10.
+      annotations: NASA_PLANNED.map((p, i) => ({
+        x: Math.log10(p.psi), y: p.o2, xref: 'x', yref: 'y', axref: 'x', ayref: 'y',
+        ...(i === 0
+          ? { ax: Math.log10(p.psi), ay: Math.min(50, yRange[1] - 2) }
+          : { ax: Math.log10(5.6), ay: p.o2 - 1 }),
+        text: p.label, showarrow: true, arrowhead: 0, arrowwidth: 1, arrowcolor: INK,
+        standoff: 8, font: { color: INK, size: 12 }, bgcolor: SURFACE, borderpad: 2,
+      })),
     }),
     [yRange],
   );
@@ -249,6 +259,7 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
     return t.o2_pct >= LUNAR.o2[0] && t.o2_pct <= LUNAR.o2[1] && over > 0 && over <= EDGE_NOTE_PSI;
   });
   const lunarSolid = lunarInside.filter((t) => t.fuel_phase === 'solid').length;
+  const lunarRicher = lunarInside.filter((t) => t.o2_pct > PLANNED_MAX_O2).length;
   const cabin = HABITATS[0];
   const nearCabin = tests.filter((t) => Math.abs(t.o2_pct - cabin.o2[0]) <= 1.5 && Math.abs(toPsi(t.pressure_kpa) - cabin.psi[0]) <= 0.5);
   const sel = selected ? byId.get(selected) : undefined;
@@ -329,6 +340,12 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
             {count(nearCabin.length, 'test')} {nearCabin.length === 1 ? 'sits' : 'sit'} at or near ordinary cabin
             air.
           </p>
+          {lunarRicher > 0 && (
+            <p>
+              {lunarRicher} of the {lunarInside.length} ran in more oxygen than NASA's planned {PLANNED_MAX_O2}%: a
+              harsher case than a habitat should see, which makes them conservative evidence.
+            </p>
+          )}
           {lunarEdge.length > 0 && (
             <p>
               {count(lunarEdge.length, 'more test')} from {from(lunarEdge).join(', ')}{' '}

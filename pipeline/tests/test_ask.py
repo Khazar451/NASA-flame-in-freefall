@@ -75,7 +75,7 @@ def test_read_question(kb, question, expected):
 
 def test_habitat_words_set_ranges_unless_a_limit_is_given(kb):
     q = ask.read_question("Has any material burned at lunar-habitat conditions (30% oxygen, 10.2 psi)?", kb)
-    assert q.habitat == "lunar" and q.o2 == (30.0, 36.0) and q.pressure == (29.65, 70.33)
+    assert q.habitat == "lunar" and q.o2 == (30.0, 100.0) and q.pressure == (29.65, 70.33)
     q = ask.read_question("lunar rover with oxygen above 40%", kb)
     assert q.o2 == (40.0, None) and q.pressure == (29.65, 70.33)
 
