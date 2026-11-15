@@ -44,6 +44,7 @@ export default function Ask() {
 
   return (
     <section className="panel narrow">
+      <p className="eyebrow"><b>04</b> Questions</p>
       <h2>Ask about the experiments</h2>
       <p className="lede">Answers come from the investigation records and cite the source for every claim.</p>
       {!API && (

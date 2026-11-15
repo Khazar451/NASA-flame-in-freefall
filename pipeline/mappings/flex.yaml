@@ -1,8 +1,10 @@
 # FLEX: Flame Extinguishment Experiment. One row per droplet burn.
 # The header abbreviates the gases as "O", "N", "CO" and "He". FLEX diluted the
 # atmosphere with nitrogen, carbon dioxide or helium, so "CO" is read as CO2.
-# TO CHECK (ME): "Completion" is mapped to sustained (the droplet burned out);
-# "Disruption" (the droplet broke up) is left as unknown.
+# Confirmed by the domain lead (ME), 15 Nov 2026: "Completion" is mapped to sustained. The
+# droplet burned away completely, also in the 10 tests where the table first records a
+# visible-flame extinction diameter above zero: the visible flame went out and the droplet
+# went on burning. "Disruption" (the droplet broke up) is left as unknown.
 investigation: PSI-69
 table: FLEX.csv
 fuel_phase: liquid

@@ -39,6 +39,9 @@ export interface TestRow {
   note: string | null;
   source: { file: string; row: number } | null;
   sample: boolean; // true = placeholder row, not a NASA result
+  // The fields whose value the pipeline assumed, not read from the source table.
+  // Absent in placeholder data made by scripts/make-sample-data.mjs.
+  assumed?: ('o2_pct' | 'pressure_kpa' | 'flow_cm_s')[];
   // Optional: values only some experiment families report, e.g. burn_time_s.
   extra?: Record<string, number | string | boolean | null> | null;
 }

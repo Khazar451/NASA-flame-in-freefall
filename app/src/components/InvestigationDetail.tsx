@@ -82,8 +82,8 @@ export default function InvestigationDetail({ inv, tests, byId }: Props) {
   // The source writes one mixture two ways (N2+CO2, CO2+N2); sort the parts so they count as one.
   const gases = tally(tests.map((t) => t.diluent && t.diluent.split('+').map((g) => g.trim()).sort().join(' + ')));
   // "(assumed for all tests)" after a range, when the pipeline filled the value in.
-  const assumedFor = (is: (note: string | null) => boolean) => {
-    const n = placed.filter((t) => is(t.note)).length;
+  const assumedFor = (is: (t: TestRow) => boolean) => {
+    const n = placed.filter(is).length;
     return n > 0 ? ` (assumed for ${n === placed.length ? 'all' : n} tests)` : '';
   };
   const smoke = isSmokeStudy(inv);

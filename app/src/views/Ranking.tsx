@@ -71,12 +71,13 @@ export default function Ranking({ data }: { data: Dataset }) {
   return (
     <section className="split">
       <div className="panel">
+        <p className="eyebrow"><b>02</b> Relevance</p>
         <h2>Which investigations matter most for this habitat</h2>
         <p className="lede">
           The score is a weighted sum of four parts. Nothing here is a model's opinion: change a weight and the
           order is recalculated in front of you.
         </p>
-        <div className="chips" role="group" aria-label="Habitat">
+        <div className="chips" role="group" data-label="Habitat" aria-label="Habitat">
           {HABITATS.map((h) => (
             <button key={h.id} type="button" aria-pressed={h.id === habitatId} onClick={() => setHabitatId(h.id)}>
               {h.label}
@@ -84,7 +85,7 @@ export default function Ranking({ data }: { data: Dataset }) {
           ))}
         </div>
         <p className="quiet">{habitat.basis}</p>
-        <div className="chips" role="group" aria-label="Investigations listed">
+        <div className="chips" role="group" data-label="List" aria-label="Investigations listed">
           <button type="button" aria-pressed={!coolOnly} onClick={() => setCoolOnly(false)}>
             All investigations
           </button>
