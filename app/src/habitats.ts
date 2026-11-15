@@ -1,6 +1,6 @@
 // Habitat atmospheres and scoring settings. The numbers in HABITATS come from
-// the challenge brief. Everything under "Scoring settings" is a first draft
-// for the domain lead to adjust.
+// the challenge brief, with the lunar range's oxygen capped as noted there.
+// Everything under "Scoring settings" is a first draft for the domain lead to adjust.
 import type { FuelPhase, Role } from './types';
 
 export const KPA_PER_PSI = 6.894757;
@@ -28,9 +28,13 @@ export const HABITATS: Habitat[] = [
     id: 'lunar',
     label: 'Lunar base or pressurized rover',
     short: 'Lunar base / rover',
-    o2: [30, 100],
+    // The brief says 30% oxygen or more. No crewed habitat or rover is designed
+    // for pure oxygen, so the range stops at 36%: NASA's planned exploration
+    // atmosphere (EXPLORATION below) plus a small margin.
+    o2: [30, 36],
     psi: [4.3, 10.2],
-    basis: 'Challenge brief: likely 30% oxygen or more at 10.2 psi or less, between spacesuit and Earth pressure.',
+    basis:
+      "Challenge brief: 30% oxygen or more at 10.2 psi or less. Capped at 36% oxygen, just above NASA's planned exploration atmosphere of 34% at 8.2 psi; pure oxygen is for spacesuits only.",
   },
   {
     id: 'suit',
@@ -41,6 +45,10 @@ export const HABITATS: Habitat[] = [
     basis: 'Challenge brief: 100% oxygen at 4.3 psi.',
   },
 ];
+
+// NASA's planned atmosphere for exploration habitats and rovers (Exploration
+// Atmospheres Working Group). Drawn on the map as a reference point.
+export const EXPLORATION = { o2: 34, psi: 8.2, label: 'NASA exploration plan', basis: "NASA's planned exploration atmosphere: 34% oxygen at 8.2 psi (56.5 kPa)." };
 
 // ---- Scoring settings (draft) ----------------------------------------------
 
@@ -54,6 +62,12 @@ export const FUEL_RELEVANCE: Record<FuelPhase, number> = {
   liquid: 0.6,
   gas: 0.4,
   other: 0.5,
+};
+
+// Investigations whose fuel counts differently from their fuel phase, and why.
+export const FUEL_OVERRIDES: Record<string, { value: number; why: string }> = {
+  // ACME BRE burns gas on a porous burner built to behave like a burning solid.
+  'PSI-20': { value: 0.85, why: 'Its gas burner emulates a burning solid, so its fuel counts nearly as a solid.' },
 };
 
 export const ROLE_RELEVANCE: Record<Role, number> = {
@@ -76,7 +90,7 @@ export type PartKey = 'atmosphere' | 'fuel' | 'role' | 'evidence';
 
 export const PARTS: { key: PartKey; label: string; help: string }[] = [
   { key: 'atmosphere', label: 'Atmosphere match', help: 'How close its closest tests come to this oxygen level and pressure.' },
-  { key: 'fuel', label: 'Fuel type', help: 'Solid materials count most, then liquids, then gases.' },
+  { key: 'fuel', label: 'Fuel type', help: 'Solid materials count most, then liquids, then gases. A gas burner that emulates a solid counts nearly as a solid.' },
   { key: 'role', label: 'Fire-safety role', help: 'Prevention, detection and suppression studies count more than basic flame science.' },
   { key: 'evidence', label: 'Amount of data', help: 'More test runs give more to work with.' },
 ];

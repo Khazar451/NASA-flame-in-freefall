@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import InvestigationDetail, { FUEL_LABEL, ROLE_LABEL } from '../components/InvestigationDetail';
 import { name } from '../data';
-import { DEFAULT_WEIGHTS, HABITATS, PARTS, toPsi, type PartKey } from '../habitats';
+import { DEFAULT_WEIGHTS, FUEL_OVERRIDES, HABITATS, PARTS, toPsi, type PartKey } from '../habitats';
 import { isReportSummary } from '../format';
 import { rank, type Scored } from '../scoring';
 import { isCoolFlameStudy } from '../topics';
@@ -18,9 +18,12 @@ const ROLE_WORD = { prevention: 'prevention', detection: 'detection', suppressio
 const fmt = (n: number) => n.toFixed(1).replace(/\.0$/, '');
 
 function reason(s: Scored): string {
+  const fuelNote = FUEL_OVERRIDES[s.inv.id] ? ` ${FUEL_OVERRIDES[s.inv.id].why}` : '';
   const lead = s.inv.project_type === 'ground'
-    ? 'Ground re-analysis of flight data.'
-    : `${s.inv.fuel_phase === 'other' ? 'Aerosol' : s.inv.fuel_phase[0].toUpperCase() + s.inv.fuel_phase.slice(1) + '-fuel'} ${ROLE_WORD[s.inv.role]} study.`;
+    ? s.dataFrom.length
+      ? `Ground re-analysis of flight data from ${s.dataFrom.map(name).join(' and ')}, scored on those tests.`
+      : 'Ground re-analysis of flight data.'
+    : `${s.inv.fuel_phase === 'other' ? 'Aerosol' : s.inv.fuel_phase[0].toUpperCase() + s.inv.fuel_phase.slice(1) + '-fuel'} ${ROLE_WORD[s.inv.role]} study.${fuelNote}`;
   if (s.total === 0) return `${lead} No per-test data on file, so it scores on fuel type and role only.`;
   if (s.tests === 0) {
     return `${lead} ${s.total} ${s.total === 1 ? 'test' : 'tests'} on file, but the source table does not give both oxygen and pressure, so nothing can be matched to this atmosphere.`;
@@ -39,9 +42,11 @@ const why = (s: Scored, fromReport: boolean) =>
 // One line of facts for the summary shown when a name is hovered.
 function facts(s: Scored): string {
   const tests =
-    s.total === 0
-      ? 'no per-test data'
-      : `${s.total.toLocaleString('en-US')} ${s.total === 1 ? 'test' : 'tests'} on file`;
+    s.dataFrom.length > 0
+      ? `uses ${s.total.toLocaleString('en-US')} flight tests from ${s.dataFrom.map(name).join(' and ')}`
+      : s.total === 0
+        ? 'no per-test data'
+        : `${s.total.toLocaleString('en-US')} ${s.total === 1 ? 'test' : 'tests'} on file`;
   return [
     s.inv.project_type === 'flight' ? 'Flight experiment' : 'Ground study',
     ROLE_LABEL[s.inv.role],

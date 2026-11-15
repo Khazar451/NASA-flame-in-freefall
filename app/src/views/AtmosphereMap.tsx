@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import InvestigationDetail from '../components/InvestigationDetail';
 import { AXIS, BASE, BASELINE, INK, SURFACE } from '../chartTheme';
 import Plot from '../components/Plot';
 import { name } from '../data';
 import { SMOKE_NOTE, SUMMARY_NOTE, assumedLine, formula, isReportSummary, isSmokeStudy, summaries } from '../format';
-import { EDGE_NOTE_PSI, HABITATS, toPsi } from '../habitats';
+import { FLOW_REGIMES, flowRegime, type FlowRegime } from '../flow';
+import { EDGE_NOTE_PSI, EXPLORATION, HABITATS, toPsi } from '../habitats';
 import { hasAtmosphere, insideHabitat } from '../scoring';
 import { isCoolFlameStudy } from '../topics';
 import type { Dataset, FuelPhase, Investigation, Role, TestRow } from '../types';
@@ -29,7 +30,12 @@ const ROLES: { key: Filter; label: string }[] = [
 const matches = (inv: Investigation | undefined, filter: Filter) =>
   filter === 'all' || (filter === 'cool' ? isCoolFlameStudy(inv) : inv?.role === filter);
 const LUNAR = HABITATS.find((h) => h.id === 'lunar')!;
-const POINTS = HABITATS.filter((h) => h.id !== 'lunar');
+// Reference marks: the cabin and spacesuit atmospheres, and NASA's planned
+// exploration atmosphere inside the lunar range.
+const POINTS = [
+  ...HABITATS.filter((h) => h.id !== 'lunar').map((h) => ({ psi: h.psi[0], o2: h.o2[0], label: h.short, basis: h.basis })),
+  { psi: EXPLORATION.psi, o2: EXPLORATION.o2, label: EXPLORATION.label, basis: EXPLORATION.basis },
+];
 // Drawn in this order, so solid fuel (what a cabin is made of) ends on top.
 const DRAW_ORDER: FuelPhase[] = ['gas', 'liquid', 'solid'];
 const went_out = (t: TestRow) => t.outcome === 'extinguished' || t.outcome === 'no_ignition';
@@ -74,7 +80,7 @@ function groupTests(rows: Placed[]): Group[] {
 // Mark diameter in pixels: area grows with the number of tests.
 const diameter = (n: number) => Math.min(34, 8 + 3 * Math.sqrt(n));
 
-function describe(g: Group, title: string, smoke: boolean): string {
+function describe(g: Group, title: string, smoke: boolean, still: boolean): string {
   const n = g.tests.length;
   const kpa = g.tests.map((t) => t.pressure_kpa);
   const fromReport = g.tests.filter(isReportSummary).length;
@@ -88,6 +94,7 @@ function describe(g: Group, title: string, smoke: boolean): string {
   }
   const flows = g.tests.map((t) => t.flow_cm_s).filter((f): f is number => f != null);
   if (flows.length > 0) lines.push(`Air flow ${span(flows)} cm/s`);
+  else if (still) lines.push('No forced air flow');
   const burned = g.tests.filter((t) => t.outcome === 'sustained').length;
   const out = g.tests.filter(went_out).length;
   const unknown = n - burned - out;
@@ -135,13 +142,18 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
   const [role, setRole] = useState<Filter>('all');
   const [selected, setSelected] = useState<string | null>(null);
   const [zoom, setZoom] = useState<'full' | 'tested'>('full');
+  const [flow, setFlow] = useState<FlowRegime | 'all'>('all');
   const pinned = usePinned<HTMLDivElement>();
   const byId = useMemo(() => new Map(data.investigations.map((i) => [i.id, i])), [data]);
 
-  const shown = useMemo(
-    () => data.tests.filter(hasAtmosphere).filter((t) => matches(byId.get(t.investigation_id), role)),
-    [data, role, byId],
+  const inFilter = useCallback(
+    (t: TestRow) => {
+      const inv = byId.get(t.investigation_id);
+      return matches(inv, role) && (flow === 'all' || flowRegime(t, inv) === flow);
+    },
+    [byId, role, flow],
   );
+  const shown = useMemo(() => data.tests.filter(hasAtmosphere).filter(inFilter), [data, inFilter]);
 
   // Oxygen axis: the whole 0-100 % scale, or only the band the tests cover.
   const yRange = useMemo<[number, number]>(() => {
@@ -153,8 +165,9 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
   const traces = useMemo(() => {
     const [p0, p1] = LUNAR.psi;
     const [o0, o1] = LUNAR.o2;
-    // Keep the zone's label on the chart when its top edge is zoomed away.
-    const zoneLabelY = o1 - 4 < yRange[1] ? o1 - 4 : o0 + 1.5;
+    // The range is a thin band with NASA's planned atmosphere inside it, so its
+    // label sits just below it.
+    const zoneLabelY = Math.max(o0 - 2.5, yRange[0] + 1);
     const zone = {
       type: 'scatter', mode: 'lines', x: [p0, p1, p1, p0, p0], y: [o0, o0, o1, o1, o0],
       fill: 'toself', fillcolor: 'rgba(22,32,46,0.07)', line: { color: INK, width: 1, dash: 'dot' },
@@ -166,8 +179,8 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
     };
     const refs = {
       type: 'scatter', mode: 'markers+text', showlegend: false,
-      x: POINTS.map((h) => h.psi[0]), y: POINTS.map((h) => h.o2[0]),
-      text: POINTS.map((h) => h.short), textposition: 'top right',
+      x: POINTS.map((h) => h.psi), y: POINTS.map((h) => h.o2),
+      text: POINTS.map((h) => h.label), textposition: 'top right',
       textfont: { color: INK, size: 12 },
       marker: { symbol: 'diamond-open', size: 13, color: INK, line: { width: 2 } },
       hovertext: POINTS.map((h) => h.basis), hovertemplate: '%{hovertext}<extra></extra>',
@@ -186,7 +199,7 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
         },
         hovertext: groups.map((g) => {
           const inv = byId.get(g.inv);
-          return describe(g, inv ? name(inv) : g.inv, isSmokeStudy(inv));
+          return describe(g, inv ? name(inv) : g.inv, isSmokeStudy(inv), flowRegime(g.tests[0], inv) === 'still');
         }),
         hovertemplate: '%{hovertext}<extra></extra>',
       };
@@ -218,7 +231,7 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
   const biggest = useMemo(() => Math.max(0, ...groupTests(shown).map((g) => g.tests.length)), [shown]);
 
   // Tests the chart cannot place, under the same filter.
-  const inRole = data.tests.filter((t) => matches(byId.get(t.investigation_id), role));
+  const inRole = data.tests.filter(inFilter);
   const offChart = inRole.length - shown.length;
   // Report summaries are drawn but are not tests, so they are counted apart.
   const tests = shown.filter((t) => !isReportSummary(t));
@@ -259,6 +272,16 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
               </button>
             ))}
           </div>
+          <div className="chips" role="group" data-label="Air flow" aria-label="Filter by air-flow regime">
+            <button type="button" aria-pressed={flow === 'all'} onClick={() => setFlow('all')}>
+              Any flow
+            </button>
+            {FLOW_REGIMES.map((f) => (
+              <button key={f.key} type="button" title={f.help} aria-pressed={flow === f.key} onClick={() => setFlow(f.key)}>
+                {f.label}
+              </button>
+            ))}
+          </div>
           <div className="chips" role="group" data-label="Oxygen axis" aria-label="Oxygen range shown">
             <button type="button" aria-pressed={zoom === 'full'} onClick={() => setZoom('full')}>
               Full range
@@ -279,7 +302,7 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
           Hover a mark for its number of tests and how their flames ended. Select it to see its investigation.{' '}
           {zoom === 'full'
             ? 'Full range shows the whole oxygen scale, including the atmospheres nobody has tested.'
-            : 'Tested range zooms in on the oxygen levels the tests cover; the spacesuit and most of the lunar range are above it.'}
+            : 'Tested range zooms in on the oxygen levels the tests cover; the spacesuit atmosphere is above it.'}
         </p>
         {offChart > 0 && (
           <p className="quiet">

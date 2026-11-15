@@ -4,8 +4,8 @@
   "gravity": "All PSI combustion tests ran in microgravity. No partial-gravity (Moon or Mars) tests exist in PSI.",
   "tests_on_grid": 1553,
   "tests_not_on_grid": 275,
-  "empty_cells": 51,
-  "cells": 75
+  "empty_cells": 64,
+  "cells": 90
  },
  "o2_bands": [
   {
@@ -33,12 +33,19 @@
   },
   {
    "id": "o2_lunar",
-   "label": "Lunar-habitat range (30 to 50 %)",
+   "label": "Lunar-habitat range (30 to 36 %)",
    "min": 30.0,
-   "max": 50.0,
+   "max": 36.0,
    "habitats": [
     "lunar"
    ]
+  },
+  {
+   "id": "o2_above_lunar",
+   "label": "Above the lunar range (36 to 50 %)",
+   "min": 36.0,
+   "max": 50.0,
+   "habitats": []
   },
   {
    "id": "o2_high",
@@ -46,7 +53,6 @@
    "min": 50.0,
    "max": null,
    "habitats": [
-    "lunar",
     "suit"
    ]
   }
@@ -314,6 +320,56 @@
   },
   {
    "fuel_phase": "solid",
+   "o2_band": "o2_above_lunar",
+   "pressure_band": "p_below_suit",
+   "n_tests": 0,
+   "n_pressure_assumed": 0,
+   "investigations": [],
+   "outcomes": {},
+   "habitats": []
+  },
+  {
+   "fuel_phase": "solid",
+   "o2_band": "o2_above_lunar",
+   "pressure_band": "p_lunar",
+   "n_tests": 0,
+   "n_pressure_assumed": 0,
+   "investigations": [],
+   "outcomes": {},
+   "habitats": []
+  },
+  {
+   "fuel_phase": "solid",
+   "o2_band": "o2_above_lunar",
+   "pressure_band": "p_reduced",
+   "n_tests": 0,
+   "n_pressure_assumed": 0,
+   "investigations": [],
+   "outcomes": {},
+   "habitats": []
+  },
+  {
+   "fuel_phase": "solid",
+   "o2_band": "o2_above_lunar",
+   "pressure_band": "p_cabin",
+   "n_tests": 0,
+   "n_pressure_assumed": 0,
+   "investigations": [],
+   "outcomes": {},
+   "habitats": []
+  },
+  {
+   "fuel_phase": "solid",
+   "o2_band": "o2_above_lunar",
+   "pressure_band": "p_elevated",
+   "n_tests": 0,
+   "n_pressure_assumed": 0,
+   "investigations": [],
+   "outcomes": {},
+   "habitats": []
+  },
+  {
+   "fuel_phase": "solid",
    "o2_band": "o2_high",
    "pressure_band": "p_below_suit",
    "n_tests": 0,
@@ -331,7 +387,6 @@
    "investigations": [],
    "outcomes": {},
    "habitats": [
-    "lunar",
     "suit"
    ]
   },
@@ -637,6 +692,56 @@
   },
   {
    "fuel_phase": "liquid",
+   "o2_band": "o2_above_lunar",
+   "pressure_band": "p_below_suit",
+   "n_tests": 0,
+   "n_pressure_assumed": 0,
+   "investigations": [],
+   "outcomes": {},
+   "habitats": []
+  },
+  {
+   "fuel_phase": "liquid",
+   "o2_band": "o2_above_lunar",
+   "pressure_band": "p_lunar",
+   "n_tests": 0,
+   "n_pressure_assumed": 0,
+   "investigations": [],
+   "outcomes": {},
+   "habitats": []
+  },
+  {
+   "fuel_phase": "liquid",
+   "o2_band": "o2_above_lunar",
+   "pressure_band": "p_reduced",
+   "n_tests": 0,
+   "n_pressure_assumed": 0,
+   "investigations": [],
+   "outcomes": {},
+   "habitats": []
+  },
+  {
+   "fuel_phase": "liquid",
+   "o2_band": "o2_above_lunar",
+   "pressure_band": "p_cabin",
+   "n_tests": 0,
+   "n_pressure_assumed": 0,
+   "investigations": [],
+   "outcomes": {},
+   "habitats": []
+  },
+  {
+   "fuel_phase": "liquid",
+   "o2_band": "o2_above_lunar",
+   "pressure_band": "p_elevated",
+   "n_tests": 0,
+   "n_pressure_assumed": 0,
+   "investigations": [],
+   "outcomes": {},
+   "habitats": []
+  },
+  {
+   "fuel_phase": "liquid",
    "o2_band": "o2_high",
    "pressure_band": "p_below_suit",
    "n_tests": 0,
@@ -654,7 +759,6 @@
    "investigations": [],
    "outcomes": {},
    "habitats": [
-    "lunar",
     "suit"
    ]
   },
@@ -885,7 +989,7 @@
    "fuel_phase": "gas",
    "o2_band": "o2_lunar",
    "pressure_band": "p_lunar",
-   "n_tests": 21,
+   "n_tests": 10,
    "n_pressure_assumed": 0,
    "investigations": [
     "PSI-20",
@@ -893,8 +997,8 @@
    ],
    "outcomes": {
     "sustained": 6,
-    "extinguished": 13,
-    "no_ignition": 2
+    "no_ignition": 2,
+    "extinguished": 2
    },
    "habitats": [
     "lunar"
@@ -903,6 +1007,66 @@
   {
    "fuel_phase": "gas",
    "o2_band": "o2_lunar",
+   "pressure_band": "p_reduced",
+   "n_tests": 0,
+   "n_pressure_assumed": 0,
+   "investigations": [],
+   "outcomes": {},
+   "habitats": []
+  },
+  {
+   "fuel_phase": "gas",
+   "o2_band": "o2_lunar",
+   "pressure_band": "p_cabin",
+   "n_tests": 7,
+   "n_pressure_assumed": 0,
+   "investigations": [
+    "PSI-10",
+    "PSI-159"
+   ],
+   "outcomes": {
+    "unknown": 3,
+    "extinguished": 4
+   },
+   "habitats": []
+  },
+  {
+   "fuel_phase": "gas",
+   "o2_band": "o2_lunar",
+   "pressure_band": "p_elevated",
+   "n_tests": 0,
+   "n_pressure_assumed": 0,
+   "investigations": [],
+   "outcomes": {},
+   "habitats": []
+  },
+  {
+   "fuel_phase": "gas",
+   "o2_band": "o2_above_lunar",
+   "pressure_band": "p_below_suit",
+   "n_tests": 0,
+   "n_pressure_assumed": 0,
+   "investigations": [],
+   "outcomes": {},
+   "habitats": []
+  },
+  {
+   "fuel_phase": "gas",
+   "o2_band": "o2_above_lunar",
+   "pressure_band": "p_lunar",
+   "n_tests": 11,
+   "n_pressure_assumed": 0,
+   "investigations": [
+    "PSI-159"
+   ],
+   "outcomes": {
+    "extinguished": 11
+   },
+   "habitats": []
+  },
+  {
+   "fuel_phase": "gas",
+   "o2_band": "o2_above_lunar",
    "pressure_band": "p_reduced",
    "n_tests": 42,
    "n_pressure_assumed": 0,
@@ -920,17 +1084,17 @@
   },
   {
    "fuel_phase": "gas",
-   "o2_band": "o2_lunar",
+   "o2_band": "o2_above_lunar",
    "pressure_band": "p_cabin",
-   "n_tests": 103,
+   "n_tests": 96,
    "n_pressure_assumed": 0,
    "investigations": [
     "PSI-10",
     "PSI-159"
    ],
    "outcomes": {
-    "unknown": 55,
-    "extinguished": 24,
+    "unknown": 52,
+    "extinguished": 20,
     "sustained": 7,
     "no_ignition": 17
    },
@@ -938,7 +1102,7 @@
   },
   {
    "fuel_phase": "gas",
-   "o2_band": "o2_lunar",
+   "o2_band": "o2_above_lunar",
    "pressure_band": "p_elevated",
    "n_tests": 81,
    "n_pressure_assumed": 0,
@@ -972,7 +1136,6 @@
    "investigations": [],
    "outcomes": {},
    "habitats": [
-    "lunar",
     "suit"
    ]
   },

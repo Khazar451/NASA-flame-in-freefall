@@ -26,8 +26,8 @@ NASA has flown more than a decade of experiments on this, but the results sit in
 
 | View | What it shows |
 |---|---|
-| **01 Atmosphere map** | 1,553 tests by oxygen level and pressure, marked by fuel type, with the three habitat atmospheres drawn on. Hovering a mark shows how many of its tests burned or went out. Selecting a mark opens the investigation's record, test summary and objectives. |
-| **02 Ranking** | All 24 investigations scored for a chosen habitat. The score is a weighted sum of four parts you can see and adjust: atmosphere match (40 %), fuel type (25 %), fire-safety role (25 %) and amount of data (10 %). No model is involved. |
+| **01 Atmosphere map** | 1,553 tests by oxygen level and pressure, marked by fuel type, with the three habitat atmospheres and NASA's planned 8.2 psi / 34 % exploration atmosphere drawn on. Filters by fire-safety role and by air-flow regime (no forced flow, weak flow, ventilation), since without buoyancy the air moving past a flame matters as much as its oxygen. Hovering a mark shows how many of its tests burned or went out. Selecting a mark opens the investigation's record, test summary and objectives. |
+| **02 Ranking** | All 24 investigations scored for a chosen habitat. Ground studies are scored on the flight tests they analyse. The score is a weighted sum of four parts you can see and adjust: atmosphere match (40 %), fuel type (25 %), fire-safety role (25 %) and amount of data (10 %). No model is involved. |
 | **03 Test results** | Results the map cannot show: FLEX droplet size at ignition against size at extinction, and burn time by fuel within each experiment. |
 | **04 Ask** | Questions in plain English, answered from NASA's records, reports and test tables, with citations to the PSI page or DOI. |
 
@@ -74,7 +74,8 @@ Each such row lists the assumed fields in `assumed` and says so in its note, and
 
 **Known limits:**
 - 274 inverse-flame tests have no ambient oxygen level, because oxygen flows from the burner into a fuel atmosphere. They are kept but not mapped.
-- Eleven investigations have no per-test table. They are ranked on fuel type and role only.
+- Eleven investigations have no per-test table of their own. Five are ground studies, scored on the flight data they analyse; the other six are ranked on fuel type and role only.
+- The lunar range is the brief's 30 % oxygen or more at 4.3 to 10.2 psi, capped at 36 % oxygen: no crewed habitat is designed for pure oxygen, and NASA's planned exploration atmosphere is 34 % at 8.2 psi.
 - Burn time depends on the set-up (a droplet, a gas burner, a fabric sheet), so it is compared only within one experiment.
 
 ## Repository layout

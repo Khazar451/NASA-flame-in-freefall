@@ -1,7 +1,7 @@
 // Deterministic relevance score. No model is involved: every number on the
 // ranking page can be traced to the settings in habitats.ts.
 import {
-  EVIDENCE_FULL_AT, FUEL_RELEVANCE, O2_REACH_PCT, PRESSURE_REACH_PSI, ROLE_RELEVANCE, toPsi,
+  EVIDENCE_FULL_AT, FUEL_OVERRIDES, FUEL_RELEVANCE, O2_REACH_PCT, PRESSURE_REACH_PSI, ROLE_RELEVANCE, toPsi,
   type Habitat, type PartKey,
 } from './habitats';
 import type { Investigation, TestRow } from './types';
@@ -30,10 +30,14 @@ export interface Scored {
   closest: TestRow | null;
   parts: Record<PartKey, number>; // each 0..1
   score: number; // 0..100
+  // A ground study with no tests of its own is scored on the flight tests it
+  // analyses; these are the investigations they come from (see dataSources).
+  dataFrom: Investigation[];
 }
 
 export function scoreInvestigation(
   inv: Investigation, tests: TestRow[], h: Habitat, weights: Record<PartKey, number>,
+  dataFrom: Investigation[] = [],
 ): Scored {
   const usable = tests.filter(hasAtmosphere);
   const ranked = usable.map((t) => ({ t, c: closeness(t, h) })).sort((a, b) => b.c - a.c);
@@ -42,7 +46,7 @@ export function scoreInvestigation(
   const top = ranked.slice(0, Math.max(1, Math.ceil(ranked.length / 4)));
   const parts: Record<PartKey, number> = {
     atmosphere: ranked.length ? top.reduce((s, r) => s + r.c, 0) / top.length : 0,
-    fuel: FUEL_RELEVANCE[inv.fuel_phase],
+    fuel: FUEL_OVERRIDES[inv.id]?.value ?? FUEL_RELEVANCE[inv.fuel_phase],
     role: ROLE_RELEVANCE[inv.role],
     // Every test on file counts here, including those whose source table does
     // not give oxygen or pressure: they are still data to work with.
@@ -59,7 +63,21 @@ export function scoreInvestigation(
     closest: ranked[0]?.t ?? null,
     parts,
     score,
+    dataFrom,
   };
+}
+
+/**
+ * The related flight investigations whose tests a ground study analyses. Empty
+ * for flight experiments and for ground studies with test rows of their own.
+ */
+export function dataSources(
+  inv: Investigation, byInv: Map<string, TestRow[]>, byId: Map<string, Investigation>,
+): Investigation[] {
+  if (inv.project_type !== 'ground' || byInv.has(inv.id)) return [];
+  return inv.related
+    .map((id) => byId.get(id))
+    .filter((r): r is Investigation => !!r && r.project_type === 'flight' && byInv.has(r.id));
 }
 
 export function rank(
@@ -71,7 +89,12 @@ export function rank(
     if (list) list.push(t);
     else byInv.set(t.investigation_id, [t]);
   }
+  const byId = new Map(investigations.map((i) => [i.id, i]));
   return investigations
-    .map((inv) => scoreInvestigation(inv, byInv.get(inv.id) ?? [], h, weights))
+    .map((inv) => {
+      const from = dataSources(inv, byInv, byId);
+      const tests = from.length ? from.flatMap((r) => byInv.get(r.id)!) : byInv.get(inv.id) ?? [];
+      return scoreInvestigation(inv, tests, h, weights, from);
+    })
     .sort((a, b) => b.score - a.score || a.inv.id.localeCompare(b.inv.id));
 }
