@@ -180,7 +180,9 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
     const refs = {
       type: 'scatter', mode: 'markers+text', showlegend: false,
       x: POINTS.map((h) => h.psi), y: POINTS.map((h) => h.o2),
-      text: POINTS.map((h) => h.label), textposition: 'top right',
+      // NASA's planned atmosphere sits among the data, so its label is drawn
+      // above it as an annotation (see layout) instead of beside it.
+      text: POINTS.map((h) => (h.label === EXPLORATION.label ? '' : h.label)), textposition: 'top right',
       textfont: { color: INK, size: 12 },
       marker: { symbol: 'diamond-open', size: 13, color: INK, line: { width: 2 } },
       hovertext: POINTS.map((h) => h.basis), hovertemplate: '%{hovertext}<extra></extra>',
@@ -225,6 +227,17 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
       },
       yaxis: { ...AXIS, title: { text: 'Oxygen (% by volume)' }, range: yRange },
       legend: { orientation: 'h', y: 1.08, x: 0 },
+      // The label stands in the clear space straight above the point, with a
+      // short line down to it: beside it, it would run into the test marks.
+      // On a log axis, annotation x values are given as log10.
+      annotations: [
+        {
+          x: Math.log10(EXPLORATION.psi), y: EXPLORATION.o2, xref: 'x', yref: 'y',
+          ax: Math.log10(EXPLORATION.psi), ay: Math.min(50, yRange[1] - 2), axref: 'x', ayref: 'y',
+          text: 'NASA exploration atmosphere', showarrow: true, arrowhead: 0, arrowwidth: 1, arrowcolor: INK,
+          standoff: 8, font: { color: INK, size: 12 }, bgcolor: SURFACE, borderpad: 2,
+        },
+      ],
     }),
     [yRange],
   );
