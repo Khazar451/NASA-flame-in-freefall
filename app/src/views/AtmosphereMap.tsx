@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import InvestigationDetail from '../components/InvestigationDetail';
+import { AXIS, BASE, BASELINE, INK, SURFACE } from '../chartTheme';
 import Plot from '../components/Plot';
 import { name } from '../data';
 import { SMOKE_NOTE, SUMMARY_NOTE, assumedLine, formula, isReportSummary, isSmokeStudy, summaries } from '../format';
@@ -27,8 +28,6 @@ const ROLES: { key: Filter; label: string }[] = [
 ];
 const matches = (inv: Investigation | undefined, filter: Filter) =>
   filter === 'all' || (filter === 'cool' ? isCoolFlameStudy(inv) : inv?.role === filter);
-const INK = '#16202e';
-const SURFACE = '#fcfcfb';
 const LUNAR = HABITATS.find((h) => h.id === 'lunar')!;
 const POINTS = HABITATS.filter((h) => h.id !== 'lunar');
 // Drawn in this order, so solid fuel (what a cabin is made of) ends on top.
@@ -205,16 +204,14 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
     () => ({
       height: 560,
       margin: { l: 64, r: 24, t: 16, b: 56 },
-      paper_bgcolor: SURFACE,
-      plot_bgcolor: SURFACE,
-      font: { family: '"IBM Plex Sans", system-ui, sans-serif', size: 13, color: INK },
+      ...BASE,
       xaxis: {
+        ...AXIS, ...BASELINE,
         title: { text: 'Total pressure (psi, log scale)' }, type: 'log', range: [Math.log10(3), Math.log10(90)],
-        tickvals: [3, 4.3, 7, 10.2, 14.7, 30, 45, 75], gridcolor: '#e6e9ed', zeroline: false,
+        tickvals: [3, 4.3, 7, 10.2, 14.7, 30, 45, 75],
       },
-      yaxis: { title: { text: 'Oxygen (% by volume)' }, range: yRange, gridcolor: '#e6e9ed', zeroline: false },
+      yaxis: { ...AXIS, title: { text: 'Oxygen (% by volume)' }, range: yRange },
       legend: { orientation: 'h', y: 1.08, x: 0 },
-      hoverlabel: { bgcolor: '#ffffff', bordercolor: '#c9d0d8', font: { color: INK, size: 13 }, align: 'left' },
     }),
     [yRange],
   );
@@ -247,6 +244,7 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
   return (
     <section className="split">
       <div className="panel pinned" ref={pinned}>
+        <p className="eyebrow"><b>01</b> Coverage</p>
         <h2>Where the experiments were run, and where crews will live</h2>
         <p className="lede">
           Each mark is a group of tests that one investigation ran at the same oxygen level and pressure: the bigger
@@ -254,14 +252,14 @@ export default function AtmosphereMap({ data }: { data: Dataset }) {
           habitat are the ones run near its atmosphere.
         </p>
         <div className="toolbar">
-          <div className="chips" role="group" aria-label="Filter by fire-safety role or topic">
+          <div className="chips" role="group" data-label="Show" aria-label="Filter by fire-safety role or topic">
             {ROLES.map((r) => (
               <button key={r.key} type="button" aria-pressed={role === r.key} onClick={() => setRole(r.key)}>
                 {r.label}
               </button>
             ))}
           </div>
-          <div className="chips" role="group" aria-label="Oxygen range shown">
+          <div className="chips" role="group" data-label="Oxygen axis" aria-label="Oxygen range shown">
             <button type="button" aria-pressed={zoom === 'full'} onClick={() => setZoom('full')}>
               Full range
             </button>

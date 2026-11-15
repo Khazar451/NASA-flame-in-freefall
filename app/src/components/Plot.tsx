@@ -17,7 +17,7 @@ export default function Plot({ data, layout, onPointClick, label }: Props) {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    void Plotly.react(el, data, layout, { responsive: true, displaylogo: false, displayModeBar: 'hover' }).then(() => {
+    void Plotly.react(el, data, layout, { responsive: true, displaylogo: false, displayModeBar: false }).then(() => {
       const plot = el as unknown as {
         removeAllListeners?: (e: string) => void;
         on?: (e: string, fn: (ev: { points: { customdata?: unknown }[] }) => void) => void;
