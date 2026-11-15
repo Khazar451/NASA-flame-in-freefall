@@ -91,8 +91,8 @@ PARTIAL_GRAVITY = re.compile(
     re.IGNORECASE,
 )
 HABITATS = {  # (regex, o2 range %, pressure range kPa, words for the answer)
-    "lunar": (r"\blunar\b|moon (?:base|habitat)|\brovers?\b", (30.0, 100.0), (29.65, 70.33),
-              "lunar-habitat conditions: 30 % oxygen or more at 4.3 to 10.2 psi"),
+    "lunar": (r"\blunar\b|moon (?:base|habitat)|\brovers?\b", (30.0, 36.0), (29.65, 70.33),
+              "lunar-habitat conditions: 30 to 36 % oxygen at 4.3 to 10.2 psi"),
     "suit": (r"space ?suits?|\beva\b", (95.0, 100.0), (25.0, 35.0),
              "spacesuit conditions: 100 % oxygen at 4.3 psi"),
     "cabin": (r"\bcabin\b|space station|\biss\b|sea[- ]level|earth air|normal air", (19.0, 23.5), (95.0, 110.0),

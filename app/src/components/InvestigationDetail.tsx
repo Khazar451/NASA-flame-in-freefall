@@ -138,7 +138,7 @@ export default function InvestigationDetail({ inv, tests, byId }: Props) {
         )}
         {inv.related.length > 0 && (
           <>
-            <dt>Related</dt>
+            <dt>{inv.project_type === 'ground' ? 'Analyses data from' : 'Related'}</dt>
             <dd>{inv.related.map((id) => { const r = byId.get(id); return r ? name(r) : id; }).join(', ')}</dd>
           </>
         )}

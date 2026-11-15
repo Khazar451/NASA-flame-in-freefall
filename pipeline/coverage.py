@@ -6,8 +6,8 @@ and each cell counts its tests. All cells are written, including empty ones: an 
 cell is a combination of fuel and atmosphere that no PSI test has covered.
 
 The bands are chosen so the habitat atmospheres in app/src/habitats.ts line up with
-band edges: the lunar range (30 % oxygen or more, 4.3 to 10.2 psi) is exactly the
-cells in the two top oxygen bands and the second pressure band. Every PSI test is a
+band edges: the lunar range (30 to 36 % oxygen, 4.3 to 10.2 psi) is exactly the
+cells in the lunar oxygen band and the second pressure band. Every PSI test is a
 microgravity test, so gravity is not a grid dimension; meta says so.
 """
 
@@ -30,8 +30,9 @@ O2_BANDS = [
     Band(id="o2_below_air", label="Below air (under 19 %)", min=0, max=19, habitats=[]),
     Band(id="o2_air", label="Air-like (19 to 23.5 %)", min=19, max=23.5, habitats=["cabin"]),
     Band(id="o2_enriched", label="Enriched (23.5 to 30 %)", min=23.5, max=30, habitats=[]),
-    Band(id="o2_lunar", label="Lunar-habitat range (30 to 50 %)", min=30, max=50, habitats=["lunar"]),
-    Band(id="o2_high", label="High (50 % and over)", min=50, max=None, habitats=["lunar", "suit"]),
+    Band(id="o2_lunar", label="Lunar-habitat range (30 to 36 %)", min=30, max=36, habitats=["lunar"]),
+    Band(id="o2_above_lunar", label="Above the lunar range (36 to 50 %)", min=36, max=50, habitats=[]),
+    Band(id="o2_high", label="High (50 % and over)", min=50, max=None, habitats=["suit"]),
 ]
 PRESSURE_BANDS = [
     Band(id="p_below_suit", label=f"Below spacesuit pressure (under {SUIT_KPA:g} kPa)",
