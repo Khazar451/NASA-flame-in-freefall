@@ -58,6 +58,10 @@ interface Droplet {
   start: number; // mm
   end: number; // mm
 }
+// The visible flame went out part-way (a size above zero is recorded), yet the
+// test is logged as burned to completion: the droplet went on being consumed.
+// The domain lead confirmed this reading of FLEX's "Completion" on 15 Nov 2026.
+const burnedOn = (d: Droplet) => d.t.outcome === 'sustained' && d.end > 0;
 
 // ---- Burn time by fuel ------------------------------------------------------
 
@@ -114,18 +118,23 @@ export default function Results({ data }: { data: Dataset }) {
         type: 'scatter', mode: 'markers', name: `${g.label} (${rows.length})`,
         x: rows.map((d) => d.start), y: rows.map((d) => d.end),
         marker: { color: g.color, symbol: g.symbol, size: 9, opacity: 0.8, line: { width: 1, color: SURFACE } },
-        hovertext: rows.map(({ t, start, end }) =>
+        hovertext: rows.map((d) => {
+          const { t, start, end } = d;
+          return (
           [
             `<b>${title(t.investigation_id)} test ${t.test_label}</b>`,
             `${t.fuel_material ?? 'Fuel not recorded'}: ${fmt(start, 2)} mm at ignition, ${fmt(end, 2)} mm when the flame went out`,
             t.o2_pct != null && t.pressure_kpa != null
               ? `${fmt(t.o2_pct)}% oxygen at ${fmt(toPsi(t.pressure_kpa))} psi${t.diluent ? `, ${formula(t.diluent)}` : ''}`
               : null,
-            `How it ended: ${ENDED[t.outcome]}`,
+            burnedOn(d)
+              ? '<i>The visible flame went out, but the droplet went on burning to the end</i>'
+              : `How it ended: ${ENDED[t.outcome]}`,
           ]
             .filter(Boolean)
-            .join('<br>'),
-        ),
+            .join('<br>')
+          );
+        }),
         hovertemplate: '%{hovertext}<extra></extra>',
       };
     });
@@ -223,6 +232,13 @@ export default function Results({ data }: { data: Dataset }) {
               mixed with. Hover a mark for its test. NASA's column is “Visible flame extinction diameter”; it is read
               here as the droplet's size at that moment.
             </p>
+            {shown.some(burnedOn) && (
+              <p className="quiet">
+                In {count(shown.filter(burnedOn).length, 'test')} shown here the visible flame went out part-way, yet
+                the droplet went on burning until it was gone. The domain lead reads this as continued
+                low-temperature burning, the cool-flame behaviour first seen in FLEX. Their hover text says so.
+              </p>
+            )}
           </>
         )}
       </div>
