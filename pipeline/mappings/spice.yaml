@@ -1,13 +1,18 @@
 # SPICE: gas-jet flames in a coflow of air in the glovebox duct. One row per flame
 # setting. The table has no test id, so rows are labelled by their row number.
-# Oxygen and pressure are not in the table and are left empty.
+# The table gives no oxygen or pressure. The glovebox duct draws ISS cabin air, so normal
+# cabin air is assumed, as for SAME, and every row says so (ME to confirm).
 investigation: PSI-107
 table: Spice.csv
 fuel_phase: gas
 label: {template: "day {GMT date} row {row}"}
 fuel_material: {column: Fuel}
-o2_pct: null
-pressure_kpa: null
+o2_pct:
+  value: 21
+  assumed: "Oxygen not in the source table; ISS cabin air (21 % oxygen) assumed."
+pressure_kpa:
+  value: 101.325
+  assumed: "Pressure not in the source table; ISS cabin pressure (1 atm) assumed."
 flow_cm_s: {column: "Air Rate (cm/s)"}
 extra:
   nozzle_mm: {column: "Nozzle (mm)"}
