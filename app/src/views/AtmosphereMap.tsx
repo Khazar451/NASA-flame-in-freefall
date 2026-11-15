@@ -98,7 +98,7 @@ function describe(g: Group, title: string, smoke: boolean): string {
     unknown > 0 && (unknown === n ? 'Outcome not recorded in the source table' : `${unknown} not recorded`),
   ].filter(Boolean);
   lines.push(smoke ? SMOKE_NOTE : ends.join(', '));
-  const assumed = assumedLine(g.tests.map((t) => t.note));
+  const assumed = assumedLine(g.tests);
   if (assumed) lines.push(`<i>${assumed}</i>`);
   if (fromReport > 0) lines.push(`<i>${SUMMARY_NOTE}${fromReport < n ? `, for ${fromReport} of them` : ''}</i>`);
   const sample = g.tests.filter((t) => t.sample).length;
