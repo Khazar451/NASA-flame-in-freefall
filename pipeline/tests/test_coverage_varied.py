@@ -18,8 +18,7 @@ ASSUMED = [("PSI-25", "BASS-II.csv", {"pressure_kpa"})]
 
 @pytest.mark.parametrize("value, bands, expected", [
     (18.99, coverage.O2_BANDS, "o2_below_air"), (19.0, coverage.O2_BANDS, "o2_air"),
-    (30.0, coverage.O2_BANDS, "o2_lunar"), (35.99, coverage.O2_BANDS, "o2_lunar"),
-    (36.0, coverage.O2_BANDS, "o2_above_lunar"), (100.0, coverage.O2_BANDS, "o2_high"),
+    (30.0, coverage.O2_BANDS, "o2_lunar"), (100.0, coverage.O2_BANDS, "o2_high"),
     (29.65, coverage.PRESSURE_BANDS, "p_lunar"), (70.33, coverage.PRESSURE_BANDS, "p_reduced"),
     (70.32, coverage.PRESSURE_BANDS, "p_lunar"), (101.325, coverage.PRESSURE_BANDS, "p_cabin"),
     (900.0, coverage.PRESSURE_BANDS, "p_elevated"),
@@ -31,10 +30,10 @@ def test_band_edges(value, bands, expected):
 def test_lunar_cells_are_exactly_the_lunar_range():
     data = coverage.build([], [])
     lunar = {(c["o2_band"], c["pressure_band"]) for c in data["cells"] if "lunar" in c["habitats"]}
-    assert lunar == {("o2_lunar", "p_lunar")}
+    assert lunar == {("o2_lunar", "p_lunar"), ("o2_high", "p_lunar")}
     cabin = {(c["o2_band"], c["pressure_band"]) for c in data["cells"] if "cabin" in c["habitats"]}
     assert cabin == {("o2_air", "p_cabin")}
-    assert len(data["cells"]) == 90 and data["meta"]["empty_cells"] == 90
+    assert len(data["cells"]) == 75 and data["meta"]["empty_cells"] == 75
 
 
 def test_tests_are_counted_once_either_on_or_off_the_grid():
@@ -73,7 +72,7 @@ def test_real_mappings_assume_cabin_air_only_where_agreed():
     assert found == {
         ("PSI-25", ("pressure_kpa",)), ("PSI-98", ("pressure_kpa",)), ("PSI-99", ("pressure_kpa",)),
         ("PSI-101", ("o2_pct", "pressure_kpa")), ("PSI-102", ("o2_pct", "pressure_kpa")),
-        ("PSI-26", ("o2_pct", "pressure_kpa")), ("PSI-100", ("o2_pct", "pressure_kpa")),
+        ("PSI-100", ("o2_pct", "pressure_kpa")),
         ("PSI-107", ("o2_pct", "pressure_kpa")),
     }
 

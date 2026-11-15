@@ -28,14 +28,14 @@ Open the address Vite prints (normally http://localhost:5173).
 
 | View | File | What it shows |
 |---|---|---|
-| Atmosphere map | `src/views/AtmosphereMap.tsx` | Tests by oxygen level and pressure, grouped into marks sized by test count, with the cabin, lunar base and spacesuit atmospheres and NASA's planned 8.2 psi / 34 % exploration atmosphere marked. Filters by role and by air-flow regime; a toggle zooms from the full oxygen scale to the tested range |
+| Atmosphere map | `src/views/AtmosphereMap.tsx` | Tests by oxygen level and pressure, grouped into marks sized by test count, with the cabin, lunar base and spacesuit atmospheres and the two atmospheres NASA names for future missions (34 % at 8.2 psi, 26.5 % at 10.2 psi) marked. Filters by role and by air-flow regime; a toggle zooms from the full oxygen scale to the tested range |
 | Ranking | `src/views/Ranking.tsx` | Investigations ranked for a chosen habitat, with the score broken into its four parts. Hovering a name shows a short summary; selecting it opens the full record |
 | Test results | `src/views/Results.tsx` | Measured results that the map cannot show: droplet size at ignition against size at extinction (FLEX), and burn time by fuel inside each experiment |
 | Ask | `src/views/Ask.tsx` | Question box wired to the Q&A backend |
 
 Other files:
 
-- `src/habitats.ts`: habitat atmospheres (from the challenge brief; the lunar range is capped at 36 % oxygen) and the scoring settings, including `FUEL_OVERRIDES` (ACME BRE's gas burner emulates a solid, so its fuel counts 0.85). **The fuel and role values and the default weights are a draft for the domain lead to review.**
+- `src/habitats.ts`: habitat atmospheres (from the challenge brief), NASA's planned atmospheres (`NASA_PLANNED`, from the ACME BRE final report, p. 5) and the scoring settings, including `FUEL_OVERRIDES` (ACME BRE's gas burner emulates a solid, so its fuel counts 0.85). **The fuel and role values and the default weights are a draft for the domain lead to review.**
 - `src/scoring.ts`: the score calculation. No model is involved.
 - `src/topics.ts`: topics that cut across the four roles. The "Cool flames" filter on the map and the ranking lists the investigations whose NASA record names cool flames in its title, objectives or research impacts.
 - `src/types.ts`: the shape of the data files. See `docs/data-contract.md`.
@@ -75,12 +75,12 @@ The backend must allow cross-origin requests from the dashboard's address.
 
 ## What the real data does not have
 
-Checked against the pipeline output of 15 Nov, as of pipeline PR #26 (24 investigations, 1,828 tests). The dashboard counts these from the data files, so the screens stay right when the data changes; only this list has to be updated by hand.
+Checked against the pipeline output of 15 Nov, as of pipeline PR #27 with BASS taken off the map again (24 investigations, 1,828 tests). The dashboard counts these from the data files, so the screens stay right when the data changes; only this list has to be updated by hand.
 
-- 1,553 tests have both oxygen and pressure. Only those are drawn on the atmosphere map and matched to a habitat in the ranking. The other 275 still count toward "Amount of data"; 274 of them are inverse flames, which have no ambient oxygen level.
-- 812 of the drawn tests use an assumed cabin pressure, because their source table does not give one: BASS, BASS-II, SPICE, Saffire-I, II and III, SAME and SAME-R. For 672 of them (BASS, SPICE, Saffire-III, SAME and SAME-R) oxygen is assumed too, at 21 %. The hover text and the investigation panel say which values are assumed, read from the `assumed` list on each test row.
+- 1,431 tests have both oxygen and pressure. Only those are drawn on the atmosphere map and matched to a habitat in the ranking. The other 397 still count toward "Amount of data": 274 inverse flames, which have no ambient oxygen level, 122 BASS tests and 1 FLEX test whose recorded pressure is impossible.
+- 690 of the drawn tests use an assumed cabin pressure, because their source table does not give one: BASS-II, SPICE, Saffire-I, II and III, SAME and SAME-R. For 550 of them (SPICE, Saffire-III, SAME and SAME-R) oxygen is assumed too, at 21 %. BASS is left off the map on purpose: it put flames out by adding nitrogen, so its oxygen fell during the tests. The hover text and the investigation panel say which values are assumed, read from the `assumed` list on each test row.
 - SAME and SAME-R are smoke tests: a material is heated to make smoke and there is no flame. The dashboard says so in place of a flame outcome. It recognises them by `hardware_family: "smoke_aerosol"` on the investigation.
-- 1,159 of the drawn tests have no recorded outcome, the 113 smoke tests among them. The hover text on their mark says so; they are never counted as "kept burning".
+- 1,037 of the drawn tests have no recorded outcome, the 113 smoke tests among them. The hover text on their mark says so; they are never counted as "kept burning".
 - Eleven investigations have no per-test data of their own. Five of them are ground studies of flight data, and the ranking scores them on the tests of the flight experiments they analyse (`dataSources` in `src/scoring.ts`); the other six score on fuel type and role only.
 - Three ACME BRE rows are not tests. Its table gives no pressures, so the pipeline writes one row per atmosphere that its final report describes. The dashboard draws them, labels them "report summary" and leaves them out of the test counts in the lunar coverage panel. It recognises them by `extra.row_kind: "atmosphere"` on the row.
 - 17 FLEX tests at 30 to 34 % oxygen ran at 10.3 to 10.5 psi (0.7 atmospheres as measured), just over the 10.2 psi limit of the lunar range. They are not counted as inside it; the coverage panel names them on a separate line (`EDGE_NOTE_PSI` in `src/habitats.ts`). The domain lead chose this over widening the range.

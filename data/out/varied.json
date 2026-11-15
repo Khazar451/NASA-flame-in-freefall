@@ -423,7 +423,7 @@
   {
    "investigation_id": "PSI-26",
    "n_tests": 122,
-   "summary": "Varied: fuel (31 different entries). Assumed, not in the table: oxygen 21 %; pressure 101 kPa. Not recorded: flow speed, diluent gas.",
+   "summary": "Varied: fuel (31 different entries). Not recorded: oxygen, pressure, flow speed, diluent gas.",
    "conditions": [
     {
      "field": "fuel_material",
@@ -455,30 +455,26 @@
      "field": "o2_pct",
      "label": "Oxygen",
      "unit": "%",
-     "status": "constant",
-     "assumed": true,
-     "n_with_value": 122,
-     "min": 21.0,
-     "max": 21.0,
-     "levels": [
-      21.0
-     ],
-     "n_levels": 1,
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
      "precision": 1.0
     },
     {
      "field": "pressure_kpa",
      "label": "Pressure",
      "unit": "kPa",
-     "status": "constant",
-     "assumed": true,
-     "n_with_value": 122,
-     "min": 101.325,
-     "max": 101.325,
-     "levels": [
-      100.0
-     ],
-     "n_levels": 1,
+     "status": "not_recorded",
+     "assumed": false,
+     "n_with_value": 0,
+     "min": null,
+     "max": null,
+     "levels": [],
+     "n_levels": 0,
      "precision": 5.0
     },
     {

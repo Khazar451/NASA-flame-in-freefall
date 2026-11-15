@@ -1,5 +1,5 @@
 // Habitat atmospheres and scoring settings. The numbers in HABITATS come from
-// the challenge brief, with the lunar range's oxygen capped as noted there.
+// the challenge brief.
 // Everything under "Scoring settings" is a first draft for the domain lead to adjust.
 import type { FuelPhase, Role } from './types';
 
@@ -28,13 +28,13 @@ export const HABITATS: Habitat[] = [
     id: 'lunar',
     label: 'Lunar base or pressurized rover',
     short: 'Lunar base / rover',
-    // The brief says 30% oxygen or more. No crewed habitat or rover is designed
-    // for pure oxygen, so the range stops at 36%: NASA's planned exploration
-    // atmosphere (EXPLORATION below) plus a small margin.
-    o2: [30, 36],
+    // The brief's range, kept open at the top: for fire safety, tests in more
+    // oxygen than a habitat plans for are the harsher case, not irrelevant ones.
+    // NASA's own planned atmospheres are marked separately (NASA_PLANNED below).
+    o2: [30, 100],
     psi: [4.3, 10.2],
     basis:
-      "Challenge brief: 30% oxygen or more at 10.2 psi or less. Capped at 36% oxygen, just above NASA's planned exploration atmosphere of 34% at 8.2 psi; pure oxygen is for spacesuits only.",
+      "Challenge brief: likely 30% oxygen or more at 10.2 psi or less, between spacesuit and Earth pressure. NASA's own reports name 34% at 8.2 psi and 26.5% at 10.2 psi; both are marked on the map.",
   },
   {
     id: 'suit',
@@ -46,9 +46,18 @@ export const HABITATS: Habitat[] = [
   },
 ];
 
-// NASA's planned atmosphere for exploration habitats and rovers (Exploration
-// Atmospheres Working Group). Drawn on the map as a reference point.
-export const EXPLORATION = { o2: 34, psi: 8.2, label: 'NASA exploration plan', basis: "NASA's planned exploration atmosphere: 34% oxygen at 8.2 psi (56.5 kPa)." };
+// The atmospheres NASA names for future spacecraft and habitats, beside cabin
+// air. Source: ACME BRE final report, PSI-20, p. 5: "NASA-considered atmosphere
+// for human space missions … 14.7 psia, 21 % oxygen; 10.2 psia, 26.5 %; and 8.2
+// psia, 34 % oxygen" (also ACME's requirements document, PSI-10, p. 82). Drawn on
+// the map as reference points.
+const PLANNED_SOURCE = 'Source: ACME BRE final report (PSI-20), p. 5.';
+export const NASA_PLANNED = [
+  { o2: 34, psi: 8.2, label: 'NASA planned: 34% at 8.2 psi', basis: `An atmosphere NASA is considering for human space missions: 34% oxygen at 8.2 psi (56.5 kPa). ${PLANNED_SOURCE}` },
+  { o2: 26.5, psi: 10.2, label: 'NASA planned: 26.5% at 10.2 psi', basis: `An atmosphere NASA is considering for human space missions: 26.5% oxygen at 10.2 psi (70.3 kPa). It lies just below the brief's 30% oxygen. ${PLANNED_SOURCE}` },
+];
+// Reference oxygen for the "richer than planned" note on the coverage panel.
+export const PLANNED_MAX_O2 = Math.max(...NASA_PLANNED.map((p) => p.o2));
 
 // ---- Scoring settings (draft) ----------------------------------------------
 

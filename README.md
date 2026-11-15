@@ -26,7 +26,7 @@ NASA has flown more than a decade of experiments on this, but the results sit in
 
 | View | What it shows |
 |---|---|
-| **01 Atmosphere map** | 1,553 tests by oxygen level and pressure, marked by fuel type, with the three habitat atmospheres and NASA's planned 8.2 psi / 34 % exploration atmosphere drawn on. Filters by fire-safety role and by air-flow regime (no forced flow, weak flow, ventilation), since without buoyancy the air moving past a flame matters as much as its oxygen. Hovering a mark shows how many of its tests burned or went out. Selecting a mark opens the investigation's record, test summary and objectives. |
+| **01 Atmosphere map** | 1,431 tests by oxygen level and pressure, marked by fuel type, with the three habitat atmospheres and the two atmospheres NASA names for future missions (34 % at 8.2 psi, 26.5 % at 10.2 psi) drawn on. Filters by fire-safety role and by air-flow regime (no forced flow, weak flow, ventilation), since without buoyancy the air moving past a flame matters as much as its oxygen. Hovering a mark shows how many of its tests burned or went out. Selecting a mark opens the investigation's record, test summary and objectives. |
 | **02 Ranking** | All 24 investigations scored for a chosen habitat. Ground studies are scored on the flight tests they analyse. The score is a weighted sum of four parts you can see and adjust: atmosphere match (40 %), fuel type (25 %), fire-safety role (25 %) and amount of data (10 %). No model is involved. |
 | **03 Test results** | Results the map cannot show: FLEX droplet size at ignition against size at extinction, and burn time by fuel within each experiment. |
 | **04 Ask** | Questions in plain English, answered from NASA's records, reports and test tables, with citations to the PSI page or DOI. |
@@ -61,21 +61,23 @@ flowchart LR
 |---|---|
 | Investigations | 24 (19 flight, 5 ground studies that reuse flight data) |
 | Test rows | 1,828 from 15 tables |
-| On the atmosphere map | 1,553 (both oxygen and pressure known) |
+| On the atmosphere map | 1,431 (both oxygen and pressure known) |
 | With an air-flow speed | 651 |
 | Key findings | 66, each with a checked quote |
 
 **Assumed values are always labelled.** Some tables do not list oxygen or pressure because the tests ran in normal spacecraft cabin air. For these, 21 % oxygen and 1 atm are assumed:
 
-- In the ISS: BASS, BASS-II, SPICE, SAME and SAME-R.
+- In the ISS: BASS-II, SPICE, SAME and SAME-R.
 - In a Cygnus cabin: Saffire-I, II and III.
 
-Each such row lists the assumed fields in `assumed` and says so in its note, and the dashboard shows it in the hover text. 812 of the mapped tests carry an assumed value.
+Each such row lists the assumed fields in `assumed` and says so in its note, and the dashboard shows it in the hover text. 690 of the mapped tests carry an assumed value.
+
+BASS is the exception: it put flames out by gradually adding nitrogen, so its oxygen fell during the tests. Assuming cabin air would misstate the conditions that matter, so its 122 tests stay off the map (domain lead, 15 Nov).
 
 **Known limits:**
 - 274 inverse-flame tests have no ambient oxygen level, because oxygen flows from the burner into a fuel atmosphere. They are kept but not mapped.
 - Eleven investigations have no per-test table of their own. Five are ground studies, scored on the flight data they analyse; the other six are ranked on fuel type and role only.
-- The lunar range is the brief's 30 % oxygen or more at 4.3 to 10.2 psi, capped at 36 % oxygen: no crewed habitat is designed for pure oxygen, and NASA's planned exploration atmosphere is 34 % at 8.2 psi.
+- The lunar range is the brief's 30 % oxygen or more at 4.3 to 10.2 psi, left open at the top: for fire safety, tests in more oxygen than a habitat plans for are the harsher case. The atmospheres NASA's ACME BRE report names for future missions (34 % at 8.2 psi, 26.5 % at 10.2 psi) are marked separately; the second lies just below the brief's 30 %.
 - Burn time depends on the set-up (a droplet, a gas burner, a fabric sheet), so it is compared only within one experiment.
 
 ## Repository layout
