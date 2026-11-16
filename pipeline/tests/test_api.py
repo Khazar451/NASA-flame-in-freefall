@@ -1,3 +1,5 @@
+import os
+
 import pytest
 
 pytest.importorskip("fastapi")
@@ -93,3 +95,13 @@ def test_at_most_n_questions_are_answered_at_once(monkeypatch):
         for thread in threads:
             thread.join()
     assert peak[0] == 2
+
+
+def test_server_waits_10_s_for_ai_unless_told_otherwise(monkeypatch):
+    monkeypatch.setenv("LLM_PROVIDER", "fake")
+    monkeypatch.setenv("LLM_TIMEOUT_S", "")
+    api._provider()
+    assert os.environ["LLM_TIMEOUT_S"] == api.SERVER_LLM_TIMEOUT_S == "10"
+    monkeypatch.setenv("LLM_TIMEOUT_S", "30")
+    api._provider()
+    assert os.environ["LLM_TIMEOUT_S"] == "30"

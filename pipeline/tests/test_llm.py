@@ -159,6 +159,51 @@ def test_gemini_raises_quota_error_when_every_model_is_exhausted(monkeypatch):
     assert asked == ["flash", "flash-lite"]
 
 
+class _Stalled(Exception):
+    code = 504
+
+
+def test_gemini_skips_a_stalled_model_and_remembers_it(monkeypatch):
+    provider, asked = _gemini(
+        monkeypatch, "flash,flash-lite",
+        lambda model: _Stalled("504 DEADLINE_EXCEEDED") if model == "flash" else '{"city": "Paris"}',
+    )
+    assert complete_json("capital?", Reply, provider=provider, use_cache=False)["city"] == "Paris"
+    complete_json("again?", Reply, provider=provider, use_cache=False)
+    assert asked == ["flash", "flash-lite", "flash-lite"]  # one timeout, not one per question
+
+
+def test_gemini_asks_a_stalled_model_again_after_the_pause(monkeypatch):
+    clock = [1000.0]
+    monkeypatch.setattr(llm.time, "monotonic", lambda: clock[0])
+    stalled = {"flash"}
+    provider, asked = _gemini(
+        monkeypatch, "flash,flash-lite",
+        lambda model: _Stalled("timed out") if model in stalled else '{"city": "Paris"}',
+    )
+    complete_json("capital?", Reply, provider=provider, use_cache=False)
+    stalled.clear()
+    clock[0] += llm.SLOW_MODEL_SKIP_S + 1
+    complete_json("again?", Reply, provider=provider, use_cache=False)
+    assert asked == ["flash", "flash-lite", "flash"] and provider.last_model == "flash"
+
+
+def test_gemini_reports_overload_when_every_model_is_slow(monkeypatch):
+    provider, asked = _gemini(monkeypatch, "flash,flash-lite", lambda model: _Stalled("503 UNAVAILABLE"))
+    with pytest.raises(llm.OverloadedError, match="flash, flash-lite") as caught:
+        provider.complete_json("capital?", {}, None)
+    assert llm._overloaded(caught.value) and not isinstance(caught.value, llm.QuotaError)
+
+
+def test_chain_hands_a_slow_gemini_to_the_fallback(monkeypatch):
+    gemini, asked = _gemini(monkeypatch, "flash,flash-lite", lambda model: _Stalled("timed out"))
+    nim = _Step("nim", '{"city": "Paris"}')
+    chain = llm.ChainProvider([gemini, nim])
+    assert complete_json("capital?", Reply, provider=chain, use_cache=False)["city"] == "Paris"
+    complete_json("again?", Reply, provider=chain, use_cache=False)
+    assert asked == ["flash", "flash-lite"] and nim.calls == 2  # the slow models wait out their pause
+
+
 def test_gemini_other_errors_are_not_treated_as_quota(monkeypatch):
     provider, asked = _gemini(monkeypatch, "flash,flash-lite", lambda model: ValueError("bad key"))
     with pytest.raises(LLMError, match="bad key") as caught:

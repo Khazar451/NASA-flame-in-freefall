@@ -14,11 +14,14 @@ Settings (environment variables or pipeline/.env):
                         question in progress holds search results in memory, and Render's
                         free plan has 512 MB.
   LLM_PROVIDER, LLM_MODEL, GEMINI_API_KEY   as in pipeline/llm.py; unset = retrieval only
+  LLM_TIMEOUT_S         seconds to wait for each AI provider (default 10 here, not the
+                        pipeline's 90: a visitor should not wait minutes for a stalled model)
 """
 
 from __future__ import annotations
 
 import logging
+import os
 import threading
 import time
 from collections import defaultdict, deque
@@ -84,7 +87,13 @@ def release_free_memory() -> None:
         pass
 
 
+# The pipeline's batch runs can afford llm.py's 90 s default; a visitor waiting for an answer cannot.
+SERVER_LLM_TIMEOUT_S = "10"
+
+
 def _provider() -> llm.Provider | None:
+    if not config.env("LLM_TIMEOUT_S"):
+        os.environ["LLM_TIMEOUT_S"] = SERVER_LLM_TIMEOUT_S
     try:
         return llm.get_provider()
     except llm.LLMError as exc:
