@@ -15,7 +15,9 @@ Providers are chosen with LLM_PROVIDER in pipeline/.env:
 LLM_FALLBACK=openai adds an OpenAI-compatible provider after the main one: when the main
 provider's quota is used up, it answers "overloaded" (HTTP 503), or it times out, calls go to
 the fallback (model from OPENAI_MODEL); a question then waits at most LLM_TIMEOUT_S for each
-provider. Other errors are not retried elsewhere. OPENAI_EXTRA_BODY is optional JSON sent with every OpenAI-compatible
+provider. Within Gemini, a model that times out or is overloaded is skipped for
+SLOW_MODEL_SKIP_S and the next model in LLM_MODEL is asked, so a stalled model costs one
+timeout, not one per question. Other errors are not retried elsewhere. OPENAI_EXTRA_BODY is optional JSON sent with every OpenAI-compatible
 request, e.g. {"chat_template_kwargs": {"enable_thinking": false}} to turn off a model's
 slow "thinking" mode.
 
@@ -31,6 +33,7 @@ import os
 import re
 import sys
 import tempfile
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Protocol
@@ -48,6 +51,15 @@ class LLMError(RuntimeError):
 
 class QuotaError(LLMError):
     """Every configured model has used up its quota. Waiting a few seconds will not help."""
+
+
+class OverloadedError(LLMError):
+    """Every configured model timed out or is overloaded right now. Another provider may not be."""
+
+
+# A Gemini model that times out or answers "overloaded" is skipped for this long, so each
+# question does not wait out the timeout on it again.
+SLOW_MODEL_SKIP_S = 600
 
 
 class Provider(Protocol):
@@ -100,6 +112,7 @@ class GeminiProvider:
         self.model = self.models[0]
         self.last_model = self.model
         self._exhausted: set[str] = set()
+        self._slow_until: dict[str, float] = {}  # model -> time.monotonic() it may be asked again
         # Without a timeout a slow model can hang a pipeline run for minutes.
         timeout_ms = int(float(config.env("LLM_TIMEOUT_S") or 90) * 1000)
         self._client = genai.Client(
@@ -115,8 +128,12 @@ class GeminiProvider:
             response_json_schema=schema,
             temperature=0,
         )
+        slow = []
         for model in self.models:
             if model in self._exhausted:
+                continue
+            if time.monotonic() < self._slow_until.get(model, 0):
+                slow.append(model)
                 continue
             try:
                 resp = self._client.models.generate_content(
@@ -126,11 +143,21 @@ class GeminiProvider:
                 if getattr(exc, "code", None) == 429 or "RESOURCE_EXHAUSTED" in str(exc):
                     self._exhausted.add(model)
                     continue
+                if _overloaded(exc):
+                    # Busy or stalled now, not used up: try the next model, and this one again later.
+                    self._slow_until[model] = time.monotonic() + SLOW_MODEL_SKIP_S
+                    slow.append(model)
+                    continue
                 raise
             if not resp.text:
                 raise LLMError(f"Gemini returned no text (model={model})")
             self.last_model = model
             return resp.text
+        if slow:
+            raise OverloadedError(
+                f"timed out or overloaded: {', '.join(slow)}; every other model's quota is used up"
+                if len(slow) < len(self.models) else f"timed out or overloaded: {', '.join(slow)}"
+            )
         raise QuotaError(
             f"quota used up on every configured model ({', '.join(self.models)}). The Gemini "
             "free tier allows about 20 requests per model per day; add more models to "
@@ -187,6 +214,8 @@ class OpenAICompatProvider:
 def _overloaded(exc: BaseException) -> bool:
     """HTTP 503 / UNAVAILABLE or a timeout: the provider is busy or slow right now, which
     another provider may not be."""
+    if isinstance(exc, OverloadedError):
+        return True
     code = getattr(exc, "code", None) or getattr(exc, "status_code", None)
     text = str(exc).lower()
     return (code in (503, 504) or "UNAVAILABLE" in str(exc) or "DEADLINE_EXCEEDED" in str(exc)

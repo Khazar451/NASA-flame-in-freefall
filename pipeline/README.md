@@ -54,7 +54,7 @@ Run it from the repository root. It reads the committed files in `data/out/` (in
 | `LLM_PROVIDER`, `LLM_MODEL`, `GEMINI_API_KEY` | unset | As in `.env.example`. Unset means answers without AI |
 | `LLM_DAILY_LIMIT` | `60` | AI calls per day; after that, answers without AI |
 | `LLM_FALLBACK`, `OPENAI_BASE_URL`, `OPENAI_MODEL`, `OPENAI_API_KEY`, `OPENAI_EXTRA_BODY` | unset | A second provider used when Gemini's quota runs out. `render.yaml` sets NVIDIA NIM (`nvidia/nemotron-3.5-lightning-30b-a3b`); its key is a secret like the Gemini key |
-| `LLM_TIMEOUT_S` | `90` | Seconds to wait for each provider: a slow Gemini hands the question to the fallback, a slow fallback gives the answer without AI. `render.yaml` sets `10` |
+| `LLM_TIMEOUT_S` | `90` (`10` in the /ask server) | Seconds to wait for each provider. A Gemini model that times out or is overloaded is skipped for 10 minutes and the next model in `LLM_MODEL` is asked; when every Gemini model is slow, the fallback answers, and a slow fallback gives the answer without AI. `render.yaml` sets `10` |
 | `ASK_RATE_PER_MINUTE` | `10` | Questions per minute from one address |
 | `ASK_CONCURRENCY` | `2` | Questions answered at the same time; others wait their turn |
 | `EMBEDDING_MODEL_DIR` | `~/.cache/chroma` | Where the embedding model is kept; relative paths start at the repository root |
