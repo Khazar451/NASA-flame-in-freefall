@@ -47,6 +47,12 @@ export default function Ask() {
       <p className="eyebrow"><b>04</b> Questions</p>
       <h2>Ask about the experiments</h2>
       <p className="lede">Answers come from the investigation records and cite the source for every claim.</p>
+      {API && (
+        <p className="notice">
+          A new question can take up to 3 minutes to answer, because the answer is written by a free AI service.
+          The three example questions below are answered at once.
+        </p>
+      )}
       {!API && (
         <p className="notice">
           The question service is not connected yet. Put its address in <code>app/.env</code> as{' '}
